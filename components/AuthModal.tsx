@@ -48,15 +48,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onAuth, onSwitch }
       alert(`Seules les adresses se terminant par ${ALLOWED_DOMAIN} sont autorisées.`);
       return;
     }
-    if (!supabase) { alert('Erreur de configuration Supabase.'); return; }
-
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { shouldCreateUser: mode === 'signup' },
+      const res = await fetch('/api/verify/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       });
-      if (error) throw new Error(error.message);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erreur envoi code');
       setStep(2);
       alert('Code envoyé ! Vérifiez votre email.');
     } catch (e: any) {
@@ -70,34 +70,31 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onAuth, onSwitch }
   // 2) Vérification OTP via Supabase (login + signup)
   // ─────────────────────────────────────────────────────────────
   const verifyCode = async () => {
-    if (!supabase) { alert('Erreur de configuration Supabase.'); return; }
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: emailCode,
-        type: 'email',
+      const res = await fetch('/api/verify/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, emailCode }),
       });
-      if (error) throw new Error(error.message);
-      if (!data.session) throw new Error('Session introuvable.');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Code invalide');
 
-      const accessToken = data.session.access_token;
-      localStorage.setItem('token', accessToken);
       setIsEmailVerified(true);
 
       if (mode === 'login') {
-        // Récupérer le profil utilisateur
-        const userRes = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${accessToken}` },
+        const loginRes = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, emailCode }),
         });
-        if (!userRes.ok) throw new Error('Utilisateur introuvable.');
-        const userData = await userRes.json();
-        onAuth(userData);
+        const loginData = await loginRes.json();
+        if (!loginRes.ok) throw new Error(loginData.error || 'Erreur connexion');
+        localStorage.setItem('token', loginData.token);
+        onAuth(loginData.user);
         onClose();
         return;
       }
-
-      // SIGNUP → passer à l'étape 3
       setStep(3);
     } catch (e: any) {
       alert(e.message);

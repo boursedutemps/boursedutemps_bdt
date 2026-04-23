@@ -27,9 +27,11 @@ export async function POST(req: Request) {
     }
 
     const user = result.rows[0];
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return NextResponse.json({ error: 'Identifiants invalides' }, { status: 401 });
+    if (user.password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return NextResponse.json({ error: 'Identifiants invalides' }, { status: 401 });
+      }
     }
 
     // 3. Supprimer l'OTP utilisé
