@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { sendContactConfirmationEmail, sendContactNotificationEmail } from '@/lib/email';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { fullName, name: _name, email, whatsapp, organization, subject, message } = await req.json();
     const name = fullName || _name || '';

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { SignJWT, importPKCS8 } from 'jose';
 import { getUserIdFromRequest } from '@/lib/auth';
 
@@ -6,9 +6,9 @@ const APP_ID = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
 const KID = process.env.JAAS_KID!;
 const PRIVATE_KEY_PEM = process.env.JAAS_PRIVATE_KEY!;
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const uid = getUserIdFromRequest(req);
+    const uid = await getUserIdFromRequest(req);
     if (!uid) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
     const { roomName, userName, userEmail, userAvatar, isModerator } = await req.json();

@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { sendPushNotification } from '@/lib/push-server';
 
-export async function GET(req: Request) {
-  const uid = getUserIdFromRequest(req);
+export async function GET(req: NextRequest) {
+  const uid = await getUserIdFromRequest(req);
   if (!uid) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     const result = await query(
