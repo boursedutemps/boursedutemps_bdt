@@ -1,25 +1,24 @@
-import jwt from 'jsonwebtoken';
+import { createClient } from '@supabase/supabase-js'
+import { NextRequest } from 'next/server'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
-export function signToken(payload: any) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
-}
+/**
+ * Extrait et vérifie le token Bearer depuis la requête.
+ * Retourne l'userId (UUID Supabase) ou null si invalide/absent.
+ */
+export async function getUserIdFromRequest(req: NextRequest): Promise<string | null> {
+  const authHeader = req.headers.get('authorization')
+  if (!authHeader?.startsWith('Bearer ')) return null
 
-export function verifyToken(token: string) {
-  try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (e) {
-    return null;
-  }
-}
+  const token = authHeader.replace('Bearer ', '').trim()
+  if (!token) return null
 
-export function getUserIdFromRequest(req: Request) {
-  const authHeader = req.headers.get('Authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-  const token = authHeader.split(' ')[1];
-  const decoded: any = verifyToken(token);
-  return decoded?.uid || null;
+  const { data, error } = await supabase.auth.getUser(token)
+  if (error || !data?.user) return null
+
+  return data.user.id
 }

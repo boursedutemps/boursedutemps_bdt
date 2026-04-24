@@ -1,44 +1,40 @@
-import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { NextRequest, NextResponse } from 'next/server'
+import { getUserIdFromRequest } from '@/lib/auth'
+import { query } from '@/lib/db'
 
 export async function GET() {
-  try {
-    const result = await query('SELECT * FROM testimonials ORDER BY created_at DESC');
-    const testimonials = result.rows.map(t => ({
-      id: t.id,
-      authorId: t.author_id,
-      authorName: t.author_name,
-      authorAvatar: t.author_avatar,
-      title: t.title || '',
-      content: t.content,
-      rating: t.rating,
-      media: t.media,
-      likes: t.likes,
-      votes: t.likes || [],
-      dislikes: t.dislikes,
-      shares: t.shares,
-      reposts: t.reposts,
-      comments: t.comments,
-      createdAt: t.created_at,
-    }));
-    return NextResponse.json(testimonials);
-  } catch (error) {
-    console.error('Error fetching testimonials:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
+  const result = await query(
+    `SELECT t.*, u.name as author_name, u.avatar_url
+     FROM temoignages t JOIN users u ON t.user_id = u.id
+     ORDER BY t.created_at DESC`
+  )
+  return NextResponse.json(result.rows)
 }
 
-export async function POST(req: Request) {
-  try {
-    const data = await req.json();
-    const result = await query(
-      `INSERT INTO testimonials (author_id, author_name, author_avatar, title, content, rating, media)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-      [data.authorId, data.authorName, data.authorAvatar, data.title, data.content, data.rating, JSON.stringify(data.media || [])]
-    );
-    return NextResponse.json({ id: result.rows[0].id });
-  } catch (error) {
-    console.error('Error creating testimonial:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
+export async function POST(req: NextRequest) {
+  const userId = await getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
+  const { content, rating } = await req.json()
+  if (!content) return NextResponse.json({ error: 'Contenu requis' }, { status: 400 })
+
+  const result = await query(
+    `INSERT INTO temoignages (user_id, content, rating, created_at)
+     VALUES ($1, $2, $3, NOW()) RETURNING *`,
+    [userId, content, rating ?? 5]
+  )
+  return NextResponse.json(result.rows[0], { status: 201 })
+}
+
+export async function DELETE(req: NextRequest) {
+  const userId = await getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
+  const { id } = await req.json()
+  const check = await query('SELECT user_id FROM temoignages WHERE id = $1', [id])
+  if (check.rows.length === 0) return NextResponse.json({ error: 'Introuvable' }, { status: 404 })
+  if (check.rows[0].user_id !== userId) return NextResponse.json({ error: 'Interdit' }, { status: 403 })
+
+  await query('DELETE FROM temoignages WHERE id = $1', [id])
+  return NextResponse.json({ success: true })
 }

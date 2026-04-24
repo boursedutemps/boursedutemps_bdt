@@ -1,40 +1,42 @@
-import { NextResponse } from 'next/server';
-import { query } from '@/db';
-import { getUserIdFromRequest } from '@/lib/auth';
+import { NextRequest, NextResponse } from 'next/server'
+import { getUserIdFromRequest } from '@/lib/auth'
+import { query } from '@/lib/db'
 
-export async function GET(req: Request) {
-  const uid = getUserIdFromRequest(req);
-  if (!uid) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export async function GET(req: NextRequest) {
+  const userId = await getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
 
-  try {
-    const result = await query('SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC', [uid]);
-    const notifications = result.rows.map(n => ({
-      id: n.id,
-      userId: n.user_id,
-      type: n.type,
-      content: n.content,
-      fromName: n.from_name,
-      isRead: n.is_read,
-      createdAt: n.created_at,
-    }));
-    return NextResponse.json(notifications);
-  } catch (error) {
-    console.error('Error fetching notifications:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
-  }
+  const result = await query(
+    'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 30',
+    [userId]
+  )
+  return NextResponse.json(result.rows)
 }
 
-export async function POST(req: Request) {
-  try {
-    const data = await req.json();
-    const result = await query(
-      `INSERT INTO notifications (user_id, type, content, from_name, is_read)
-       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-      [data.userId, data.type, data.content, data.fromName, data.isRead || false]
-    );
-    return NextResponse.json({ id: result.rows[0].id });
-  } catch (error) {
-    console.error('Error creating notification:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+export async function PATCH(req: NextRequest) {
+  const userId = await getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
+  const { id } = await req.json()
+
+  if (id) {
+    // Marquer une seule notif comme lue
+    await query(
+      'UPDATE notifications SET read = true WHERE id = $1 AND user_id = $2',
+      [id, userId]
+    )
+  } else {
+    // Marquer toutes comme lues
+    await query('UPDATE notifications SET read = true WHERE user_id = $1', [userId])
   }
+
+  return NextResponse.json({ success: true })
+}
+
+export async function DELETE(req: NextRequest) {
+  const userId = await getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+
+  await query('DELETE FROM notifications WHERE user_id = $1 AND read = true', [userId])
+  return NextResponse.json({ success: true })
 }
