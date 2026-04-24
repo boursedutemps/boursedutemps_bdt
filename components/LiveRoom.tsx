@@ -73,6 +73,18 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
           disableInviteFunctions: true,
           doNotStoreRoom: true,
           enableLocalRecording: true,
+          // Limiter la qualité vidéo pour réduire CPU/bande passante
+          constraints: {
+            video: {
+              height: { ideal: 360, max: 360, min: 180 },
+              width: { ideal: 640, max: 640, min: 320 },
+              frameRate: { max: 15 },
+            },
+          },
+          resolution: 360,
+          maxFullResolutionParticipants: 1,
+          disableSimulcast: false,
+          channelLastN: 4,
         },
         interfaceConfigOverwrite: {
           SHOW_JITSI_WATERMARK: false,
