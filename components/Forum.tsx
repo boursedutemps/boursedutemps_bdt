@@ -10,7 +10,6 @@ import { Edit2, Trash2, MessageCircle, Heart, Share2 } from "lucide-react";
 interface ForumProps {
   user: User | null;
   topics: ForumTopic[];
-  onAdd?: (t: ForumTopic) => void;
 }
 
 const Forum: React.FC<ForumProps> = ({ user, topics }) => {
@@ -46,7 +45,6 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
         throw new Error("Upload échoué");
       }
     } catch {
-      // fallback preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setMediaData(reader.result as string);
@@ -64,12 +62,7 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
   const handleDelete = async (id: string) => {
     if (!confirm("Supprimer définitivement ce sujet ?")) return;
 
-    const res = await fetch(`/api/forum/${id}`, { method: "DELETE" });
-
-    if (!res.ok) {
-      alert("Erreur lors de la suppression");
-      return;
-    }
+    await fetch(`/api/forum/${id}`, { method: "DELETE" });
   };
 
   // -----------------------------
@@ -93,16 +86,11 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
     const method = editingPost ? "PUT" : "POST";
     const url = editingPost ? `/api/forum/${editingPost.id}` : "/api/forum";
 
-    const res = await fetch(url, {
+    await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
     });
-
-    if (!res.ok) {
-      alert("Erreur lors de l’enregistrement");
-      return;
-    }
 
     setShowAdd(false);
     setEditingPost(null);
@@ -117,7 +105,6 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
   // -----------------------------
   const handleLike = async (t: ForumTopic) => {
     if (!user) return alert("Connectez-vous pour participer");
-
     await fetch(`/api/forum/${t.id}/like`, { method: "POST" });
   };
 
@@ -148,16 +135,11 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
     if (!user) return alert("Connectez-vous pour participer");
     if (!commentText.trim()) return;
 
-    const res = await fetch(`/api/forum/${t.id}/comment`, {
+    await fetch(`/api/forum/${t.id}/comment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: commentText }),
     });
-
-    if (!res.ok) {
-      alert("Erreur lors du commentaire");
-      return;
-    }
 
     setCommentText("");
     setActiveCommentPost(null);
@@ -509,4 +491,14 @@ const Forum: React.FC<ForumProps> = ({ user, topics }) => {
         ) : (
           <div className="text-center py-20 bg-white rounded-[2rem] border border-dashed border-slate-200">
             <span className="text-5xl mb-4 block">💬</span>
-            <p className="text-slate-400 font-medium
+            <p className="text-slate-400 font-medium">
+              Aucune discussion en cours. Soyez le premier !
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Forum;
