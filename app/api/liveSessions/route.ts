@@ -1,33 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { createClient } from '@supabase/supabase-js';
-
-async function getUidFromRequest(req: Request): Promise<string | null> {
-  // Try local JWT first
-  const localUid = getUserIdFromRequest(req);
-  if (localUid) return localUid;
-  
-  // Try Supabase JWT
-  const authHeader = req.headers.get('Authorization');
-  if (!authHeader?.startsWith('Bearer ')) return null;
-  const token = authHeader.split(' ')[1];
-  
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !serviceKey) return null;
-  
-  try {
-    const admin = createClient(supabaseUrl, serviceKey);
-    const { data: { user }, error } = await admin.auth.getUser(token);
-    if (error || !user) return null;
-    // Find user in our DB by email
-    // query already imported
-    const result = await query('SELECT uid FROM users WHERE email = $1', [user.email]);
-    return result.rows[0]?.uid || null;
-  } catch { return null; }
-}
-
 
 // ── GET : toutes les sessions actives ───────────────────────────────────────
 export async function GET() {
@@ -55,8 +28,8 @@ export async function GET() {
 }
 
 // ── POST : créer une session Jitsi ──────────────────────────────────────────
-export async function POST(req: Request) {
-  const uid = await getUidFromRequest(req);
+export async function POST(req: NextRequest) {
+  const uid = await getUserIdFromRequest(req);
   if (!uid) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
   const { title, type, hostName, hostAvatar } = await req.json();
@@ -64,7 +37,7 @@ export async function POST(req: Request) {
 
   const roomName = `bdt-${uid.slice(0, 8)}-${Date.now()}`;
   const appId = process.env.JAAS_APP_ID || 'vpaas-magic-cookie-017a1705a9c54e49afac8d78f0522e2a';
-    const roomUrl = `https://8x8.vc/${appId}/${roomName}`;
+  const roomUrl = `https://8x8.vc/${appId}/${roomName}`;
 
   try {
     const result = await query(
@@ -91,20 +64,15 @@ export async function POST(req: Request) {
   }
 }
 
-// ── DELETE// ── DELETE : terminer la session + supprimer la room Daily.co ───────────────
-export async function DELETE(req: Request) {
-  const DAILY_API_KEY = process.env.DAILY_API_KEY;
-  const uid = await getUidFromRequest(req);
+// ── DELETE : terminer la session ─────────────────────────────────────────────
+export async function DELETE(req: NextRequest) {
+  const uid = await getUserIdFromRequest(req);
   if (!uid) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
-  const { id, roomName } = await req.json();
+  const { id } = await req.json();
 
   try {
-    // Vérifier que c'est bien l'hôte ou un admin
-    const existing = await query(
-      'SELECT * FROM live_sessions WHERE id = $1',
-      [id]
-    );
+    const existing = await query('SELECT * FROM live_sessions WHERE id = $1', [id]);
     if (!existing.rowCount || existing.rowCount === 0) {
       return NextResponse.json({ error: 'Session introuvable' }, { status: 404 });
     }
@@ -116,9 +84,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
     }
 
-    // Supprimer de la DB
     await query('DELETE FROM live_sessions WHERE id = $1', [id]);
-
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting live session:', error);

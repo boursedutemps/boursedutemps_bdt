@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { query, initDB } from '@/lib/db';
+import { query } from '@/lib/db';
 
-export async function GET(req: Request) {
-  const uid = getUserIdFromRequest(req);
+export async function GET(req: NextRequest) {
+  const uid = await getUserIdFromRequest(req);
   if (!uid) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -14,7 +14,6 @@ export async function GET(req: Request) {
   }
 
   const user = result.rows[0];
-  // Convert snake_case to camelCase for frontend
   const camelUser = {
     id: user.uid,
     uid: user.uid,
