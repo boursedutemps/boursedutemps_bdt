@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 
 export async function POST(req: Request) {
   const uid = getUserIdFromRequest(req);

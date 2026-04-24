@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { signToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';

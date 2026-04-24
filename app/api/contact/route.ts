@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { sendContactConfirmationEmail, sendContactNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
