@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, Notification } from "@/types";
 import { supabase } from "@/lib/supabaseClient";
-
 import { registerServiceWorker, subscribeUserToPush } from "@/lib/push";
 
 interface UserContextType {
@@ -54,13 +53,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // 🔵 Notifications polling
+  // 🔵 Notifications via Supabase Realtime (remplace le polling)
   useEffect(() => {
-    if (!user) {
+    if (!user || !supabase) {
       setNotifications([]);
       return;
     }
 
+    // Chargement initial
     const fetchNotifications = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -78,19 +78,67 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     };
 
     fetchNotifications();
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchNotifications();
-    }, 60000);
 
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) fetchNotifications();
-    });
+    // Abonnement Realtime — écoute les INSERT sur la table notifications pour cet utilisateur
+    const channel = supabase
+      .channel(`notifications:${user.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          // Ajouter la nouvelle notification en tête de liste
+          setNotifications((prev) => [payload.new as Notification, ...prev]);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          // Mettre à jour la notification modifiée (ex: marquée comme lue)
+          setNotifications((prev) =>
+            prev.map((n) =>
+              n.id === (payload.new as Notification).id
+                ? (payload.new as Notification)
+                : n
+            )
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          // Supprimer la notification de la liste
+          setNotifications((prev) =>
+            prev.filter((n) => n.id !== (payload.old as Notification).id)
+          );
+        }
+      )
+      .subscribe();
 
+    // Push notifications
     registerServiceWorker().then(() => {
       subscribeUserToPush();
     });
 
-    return () => clearInterval(interval);
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user]);
 
   // 🔴 LOGOUT — VERSION SUPABASE
