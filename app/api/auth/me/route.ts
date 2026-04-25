@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { query } from '@/lib/db';
+import { query } from '@/db';
 import { createClient } from '@supabase/supabase-js';
 
 export async function GET(req: NextRequest) {
