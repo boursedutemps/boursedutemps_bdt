@@ -20,6 +20,13 @@ export function getUserIdFromRequest(req: Request) {
     return null;
   }
   const token = authHeader.split(' ')[1];
-  const decoded: any = verifyToken(token);
-  return decoded?.uid || null;
+  
+  try {
+    // Décoder le token Supabase sans vérifier la signature
+    // Supabase JWT contient "sub" (subject) = l'UID utilisateur
+    const decoded: any = jwt.decode(token);
+    return decoded?.sub || null;
+  } catch (e) {
+    return null;
+  }
 }
