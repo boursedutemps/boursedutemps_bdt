@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import Forum from '@/components/Forum';
 import { ForumTopic } from '@/types';
-import { onSnapshot, collection, db, query, orderBy } from '@/api';
 import { useUser } from '@/components/UserProvider';
 
 export default function ForumRoute() {
@@ -12,10 +11,10 @@ export default function ForumRoute() {
   const [topics, setTopics] = useState<ForumTopic[]>([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(query(collection(db, 'forumTopics'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setTopics(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as unknown as ForumTopic)));
-    });
-    return () => unsub();
+    fetch('/api/forumTopics')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setTopics(data))
+      .catch(() => setTopics([]));
   }, []);
 
   return (

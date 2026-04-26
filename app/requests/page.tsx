@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import RequestsPage from '@/components/pages-old/RequestsPage';
 import { Request } from '@/types';
-import { onSnapshot, collection, db, query, orderBy, updateDoc, doc, serverTimestamp } from '@/api';
 import { useUser } from '@/components/UserProvider';
 
 export default function RequestsRoute() {
@@ -12,33 +11,29 @@ export default function RequestsRoute() {
   const [requests, setRequests] = useState<Request[]>([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(query(collection(db, 'requests'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setRequests(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Request)));
-    });
-    return () => unsub();
+    fetch('/api/requests')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setRequests(data))
+      .catch(() => setRequests([]));
   }, []);
 
-  const handleUpdateStatus = async (type: 'service' | 'request', id: string, newStatus: any, partnerId?: string) => {
-    const collectionName = type === 'service' ? 'services' : 'requests';
-    const updateData: any = { 
-      status: newStatus,
-      updatedAt: serverTimestamp()
-    };
-    if (newStatus === 'accepted' && partnerId) {
-      updateData.fulfilledBy = partnerId;
-      updateData.fulfilledAt = serverTimestamp();
-    }
-    await updateDoc(doc(db, collectionName, id), updateData);
+  const handleUpdateStatus = async (type: 'service' | 'request', id: string, newStatus: string, partnerId?: string) => {
+    const token = localStorage.getItem('token');
+    await fetch(`/api/${type === 'service' ? 'services' : 'requests'}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id, status: newStatus, partnerId }),
+    });
   };
 
   return (
     <PageLayout>
-      <RequestsPage 
-        user={user} 
-        requests={requests} 
-        onUpdate={setRequests} 
-        onFulfill={(r, amt) => alert(`Fulfillment of ${amt} credits`)} 
-        onUpdateStatus={handleUpdateStatus} 
+      <RequestsPage
+        user={user}
+        requests={requests}
+        onUpdate={setRequests}
+        onFulfill={(r, amt) => alert(`Fulfillment de ${amt} crédits`)}
+        onUpdateStatus={handleUpdateStatus}
       />
     </PageLayout>
   );

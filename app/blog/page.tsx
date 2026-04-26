@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import Blog from '@/components/pages-old/Blog';
 import { BlogPost } from '@/types';
-import { onSnapshot, collection, db, query, orderBy } from '@/api';
 import { useUser } from '@/components/UserProvider';
 
 export default function BlogRoute() {
@@ -12,20 +11,15 @@ export default function BlogRoute() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
 
   useEffect(() => {
-    const unsub = onSnapshot(query(collection(db, 'blogs'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setBlogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as unknown as BlogPost)));
-    });
-    return () => unsub();
+    fetch('/api/blogs')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setBlogs(data))
+      .catch(() => setBlogs([]));
   }, []);
 
   return (
     <PageLayout>
-      <Blog 
-        blogs={blogs} 
-        onUpdate={setBlogs} 
-        user={user} 
-        onAuthClick={() => {}} 
-      />
+      <Blog blogs={blogs} onUpdate={setBlogs} user={user} onAuthClick={() => {}} />
     </PageLayout>
   );
 }

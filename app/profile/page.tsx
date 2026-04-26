@@ -5,14 +5,13 @@ import PageLayout from '@/components/PageLayout';
 import Profile from '@/components/pages-old/Profile';
 import { useUser } from '@/components/UserProvider';
 import { useSearchParams } from 'next/navigation';
-import { onSnapshot, collection, db, query, orderBy, where, updateDoc, doc, addDoc } from '@/api';
 import { User, Transaction, Connection, ChatMessage } from '@/types';
 
 function ProfileContent() {
   const { user, setUser, logout } = useUser();
   const searchParams = useSearchParams();
   const initialChatPartner = searchParams.get('chat');
-  
+
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
@@ -20,29 +19,28 @@ function ProfileContent() {
 
   useEffect(() => {
     if (!user) return;
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
 
-    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
-      setAllUsers(snapshot.docs.map(doc => doc.data() as User));
-    });
+    fetch('/api/users', { headers })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setAllUsers(data))
+      .catch(() => {});
 
-    const unsubConnections = onSnapshot(collection(db, 'connections'), (snapshot) => {
-      setConnections(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Connection)));
-    });
+    fetch('/api/connections', { headers })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setConnections(data))
+      .catch(() => {});
 
-    const unsubTransactions = onSnapshot(query(collection(db, 'transactions'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setTransactions(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Transaction)));
-    });
+    fetch('/api/transactions', { headers })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setTransactions(data))
+      .catch(() => {});
 
-    const unsubMessages = onSnapshot(query(collection(db, 'messages'), orderBy('createdAt', 'asc')), (snapshot) => {
-      setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ChatMessage)));
-    });
-
-    return () => {
-      unsubUsers();
-      unsubConnections();
-      unsubTransactions();
-      unsubMessages();
-    };
+    fetch('/api/messages', { headers })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setMessages(data))
+      .catch(() => {});
   }, [user]);
 
   if (!user) {
@@ -54,21 +52,21 @@ function ProfileContent() {
   }
 
   return (
-    <Profile 
-      user={user} 
-      allUsers={allUsers} 
-      transactions={transactions} 
-      connections={connections} 
-      messages={messages} 
-      onUpdate={(u) => setUser(u)} 
-      onSendConnection={async (uid) => {}} 
-      onUpdateConnection={async (id, s) => {}} 
-      onSendMessage={async (uid, c) => {}} 
-      onUpdateMessages={setMessages} 
-      onDeactivate={async () => {}} 
-      onDelete={async () => {}} 
-      initialTab={initialChatPartner ? 'messages' : 'info'} 
-      initialChatPartner={initialChatPartner} 
+    <Profile
+      user={user}
+      allUsers={allUsers}
+      transactions={transactions}
+      connections={connections}
+      messages={messages}
+      onUpdate={(u) => setUser(u)}
+      onSendConnection={async (uid) => {}}
+      onUpdateConnection={async (id, s) => {}}
+      onSendMessage={async (uid, c) => {}}
+      onUpdateMessages={setMessages}
+      onDeactivate={async () => {}}
+      onDelete={async () => {}}
+      initialTab={initialChatPartner ? 'messages' : 'info'}
+      initialChatPartner={initialChatPartner}
     />
   );
 }
@@ -76,7 +74,11 @@ function ProfileContent() {
 export default function ProfileRoute() {
   return (
     <PageLayout>
-      <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh]"><p className="text-slate-500">Chargement...</p></div>}>
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <p className="text-slate-500">Chargement...</p>
+        </div>
+      }>
         <ProfileContent />
       </Suspense>
     </PageLayout>

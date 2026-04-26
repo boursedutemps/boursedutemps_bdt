@@ -5,14 +5,13 @@ import PageLayout from '@/components/PageLayout';
 import Profile from '@/components/pages-old/Profile';
 import { useUser } from '@/components/UserProvider';
 import { useParams } from 'next/navigation';
-import { onSnapshot, collection, db, query, orderBy, getDoc, doc } from '@/api';
 import { User, Transaction, Connection, ChatMessage } from '@/types';
 
 export default function ProfileViewRoute() {
   const { user: currentUser } = useUser();
   const params = useParams();
   const viewingUserId = params.uid as string;
-  
+
   const [targetUser, setTargetUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -22,37 +21,20 @@ export default function ProfileViewRoute() {
   useEffect(() => {
     if (!viewingUserId) return;
 
-    const fetchTarget = async () => {
-      const docRef = doc(db, 'users', viewingUserId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setTargetUser(docSnap.data() as User);
-      }
-    };
-    fetchTarget();
+    fetch(`/api/users/${viewingUserId}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => setTargetUser(data))
+      .catch(() => {});
 
-    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
-      setAllUsers(snapshot.docs.map(doc => doc.data() as User));
-    });
+    fetch('/api/users')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setAllUsers(data))
+      .catch(() => {});
 
-    const unsubConnections = onSnapshot(collection(db, 'connections'), (snapshot) => {
-      setConnections(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Connection)));
-    });
-
-    const unsubTransactions = onSnapshot(query(collection(db, 'transactions'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setTransactions(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Transaction)));
-    });
-
-    const unsubMessages = onSnapshot(query(collection(db, 'messages'), orderBy('createdAt', 'asc')), (snapshot) => {
-      setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ChatMessage)));
-    });
-
-    return () => {
-      unsubUsers();
-      unsubConnections();
-      unsubTransactions();
-      unsubMessages();
-    };
+    fetch('/api/connections')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setConnections(data))
+      .catch(() => {});
   }, [viewingUserId]);
 
   if (!targetUser) {
@@ -67,19 +49,19 @@ export default function ProfileViewRoute() {
 
   return (
     <PageLayout>
-      <Profile 
-        user={targetUser} 
-        currentUser={currentUser || undefined} 
-        allUsers={allUsers} 
-        transactions={transactions} 
-        connections={connections} 
-        messages={messages} 
-        onUpdate={() => {}} 
-        onSendConnection={async (uid) => {}} 
-        onUpdateConnection={async (id, s) => {}} 
-        onSendMessage={async (uid, c) => {}} 
-        onUpdateMessages={setMessages} 
-        readOnly 
+      <Profile
+        user={targetUser}
+        currentUser={currentUser || undefined}
+        allUsers={allUsers}
+        transactions={transactions}
+        connections={connections}
+        messages={messages}
+        onUpdate={() => {}}
+        onSendConnection={async () => {}}
+        onUpdateConnection={async () => {}}
+        onSendMessage={async () => {}}
+        onUpdateMessages={setMessages}
+        readOnly
       />
     </PageLayout>
   );
