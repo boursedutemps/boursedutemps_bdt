@@ -14,3 +14,4 @@ const getSupabase = (): SupabaseClient | null => {
 };
 
 export const supabase = getSupabase();
+

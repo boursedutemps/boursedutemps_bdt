@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { sendPushNotification } from '@/lib/push-server';
 
@@ -53,3 +53,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+

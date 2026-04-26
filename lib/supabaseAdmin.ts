@@ -10,3 +10,4 @@ if (supabaseUrl && serviceRoleKey) {
   _supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
 }
 export const supabaseAdmin = _supabaseAdmin;
+

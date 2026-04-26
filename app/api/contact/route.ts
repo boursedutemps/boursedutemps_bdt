@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { sendContactConfirmationEmail, sendContactNotificationEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
@@ -30,3 +30,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Erreur lors de la sauvegarde du message.' }, { status: 500 });
   }
 }
+

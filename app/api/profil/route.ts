@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
@@ -125,3 +125,4 @@ function formatUser(user: any) {
     createdAt: user.created_at,
   };
 }
+

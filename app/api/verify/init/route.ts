@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import crypto from 'crypto';
 import { sendOtpEmail } from '@/lib/email';
 

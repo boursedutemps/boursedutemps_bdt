@@ -29,3 +29,4 @@ export async function uploadToCloudinary(file: File, folder = 'boursedutemps') {
   if (!uploadRes.ok) throw new Error('Échec de l\'upload Cloudinary');
   return uploadRes.json();
 }
+

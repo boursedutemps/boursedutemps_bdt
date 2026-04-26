@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { createClient } from '@supabase/supabase-js';
 
 export async function GET(req: NextRequest) {
@@ -63,3 +63,4 @@ export async function GET(req: NextRequest) {
     createdAt: user.created_at,
   });
 }
+
