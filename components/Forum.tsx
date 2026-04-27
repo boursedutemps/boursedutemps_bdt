@@ -94,7 +94,9 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
         ...postData,
         id: data.id,
         likes: [],
+        dislikes: [],
         shares: 0,
+        reposts: 0,
         comments: [],
         createdAt: new Date().toISOString(),
       };
@@ -280,4 +282,4 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
   );
 };
 
-export default Forum;
+export default Forum
