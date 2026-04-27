@@ -2,20 +2,20 @@ import { NextResponse } from 'next/server';
 import { SignJWT, importPKCS8 } from 'jose';
 import { getUserIdFromRequest } from '@/lib/auth';
 
-const APP_ID = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
-const KID = process.env.JAAS_KID!;
+const APP_ID       = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
+const KID          = process.env.JAAS_KID!;
 const PRIVATE_KEY_PEM = process.env.JAAS_PRIVATE_KEY!;
 
 export async function POST(req: Request) {
   try {
-    const uid = getUserIdFromRequest(req);
+    // ── FIX : await manquant ───────────────────────────────────────────────
+    const uid = await getUserIdFromRequest(req);
     if (!uid) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
     const { roomName, userName, userEmail, userAvatar, isModerator } = await req.json();
 
     // Normalise la clé privée (remplace les \n littéraux si nécessaire)
     const pemKey = PRIVATE_KEY_PEM.replace(/\\n/g, '\n');
-
     const privateKey = await importPKCS8(pemKey, 'RS256');
 
     const token = await new SignJWT({

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { User, ForumTopic, MediaItem } from '../types';
 import RichTextEditor from './RichTextEditor';
 import { uploadToCloudinary } from '../lib/useCloudinaryUpload';
+import { supabase } from '../lib/supabaseClient';
 import { Edit2, Trash2, MessageCircle, Heart, Share2 } from 'lucide-react';
 
 interface ForumProps {
@@ -27,8 +28,12 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const token = () => localStorage.getItem('token') || '';
-  const headers = () => ({ 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` });
+  // ── Auth : token Supabase (remplace localStorage) ─────────────────────────
+  const getHeaders = async (): Promise<HeadersInit> => {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token || '';
+    return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
+  };
 
   // Sync topics when prop changes
   React.useEffect(() => { setTopics(initialTopics); }, [initialTopics]);
@@ -45,19 +50,22 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
       }
     } catch {
       const reader = new FileReader();
-      reader.onloadend = () => { setMediaData(reader.result as string); setMediaType(file.type.startsWith('video') ? 'video' : 'image'); };
+      reader.onloadend = () => {
+        setMediaData(reader.result as string);
+        setMediaType(file.type.startsWith('video') ? 'video' : 'image');
+      };
       reader.readAsDataURL(file);
     } finally {
       setUploadingMedia(false);
     }
   };
 
+  // ── FIX : DELETE /api/forumTopics/:id (et non body { id }) ────────────────
   const handleDelete = async (id: string) => {
     if (!confirm("Supprimer définitivement ce sujet ?")) return;
-    await fetch('/api/forumTopics', {
+    await fetch(`/api/forumTopics/${id}`, {
       method: 'DELETE',
-      headers: headers(),
-      body: JSON.stringify({ id }),
+      headers: await getHeaders(),
     });
     setTopics(prev => prev.filter(t => t.id !== id));
   };
@@ -76,17 +84,19 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
       externalLink,
     };
 
+    const hdrs = await getHeaders();
+
     if (editingPost) {
       await fetch(`/api/forumTopics/${editingPost.id}`, {
         method: 'PATCH',
-        headers: headers(),
+        headers: hdrs,
         body: JSON.stringify(postData),
       });
       setTopics(prev => prev.map(t => t.id === editingPost.id ? { ...t, ...postData } : t));
     } else {
       const res = await fetch('/api/forumTopics', {
         method: 'POST',
-        headers: headers(),
+        headers: hdrs,
         body: JSON.stringify(postData),
       });
       const data = await res.json();
@@ -119,7 +129,7 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
     const newLikes = hasLiked ? likes.filter(id => id !== user.uid) : [...likes, user.uid];
     await fetch(`/api/forumTopics/${topic.id}`, {
       method: 'PATCH',
-      headers: headers(),
+      headers: await getHeaders(),
       body: JSON.stringify({ likes: newLikes }),
     });
     setTopics(prev => prev.map(t => t.id === topic.id ? { ...t, likes: newLikes } : t));
@@ -130,7 +140,11 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
     if (navigator.share) {
       try {
         await navigator.share({ title: topic.title, text: topic.message, url: window.location.href });
-        await fetch(`/api/forumTopics/${topic.id}`, { method: 'PATCH', headers: headers(), body: JSON.stringify({ shares: newShares }) });
+        await fetch(`/api/forumTopics/${topic.id}`, {
+          method: 'PATCH',
+          headers: await getHeaders(),
+          body: JSON.stringify({ shares: newShares }),
+        });
         setTopics(prev => prev.map(t => t.id === topic.id ? { ...t, shares: newShares } : t));
       } catch {}
     } else {
@@ -153,7 +167,7 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
     const newComments = [...(topic.comments || []), newComment];
     await fetch(`/api/forumTopics/${topic.id}`, {
       method: 'PATCH',
-      headers: headers(),
+      headers: await getHeaders(),
       body: JSON.stringify({ comments: newComments }),
     });
     setTopics(prev => prev.map(t => t.id === topic.id ? { ...t, comments: newComments } : t));
@@ -214,21 +228,49 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
           <div key={topic.id} className="bg-white p-8 rounded-[2rem] border border-slate-100 hover:border-blue-200 transition group relative">
             {user && (user.uid === topic.authorId || user.role === 'admin') && (
               <div className="absolute top-4 right-4 flex gap-2">
-                <button onClick={() => { setEditingPost(topic); setNewTitle(topic.title ?? ''); setNewMsg(topic.message ?? ''); setExternalLink(topic.externalLink || ''); if (topic.media?.[0]) { setMediaData(topic.media[0].url); setMediaType(topic.media[0].type); } setShowAdd(true); }} className="p-2 text-slate-400 hover:text-blue-600 transition bg-white/80 rounded-full"><Edit2 size={16} /></button>
-                <button onClick={() => handleDelete(topic.id)} className="p-2 text-slate-400 hover:text-red-600 transition bg-white/80 rounded-full"><Trash2 size={16} /></button>
+                <button
+                  onClick={() => {
+                    setEditingPost(topic);
+                    setNewTitle(topic.title ?? '');
+                    setNewMsg(topic.message ?? '');
+                    setExternalLink(topic.externalLink || '');
+                    if (topic.media?.[0]) { setMediaData(topic.media[0].url); setMediaType(topic.media[0].type); }
+                    setShowAdd(true);
+                  }}
+                  className="p-2 text-slate-400 hover:text-blue-600 transition bg-white/80 rounded-full"
+                >
+                  <Edit2 size={16} />
+                </button>
+                <button onClick={() => handleDelete(topic.id)} className="p-2 text-slate-400 hover:text-red-600 transition bg-white/80 rounded-full">
+                  <Trash2 size={16} />
+                </button>
               </div>
             )}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-lg font-bold text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition overflow-hidden relative">
-                {topic.authorAvatar ? <Image src={topic.authorAvatar} alt="Author" fill className="object-cover" unoptimized={topic.authorAvatar.startsWith('data:')} /> : topic.authorName?.[0]}
+                {topic.authorAvatar
+                  ? <Image src={topic.authorAvatar} alt="Author" fill className="object-cover" unoptimized={topic.authorAvatar.startsWith('data:')} />
+                  : topic.authorName?.[0]}
               </div>
               <div className="flex-grow">
                 <h3 className="font-heading text-xl font-bold text-slate-800 mb-2 pr-16">{topic.title}</h3>
-                <p className="text-slate-500 text-sm mb-4">{topic.message}</p>
-                {topic.externalLink && <a href={topic.externalLink} target="_blank" rel="noopener noreferrer" className="inline-block mb-4 text-blue-600 hover:underline text-sm font-medium">🔗 Lien externe</a>}
+
+                {/* ── FIX : affichage HTML du RichTextEditor ─────────────── */}
+                <div
+                  className="text-slate-500 text-sm mb-4 prose prose-sm max-w-none"
+                  dangerouslySetInnerHTML={{ __html: topic.message ?? '' }}
+                />
+
+                {topic.externalLink && (
+                  <a href={topic.externalLink} target="_blank" rel="noopener noreferrer" className="inline-block mb-4 text-blue-600 hover:underline text-sm font-medium">
+                    🔗 Lien externe
+                  </a>
+                )}
                 {topic.media?.[0] && (
                   <div className="rounded-2xl overflow-hidden mb-4 bg-slate-50 border border-slate-100 relative min-h-[200px]">
-                    {topic.media[0].type === 'image' ? <Image src={topic.media[0].url} alt="Media" width={800} height={300} className="w-full h-auto max-h-[300px] object-cover" unoptimized={topic.media[0].url.startsWith('data:')} /> : <video src={topic.media[0].url} controls className="w-full h-auto max-h-[300px]" />}
+                    {topic.media[0].type === 'image'
+                      ? <Image src={topic.media[0].url} alt="Media" width={800} height={300} className="w-full h-auto max-h-[300px] object-cover" unoptimized={topic.media[0].url.startsWith('data:')} />
+                      : <video src={topic.media[0].url} controls className="w-full h-auto max-h-[300px]" />}
                   </div>
                 )}
                 <div className="flex items-center justify-between mb-4">
@@ -236,11 +278,17 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
                   <span className="text-[10px] text-slate-300">{new Date(topic.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-6 border-t border-slate-50 pt-4">
-                  <button onClick={() => handleLike(topic)} className={`flex items-center gap-2 font-bold transition ${user && (topic.likes || []).includes(user.uid) ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}>
+                  <button
+                    onClick={() => handleLike(topic)}
+                    className={`flex items-center gap-2 font-bold transition ${user && (topic.likes || []).includes(user.uid) ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}
+                  >
                     <Heart size={18} className={user && (topic.likes || []).includes(user.uid) ? 'fill-current' : ''} />
                     <span className="text-xs">{(topic.likes || []).length}</span>
                   </button>
-                  <button onClick={() => setActiveCommentPost(activeCommentPost === topic.id ? null : topic.id)} className="flex items-center gap-2 text-slate-400 hover:text-blue-600 font-bold transition">
+                  <button
+                    onClick={() => setActiveCommentPost(activeCommentPost === topic.id ? null : topic.id)}
+                    className="flex items-center gap-2 text-slate-400 hover:text-blue-600 font-bold transition"
+                  >
                     <MessageCircle size={18} /><span className="text-xs">{(topic.comments || []).length}</span>
                   </button>
                   <button onClick={() => handleShare(topic)} className="flex items-center gap-2 text-slate-400 hover:text-green-600 font-bold transition ml-auto">
@@ -254,7 +302,9 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
                         <div key={comment.id} className="bg-slate-50 p-3 rounded-2xl">
                           <div className="flex items-center gap-2 mb-1">
                             <div className="w-5 h-5 rounded-full bg-slate-200 overflow-hidden relative">
-                              {comment.authorAvatar ? <Image src={comment.authorAvatar} alt="" fill className="object-cover" unoptimized={comment.authorAvatar.startsWith('data:')} /> : <div className="w-full h-full flex items-center justify-center text-[8px] font-bold">{comment.authorName?.[0]}</div>}
+                              {comment.authorAvatar
+                                ? <Image src={comment.authorAvatar} alt="" fill className="object-cover" unoptimized={comment.authorAvatar.startsWith('data:')} />
+                                : <div className="w-full h-full flex items-center justify-center text-[8px] font-bold">{comment.authorName?.[0]}</div>}
                             </div>
                             <span className="font-bold text-xs text-slate-800">{comment.authorName}</span>
                           </div>
@@ -263,7 +313,14 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <input type="text" placeholder="Commenter..." className="flex-grow px-3 py-2 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500 text-xs" value={commentText} onChange={e => setCommentText(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleComment(topic)} />
+                      <input
+                        type="text"
+                        placeholder="Commenter..."
+                        className="flex-grow px-3 py-2 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500 text-xs"
+                        value={commentText}
+                        onChange={e => setCommentText(e.target.value)}
+                        onKeyPress={e => e.key === 'Enter' && handleComment(topic)}
+                      />
                       <button onClick={() => handleComment(topic)} className="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-xs">Envoyer</button>
                     </div>
                   </div>
@@ -282,4 +339,4 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
   );
 };
 
-export default Forum
+export default Forum;

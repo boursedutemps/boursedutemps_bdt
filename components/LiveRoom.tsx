@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { supabase } from '../lib/supabaseClient';
 import {
   Mic, MicOff, Video, VideoOff, Monitor, MonitorOff, PhoneOff, Users, X,
   MessageCircle, Hand, PenTool, CircleStop, Settings, Lock, Unlock,
@@ -27,86 +28,129 @@ interface LiveSession {
 interface LiveRoomProps {
   session: LiveSession;
   localUserName: string;
+  localUserEmail?: string;
+  localUserAvatar?: string;
   isHost: boolean;
   onLeave: () => void;
   onEnd: () => void;
 }
 
-export default function LiveRoom({ session, localUserName, isHost, onLeave, onEnd }: LiveRoomProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const apiRef = useRef<any>(null);
+const JAAS_APP_ID = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
 
-  const [joined, setJoined] = useState(false);
-  const [audioOn, setAudioOn] = useState(true);
-  const [videoOn, setVideoOn] = useState(true);
+export default function LiveRoom({
+  session, localUserName, localUserEmail, localUserAvatar, isHost, onLeave, onEnd
+}: LiveRoomProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const apiRef       = useRef<any>(null);
+
+  const [joined, setJoined]               = useState(false);
+  const [audioOn, setAudioOn]             = useState(true);
+  const [videoOn, setVideoOn]             = useState(true);
   const [sharingScreen, setSharingScreen] = useState(false);
   const [participantCount, setParticipantCount] = useState(1);
-
-  const [isHandRaised, setIsHandRaised] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [isLocked, setIsLocked] = useState(false);
-  const [isTileView, setIsTileView] = useState(false);
+  const [isHandRaised, setIsHandRaised]   = useState(false);
+  const [isRecording, setIsRecording]     = useState(false);
+  const [isLocked, setIsLocked]           = useState(false);
+  const [isTileView, setIsTileView]       = useState(false);
   const [showWhiteboard, setShowWhiteboard] = useState(false);
-  const [showMoreMenu, setShowMoreMenu] = useState(false);
-  
+  const [showMoreMenu, setShowMoreMenu]   = useState(false);
   const [showDeviceMenu, setShowDeviceMenu] = useState(false);
-  const [audioInputs, setAudioInputs] = useState<MediaDeviceInfo[]>([]);
-  const [videoInputs, setVideoInputs] = useState<MediaDeviceInfo[]>([]);
+  const [audioInputs, setAudioInputs]     = useState<MediaDeviceInfo[]>([]);
+  const [videoInputs, setVideoInputs]     = useState<MediaDeviceInfo[]>([]);
+  // ── FIX : état pour le token JaaS ──────────────────────────────────────────
+  const [jaasToken, setJaasToken]         = useState<string | null>(null);
+  const [tokenError, setTokenError]       = useState<string | null>(null);
 
+  // ── Étape 1 : récupérer le token JaaS avant d'initialiser Jitsi ─────────────
   useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        const accessToken = data.session?.access_token || '';
+
+        const res = await fetch('/api/jaasToken', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            roomName:    session.roomName,
+            userName:    localUserName,
+            userEmail:   localUserEmail  || '',
+            userAvatar:  localUserAvatar || '',
+            isModerator: isHost,
+          }),
+        });
+
+        if (!res.ok) throw new Error(`Token error ${res.status}`);
+        const { token } = await res.json();
+        setJaasToken(token);
+      } catch (err: any) {
+        console.error('JaaS token fetch failed:', err);
+        setTokenError(err.message || 'Impossible de récupérer le token JaaS');
+      }
+    };
+
+    fetchToken();
+  }, [session.roomName, localUserName, localUserEmail, localUserAvatar, isHost]);
+
+  // ── Étape 2 : initialiser JitsiMeetExternalAPI une fois le token disponible ─
+  useEffect(() => {
+    if (!jaasToken) return;
+
     const initJitsi = () => {
       if (!containerRef.current || !window.JitsiMeetExternalAPI) return;
 
-      const api = new window.JitsiMeetExternalAPI("meet.jit.si", {
-        roomName: session.roomName,
+      const api = new window.JitsiMeetExternalAPI('8x8.vc', {
+        // ── FIX : room au format AppID/roomName pour JaaS ────────────────
+        roomName: `${JAAS_APP_ID}/${session.roomName}`,
+        jwt:      jaasToken,
         parentNode: containerRef.current,
-        width: "100%",
-        height: "100%",
-        userInfo: { displayName: localUserName },
+        width:  '100%',
+        height: '100%',
+        userInfo: { displayName: localUserName, email: localUserEmail || '' },
         configOverwrite: {
-          startWithAudioMuted: false,
-          startWithVideoMuted: false,
-          disableDeepLinking: true,
-          prejoinPageEnabled: false,
-          enableWelcomePage: false,
-          toolbarButtons: [],
+          startWithAudioMuted:  false,
+          startWithVideoMuted:  false,
+          disableDeepLinking:   true,
+          prejoinPageEnabled:   false,
+          enableWelcomePage:    false,
+          toolbarButtons:       [],
           disableInviteFunctions: true,
-          doNotStoreRoom: true,
+          doNotStoreRoom:       true,
           enableLocalRecording: true,
         },
         interfaceConfigOverwrite: {
-          SHOW_JITSI_WATERMARK: false,
+          SHOW_JITSI_WATERMARK:     false,
           SHOW_WATERMARK_FOR_GUESTS: false,
-          SHOW_BRAND_WATERMARK: false,
-          SHOW_POWERED_BY: false,
-          DISPLAY_WELCOME_FOOTER: false,
-          TOOLBAR_BUTTONS: [],
-          SETTINGS_SECTIONS: ['devices', 'language', 'moderator'],
-          HIDE_INVITE_MORE_HEADER: true,
-          MOBILE_APP_PROMO: false,
+          SHOW_BRAND_WATERMARK:     false,
+          SHOW_POWERED_BY:          false,
+          DISPLAY_WELCOME_FOOTER:   false,
+          TOOLBAR_BUTTONS:          [],
+          SETTINGS_SECTIONS:        ['devices', 'language', 'moderator'],
+          HIDE_INVITE_MORE_HEADER:  true,
+          MOBILE_APP_PROMO:         false,
         },
       });
 
       apiRef.current = api;
 
-      api.on("videoConferenceJoined", () => setJoined(true));
-      api.on("participantJoined", () => {
-        setParticipantCount(api.getParticipantsInfo().length);
-      });
-      api.on("participantLeft", () => {
-        setParticipantCount(api.getParticipantsInfo().length);
-      });
-      api.on("audioMuteStatusChanged", (e: any) => setAudioOn(!e.muted));
-      api.on("videoMuteStatusChanged", (e: any) => setVideoOn(!e.muted));
-      api.on("screenSharingStatusChanged", (e: any) => setSharingScreen(e.on));
-      api.on("raiseHandUpdated", (e: any) => setIsHandRaised(e.handRaised));
-      api.on("recordingStatusChanged", (e: any) => setIsRecording(e.status === 'on'));
-      api.on("tileViewChanged", (e: any) => setIsTileView(e.enabled));
-      api.on("videoConferenceLeft", () => onLeave());
+      api.on('videoConferenceJoined', () => setJoined(true));
+      api.on('participantJoined', () => setParticipantCount(api.getParticipantsInfo().length));
+      api.on('participantLeft',   () => setParticipantCount(api.getParticipantsInfo().length));
+      api.on('audioMuteStatusChanged',   (e: any) => setAudioOn(!e.muted));
+      api.on('videoMuteStatusChanged',   (e: any) => setVideoOn(!e.muted));
+      api.on('screenSharingStatusChanged', (e: any) => setSharingScreen(e.on));
+      api.on('raiseHandUpdated',           (e: any) => setIsHandRaised(e.handRaised));
+      api.on('recordingStatusChanged',     (e: any) => setIsRecording(e.status === 'on'));
+      api.on('tileViewChanged',            (e: any) => setIsTileView(e.enabled));
+      api.on('videoConferenceLeft',        () => onLeave());
     };
 
-    const script = document.createElement("script");
-    script.src = "https://meet.jit.si/external_api.js";
+    // ── FIX : script JaaS (8x8.vc) au lieu de meet.jit.si ──────────────────
+    const script = document.createElement('script');
+    script.src   = 'https://8x8.vc/libs/external_api.min.js';
     script.async = true;
     script.onload = () => initJitsi();
     document.head.appendChild(script);
@@ -120,38 +164,38 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
       apiRef.current?.dispose();
       if (document.head.contains(script)) document.head.removeChild(script);
     };
-  }, [session.roomName, localUserName, onLeave]);
+  }, [jaasToken, session.roomName, localUserName, localUserEmail, onLeave]);
 
-  const toggleAudio = () => apiRef.current?.executeCommand("toggleAudio");
-  const toggleVideo = () => apiRef.current?.executeCommand("toggleVideo");
-  const toggleScreen = () => apiRef.current?.executeCommand("toggleShareScreen");
-  const toggleChat = () => apiRef.current?.executeCommand("toggleChat");
-  const toggleParticipants = () => apiRef.current?.executeCommand("toggleParticipants");
-  const toggleHand = () => apiRef.current?.executeCommand("toggleRaiseHand");
-  const toggleTileView = () => apiRef.current?.executeCommand("toggleTileView");
-  const toggleStats = () => apiRef.current?.executeCommand("toggleStats");
-  
+  const toggleAudio       = () => apiRef.current?.executeCommand('toggleAudio');
+  const toggleVideo       = () => apiRef.current?.executeCommand('toggleVideo');
+  const toggleScreen      = () => apiRef.current?.executeCommand('toggleShareScreen');
+  const toggleChat        = () => apiRef.current?.executeCommand('toggleChat');
+  const toggleParticipants = () => apiRef.current?.executeCommand('toggleParticipants');
+  const toggleHand        = () => apiRef.current?.executeCommand('toggleRaiseHand');
+  const toggleTileView    = () => apiRef.current?.executeCommand('toggleTileView');
+  const toggleStats       = () => apiRef.current?.executeCommand('toggleStats');
+
   const toggleRoomLock = () => {
-    apiRef.current?.executeCommand("toggleRoomLock");
+    apiRef.current?.executeCommand('toggleRoomLock');
     setIsLocked(!isLocked);
   };
 
   const openSettings = (section?: string) => {
     setShowMoreMenu(false);
-    apiRef.current?.executeCommand("toggleSettings", section ? { section } : undefined);
+    apiRef.current?.executeCommand('toggleSettings', section ? { section } : undefined);
   };
 
   const openVirtualBackground = () => {
     setShowMoreMenu(false);
-    apiRef.current?.executeCommand("toggleSettings", { section: 'virtual-background' });
+    apiRef.current?.executeCommand('toggleSettings', { section: 'virtual-background' });
   };
 
   const handleRecording = async () => {
     try {
       if (!isRecording) {
-        await apiRef.current?.executeCommand("startRecording", { mode: 'local' });
+        await apiRef.current?.executeCommand('startRecording', { mode: 'local' });
       } else {
-        await apiRef.current?.executeCommand("stopRecording", { mode: 'local' });
+        await apiRef.current?.executeCommand('stopRecording',  { mode: 'local' });
       }
     } catch (error) {
       console.error("Erreur d'enregistrement :", error);
@@ -159,35 +203,28 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
   };
 
   const changeDevice = (deviceId: string, kind: 'audioinput' | 'videoinput') => {
-    if (kind === 'audioinput') apiRef.current?.executeCommand("setAudioInputDevice", deviceId);
-    if (kind === 'videoinput') apiRef.current?.executeCommand("setVideoInputDevice", deviceId);
+    if (kind === 'audioinput') apiRef.current?.executeCommand('setAudioInputDevice', deviceId);
+    if (kind === 'videoinput') apiRef.current?.executeCommand('setVideoInputDevice', deviceId);
     setShowDeviceMenu(false);
   };
 
   const handleLeave = useCallback(() => {
-    apiRef.current?.executeCommand("hangup");
+    apiRef.current?.executeCommand('hangup');
     onLeave();
   }, [onLeave]);
 
   const handleEnd = useCallback(() => {
-    apiRef.current?.executeCommand("hangup");
+    apiRef.current?.executeCommand('hangup');
     onEnd();
   }, [onEnd]);
 
   const ActionButton = ({ icon, label, active, activeClass, onClick, disabled, danger }: any) => {
     const isDisabled = disabled || !joined;
-    let classes = "relative flex flex-col items-center gap-1 p-2.5 rounded-2xl transition-all duration-200 ";
-    
-    if (isDisabled) {
-      classes += "bg-slate-800/50 text-slate-600 cursor-not-allowed";
-    } else if (danger) {
-      classes += "bg-red-600 hover:bg-red-700 text-white";
-    } else if (active) {
-      classes += `${activeClass || "bg-blue-600"} text-white shadow-lg`;
-    } else {
-      classes += "bg-slate-700/80 hover:bg-slate-600 text-white";
-    }
-
+    let classes = 'relative flex flex-col items-center gap-1 p-2.5 rounded-2xl transition-all duration-200 ';
+    if (isDisabled)  classes += 'bg-slate-800/50 text-slate-600 cursor-not-allowed';
+    else if (danger) classes += 'bg-red-600 hover:bg-red-700 text-white';
+    else if (active) classes += `${activeClass || 'bg-blue-600'} text-white shadow-lg`;
+    else             classes += 'bg-slate-700/80 hover:bg-slate-600 text-white';
     return (
       <button onClick={onClick} disabled={isDisabled} className={classes}>
         {icon}
@@ -196,15 +233,30 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
     );
   };
 
+  // ── Écran d'erreur si le token JaaS est inaccessible ─────────────────────
+  if (tokenError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full bg-slate-950 rounded-[2rem] border border-slate-800 p-12 text-center">
+        <span className="text-4xl mb-4">⚠️</span>
+        <p className="text-white font-bold text-lg mb-2">Impossible de rejoindre la session</p>
+        <p className="text-slate-400 text-sm mb-6">{tokenError}</p>
+        <button onClick={onLeave} className="bg-slate-700 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-600 transition">
+          Retour
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full bg-slate-950 rounded-[2rem] overflow-hidden border border-slate-800 shadow-2xl">
-      
+
+      {/* Header */}
       <div className="flex items-center justify-between px-6 py-3 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-lg shadow-red-500/50" />
           <span className="text-white text-sm font-bold tracking-wide">{session.title}</span>
           <span className="text-slate-400 text-[10px] uppercase tracking-widest bg-slate-800 px-2 py-0.5 rounded-md font-semibold">{session.type}</span>
-          {isLocked && <Lock size={12} className="text-yellow-500" />}
+          {isLocked    && <Lock size={12} className="text-yellow-500" />}
           {isRecording && <div className="flex items-center gap-1 text-red-500 text-[10px] font-bold animate-pulse"><CircleStop size={12} /> REC</div>}
         </div>
         <div className="flex items-center gap-2">
@@ -215,14 +267,18 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
         </div>
       </div>
 
+      {/* Zone vidéo */}
       <div className="flex-1 relative overflow-hidden bg-black">
         <div ref={containerRef} className="w-full h-full" />
-        
+
+        {/* Spinner pendant chargement token + Jitsi */}
         {!joined && (
           <div className="absolute inset-0 flex items-center justify-center z-10 bg-slate-950 pointer-events-none">
             <div className="text-center">
               <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-slate-400 text-sm">Connexion au serveur...</p>
+              <p className="text-slate-400 text-sm">
+                {!jaasToken ? 'Récupération du token...' : 'Connexion au serveur...'}
+              </p>
             </div>
           </div>
         )}
@@ -238,67 +294,74 @@ export default function LiveRoom({ session, localUserName, isHost, onLeave, onEn
         )}
       </div>
 
+      {/* Barre de contrôle */}
       <div className="relative bg-slate-900/90 backdrop-blur-md border-t border-slate-800 px-4 py-3">
-        
+
+        {/* Menu périphériques */}
         {showDeviceMenu && (
           <div className="absolute bottom-full mb-2 left-4 w-72 bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl p-4 z-50">
             <h4 className="text-xs font-bold text-slate-400 mb-2 uppercase">Microphones</h4>
             <div className="space-y-1 mb-4 max-h-24 overflow-y-auto">
               {audioInputs.length === 0 && <p className="text-slate-500 text-xs">Aucun détecté</p>}
               {audioInputs.map(dev => (
-                <button key={dev.deviceId} onClick={() => changeDevice(dev.deviceId, 'audioinput')} className="w-full text-left text-xs text-slate-300 hover:bg-slate-700 p-2 rounded-lg truncate">{dev.label || `Micro ${dev.deviceId.slice(0,5)}`}</button>
+                <button key={dev.deviceId} onClick={() => changeDevice(dev.deviceId, 'audioinput')} className="w-full text-left text-xs text-slate-300 hover:bg-slate-700 p-2 rounded-lg truncate">
+                  {dev.label || `Micro ${dev.deviceId.slice(0, 5)}`}
+                </button>
               ))}
             </div>
             <h4 className="text-xs font-bold text-slate-400 mb-2 uppercase">Caméras</h4>
             <div className="space-y-1 max-h-24 overflow-y-auto">
               {videoInputs.length === 0 && <p className="text-slate-500 text-xs">Aucune détectée</p>}
               {videoInputs.map(dev => (
-                <button key={dev.deviceId} onClick={() => changeDevice(dev.deviceId, 'videoinput')} className="w-full text-left text-xs text-slate-300 hover:bg-slate-700 p-2 rounded-lg truncate">{dev.label || `Caméra ${dev.deviceId.slice(0,5)}`}</button>
+                <button key={dev.deviceId} onClick={() => changeDevice(dev.deviceId, 'videoinput')} className="w-full text-left text-xs text-slate-300 hover:bg-slate-700 p-2 rounded-lg truncate">
+                  {dev.label || `Caméra ${dev.deviceId.slice(0, 5)}`}
+                </button>
               ))}
             </div>
           </div>
         )}
 
+        {/* Menu "Plus" */}
         {showMoreMenu && (
           <div className="absolute bottom-full mb-2 right-4 w-64 bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl p-3 z-50 grid grid-cols-3 gap-2">
             <ActionButton icon={<LayoutGrid size={18} />} label="Mosaïque" active={isTileView} onClick={() => { toggleTileView(); setShowMoreMenu(false); }} />
             <ActionButton icon={<ImagePlus size={18} />} label="Arrière-plan" onClick={openVirtualBackground} />
             <ActionButton icon={<BarChart3 size={18} />} label="Statistiques" onClick={() => { toggleStats(); setShowMoreMenu(false); }} />
-            {isHost && <ActionButton icon={isLocked ? <Unlock size={18} /> : <Lock size={18} />} label="Sécurité" active={isLocked} activeClass="bg-yellow-600" onClick={() => { toggleRoomLock(); setShowMoreMenu(false); }} />}
+            {isHost && (
+              <ActionButton icon={isLocked ? <Unlock size={18} /> : <Lock size={18} />} label="Sécurité" active={isLocked} activeClass="bg-yellow-600" onClick={() => { toggleRoomLock(); setShowMoreMenu(false); }} />
+            )}
             <ActionButton icon={<Settings size={18} />} label="Paramètres" onClick={() => openSettings()} />
           </div>
         )}
 
         <div className="flex items-center justify-between">
-          
+
+          {/* Gauche : audio / vidéo / écran */}
           <div className="flex items-center gap-2">
-            <ActionButton icon={audioOn ? <Mic size={20} /> : <MicOff size={20} />} label={audioOn ? "Micro" : "Muet"} active={!audioOn} activeClass="bg-red-600" onClick={toggleAudio} />
-            
+            <ActionButton icon={audioOn ? <Mic size={20} /> : <MicOff size={20} />} label={audioOn ? 'Micro' : 'Muet'} active={!audioOn} activeClass="bg-red-600" onClick={toggleAudio} />
             <div className="relative">
-              <ActionButton icon={videoOn ? <Video size={20} /> : <VideoOff size={20} />} label={videoOn ? "Caméra" : "Arrêtée"} active={!videoOn} activeClass="bg-red-600" onClick={toggleVideo} />
+              <ActionButton icon={videoOn ? <Video size={20} /> : <VideoOff size={20} />} label={videoOn ? 'Caméra' : 'Arrêtée'} active={!videoOn} activeClass="bg-red-600" onClick={toggleVideo} />
               <button onClick={() => setShowDeviceMenu(!showDeviceMenu)} className="absolute -top-1 -right-1 w-3 h-3 bg-slate-500 rounded-full hover:bg-blue-500 transition-colors border border-slate-900" title="Choisir le périphérique" />
             </div>
-
             <ActionButton icon={sharingScreen ? <MonitorOff size={20} /> : <Monitor size={20} />} label="Écran" active={sharingScreen} onClick={toggleScreen} />
           </div>
 
+          {/* Centre : chat / main / tableau / enregistrement */}
           <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-1.5 rounded-2xl">
-            <ActionButton icon={<MessageCircle size={20} />} label="Chat" onClick={toggleChat} />
-            <ActionButton icon={<Hand size={20} />} label="Main" active={isHandRaised} activeClass="bg-yellow-500 text-black" onClick={toggleHand} />
-            <ActionButton icon={<PenTool size={20} />} label="Tableau" active={showWhiteboard} onClick={() => setShowWhiteboard(!showWhiteboard)} />
-            <ActionButton icon={<CircleStop size={20} />} label="Enregistrer" active={isRecording} activeClass="bg-red-600 animate-pulse" onClick={handleRecording} />
+            <ActionButton icon={<MessageCircle size={20} />} label="Chat"       onClick={toggleChat} />
+            <ActionButton icon={<Hand size={20} />}          label="Main"       active={isHandRaised} activeClass="bg-yellow-500 text-black" onClick={toggleHand} />
+            <ActionButton icon={<PenTool size={20} />}       label="Tableau"    active={showWhiteboard} onClick={() => setShowWhiteboard(!showWhiteboard)} />
+            <ActionButton icon={<CircleStop size={20} />}    label="Enregistrer" active={isRecording} activeClass="bg-red-600 animate-pulse" onClick={handleRecording} />
           </div>
 
+          {/* Droite : plus / quitter */}
           <div className="flex items-center gap-2">
             <ActionButton icon={<MoreVertical size={20} />} label="Plus" active={showMoreMenu} onClick={() => { setShowMoreMenu(!showMoreMenu); setShowDeviceMenu(false); }} />
-            
             <div className="w-px h-10 bg-slate-700 mx-1" />
-            
-            {isHost ? (
-              <ActionButton icon={<PhoneOff size={20} />} label="Terminer" danger onClick={handleEnd} />
-            ) : (
-              <ActionButton icon={<PhoneOff size={20} />} label="Quitter" danger onClick={handleLeave} />
-            )}
+            {isHost
+              ? <ActionButton icon={<PhoneOff size={20} />} label="Terminer" danger onClick={handleEnd} />
+              : <ActionButton icon={<PhoneOff size={20} />} label="Quitter"  danger onClick={handleLeave} />
+            }
           </div>
         </div>
       </div>
