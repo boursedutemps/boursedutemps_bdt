@@ -65,8 +65,9 @@ export default function LiveRoom({
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const { data } = await supabase.auth.getSession();
-        const accessToken = data.session?.access_token || '';
+        const accessToken = supabase
+          ? ((await supabase.auth.getSession()).data.session?.access_token ?? '')
+          : '';
 
         const res = await fetch('/api/jaasToken', {
           method: 'POST',

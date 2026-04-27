@@ -30,8 +30,9 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
 
   // ── Auth : token Supabase (remplace localStorage) ─────────────────────────
   const getHeaders = async (): Promise<HeadersInit> => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token || '';
+    const token = supabase
+      ? (await supabase.auth.getSession()).data.session?.access_token ?? ''
+      : '';
     return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
   };
 
