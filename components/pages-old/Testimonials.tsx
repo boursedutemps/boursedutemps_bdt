@@ -73,7 +73,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ testimonials: initialTestim
     } else {
       const res = await fetch('/api/testimonials', { method: 'POST', headers: headers(), body: JSON.stringify(postData) });
       const data = await res.json();
-      const newT: Testimonial = { ...postData, id: data.id, votes: [], likes: [], shares: 0, comments: [], createdAt: new Date().toISOString() };
+      const newT: Testimonial = { ...postData, id: data.id, votes: [], likes: [], dislikes: [], shares: 0, reposts: 0, comments: [], createAt: new Date().toISOString() };
       setTestimonials(prev => [newT, ...prev]);
     }
 
