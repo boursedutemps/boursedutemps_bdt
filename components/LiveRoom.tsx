@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { LiveKitRoom, VideoConference } from '@livekit/components-react';
+import '../../node_modules/@livekit/components-styles/dist/general/index.css';
 import { supabase } from '../lib/supabaseClient';
 import { PhoneOff, X, PenTool } from 'lucide-react';
 
