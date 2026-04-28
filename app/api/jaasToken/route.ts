@@ -12,7 +12,14 @@ export async function POST(req: Request) {
     const uid = await getUserIdFromRequest(req);
     if (!uid) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
-    const { roomName, userName, userEmail, userAvatar, isModerator } = await req.json();
+    const { roomName, roomUrl, userName, userEmail, userAvatar, isModerator } = await req.json();
+
+    // ── Le JWT room doit contenir juste le roomName (sans AppID) ────────────
+    // roomUrl = https://8x8.vc/vpaas-magic-cookie-xxx/bdt-xxx
+    // roomName court = bdt-xxx (dernière partie de l'URL)
+    const shortRoomName = roomUrl
+      ? roomUrl.replace('https://8x8.vc/', '').split('/').pop() || roomName
+      : roomName;
 
     // Normalise la clé privée (remplace les \n littéraux si nécessaire)
     const pemKey = PRIVATE_KEY_PEM.replace(/\\n/g, '\n');
@@ -22,7 +29,7 @@ export async function POST(req: Request) {
       aud: 'jitsi',
       iss: 'chat',
       sub: APP_ID,
-      room: roomName || '*',
+      room: shortRoomName || '*',
       context: {
         user: {
           id: uid,

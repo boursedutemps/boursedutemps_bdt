@@ -77,6 +77,7 @@ function LiveRoomComponent({
           },
           body: JSON.stringify({
             roomName:    session.roomName,
+            roomUrl:     session.roomUrl,
             userName:    localUserName,
             userEmail:   localUserEmail  || '',
             userAvatar:  localUserAvatar || '',
@@ -100,45 +101,54 @@ function LiveRoomComponent({
   useEffect(() => {
     if (!jaasToken) return;
 
+    let joinTimeout: ReturnType<typeof setTimeout>;
+
     const initJitsi = () => {
       if (!containerRef.current || !window.JitsiMeetExternalAPI) return;
 
       const api = new window.JitsiMeetExternalAPI('8x8.vc', {
-        // ── roomName au format AppID/roomName extrait depuis session.roomUrl ──
-        // session.roomUrl = https://8x8.vc/vpaas-magic-cookie-xxx/bdt-xxx-ts
         roomName: session.roomUrl.replace('https://8x8.vc/', ''),
         jwt:      jaasToken,
         parentNode: containerRef.current,
         width:  '100%',
         height: '100%',
         userInfo: { displayName: localUserName, email: localUserEmail || '' },
+        // ── Config minimale — options non reconnues par JaaS retirées ────────
         configOverwrite: {
-          startWithAudioMuted:  false,
-          startWithVideoMuted:  false,
-          disableDeepLinking:   true,
-          prejoinPageEnabled:   false,
-          enableWelcomePage:    false,
-          toolbarButtons:       [],
+          startWithAudioMuted:    false,
+          startWithVideoMuted:    false,
+          disableDeepLinking:     true,
+          prejoinPageEnabled:     false,
           disableInviteFunctions: true,
-          doNotStoreRoom:       true,
-          enableLocalRecording: true,
+          doNotStoreRoom:         true,
         },
         interfaceConfigOverwrite: {
-          SHOW_JITSI_WATERMARK:     false,
+          SHOW_JITSI_WATERMARK:      false,
           SHOW_WATERMARK_FOR_GUESTS: false,
-          SHOW_BRAND_WATERMARK:     false,
-          SHOW_POWERED_BY:          false,
-          DISPLAY_WELCOME_FOOTER:   false,
-          TOOLBAR_BUTTONS:          [],
-          SETTINGS_SECTIONS:        ['devices', 'language', 'moderator'],
-          HIDE_INVITE_MORE_HEADER:  true,
-          MOBILE_APP_PROMO:         false,
+          SHOW_BRAND_WATERMARK:      false,
+          SHOW_POWERED_BY:           false,
+          DISPLAY_WELCOME_FOOTER:    false,
+          TOOLBAR_BUTTONS:           [],
+          SETTINGS_SECTIONS:         ['devices', 'language', 'moderator'],
+          HIDE_INVITE_MORE_HEADER:   true,
+          MOBILE_APP_PROMO:          false,
         },
       });
 
       apiRef.current = api;
 
-      api.on('videoConferenceJoined', () => setJoined(true));
+      // ── Timeout : si videoConferenceJoined ne se déclenche pas en 30s → erreur
+      joinTimeout = setTimeout(() => {
+        if (!apiRef.current) return;
+        setTokenError('La connexion au serveur JaaS a expiré. Veuillez réessayer.');
+        apiRef.current?.dispose();
+        apiRef.current = null;
+      }, 30000);
+
+      api.on('videoConferenceJoined', () => {
+        clearTimeout(joinTimeout);
+        setJoined(true);
+      });
       api.on('participantJoined', () => setParticipantCount(api.getParticipantsInfo().length));
       api.on('participantLeft',   () => setParticipantCount(api.getParticipantsInfo().length));
       api.on('audioMuteStatusChanged',   (e: any) => setAudioOn(!e.muted));
@@ -150,12 +160,22 @@ function LiveRoomComponent({
       api.on('videoConferenceLeft',        () => onLeave());
     };
 
-    // ── FIX : script JaaS (8x8.vc) au lieu de meet.jit.si ──────────────────
-    const script = document.createElement('script');
-    script.src   = 'https://8x8.vc/libs/external_api.min.js';
-    script.async = true;
-    script.onload = () => initJitsi();
-    document.head.appendChild(script);
+    // ── Script JaaS — ne le recharger que s'il n'est pas déjà présent ────────
+    const existingScript = document.querySelector('script[src="https://8x8.vc/libs/external_api.min.js"]');
+    if (existingScript) {
+      // Script déjà chargé — initialiser directement
+      if (window.JitsiMeetExternalAPI) {
+        initJitsi();
+      } else {
+        existingScript.addEventListener('load', initJitsi);
+      }
+    } else {
+      const script = document.createElement('script');
+      script.src   = 'https://8x8.vc/libs/external_api.min.js';
+      script.async = true;
+      script.onload = () => initJitsi();
+      document.head.appendChild(script);
+    }
 
     navigator.mediaDevices.enumerateDevices().then(devices => {
       setAudioInputs(devices.filter(d => d.kind === 'audioinput'));
@@ -163,10 +183,11 @@ function LiveRoomComponent({
     });
 
     return () => {
+      clearTimeout(joinTimeout);
       apiRef.current?.dispose();
-      if (document.head.contains(script)) document.head.removeChild(script);
+      apiRef.current = null;
     };
-  }, [jaasToken, session.roomName, localUserName, localUserEmail, onLeave]);
+  }, [jaasToken, session.roomUrl, localUserName, localUserEmail, onLeave]);
 
   const toggleAudio       = () => apiRef.current?.executeCommand('toggleAudio');
   const toggleVideo       = () => apiRef.current?.executeCommand('toggleVideo');
