@@ -1,10 +1,10 @@
 @import "tailwindcss";
+@source "!../node_modules/@livekit/**";
 
 @theme {
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
 }
-
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -14,16 +14,11 @@
     display: none;
   }
 }
-
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
 }
-
 body {
   background: var(--background);
   color: var(--foreground);
 }
-@import '@livekit/components-styles';
-
-
