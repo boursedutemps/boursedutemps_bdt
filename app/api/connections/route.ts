@@ -4,7 +4,8 @@ import { getUserIdFromRequest } from '@/lib/auth';
 import { sendPushNotification } from '@/lib/push-server';
 
 export async function GET(req: Request) {
-  const uid = getUserIdFromRequest(req);
+  // ── FIX : await manquant ───────────────────────────────────────────────────
+  const uid = await getUserIdFromRequest(req);
   if (!uid) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
@@ -13,12 +14,12 @@ export async function GET(req: Request) {
       [uid]
     );
     const connections = result.rows.map(c => ({
-      id: c.id,
-      senderId: c.sender_id,
+      id:         c.id,
+      senderId:   c.sender_id,
       receiverId: c.receiver_id,
-      status: c.status,
-      createdAt: c.created_at,
-      updatedAt: c.updated_at,
+      status:     c.status,
+      createdAt:  c.created_at,
+      updatedAt:  c.updated_at,
     }));
     return NextResponse.json(connections);
   } catch (error) {
@@ -36,15 +37,18 @@ export async function POST(req: Request) {
       [data.senderId, data.receiverId, data.status || 'sent']
     );
 
-    // Fetch sender name
-    const senderResult = await query('SELECT first_name, last_name FROM users WHERE uid = $1', [data.senderId]);
-    const senderName = (senderResult.rowCount ?? 0) > 0 ? `${senderResult.rows[0].first_name} ${senderResult.rows[0].last_name}` : 'Un membre';
+    const senderResult = await query(
+      'SELECT first_name, last_name FROM users WHERE uid = $1',
+      [data.senderId]
+    );
+    const senderName = (senderResult.rowCount ?? 0) > 0
+      ? `${senderResult.rows[0].first_name} ${senderResult.rows[0].last_name}`
+      : 'Un membre';
 
-    // Send push notification to receiver
     await sendPushNotification(data.receiverId, {
       title: 'Nouvelle demande de connexion',
-      body: `${senderName} souhaite se connecter avec vous.`,
-      url: '/profile'
+      body:  `${senderName} souhaite se connecter avec vous.`,
+      url:   '/profile',
     });
 
     return NextResponse.json({ id: result.rows[0].id });
@@ -53,4 +57,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-

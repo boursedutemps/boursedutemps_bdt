@@ -1,22 +1,25 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
-// Parse un champ qui peut être un array PG, une string JSON, ou null
 function toArray(val: any): any[] {
   if (Array.isArray(val)) return val;
   if (typeof val === 'string') {
-    try { const parsed = JSON.parse(val); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+    try { const p = JSON.parse(val); return Array.isArray(p) ? p : []; } catch { return []; }
   }
   return [];
 }
 
-export async function GET() {
+export async function GET(
+  _req: Request,
+  { params }: { params: { uid: string } }
+) {
   try {
-    const result = await query(
-      "SELECT * FROM users WHERE status != $1 ORDER BY created_at DESC",
-      ['deleted']
-    );
-    const users = result.rows.map(u => ({
+    const result = await query('SELECT * FROM users WHERE uid = $1', [params.uid]);
+    if ((result.rowCount ?? 0) === 0)
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+    const u = result.rows[0];
+    return NextResponse.json({
       id:              u.uid,
       uid:             u.uid,
       firstName:       u.first_name,
@@ -37,10 +40,9 @@ export async function GET() {
       role:            u.role,
       status:          u.status,
       createdAt:       u.created_at,
-    }));
-    return NextResponse.json(users);
+    });
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error('Error fetching user:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
