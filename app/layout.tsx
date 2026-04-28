@@ -35,8 +35,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
+      <head><link rel="stylesheet" href="/livekit.css" /></head><body className="font-sans antialiased">
         <UserProvider>
           {children}
         </UserProvider>
@@ -44,3 +44,5 @@ export default async function RootLayout({
     </html>
   )
 }
+
+
