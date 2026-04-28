@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { LiveKitRoom, VideoConference } from '@livekit/components-react';
+import { LiveKitRoom, VideoConference, ControlBar, RoomAudioRenderer } from '@livekit/components-react';
 import { supabase } from '../lib/supabaseClient';
 import { PhoneOff, X, PenTool, Maximize2, Minimize2 } from 'lucide-react';
 
@@ -159,7 +159,19 @@ function LiveRoomComponent({
             onDisconnected={() => onLeaveRef.current()}
             style={{ height: '100%' }}
           >
-            <VideoConference />
+            <VideoConference
+              controlBarProps={{
+                controls: {
+                  microphone: true,
+                  camera: true,
+                  screenShare: true,
+                  chat: true,
+                  leave: true,
+                  settings: true,
+                }
+              }}
+            />
+            <RoomAudioRenderer />
           </LiveKitRoom>
         </div>
       </div>
