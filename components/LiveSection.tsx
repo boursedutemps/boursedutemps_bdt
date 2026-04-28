@@ -67,6 +67,8 @@ export default function LiveSection({ user }: LiveSectionProps) {
   }, []);
 
   useEffect(() => {
+    // Suspendre le polling pendant une session active — évite les re-renders qui perturbent LiveRoom
+    if (activeSession) return;
     fetchSessions();
     const interval = setInterval(fetchSessions, 60000);
     const onVisibility = () => { if (!document.hidden) fetchSessions(); };
@@ -75,7 +77,7 @@ export default function LiveSection({ user }: LiveSectionProps) {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [fetchSessions]);
+  }, [fetchSessions, activeSession]);
 
   const handleCopyLink = (session: LiveSession) => {
     navigator.clipboard.writeText(session.roomUrl);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import {
   Mic, MicOff, Video, VideoOff, Monitor, MonitorOff, PhoneOff, Users, X,
@@ -37,7 +37,7 @@ interface LiveRoomProps {
 
 const JAAS_APP_ID = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
 
-export default function LiveRoom({
+function LiveRoomComponent({
   session, localUserName, localUserEmail, localUserAvatar, isHost, onLeave, onEnd
 }: LiveRoomProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -369,3 +369,5 @@ export default function LiveRoom({
     </div>
   );
 }
+
+export default memo(LiveRoomComponent);
