@@ -60,9 +60,9 @@ export async function POST(req: Request) {
   const { title, type, hostName, hostAvatar } = await req.json();
   if (!title) return NextResponse.json({ error: 'Titre requis' }, { status: 400 });
 
-  const appId    = process.env.JAAS_APP_ID || process.env.NEXT_PUBLIC_JAAS_APP_ID || 'vpaas-magic-cookie-017a1705a9c54e49afac8d78f0522e2a';
   const roomName = `bdt-${uid.slice(0, 8)}-${Date.now()}`;
-  const roomUrl  = `https://8x8.vc/${appId}/${roomName}`;
+  // roomUrl LiveKit — utilisé pour affichage seulement
+  const roomUrl  = `https://bourse-du-temps-0eswp8vq.livekit.cloud/${roomName}`;
 
   try {
     const result = await query(
