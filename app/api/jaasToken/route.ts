@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { SignJWT, importPKCS8 } from 'jose';
 import { getUserIdFromRequest } from '@/lib/auth';
 
-const APP_ID       = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
-const KID          = process.env.JAAS_KID!;
+const APP_ID          = (process.env.JAAS_APP_ID || process.env.NEXT_PUBLIC_JAAS_APP_ID)!;
+const KID             = (process.env.JAAS_KEY_ID || process.env.JAAS_KID)!;
 const PRIVATE_KEY_PEM = process.env.JAAS_PRIVATE_KEY!;
 
 export async function POST(req: Request) {

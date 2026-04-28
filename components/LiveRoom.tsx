@@ -35,7 +35,7 @@ interface LiveRoomProps {
   onEnd: () => void;
 }
 
-const JAAS_APP_ID = process.env.NEXT_PUBLIC_JAAS_APP_ID!;
+// Pas besoin de NEXT_PUBLIC_JAAS_APP_ID — on extrait l'appId depuis session.roomUrl
 
 function LiveRoomComponent({
   session, localUserName, localUserEmail, localUserAvatar, isHost, onLeave, onEnd
@@ -104,8 +104,9 @@ function LiveRoomComponent({
       if (!containerRef.current || !window.JitsiMeetExternalAPI) return;
 
       const api = new window.JitsiMeetExternalAPI('8x8.vc', {
-        // ── FIX : room au format AppID/roomName pour JaaS ────────────────
-        roomName: `${JAAS_APP_ID}/${session.roomName}`,
+        // ── roomName au format AppID/roomName extrait depuis session.roomUrl ──
+        // session.roomUrl = https://8x8.vc/vpaas-magic-cookie-xxx/bdt-xxx-ts
+        roomName: session.roomUrl.replace('https://8x8.vc/', ''),
         jwt:      jaasToken,
         parentNode: containerRef.current,
         width:  '100%',
