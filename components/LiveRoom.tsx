@@ -55,7 +55,16 @@ function LiveRoomComponent({
     return () => document.removeEventListener('fullscreenchange', onFsChange);
   }, []);
 
-  const onLeaveRef = useRef(onLeave);
+  // Injecter le CSS LiveKit dynamiquement — évite les problèmes webpack/PostCSS
+  useEffect(() => {
+    const id = 'livekit-styles';
+    if (document.getElementById(id)) return;
+    const link = document.createElement('link');
+    link.id   = id;
+    link.rel  = 'stylesheet';
+    link.href = '/livekit.css';
+    document.head.appendChild(link);
+  }, []);
   const onEndRef   = useRef(onEnd);
   useEffect(() => { onLeaveRef.current = onLeave; }, [onLeave]);
   useEffect(() => { onEndRef.current   = onEnd;   }, [onEnd]);
@@ -159,18 +168,7 @@ function LiveRoomComponent({
             onDisconnected={() => onLeaveRef.current()}
             style={{ height: '100%' }}
           >
-            <VideoConference
-              controlBarProps={{
-                controls: {
-                  microphone: true,
-                  camera: true,
-                  screenShare: true,
-                  chat: true,
-                  leave: true,
-                  settings: true,
-                }
-              }}
-            />
+            <VideoConference />
             <RoomAudioRenderer />
           </LiveKitRoom>
         </div>

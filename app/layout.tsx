@@ -36,7 +36,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
-      <head><link rel="stylesheet" href="/livekit.css" /></head><body className="font-sans antialiased">
+      <body className="font-sans antialiased">
         <UserProvider>
           {children}
         </UserProvider>
@@ -44,5 +44,6 @@ export default async function RootLayout({
     </html>
   )
 }
+
 
 
