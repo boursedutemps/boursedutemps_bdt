@@ -123,21 +123,22 @@ function LiveRoomComponent({
             <iframe src="https://excalidraw.com" className="w-full flex-1 bg-white" />
           </div>
         )}
-        <LiveKitRoom
-          token={token}
-          serverUrl={LIVEKIT_URL}
-          connect={true}
-          video={true}
-          audio={true}
-          onDisconnected={() => onLeaveRef.current()}
-          style={{ height: '100%' }}
-        >
-          <VideoConference />
-        </LiveKitRoom>
+        <div data-lk-theme="default" style={{ height: '100%', width: '100%' }}>
+          <LiveKitRoom
+            token={token}
+            serverUrl={LIVEKIT_URL}
+            connect={true}
+            video={true}
+            audio={true}
+            onDisconnected={() => onLeaveRef.current()}
+            style={{ height: '100%' }}
+          >
+            <VideoConference />
+          </LiveKitRoom>
+        </div>
       </div>
     </div>
   );
 }
 
 export default memo(LiveRoomComponent);
-
