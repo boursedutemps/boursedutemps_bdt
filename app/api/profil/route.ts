@@ -2,53 +2,55 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { query } from '@/lib/db';
 
+// Parse un champ qui peut être un array PG, une string JSON, ou null
+function toArray(val: any): any[] {
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') {
+    try { const parsed = JSON.parse(val); return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+  }
+  return [];
+}
+
 export async function POST(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
-  if (!supabaseUid) {
+  if (!supabaseUid)
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-  }
 
   const data = await req.json();
   const { email, firstName, lastName, department, gender, country, whatsapp,
     offeredSkills, requestedSkills, availability, languages, avatar } = data;
 
-  if (!email || !firstName || !lastName) {
+  if (!email || !firstName || !lastName)
     return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 });
-  }
 
   try {
-    // Vérifier si l'email existe déjà (ancien compte)
     const existing = await query('SELECT * FROM users WHERE email = $1', [email]);
 
     if ((existing.rowCount ?? 0) > 0) {
-      // Mettre à jour l'uid de l'ancien compte avec le nouvel uid Supabase
       await query('UPDATE users SET uid = $1 WHERE email = $2', [supabaseUid, email]);
       const updated = await query('SELECT * FROM users WHERE uid = $1', [supabaseUid]);
-      const user = updated.rows[0];
-      return NextResponse.json({ user: formatUser(user) });
+      return NextResponse.json({ user: formatUser(updated.rows[0]) });
     }
 
-    // Nouveau compte
     const role = email === process.env.ADMIN_EMAIL ? 'admin' : 'user';
 
     await query(
       `INSERT INTO users (
         uid, email, password, first_name, last_name, whatsapp, department, gender, country,
         availability, languages, offered_skills, requested_skills, avatar, terms_accepted, role
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
       [
         supabaseUid, email, '', firstName, lastName, whatsapp || '', department || 'Management',
         gender || 'Homme', country || '', availability || '',
         JSON.stringify(languages || []),
         JSON.stringify(offeredSkills || []),
         JSON.stringify(requestedSkills || []),
-        avatar || '', true, role
+        avatar || '', true, role,
       ]
     );
 
     const result = await query('SELECT * FROM users WHERE uid = $1', [supabaseUid]);
-    const user = result.rows[0];
-    return NextResponse.json({ user: formatUser(user) }, { status: 201 });
+    return NextResponse.json({ user: formatUser(result.rows[0]) }, { status: 201 });
 
   } catch (e: any) {
     console.error('Profil POST error:', e);
@@ -58,23 +60,20 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
-  if (!supabaseUid) {
+  if (!supabaseUid)
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-  }
 
   const result = await query('SELECT * FROM users WHERE uid = $1', [supabaseUid]);
-  if ((result.rowCount ?? 0) === 0) {
+  if ((result.rowCount ?? 0) === 0)
     return NextResponse.json({ error: 'Profil introuvable' }, { status: 404 });
-  }
 
   return NextResponse.json(formatUser(result.rows[0]));
 }
 
 export async function PATCH(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
-  if (!supabaseUid) {
+  if (!supabaseUid)
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
-  }
 
   const data = await req.json();
   const fields: string[] = [];
@@ -92,7 +91,8 @@ export async function PATCH(req: NextRequest) {
     }
   }
 
-  if (fields.length === 0) return NextResponse.json({ error: 'Rien à mettre à jour' }, { status: 400 });
+  if (fields.length === 0)
+    return NextResponse.json({ error: 'Rien à mettre à jour' }, { status: 400 });
 
   values.push(supabaseUid);
   await query(`UPDATE users SET ${fields.join(', ')} WHERE uid = $${idx}`, values);
@@ -103,26 +103,25 @@ export async function PATCH(req: NextRequest) {
 
 function formatUser(user: any) {
   return {
-    id: user.uid,
-    uid: user.uid,
-    firstName: user.first_name,
-    lastName: user.last_name,
-    email: user.email,
-    department: user.department,
-    whatsapp: user.whatsapp,
-    gender: user.gender,
-    country: user.country,
-    bio: user.bio,
-    offeredSkills: user.offered_skills || [],
-    requestedSkills: user.requested_skills || [],
-    availability: user.availability,
-    languages: user.languages || [],
-    credits: user.credits,
-    avatar: user.avatar,
-    coverPhoto: user.cover_photo,
-    role: user.role,
-    status: user.status,
-    createdAt: user.created_at,
+    id:              user.uid,
+    uid:             user.uid,
+    firstName:       user.first_name,
+    lastName:        user.last_name,
+    email:           user.email,
+    department:      user.department,
+    whatsapp:        user.whatsapp,
+    gender:          user.gender,
+    country:         user.country,
+    bio:             user.bio,
+    offeredSkills:   toArray(user.offered_skills),
+    requestedSkills: toArray(user.requested_skills),
+    availability:    user.availability,
+    languages:       toArray(user.languages),
+    credits:         user.credits,
+    avatar:          user.avatar,
+    coverPhoto:      user.cover_photo,
+    role:            user.role,
+    status:          user.status,
+    createdAt:       user.created_at,
   };
 }
-
