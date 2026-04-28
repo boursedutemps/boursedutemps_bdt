@@ -65,6 +65,8 @@ function LiveRoomComponent({
     link.href = '/livekit.css';
     document.head.appendChild(link);
   }, []);
+
+  const onLeaveRef = useRef(onLeave);
   const onEndRef   = useRef(onEnd);
   useEffect(() => { onLeaveRef.current = onLeave; }, [onLeave]);
   useEffect(() => { onEndRef.current   = onEnd;   }, [onEnd]);
