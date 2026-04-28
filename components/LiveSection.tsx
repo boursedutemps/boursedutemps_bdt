@@ -137,9 +137,9 @@ export default function LiveSection({ user }: LiveSectionProps) {
     setActiveSession(session);
   };
 
-  const handleLeave = () => setActiveSession(null);
+  const handleLeave = useCallback(() => setActiveSession(null), []);
 
-  const handleEnd = async () => {
+  const handleEnd = useCallback(async () => {
     if (!activeSession) return;
     try {
       const headers = await getAuthHeaders();
@@ -151,7 +151,7 @@ export default function LiveSection({ user }: LiveSectionProps) {
       setSessions(prev => prev.filter(s => s.id !== activeSession.id));
     } catch {}
     setActiveSession(null);
-  };
+  }, [activeSession]);
 
   return (
     <>

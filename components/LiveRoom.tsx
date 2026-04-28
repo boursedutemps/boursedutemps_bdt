@@ -42,6 +42,13 @@ function LiveRoomComponent({
 }: LiveRoomProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apiRef       = useRef<any>(null);
+  const initDoneRef  = useRef(false); // garde contre double initialisation
+
+  // Refs stables pour onLeave/onEnd — évite qu'ils soient dans les dépendances useEffect
+  const onLeaveRef = useRef(onLeave);
+  const onEndRef   = useRef(onEnd);
+  useEffect(() => { onLeaveRef.current = onLeave; }, [onLeave]);
+  useEffect(() => { onEndRef.current   = onEnd;   }, [onEnd]);
 
   const [joined, setJoined]               = useState(false);
   const [audioOn, setAudioOn]             = useState(true);
@@ -105,6 +112,9 @@ function LiveRoomComponent({
 
     const initJitsi = () => {
       if (!containerRef.current || !window.JitsiMeetExternalAPI) return;
+      // ── Guard : empêcher double initialisation ──────────────────────────────
+      if (initDoneRef.current || apiRef.current) return;
+      initDoneRef.current = true;
 
       const api = new window.JitsiMeetExternalAPI('8x8.vc', {
         roomName: session.roomUrl.replace('https://8x8.vc/', ''),
@@ -157,7 +167,7 @@ function LiveRoomComponent({
       api.on('raiseHandUpdated',           (e: any) => setIsHandRaised(e.handRaised));
       api.on('recordingStatusChanged',     (e: any) => setIsRecording(e.status === 'on'));
       api.on('tileViewChanged',            (e: any) => setIsTileView(e.enabled));
-      api.on('videoConferenceLeft',        () => onLeave());
+      api.on('videoConferenceLeft',        () => onLeaveRef.current());
     };
 
     // ── Charger le script JaaS (toujours fresh pour garantir l'init) ─────────
@@ -195,9 +205,10 @@ function LiveRoomComponent({
       clearTimeout(joinTimeout);
       apiRef.current?.dispose();
       apiRef.current = null;
+      initDoneRef.current = false;
       if (script && document.head.contains(script)) document.head.removeChild(script);
     };
-  }, [jaasToken, session.roomUrl, localUserName, localUserEmail, onLeave]);
+  }, [jaasToken, session.roomUrl, localUserName, localUserEmail]);
 
   const toggleAudio       = () => apiRef.current?.executeCommand('toggleAudio');
   const toggleVideo       = () => apiRef.current?.executeCommand('toggleVideo');
