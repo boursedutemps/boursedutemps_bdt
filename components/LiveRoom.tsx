@@ -137,13 +137,13 @@ function LiveRoomComponent({
 
       apiRef.current = api;
 
-      // ── Timeout : si videoConferenceJoined ne se déclenche pas en 30s → erreur
+      // ── Timeout : si videoConferenceJoined ne se déclenche pas en 60s → erreur
       joinTimeout = setTimeout(() => {
         if (!apiRef.current) return;
         setTokenError('La connexion au serveur JaaS a expiré. Veuillez réessayer.');
         apiRef.current?.dispose();
         apiRef.current = null;
-      }, 30000);
+      }, 60000);
 
       api.on('videoConferenceJoined', () => {
         clearTimeout(joinTimeout);
@@ -160,21 +160,30 @@ function LiveRoomComponent({
       api.on('videoConferenceLeft',        () => onLeave());
     };
 
-    // ── Script JaaS — ne le recharger que s'il n'est pas déjà présent ────────
+    // ── Charger le script JaaS (toujours fresh pour garantir l'init) ─────────
     const existingScript = document.querySelector('script[src="https://8x8.vc/libs/external_api.min.js"]');
-    if (existingScript) {
-      // Script déjà chargé — initialiser directement
-      if (window.JitsiMeetExternalAPI) {
-        initJitsi();
-      } else {
-        existingScript.addEventListener('load', initJitsi);
-      }
+    let script: HTMLScriptElement | null = null;
+
+    if (window.JitsiMeetExternalAPI) {
+      // API déjà disponible — initialiser au prochain tick pour laisser le DOM se stabiliser
+      const t = setTimeout(() => initJitsi(), 50);
+      joinTimeout = setTimeout(() => {
+        clearTimeout(t);
+        if (!apiRef.current) {
+          setTokenError('La connexion au serveur JaaS a expiré. Veuillez réessayer.');
+        }
+      }, 60000);
     } else {
-      const script = document.createElement('script');
-      script.src   = 'https://8x8.vc/libs/external_api.min.js';
+      script = document.createElement('script');
+      script.src = 'https://8x8.vc/libs/external_api.min.js';
       script.async = true;
       script.onload = () => initJitsi();
       document.head.appendChild(script);
+      joinTimeout = setTimeout(() => {
+        if (!apiRef.current) {
+          setTokenError('La connexion au serveur JaaS a expiré. Veuillez réessayer.');
+        }
+      }, 60000);
     }
 
     navigator.mediaDevices.enumerateDevices().then(devices => {
@@ -186,6 +195,7 @@ function LiveRoomComponent({
       clearTimeout(joinTimeout);
       apiRef.current?.dispose();
       apiRef.current = null;
+      if (script && document.head.contains(script)) document.head.removeChild(script);
     };
   }, [jaasToken, session.roomUrl, localUserName, localUserEmail, onLeave]);
 
