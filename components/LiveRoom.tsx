@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { LiveKitRoom, VideoConference } from '@livekit/components-react';
 import { supabase } from '../lib/supabaseClient';
-import { PhoneOff, X, PenTool } from 'lucide-react';
+import { PhoneOff, X, PenTool, Maximize2, Minimize2 } from 'lucide-react';
 
 interface LiveSession {
   id: number;
@@ -36,6 +36,24 @@ function LiveRoomComponent({
   const [token, setToken]           = useState<string | null>(null);
   const [tokenError, setTokenError] = useState<string | null>(null);
   const [showWhiteboard, setShowWhiteboard] = useState(false);
+  const [isFullscreen, setIsFullscreen]     = useState(false);
+  const roomContainerRef = useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      roomContainerRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
 
   const onLeaveRef = useRef(onLeave);
   const onEndRef   = useRef(onEnd);
@@ -84,7 +102,7 @@ function LiveRoomComponent({
   }
 
   return (
-    <div className="flex flex-col h-full bg-slate-950 rounded-[2rem] overflow-hidden border border-slate-800 shadow-2xl">
+    <div ref={roomContainerRef} className="flex flex-col h-full bg-slate-950 rounded-[2rem] overflow-hidden border border-slate-800 shadow-2xl">
 
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-3 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 flex-shrink-0">
@@ -99,6 +117,14 @@ function LiveRoomComponent({
             className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${showWhiteboard ? 'bg-blue-600 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'}`}
           >
             <PenTool size={12} /> Tableau
+          </button>
+          <button
+            onClick={toggleFullscreen}
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-xl transition"
+            title={isFullscreen ? 'Quitter le plein écran' : 'Plein écran'}
+          >
+            {isFullscreen ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+            {isFullscreen ? 'Réduire' : 'Plein écran'}
           </button>
           {isHost ? (
             <button onClick={() => onEndRef.current()} className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-xl font-semibold transition">
