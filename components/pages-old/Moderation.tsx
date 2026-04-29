@@ -305,7 +305,7 @@ const Moderation: React.FC<ModerationProps> = ({
                   <p className="font-bold text-sm text-slate-800">{r.title}</p>
                   <p className="text-[10px] text-slate-400 mt-0.5">Par {r.userName} · {r.category} · {r.creditOffer} crédits</p>
                   <span className={`mt-1 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                    r.status === 'fulfilled' ? 'bg-green-100 text-green-600' :
+                    r.status === 'completed' ? 'bg-green-100 text-green-600' :
                     r.status === 'proposed'   ? 'bg-yellow-100 text-yellow-600' :
                     'bg-slate-100 text-slate-500'
                   }`}>{(r.status || 'proposed').toUpperCase()}</span>
