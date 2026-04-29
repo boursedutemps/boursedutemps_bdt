@@ -1,632 +1,201 @@
-"use client";
+'use client'
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { User } from '../types';
-import { supabase } from '../lib/supabaseClient';
-import { uploadToCloudinary } from '../lib/useCloudinaryUpload';
+import { useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+
+type Step = 'email' | 'otp' | 'signup_name'
+type Mode = 'login' | 'signup'
 
 interface AuthModalProps {
-  mode: 'login' | 'signup';
-  onClose: () => void;
-  onAuth: (u: User) => void;
-  onSwitch: (m: 'login' | 'signup') => void;
+  onClose: () => void
+  onSuccess: (token: string, userId: string, name: string, email: string) => void
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onAuth, onSwitch }) => {
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
+  const [mode, setMode] = useState<Mode>('login')
+  const [step, setStep] = useState<Step>('email')
+  const [email, setEmail] = useState('')
+  const [otp, setOtp] = useState('')
+  const [name, setName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [info, setInfo] = useState('')
 
-  // Champs communs
-  const [email, setEmail] = useState('');
-  const [emailCode, setEmailCode] = useState('');
-  const [password, setPassword] = useState('');
-
-  // Champs signup
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [department, setDepartment] = useState('Management');
-  const [gender, setGender] = useState<'Homme' | 'Femme'>('Homme');
-  const [country, setCountry] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [offeredSkills, setOfferedSkills] = useState('');
-  const [requestedSkills, setRequestedSkills] = useState('');
-  const [availability, setAvailability] = useState('');
-  const [languages, setLanguages] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [uploadingAvatar, setUploadingAvatar] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const ALLOWED_DOMAIN = '@etu-usenghor.org';
-
-  // ─────────────────────────────────────────────────────────────
-  // 1) Envoi OTP via Supabase (login + signup)
-  // ─────────────────────────────────────────────────────────────
-  const handleSendCode = async () => {
-    if (!email.endsWith(ALLOWED_DOMAIN)) {
-      alert(`Seules les adresses se terminant par ${ALLOWED_DOMAIN} sont autorisées.`);
-      return;
-    }
-    if (!supabase) { alert('Erreur de configuration Supabase.'); return; }
-
-    setLoading(true);
+  // ── Étape 1 : envoi OTP ──────────────────────────────────────────────────
+  async function handleSendOtp() {
+    setError('')
+    setLoading(true)
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: { shouldCreateUser: mode === 'signup' },
-      });
-      if (error) throw new Error(error.message);
-      setStep(2);
-      alert('Code envoyé ! Vérifiez votre email.');
-    } catch (e: any) {
-      alert(e.message);
+      })
+      if (error) throw error
+      setInfo(`Un code a été envoyé à ${email}`)
+      setStep(mode === 'signup' ? 'signup_name' : 'otp')
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Erreur envoi OTP')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  // ─────────────────────────────────────────────────────────────
-  // 2) Vérification OTP via Supabase (login + signup)
-  // ─────────────────────────────────────────────────────────────
-  const verifyCode = async () => {
-    if (!supabase) { alert('Erreur de configuration Supabase.'); return; }
-    setLoading(true);
+  // ── Étape 2 (signup) : nom puis affichage champ OTP ──────────────────────
+  function handleNameNext() {
+    if (!name.trim()) { setError('Veuillez entrer votre nom'); return }
+    setError('')
+    setStep('otp')
+  }
+
+  // ── Étape finale : vérification OTP ──────────────────────────────────────
+  async function handleVerifyOtp() {
+    setError('')
+    setLoading(true)
     try {
       const { data, error } = await supabase.auth.verifyOtp({
         email,
-        token: emailCode,
+        token: otp,
         type: 'email',
-      });
-      if (error) throw new Error(error.message);
-      if (!data.session) throw new Error('Session introuvable.');
+      })
+      if (error) throw error
 
-      const accessToken = data.session.access_token;
-      localStorage.setItem('token', accessToken);
-      setIsEmailVerified(true);
+      const session = data.session
+      const user = data.user
+      if (!session || !user) throw new Error('Session introuvable')
 
+      // Si signup → mettre à jour le profil Supabase avec le nom
+      if (mode === 'signup' && name) {
+        await supabase.auth.updateUser({ data: { full_name: name } })
+        // Créer le profil dans notre table users PostgreSQL
+        await fetch('/api/profil', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ name, email }),
+        })
+      }
+
+      // Récupérer le nom depuis notre DB si login
+      let displayName = name
       if (mode === 'login') {
-        // Récupérer le profil utilisateur
-        const userRes = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        if (!userRes.ok) throw new Error('Utilisateur introuvable.');
-        const userData = await userRes.json();
-        onAuth(userData);
-        onClose();
-        return;
+        const res = await fetch('/api/profil', {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        })
+        if (res.ok) {
+          const profil = await res.json()
+          displayName = profil.name ?? email
+        }
       }
 
-      // SIGNUP → passer à l'étape 3
-      setStep(3);
-    } catch (e: any) {
-      alert(e.message);
+      onSuccess(session.access_token, user.id, displayName, email)
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Code invalide ou expiré')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  // 
-
-  // ─────────────────────────────────────────────────────────────
-  // 3) Sauvegarde du profil (signup étape 4)
-  // ─────────────────────────────────────────────────────────────
-  const handleRegisterAndProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!avatar) {
-      alert('Photo requise');
-      return;
-    }
-
-    if (!isEmailVerified) { alert('Vérifiez votre email en premier.'); return; }
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('token') || '';
-      const res = await fetch('/api/profil', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-          department,
-          gender,
-          country,
-          whatsapp,
-          offeredSkills: offeredSkills.split(',').map(s => s.trim()).filter(Boolean),
-          requestedSkills: requestedSkills.split(',').map(s => s.trim()).filter(Boolean),
-          availability,
-          languages: languages.split(',').map(l => l.trim()).filter(Boolean),
-          avatar,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Erreur lors de l'inscription");
-
-      onAuth(data.user);
-      alert('Inscription réussie !');
-      onClose();
-    } catch (e: any) {
-      alert(e.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ─────────────────────────────────────────────────────────────
-  // Helpers
-  // ─────────────────────────────────────────────────────────────
-  const fillForTest = () => {
-    setEmail('test@etu-usenghor.org');
-    setPassword('password123');
-    setFirstName('Test');
-    setLastName('User');
-    setCountry('Sénégal');
-    setWhatsapp('+221770000000');
-    setOfferedSkills('Excel, Design');
-    setRequestedSkills('Anglais, Piano');
-    setAvailability('Soirs et weekends');
-    setLanguages('Français, Anglais');
-    setAvatar('https://picsum.photos/seed/test/200/200');
-    setTermsAccepted(true);
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploadingAvatar(true);
-    try {
-      const result = await uploadToCloudinary(file, 'boursedutemps/avatars');
-      if (result.secure_url) {
-        setAvatar(result.secure_url);
-      } else {
-        throw new Error(result.error?.message || 'Upload échoué');
-      }
-    } catch {
-      // Fallback to base64 if Cloudinary fails
-      const reader = new FileReader();
-      reader.onloadend = () => setAvatar(reader.result as string);
-      reader.readAsDataURL(file);
-    } finally {
-      setUploadingAvatar(false);
-    }
-  };
-
-  const handleSwitchMode = (newMode: 'login' | 'signup') => {
-    onSwitch(newMode);
-    setStep(1);
-    setEmail('');
-    setPassword('');
-    setEmailCode('');
-  };
-
-  const totalSteps = mode === 'login' ? 2 : 4;
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl rounded-[2.5rem] p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[90vh] animate-in zoom-in duration-300">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">✕</button>
 
-        {/* Bouton fermer */}
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-slate-300 hover:text-slate-600 transition"
-        >
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {mode === 'login' ? 'Connexion' : 'Créer un compte'}
+        </h2>
 
-        {/* En-tête */}
-        <div className="text-center mb-8">
-          <h2 className="font-heading text-3xl font-bold text-slate-800 uppercase tracking-tight">
-            {mode === 'login' ? 'Connexion' : 'Bourse du Temps - Inscription'}
-          </h2>
-
-          <p className="text-slate-500 mt-2 text-sm">
-            Étape {step} sur {totalSteps}
-          </p>
-
-          {mode === 'signup' && step === 1 && (
+        {/* Toggle mode */}
+        <div className="flex justify-center gap-4 mb-6">
+          {(['login', 'signup'] as Mode[]).map(m => (
             <button
-              type="button"
-              onClick={fillForTest}
-              className="mt-4 text-[10px] font-bold text-blue-600 uppercase tracking-widest hover:underline"
+              key={m}
+              onClick={() => { setMode(m); setStep('email'); setError(''); setInfo('') }}
+              className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+                mode === m ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
             >
-              Remplir automatiquement (Test)
+              {m === 'login' ? 'Connexion' : 'Inscription'}
             </button>
-          )}
+          ))}
         </div>
 
-        <div className="space-y-6">
+        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
+        {info && <p className="text-green-600 text-sm mb-4 text-center">{info}</p>}
 
-          {/* ══════════════════════ MODE LOGIN ══════════════════════ */}
-          {mode === 'login' && (
-            <>
-              {/* LOGIN — Étape 1 : Email + Password → envoi OTP */}
-              {step === 1 && (
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    handleSendCode();
-                  }}
-                  className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300"
-                >
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Email Institutionnel
-                    </label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="votre-email@etu-usenghor.org"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
+        {/* Étape : email */}
+        {step === 'email' && (
+          <div className="space-y-4">
+            <input
+              type="email"
+              placeholder="Votre adresse email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSendOtp()}
+              className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleSendOtp}
+              disabled={loading || !email}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition"
+            >
+              {loading ? 'Envoi…' : 'Envoyer le code'}
+            </button>
+          </div>
+        )}
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Mot de passe
-                    </label>
-                    <input
-                      required
-                      type="password"
-                      placeholder="Mot de passe"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                    />
-                  </div>
+        {/* Étape : nom (signup uniquement) */}
+        {step === 'signup_name' && (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500 text-center">Code envoyé à <strong>{email}</strong></p>
+            <input
+              type="text"
+              placeholder="Votre nom complet"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleNameNext()}
+              className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleNameNext}
+              disabled={!name.trim()}
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition"
+            >
+              Continuer
+            </button>
+          </div>
+        )}
 
-                  <button
-                    type="submit"
-                    disabled={loading || !email || !password}
-                    className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 transition shadow-xl shadow-blue-200 disabled:opacity-50"
-                  >
-                    {loading ? 'Envoi...' : 'Recevoir le code par email'}
-                  </button>
-                </form>
-              )}
-
-              {/* LOGIN — Étape 2 : Saisie OTP → connexion */}
-              {step === 2 && (
-                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                    <p className="text-xs text-blue-800 font-medium">
-                      Un code a été envoyé à <strong>{email}</strong>.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Code Email (6 chiffres)
-                    </label>
-                    <input
-                      placeholder="● ● ● ● ● ●"
-                      maxLength={6}
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none font-mono text-center tracking-widest text-xl"
-                      value={emailCode}
-                      onChange={e => setEmailCode(e.target.value.replace(/\D/g, ''))}
-                    />
-                  </div>
-
-                  <div className="flex gap-4 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setStep(1)}
-                      className="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200"
-                    >
-                      Retour
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={verifyCode}
-                      disabled={loading || emailCode.length < 6}
-                      className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg disabled:opacity-50"
-                    >
-                      {loading ? 'Connexion...' : 'Se Connecter'}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-          {/* ══════════════════════ MODE SIGNUP ══════════════════════ */}
-          {mode === 'signup' && (
-            <>
-              {/* SIGNUP — Étape 1 : Email + WhatsApp → envoi OTP */}
-              {step === 1 && (
-                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Email Institutionnel
-                    </label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="votre-email@etu-usenghor.org"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Numéro WhatsApp
-                    </label>
-                    <input
-                      required
-                      placeholder="Ex: +509 32 27 4422"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={whatsapp}
-                      onChange={e => setWhatsapp(e.target.value)}
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleSendCode}
-                    disabled={loading}
-                    className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg disabled:opacity-50"
-                  >
-                    {loading ? 'Envoi...' : 'Recevoir le code par email'}
-                  </button>
-                </div>
-              )}
-
-              {/* SIGNUP — Étape 2 : Saisie OTP */}
-              {step === 2 && (
-                <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                    <p className="text-xs text-blue-800 font-medium">
-                      Un code a été envoyé à <strong>{email}</strong>.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      Code Email (6 chiffres)
-                    </label>
-                    <input
-                      placeholder="● ● ● ● ● ●"
-                      maxLength={6}
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none font-mono text-center tracking-widest text-xl"
-                      value={emailCode}
-                      onChange={e => setEmailCode(e.target.value.replace(/\D/g, ''))}
-                    />
-                  </div>
-
-                  <div className="flex gap-4 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setStep(1)}
-                      className="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200"
-                    >
-                      Retour
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={verifyCode}
-                      disabled={loading || emailCode.length < 6}
-                      className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg disabled:opacity-50"
-                    >
-                      {loading ? 'Vérification...' : 'Vérifier'}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* SIGNUP — Étape 3 : Informations personnelles + Mot de passe */}
-              {step === 3 && (
-                <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      required
-                      placeholder="Prénom"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={firstName}
-                      onChange={e => setFirstName(e.target.value)}
-                    />
-                    <input
-                      required
-                      placeholder="Nom"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={lastName}
-                      onChange={e => setLastName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <select
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={gender}
-                      onChange={e => setGender(e.target.value as 'Homme' | 'Femme')}
-                    >
-                      <option value="Homme">Homme</option>
-                      <option value="Femme">Femme</option>
-                    </select>
-
-                    <input
-                      required
-                      placeholder="Pays d'origine"
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={country}
-                      onChange={e => setCountry(e.target.value)}
-                    />
-                  </div>
-
-                  <select
-                    className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                    value={department}
-                    onChange={e => setDepartment(e.target.value)}
-                  >
-                    <option>Management</option>
-                    <option>Culture</option>
-                    <option>Environnement</option>
-                    <option>Santé</option>
-                  </select>
-
-                  <input
-                    required
-                    type="password"
-                    placeholder="Mot de passe"
-                    className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setStep(4)}
-                    className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold"
-                  >
-                    Suivant
-                  </button>
-                </div>
-              )}
-
-              {/* SIGNUP — Étape 4 : Compétences + Photo */}
-              {step === 4 && (
-                <form
-                  onSubmit={handleRegisterAndProfile}
-                  className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300"
-                >
-                  <div className="text-center">
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                      Photo de Profil (OBLIGATOIRE)
-                    </label>
-
-                    <div className="flex flex-col items-center gap-4">
-                      <div className="w-24 h-24 rounded-full bg-slate-100 overflow-hidden flex items-center justify-center border-4 border-blue-50 shadow-inner relative">
-                        {avatar ? (
-                          <Image
-                            src={avatar}
-                            alt="Avatar preview"
-                            fill
-                            className="object-cover"
-                            unoptimized={avatar.startsWith('data:')}
-                            sizes="96px"
-                          />
-                        ) : (
-                          <span className="text-3xl grayscale">👤</span>
-                        )}
-                      </div>
-
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="text-xs text-slate-500 cursor-pointer"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-                        Compétences Offertes
-                      </label>
-                      <input
-                        required
-                        placeholder="Excel, Marketing, Musique..."
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                        value={offeredSkills}
-                        onChange={e => setOfferedSkills(e.target.value)}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-                        Compétences Recherchées
-                      </label>
-                      <input
-                        required
-                        placeholder="Anglais, Piano, Yoga..."
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                        value={requestedSkills}
-                        onChange={e => setRequestedSkills(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-                      Disponibilité
-                    </label>
-                    <input
-                      required
-                      placeholder="Ex: Soirs et weekends..."
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={availability}
-                      onChange={e => setAvailability(e.target.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
-                      Langues
-                    </label>
-                    <input
-                      required
-                      placeholder="Français, Wolof, Anglais..."
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none"
-                      value={languages}
-                      onChange={e => setLanguages(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100">
-                    <label className="flex items-start gap-4 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        required
-                        className="mt-1 w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                        checked={termsAccepted}
-                        onChange={e => setTermsAccepted(e.target.checked)}
-                      />
-                      <span className="text-xs text-slate-500 leading-relaxed">
-                        J'accepte les <strong>conditions d'utilisation</strong>. Je confirme que mon profil sera
-                        <strong> visible par tous les membres</strong>.
-                      </span>
-                    </label>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading || !avatar || !termsAccepted}
-                    className="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-200 disabled:opacity-50"
-                  >
-                    {loading ? 'Finalisation...' : 'Terminer'}
-                  </button>
-                </form>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Basculer login ↔ signup */}
-        <p className="text-center mt-8 text-sm font-medium text-slate-400">
-          {mode === 'login' ? 'Nouveau membre ?' : 'Déjà inscrit ?'}
-          <button
-            onClick={() => handleSwitchMode(mode === 'login' ? 'signup' : 'login')}
-            className="text-blue-600 font-bold ml-1 hover:underline"
-          >
-            {mode === 'login' ? 'Créer un compte' : 'Se connecter'}
-          </button>
-        </p>
+        {/* Étape : OTP */}
+        {step === 'otp' && (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500 text-center">Code envoyé à <strong>{email}</strong></p>
+            <input
+              type="text"
+              placeholder="Code à 6 chiffres"
+              value={otp}
+              maxLength={6}
+              onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
+              onKeyDown={e => e.key === 'Enter' && otp.length === 6 && handleVerifyOtp()}
+              className="w-full border rounded-lg px-4 py-3 text-center text-2xl tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleVerifyOtp}
+              disabled={loading || otp.length !== 6}
+              className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition"
+            >
+              {loading ? 'Vérification…' : 'Valider'}
+            </button>
+            <button
+              onClick={() => { setStep('email'); setOtp(''); setInfo('') }}
+              className="w-full text-sm text-gray-400 hover:text-gray-600"
+            >
+              ← Changer d'email
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  );
-};
-
-export default AuthModal;
+  )
+}
