@@ -67,9 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 cursor-pointer group">
             <div className="relative w-10 h-10">
-              <Image
-                src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg"
-                alt="Logo" fill
+              <Image src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" alt="Logo" fill
                 className="rounded-full shadow-sm group-hover:scale-105 transition-transform object-cover border border-slate-100"
               />
             </div>
@@ -81,9 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
-              <Link
-                key={item.page}
-                href={item.path}
+              <Link key={item.page} href={item.path}
                 className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                   pathname === item.path ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
                 }`}
@@ -91,7 +87,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
                 {item.label}
               </Link>
             ))}
-
             {isAdminOrMod && (
               <Link href="/moderation" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 ml-1 ${
                 pathname === '/moderation' ? 'text-purple-600 bg-purple-50' : 'text-purple-500 hover:text-purple-600 hover:bg-purple-50'
@@ -103,8 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
             <div className="ml-4 pl-4 border-l border-slate-200 flex items-center gap-2">
               {/* Search */}
               <div className="relative" ref={searchRef}>
-                <button
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                <button onClick={() => setIsSearchOpen(!isSearchOpen)}
                   className={`p-2 rounded-full transition-all duration-200 ${isSearchOpen ? 'text-blue-600 bg-blue-50' : 'text-slate-500 hover:text-blue-600 hover:bg-slate-50'}`}
                 >
                   <Search className="w-5 h-5" />
@@ -121,8 +115,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
               {/* Notifications */}
               {user && (
                 <div className="relative" ref={notificationRef}>
-                  <button
-                    onClick={() => setShowNotifications(!showNotifications)}
+                  <button onClick={() => setShowNotifications(!showNotifications)}
                     className={`p-2 rounded-full transition-all duration-200 relative ${showNotifications ? 'text-blue-600 bg-blue-50' : 'text-slate-500 hover:text-blue-600 hover:bg-slate-50'}`}
                   >
                     <Bell className="w-5 h-5" />
@@ -163,11 +156,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
                 </div>
               )}
 
-              {/* User menu / Login */}
+              {/* User dropdown / Login */}
               {user ? (
                 <div className="relative" ref={userMenuRef}>
-                  <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
+                  <button onClick={() => setShowUserMenu(!showUserMenu)}
                     className="flex items-center gap-2 bg-blue-600 text-white pl-4 pr-1.5 py-1.5 rounded-full transition-all duration-200 hover:bg-blue-700 shadow-md shadow-blue-200 group"
                   >
                     <div className="flex items-center gap-1.5">
@@ -182,32 +174,24 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
                       )}
                     </div>
                   </button>
-
-                  {/* Dropdown menu */}
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50">
-                      <Link
-                        href="/profile"
-                        onClick={() => setShowUserMenu(false)}
+                      <Link href="/profile" onClick={() => setShowUserMenu(false)}
                         className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition font-semibold"
                       >
-                        <User size={16} className="text-blue-500" />
-                        Mon profil
+                        <User size={16} className="text-blue-500" /> Mon profil
                       </Link>
                       <div className="border-t border-slate-100" />
-                      <button
-                        onClick={() => { setShowUserMenu(false); onLogout(); }}
+                      <button onClick={() => { setShowUserMenu(false); onLogout(); }}
                         className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition font-semibold"
                       >
-                        <LogOut size={16} />
-                        Se déconnecter
+                        <LogOut size={16} /> Se déconnecter
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
-                <button
-                  onClick={onLogin}
+                <button onClick={onLogin}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-blue-100 active:scale-95"
                 >
                   Accès Membre
@@ -239,15 +223,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
                 <Link href="/profile" onClick={() => setIsOpen(false)}
                   className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
                 >
-                  <Clock className="w-5 h-5" />
-                  Mon Profil ({user.credits} crédits)
+                  <Clock className="w-5 h-5" /> Mon Profil ({user.credits} crédits)
                 </Link>
-                <button
-                  onClick={() => { setIsOpen(false); onLogout(); }}
+                <button onClick={() => { setIsOpen(false); onLogout(); }}
                   className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-600 py-3 rounded-xl font-bold hover:bg-red-50 transition"
                 >
-                  <LogOut size={18} />
-                  Se déconnecter
+                  <LogOut size={18} /> Se déconnecter
                 </button>
               </>
             ) : (
