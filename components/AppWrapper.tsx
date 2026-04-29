@@ -344,7 +344,7 @@ export default function AppWrapper() {
       case 'profile-view': 
         const target = users.find(u => u.uid === viewingUserId);
         return target ? <Profile user={target} currentUser={user} allUsers={users} transactions={transactions} connections={connections} messages={messages} onUpdate={() => {}} onSendConnection={handleSendConnection} onUpdateConnection={handleUpdateConnection} onSendMessage={handleSendMessage} onUpdateMessages={setMessages} readOnly /> : <Members users={users} onViewProfile={() => {}} onContact={() => {}} />;
-      case 'moderation': return <Moderation users={users} onUpdateUsers={setUsers} services={services} onUpdateServices={setServices} requests={requests} onUpdateRequests={setRequests} currentUser={user!} />;
+      case 'moderation': return <Moderation users={users} onUpdateUsers={setUsers} services={services} onUpdateServices={setServices} requests={requests} onUpdateRequests={setRequests} currentUser={user!} onRefresh={() => {}} />;
       default: return <Home navigate={handleNavigate} blogs={blogs} testimonials={testimonials} stats={stats} />;
     }
   };
