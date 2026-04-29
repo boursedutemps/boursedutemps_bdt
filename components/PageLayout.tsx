@@ -64,10 +64,10 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
 
       {showAuthModal && (
         <AuthModal 
-          mode={showAuthModal} 
+ 
           onClose={() => setShowAuthModal(null)} 
-          onAuth={handleAuth}
-          onSwitch={setShowAuthModal}
+
+
         />
       )}
     </div>
