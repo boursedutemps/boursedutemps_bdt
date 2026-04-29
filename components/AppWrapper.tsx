@@ -380,13 +380,9 @@ export default function AppWrapper() {
       </main>
 
       {showAuthModal && (
-        <AuthModal 
-          mode={showAuthModal} 
-          onClose={() => setShowAuthModal(null)} 
-          onAuth={handleAuth}
-          onSwitch={setShowAuthModal}
-        />
+        <AuthModal onClose={() => setShowAuthModal(null)} onSuccess={async (token, userId, name, email) => { await handleAuth({ uid: userId, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '), email, credits: 0, role: 'user', status: 'active' } as any); }} />
       )}
     </div>
   );
 }
+

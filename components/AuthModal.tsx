@@ -26,7 +26,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
     setError('')
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase!.auth.signInWithOtp({
         email,
         options: { shouldCreateUser: mode === 'signup' },
       })
@@ -52,7 +52,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
     setError('')
     setLoading(true)
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
+      const { data, error } = await supabase!.auth.verifyOtp({
         email,
         token: otp,
         type: 'email',
@@ -65,7 +65,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
 
       // Si signup → mettre à jour le profil Supabase avec le nom
       if (mode === 'signup' && name) {
-        await supabase.auth.updateUser({ data: { full_name: name } })
+        await supabase!.auth.updateUser({ data: { full_name: name } })
         // Créer le profil dans notre table users PostgreSQL
         await fetch('/api/profil', {
           method: 'POST',
