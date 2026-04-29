@@ -37,8 +37,8 @@ const Moderation: React.FC<ModerationProps> = ({
   const modCount      = users.filter(u => u.role === 'moderator').length;
   const totalServices = services.length;
   const totalRequests = requests.length;
-  const pendingServices = services.filter(s => s.status === 'pending').length;
-  const pendingRequests = requests.filter(r => r.status === 'pending').length;
+  const pendingServices = services.filter(s => s.status === 'proposed').length;
+  const pendingRequests = requests.filter(r => r.status === 'proposed').length;
 
   // ── Changer le rôle ────────────────────────────────────────────────────────
   const changeRole = async (userId: string, newRole: 'user' | 'moderator') => {
@@ -280,9 +280,9 @@ const Moderation: React.FC<ModerationProps> = ({
                   <p className="text-[10px] text-slate-400 mt-0.5">Par {s.userName} · {s.category} · {s.creditCost} crédits</p>
                   <span className={`mt-1 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold ${
                     s.status === 'accepted' ? 'bg-green-100 text-green-600' :
-                    s.status === 'pending'  ? 'bg-yellow-100 text-yellow-600' :
+                    s.status === 'proposed'  ? 'bg-yellow-100 text-yellow-600' :
                     'bg-slate-100 text-slate-500'
-                  }`}>{(s.status || 'pending').toUpperCase()}</span>
+                  }`}>{(s.status || 'proposed').toUpperCase()}</span>
                 </div>
                 <button onClick={() => deleteService(s.id)} disabled={loading === `service-${s.id}`}
                   className="p-2 text-red-400 hover:bg-red-50 rounded-xl transition disabled:opacity-50">
@@ -306,9 +306,9 @@ const Moderation: React.FC<ModerationProps> = ({
                   <p className="text-[10px] text-slate-400 mt-0.5">Par {r.userName} · {r.category} · {r.creditOffer} crédits</p>
                   <span className={`mt-1 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold ${
                     r.status === 'fulfilled' ? 'bg-green-100 text-green-600' :
-                    r.status === 'pending'   ? 'bg-yellow-100 text-yellow-600' :
+                    r.status === 'proposed'   ? 'bg-yellow-100 text-yellow-600' :
                     'bg-slate-100 text-slate-500'
-                  }`}>{(r.status || 'pending').toUpperCase()}</span>
+                  }`}>{(r.status || 'proposed').toUpperCase()}</span>
                 </div>
                 <button onClick={() => deleteRequest(r.id)} disabled={loading === `request-${r.id}`}
                   className="p-2 text-red-400 hover:bg-red-50 rounded-xl transition disabled:opacity-50">
