@@ -32,7 +32,7 @@ const Moderation: React.FC<ModerationProps> = ({
 
   // ── Stats ──────────────────────────────────────────────────────────────────
   const totalUsers    = users.length;
-  const activeUsers   = users.filter(u => u.status !== 'inactive' && u.status !== 'deleted').length;
+  const activeUsers   = users.filter(u => u.status !== 'deactivated' && u.status !== 'deleted').length;
   const adminCount    = users.filter(u => u.role === 'admin').length;
   const modCount      = users.filter(u => u.role === 'moderator').length;
   const totalServices = services.length;
@@ -58,7 +58,7 @@ const Moderation: React.FC<ModerationProps> = ({
   };
 
   // ── Changer le statut utilisateur ──────────────────────────────────────────
-  const changeStatus = async (userId: string, newStatus: 'active' | 'inactive') => {
+  const changeStatus = async (userId: string, newStatus: 'active' | 'deactivated') => {
     setLoading(`status-${userId}`);
     try {
       const token = await getToken();
@@ -226,11 +226,11 @@ const Moderation: React.FC<ModerationProps> = ({
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 rounded-lg text-[10px] font-bold ${
-                        u.status === 'inactive' ? 'bg-orange-50 text-orange-500' :
+                        u.status === 'deactivated' ? 'bg-orange-50 text-orange-500' :
                         u.status === 'deleted'  ? 'bg-red-50 text-red-500' :
                         'bg-green-50 text-green-500'
                       }`}>
-                        {u.status === 'inactive' ? 'INACTIF' : u.status === 'deleted' ? 'SUPPRIMÉ' : 'ACTIF'}
+                        {u.status === 'deactivated' ? 'INACTIF' : u.status === 'deleted' ? 'SUPPRIMÉ' : 'ACTIF'}
                       </span>
                     </td>
                     <td className="px-6 py-4">
@@ -246,16 +246,16 @@ const Moderation: React.FC<ModerationProps> = ({
                         )}
                         {u.role !== 'admin' && (
                           <button
-                            onClick={() => changeStatus(u.uid, u.status === 'inactive' ? 'active' : 'inactive')}
+                            onClick={() => changeStatus(u.uid, u.status === 'deactivated' ? 'active' : 'deactivated')}
                             disabled={loading === `status-${u.uid}`}
                             className={`p-1.5 rounded-lg transition disabled:opacity-50 ${
-                              u.status === 'inactive'
+                              u.status === 'deactivated'
                                 ? 'text-green-600 hover:bg-green-50'
                                 : 'text-orange-500 hover:bg-orange-50'
                             }`}
-                            title={u.status === 'inactive' ? 'Réactiver' : 'Désactiver'}
+                            title={u.status === 'deactivated' ? 'Réactiver' : 'Désactiver'}
                           >
-                            {u.status === 'inactive' ? <UserCheck size={14} /> : <UserX size={14} />}
+                            {u.status === 'deactivated' ? <UserCheck size={14} /> : <UserX size={14} />}
                           </button>
                         )}
                       </div>
