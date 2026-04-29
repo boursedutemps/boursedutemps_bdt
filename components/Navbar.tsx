@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { Search, Bell, Menu, X, Clock, LogOut, User } from 'lucide-react';
 import { Page, User as UserType, Notification } from '../types';
+import ThemeToggle from './ThemeToggle';
 
 interface NavbarProps {
   currentPage: Page;
@@ -96,6 +97,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
             )}
 
             <div className="ml-4 pl-4 border-l border-slate-200 flex items-center gap-2">
+              {/* Theme toggle */}
+              <ThemeToggle />
               {/* Search */}
               <div className="relative" ref={searchRef}>
                 <button onClick={() => setIsSearchOpen(!isSearchOpen)}
