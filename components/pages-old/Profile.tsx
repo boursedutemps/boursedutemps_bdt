@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { User, Transaction, Connection, ChatMessage } from '../../types';
+import { uploadToCloudinary } from '../../lib/useCloudinaryUpload';
 
 interface ProfileProps {
   user: User;
@@ -59,14 +60,24 @@ const Profile: React.FC<ProfileProps> = ({
     setTimeout(() => setShowSuccessMessage(null), 3000);
   };
 
-  const handleCoverPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [uploadingCover, setUploadingCover] = useState(false);
+
+  const handleCoverPhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (!file) return;
+    setUploadingCover(true);
+    try {
+      const result = await uploadToCloudinary(file, 'boursedutemps/covers');
+      if (result.secure_url) {
+        setEditedUser({ ...editedUser, coverPhoto: result.secure_url });
+      }
+    } catch {
+      // Fallback base64 si Cloudinary échoue
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditedUser({ ...editedUser, coverPhoto: reader.result as string });
-      };
+      reader.onloadend = () => setEditedUser({ ...editedUser, coverPhoto: reader.result as string });
       reader.readAsDataURL(file);
+    } finally {
+      setUploadingCover(false);
     }
   };
 
@@ -116,8 +127,8 @@ const Profile: React.FC<ProfileProps> = ({
           {isEditing && (
             <div className="absolute top-4 right-4 z-20">
               <input type="file" accept="image/*" className="hidden" ref={coverInputRef} onChange={handleCoverPhotoChange} />
-              <button onClick={() => coverInputRef.current?.click()} className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold transition border border-white/30 text-sm">
-                📷 Changer la couverture
+              <button onClick={() => coverInputRef.current?.click()} disabled={uploadingCover} className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold transition border border-white/30 text-sm disabled:opacity-50">
+                {uploadingCover ? '⏳ Upload...' : '📷 Changer la couverture'}
               </button>
             </div>
           )}
