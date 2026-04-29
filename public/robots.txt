@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://boursedutemps.vercel.app/sitemap.xml

@@ -1,0 +1,43 @@
+{
+  "name": "Bourse du Temps",
+  "short_name": "BdT",
+  "description": "Échangez vos talents, apprenez gratuitement et construisez l'avenir au sein de notre banque de temps solidaire.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "social", "productivity"],
+  "lang": "fr",
+  "shortcuts": [
+    {
+      "name": "Forum",
+      "url": "/forum",
+      "description": "Accéder au forum"
+    },
+    {
+      "name": "Services",
+      "url": "/services",
+      "description": "Voir les services"
+    },
+    {
+      "name": "Mon Profil",
+      "url": "/profile",
+      "description": "Accéder à mon profil"
+    }
+  ]
+}
