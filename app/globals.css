@@ -38,3 +38,16 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Dark mode global — inverse les couleurs sans toucher chaque composant */
+.dark body {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Exclure les images et vidéos de l'inversion */
+.dark img,
+.dark video,
+.dark iframe,
+.dark [data-lk-theme] {
+  filter: invert(1) hue-rotate(180deg);
+}
