@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import Navbar from './Navbar';
+import Navbar from './Navbar'
+import AIChat from './AIChat';
 import Footer from './Footer';
 import AuthModal from './AuthModal';
 import { useUser } from './UserProvider';
@@ -65,6 +66,7 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(null)} onSuccess={async (_t, userId, name, email) => { handleAuth({ uid: userId, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '), email, credits: 0, role: 'user', status: 'active' } as any); }} />
       )}
+    <AIChat />
     </div>
   );
 }
