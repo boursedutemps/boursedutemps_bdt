@@ -189,8 +189,8 @@ export async function POST(req: NextRequest) {
     const decision = detectQueryType(lastMessage, messages);
 
     // 2. Recherches parallèles si nécessaire (page aldea seulement)
-    let webResults = null;
-    let dbResults  = null;
+    let webResults: { answer: any; results: any[] } | null = null;
+    let dbResults:  { services: any[]; members: any[]; requests: any[] } | null = null;
     let contextBlocks = '';
 
     if (mode === 'aldea') {
