@@ -66,7 +66,7 @@ export default function AIChat() {
         country:  user.country,
       } : null;
 
-      const res = await fetch('/api/ai/chat', {
+      const res = await fetch('/api/ai/router', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
