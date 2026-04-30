@@ -1,4 +1,4 @@
-๏ปฟ'use client'
+'use client'
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
@@ -21,17 +21,17 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
 
-  // ร”รถรร”รถร โ”รซtape 1 : envoi OTP ร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถร
+  // ิ๖วิ๖ว +๋tape 1 : envoi OTP ิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖ว
   async function handleSendOtp() {
     setError('')
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase!.auth.signInWithOtp({
         email,
         options: { shouldCreateUser: mode === 'signup' },
       })
       if (error) throw error
-      setInfo(`Un code a โ”ยฎtโ”ยฎ envoyโ”ยฎ โ”รก ${email}`)
+      setInfo(`Un code a +ฎt+ฎ envoy+ฎ +แ ${email}`)
       setStep(mode === 'signup' ? 'signup_name' : 'otp')
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Erreur envoi OTP')
@@ -40,19 +40,19 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
     }
   }
 
-  // ร”รถรร”รถร โ”รซtape 2 (signup) : nom puis affichage champ OTP ร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถร
+  // ิ๖วิ๖ว +๋tape 2 (signup) : nom puis affichage champ OTP ิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖ว
   function handleNameNext() {
     if (!name.trim()) { setError('Veuillez entrer votre nom'); return }
     setError('')
     setStep('otp')
   }
 
-  // ร”รถรร”รถร โ”รซtape finale : vโ”ยฎrification OTP ร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถรร”รถร
+  // ิ๖วิ๖ว +๋tape finale : v+ฎrification OTP ิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖วิ๖ว
   async function handleVerifyOtp() {
     setError('')
     setLoading(true)
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
+      const { data, error } = await supabase!.auth.verifyOtp({
         email,
         token: otp,
         type: 'email',
@@ -63,10 +63,10 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
       const user = data.user
       if (!session || !user) throw new Error('Session introuvable')
 
-      // Si signup ร”รฅร mettre โ”รก jour le profil Supabase avec le nom
+      // Si signup ิๅฦ mettre +แ jour le profil Supabase avec le nom
       if (mode === 'signup' && name) {
-        await supabase.auth.updateUser({ data: { full_name: name } })
-        // Crโ”ยฎer le profil dans notre table users PostgreSQL
+        await supabase!.auth.updateUser({ data: { full_name: name } })
+        // Cr+ฎer le profil dans notre table users PostgreSQL
         await fetch('/api/profil', {
           method: 'POST',
           headers: {
@@ -77,7 +77,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
         })
       }
 
-      // Rโ”ยฎcupโ”ยฎrer le nom depuis notre DB si login
+      // R+ฎcup+ฎrer le nom depuis notre DB si login
       let displayName = name
       if (mode === 'login') {
         const res = await fetch('/api/profil', {
@@ -91,7 +91,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
 
       onSuccess(session.access_token, user.id, displayName, email)
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Code invalide ou expirโ”ยฎ')
+      setError(e instanceof Error ? e.message : 'Code invalide ou expir+ฎ')
     } finally {
       setLoading(false)
     }
@@ -100,10 +100,10 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">ร”ยฃรฒ</button>
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">ิฃ๒</button>
 
         <h2 className="text-2xl font-bold mb-6 text-center">
-          {mode === 'login' ? 'Connexion' : 'Crโ”ยฎer un compte'}
+          {mode === 'login' ? 'Connexion' : 'Cr+ฎer un compte'}
         </h2>
 
         {/* Toggle mode */}
@@ -124,7 +124,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
         {info && <p className="text-green-600 text-sm mb-4 text-center">{info}</p>}
 
-        {/* โ”รซtape : email */}
+        {/* +๋tape : email */}
         {step === 'email' && (
           <div className="space-y-4">
             <input
@@ -140,15 +140,15 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
               disabled={loading || !email}
               className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition"
             >
-              {loading ? 'Envoiร”รยช' : 'Envoyer le code'}
+              {loading ? 'Envoiิวช' : 'Envoyer le code'}
             </button>
           </div>
         )}
 
-        {/* โ”รซtape : nom (signup uniquement) */}
+        {/* +๋tape : nom (signup uniquement) */}
         {step === 'signup_name' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500 text-center">Code envoyโ”ยฎ โ”รก <strong>{email}</strong></p>
+            <p className="text-sm text-gray-500 text-center">Code envoy+ฎ +แ <strong>{email}</strong></p>
             <input
               type="text"
               placeholder="Votre nom complet"
@@ -167,13 +167,13 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
           </div>
         )}
 
-        {/* โ”รซtape : OTP */}
+        {/* +๋tape : OTP */}
         {step === 'otp' && (
           <div className="space-y-4">
-            <p className="text-sm text-gray-500 text-center">Code envoyโ”ยฎ โ”รก <strong>{email}</strong></p>
+            <p className="text-sm text-gray-500 text-center">Code envoy+ฎ +แ <strong>{email}</strong></p>
             <input
               type="text"
-              placeholder="Code โ”รก 6 chiffres"
+              placeholder="Code +แ 6 chiffres"
               value={otp}
               maxLength={6}
               onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
@@ -185,13 +185,13 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
               disabled={loading || otp.length !== 6}
               className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition"
             >
-              {loading ? 'Vโ”ยฎrificationร”รยช' : 'Valider'}
+              {loading ? 'V+ฎrificationิวช' : 'Valider'}
             </button>
             <button
               onClick={() => { setStep('email'); setOtp(''); setInfo('') }}
               className="w-full text-sm text-gray-400 hover:text-gray-600"
             >
-              ร”รฅร Changer d'email
+              ิๅษ Changer d'email
             </button>
           </div>
         )}
