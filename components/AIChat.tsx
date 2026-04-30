@@ -40,7 +40,7 @@ export default function AIChat() {
 
   // Message de bienvenue à l'ouverture
   useEffect(() => {
-    if (isOpen && messages.length === 0) // eslint-disable-line react-hooks/exhaustive-deps {
+    if (isOpen && messages.length === 0) {
       const welcome = user
         ? `Bonjour ${user.firstName} 👋 Je suis ALDÉA, votre assistante de Bourse du Temps. Comment puis-je vous aider ?`
         : "Bonjour 👋 Je suis ALDÉA, votre assistante de Bourse du Temps. Comment puis-je vous aider ?";
