@@ -52,7 +52,7 @@ export default function ModerationRoute() {
 
   return (
     <PageLayout>
-      <Moderation 
+      <Moderation onRefresh={async () => {}} 
         users={users} 
         onUpdateUsers={setUsers} 
         services={services} 
