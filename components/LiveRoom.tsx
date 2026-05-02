@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { LiveKitRoom, VideoConference, ControlBar, RoomAudioRenderer } from '@livekit/components-react';
 import { supabase } from '../lib/supabaseClient';
-import { PhoneOff, X, PenTool, Maximize2, Minimize2 } from 'lucide-react';
+import { PhoneOff, X, PenTool, Maximize2, Minimize2, Share2, Check, Hand, Settings, MessageSquare, Users, Volume2, VolumeX } from 'lucide-react';
 
 interface LiveSession {
   id: number;
@@ -37,6 +37,11 @@ function LiveRoomComponent({
   const [tokenError, setTokenError] = useState<string | null>(null);
   const [showWhiteboard, setShowWhiteboard] = useState(false);
   const [isFullscreen, setIsFullscreen]     = useState(false);
+  const [handRaised, setHandRaised]         = useState(false);
+  const [copied, setCopied]                 = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false);
+  const [showSettings, setShowSettings]     = useState(false);
+  const [isMuted, setIsMuted]               = useState(false);
   const roomContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleFullscreen = () => {
@@ -46,6 +51,29 @@ function LiveRoomComponent({
     } else {
       document.exitFullscreen();
       setIsFullscreen(false);
+    }
+  };
+
+  const handleShare = async () => {
+    const url  = typeof window !== 'undefined' ? window.location.href : '';
+    const text = `Rejoignez le live "${session.title}" sur Bourse du Temps : ${url}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: session.title, text, url });
+      } else {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch {}
+  };
+
+  const handleRaiseHand = () => {
+    setHandRaised(v => !v);
+    // Envoyer un message dans le chat LiveKit si disponible
+    if (!handRaised) {
+      const event = new CustomEvent('livekit-raise-hand', { detail: { userName: localUserName } });
+      window.dispatchEvent(event);
     }
   };
 
@@ -116,27 +144,82 @@ function LiveRoomComponent({
     <div ref={roomContainerRef} className="flex flex-col h-full bg-slate-950 rounded-[2rem] overflow-hidden border border-slate-800 shadow-2xl">
 
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-3 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 flex-shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 flex-shrink-0 flex-wrap gap-2">
+        {/* Titre */}
         <div className="flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-lg shadow-red-500/50" />
           <span className="text-white text-sm font-bold tracking-wide">{session.title}</span>
           <span className="text-slate-400 text-[10px] uppercase tracking-widest bg-slate-800 px-2 py-0.5 rounded-md font-semibold">{session.type}</span>
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Outils */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+
+          {/* Lever la main */}
+          <button
+            onClick={handleRaiseHand}
+            title={handRaised ? 'Baisser la main' : 'Lever la main'}
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${
+              handRaised ? 'bg-yellow-500 text-white animate-pulse' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+            }`}
+          >
+            <Hand size={12} /> {handRaised ? '✋ Main levée' : 'Lever la main'}
+          </button>
+
+          {/* Tableau blanc */}
           <button
             onClick={() => setShowWhiteboard(!showWhiteboard)}
-            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${showWhiteboard ? 'bg-blue-600 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'}`}
+            title="Tableau blanc collaboratif"
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${
+              showWhiteboard ? 'bg-blue-600 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+            }`}
           >
             <PenTool size={12} /> Tableau
           </button>
+
+          {/* Participants */}
+          <button
+            onClick={() => setShowParticipants(!showParticipants)}
+            title="Participants"
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${
+              showParticipants ? 'bg-blue-600 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+            }`}
+          >
+            <Users size={12} /> Participants
+          </button>
+
+          {/* Partager */}
+          <button
+            onClick={handleShare}
+            title="Partager le lien"
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-xl transition"
+          >
+            {copied ? <Check size={12} className="text-green-400" /> : <Share2 size={12} />}
+            {copied ? 'Copié !' : 'Partager'}
+          </button>
+
+          {/* Plein écran */}
           <button
             onClick={toggleFullscreen}
-            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-xl transition"
             title={isFullscreen ? 'Quitter le plein écran' : 'Plein écran'}
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-xl transition"
           >
             {isFullscreen ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
             {isFullscreen ? 'Réduire' : 'Plein écran'}
           </button>
+
+          {/* Paramètres */}
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            title="Paramètres"
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl transition ${
+              showSettings ? 'bg-slate-600 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+            }`}
+          >
+            <Settings size={12} />
+          </button>
+
+          {/* Terminer / Quitter */}
           {isHost ? (
             <button onClick={() => onEndRef.current()} className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-xl font-semibold transition">
               <PhoneOff size={12} /> Terminer
@@ -148,6 +231,34 @@ function LiveRoomComponent({
           )}
         </div>
       </div>
+
+      {/* Panneau paramètres */}
+      {showSettings && (
+        <div className="flex-shrink-0 bg-slate-900 border-b border-slate-800 px-6 py-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-white text-sm font-bold flex items-center gap-2"><Settings size={14} /> Paramètres audio/vidéo</span>
+            <button onClick={() => setShowSettings(false)} className="text-slate-400 hover:text-white"><X size={16} /></button>
+          </div>
+          <div className="grid grid-cols-2 gap-3 text-xs text-slate-300">
+            <div className="bg-slate-800 rounded-xl p-3">
+              <p className="font-semibold mb-1 text-white">Serveur LiveKit</p>
+              <p className="text-slate-400 truncate">{process.env.NEXT_PUBLIC_LIVEKIT_URL || 'configuré'}</p>
+            </div>
+            <div className="bg-slate-800 rounded-xl p-3">
+              <p className="font-semibold mb-1 text-white">Salle</p>
+              <p className="text-slate-400 truncate">{session.roomName}</p>
+            </div>
+            <div className="bg-slate-800 rounded-xl p-3">
+              <p className="font-semibold mb-1 text-white">Identité</p>
+              <p className="text-slate-400">{localUserName}</p>
+            </div>
+            <div className="bg-slate-800 rounded-xl p-3">
+              <p className="font-semibold mb-1 text-white">Rôle</p>
+              <p className="text-slate-400">{isHost ? '🎙 Hôte' : '👤 Participant'}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Zone vidéo */}
       <div className="flex-1 relative overflow-hidden">
