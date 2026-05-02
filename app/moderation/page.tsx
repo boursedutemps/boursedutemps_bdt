@@ -1,40 +1,44 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageLayout from '@/components/PageLayout';
 import Moderation from '@/components/pages-old/Moderation';
 import { User, Service, Request } from '@/types';
+import { onSnapshot, collection, db, query, orderBy } from '@/api';
 import { useUser } from '@/components/UserProvider';
-import { supabase } from '@/lib/supabaseClient';
-
-async function getToken(): Promise<string> {
-  return supabase
-    ? ((await supabase.auth.getSession()).data.session?.access_token ?? '')
-    : '';
-}
+import { useRouter } from 'next/navigation';
 
 export default function ModerationRoute() {
   const { user } = useUser();
-  const [users, setUsers]       = useState<User[]>([]);
+  const router = useRouter();
+  const [users, setUsers] = useState<User[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [requests, setRequests] = useState<Request[]>([]);
 
-  const fetchAll = useCallback(async () => {
-    if (!user || (user.role !== 'admin' && user.role !== 'moderator')) return;
-    const token = await getToken();
-    const h = { Authorization: `Bearer ${token}` };
-    Promise.all([
-      fetch('/api/users',    { headers: h }).then(r => r.ok ? r.json() : []),
-      fetch('/api/services', { headers: h }).then(r => r.ok ? r.json() : []),
-      fetch('/api/requests', { headers: h }).then(r => r.ok ? r.json() : []),
-    ]).then(([u, s, r]) => {
-      setUsers(Array.isArray(u) ? u : []);
-      setServices(Array.isArray(s) ? s : []);
-      setRequests(Array.isArray(r) ? r : []);
-    }).catch(() => {});
-  }, [user]);
+  useEffect(() => {
+    if (!user || (user.role !== 'admin' && user.role !== 'moderator')) {
+      // router.push('/'); // Redirect if not authorized
+      return;
+    }
 
-  useEffect(() => { fetchAll(); }, [fetchAll]);
+    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+      setUsers(snapshot.docs.map(doc => doc.data() as User));
+    });
+
+    const unsubServices = onSnapshot(query(collection(db, 'services'), orderBy('createdAt', 'desc')), (snapshot) => {
+      setServices(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Service)));
+    });
+
+    const unsubRequests = onSnapshot(query(collection(db, 'requests'), orderBy('createdAt', 'desc')), (snapshot) => {
+      setRequests(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Request)));
+    });
+
+    return () => {
+      unsubUsers();
+      unsubServices();
+      unsubRequests();
+    };
+  }, [user]);
 
   if (!user || (user.role !== 'admin' && user.role !== 'moderator')) {
     return (
@@ -48,15 +52,14 @@ export default function ModerationRoute() {
 
   return (
     <PageLayout>
-      <Moderation
-        users={users}
-        onUpdateUsers={setUsers}
-        services={services}
-        onUpdateServices={setServices}
-        requests={requests}
-        onUpdateRequests={setRequests}
-        currentUser={user}
-        onRefresh={fetchAll}
+      <Moderation 
+        users={users} 
+        onUpdateUsers={setUsers} 
+        services={services} 
+        onUpdateServices={setServices} 
+        requests={requests} 
+        onUpdateRequests={setRequests} 
+        currentUser={user} 
       />
     </PageLayout>
   );

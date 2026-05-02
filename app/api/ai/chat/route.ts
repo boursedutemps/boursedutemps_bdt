@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_API_KEY = process.env.GROQ_API_KEY!;
 
-const SYSTEM_PROMPT = `Tu es ALDÉA, l'assistante IA officielle de Bourse du Temps, une plateforme d'échange de services et de compétences de l'Université Senghor.
+const SYSTEM_PROMPT = `Tu es l'assistant IA officiel de Bourse du Temps, une plateforme d'échange de services et de compétences de l'Université Senghor.
 
 CONTEXTE DU SITE :
 - Les membres échangent leurs talents contre des crédits-temps
