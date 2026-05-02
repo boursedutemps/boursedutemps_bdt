@@ -3,20 +3,20 @@ import Anthropic from '@anthropic-ai/sdk';
 import { query } from '@/lib/db';
 
 // ── Clients ───────────────────────────────────────────────────────────────────
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
-const GROQ_URL  = 'https://api.groq.com/openai/v1/chat/completions';
+const anthropic  = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
+const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
 const TAVILY_KEY = process.env.TAVILY_API_KEY!;
 
-// ── Système prompt ALDÉA ─────────────────────────────────────────────────────
+// ── Système prompt ALDÉA ──────────────────────────────────────────────────────
 const BASE_SYSTEM = `Tu es ALDÉA, l'assistante IA officielle de Bourse du Temps (Université Senghor).
 Plateforme d'échange de services : 1h = 1 crédit. Nouveau membre : 10 crédits.
 Pages : Accueil, Services, Demandes, Membres, Forum, Blog, Témoignages, Profil.
 Stack : Next.js 14, Supabase, PostgreSQL, Cloudinary, LiveKit.
 Règles : réponses claires et directes, ne jamais inventer de données, adapter la langue à l'utilisateur.`;
 
-// ── Types de requêtes ─────────────────────────────────────────────────────────
-type AIProvider = 'groq' | 'claude' | 'openai';
+// ── Types ─────────────────────────────────────────────────────────────────────
+type AIProvider = 'groq' | 'claude' | 'openai' | 'gemini' | 'kimi' | 'perplexity';
 
 interface RoutingDecision {
   provider: AIProvider;
@@ -24,56 +24,63 @@ interface RoutingDecision {
   reason:   string;
   needsWeb: boolean;
   needsDb:  boolean;
+  isComplex: boolean; // signal pour redirection page recherche
 }
 
-// ── Détection automatique du type de requête ──────────────────────────────────
+// ── Détection automatique ─────────────────────────────────────────────────────
 function detectQueryType(message: string, history: any[]): RoutingDecision {
   const msg     = message.toLowerCase().trim();
   const words   = msg.split(/\s+/).length;
-  const isShort = words < 20;
 
-  // Mots-clés par catégorie
-  const complexKw  = ['analyse','analyser','expliquer','pourquoi','comment ça fonctionne',
+  const complexKw    = ['analyse','analyser','expliquer','pourquoi','comment ça fonctionne',
     'optimiser','déboguer','erreur','bug','sql','requête','code','architecture',
-    'rapport','comparer','stratégie','recommande','aide-moi à','plan'];
+    'rapport','comparer','stratégie','recommande','aide-moi à','plan','raisonne',
+    'pros et cons','avantages et inconvénients','refactor','éthique','philosophi'];
 
-  const creativeKw = ['rédige','écris','génère','crée','propose','idée','améliore',
+  const creativeKw   = ['rédige','écris','génère','crée','propose','idée','améliore',
     'reformule','traduis','résume','présentation','pitch','contenu','marketing',
-    'description de service','biographie'];
+    'description de service','biographie','slogan','poème'];
 
-  const simpleKw   = ['bonjour','salut','merci','comment','où','quand','c\'est quoi',
+  const webKw        = ['actualité','news','aujourd\'hui','récent','prix','météo',
+    'résultat','qui est','recherche','trouve','information sur','2024','2025','2026',
+    'maintenant','internet','dernières'];
+
+  const dbKw         = ['membre','propose','offre','disponible','compétence','cherche un',
+    'trouver quelqu\'un','qui peut','service disponible'];
+
+  const imageKw      = ['image','photo','vidéo','regarde','vois','analyse cette','décri'];
+
+  const simpleKw     = ['bonjour','salut','merci','comment','où','quand','c\'est quoi',
     'combien','crédit','inscription','connexion','profil','service','demande',
     'menu','page','cliquer','naviguer','aide'];
 
-  const webKw      = ['actualité','news','aujourd\'hui','récent','prix','météo',
-    'résultat','qui est','recherche','trouve','information sur'];
-
-  const dbKw       = ['membre','propose','offre','disponible','compétence','cherche un',
-    'trouver quelqu\'un','qui peut','service disponible'];
-
-  const needsWeb = webKw.some(k => msg.includes(k));
-  const needsDb  = dbKw.some(k => msg.includes(k));
-
-  // Historique long → contexte complexe
+  const needsWeb  = webKw.some(k => msg.includes(k));
+  const needsDb   = dbKw.some(k => msg.includes(k));
   const longHistory = history.length > 6;
+  const isComplex = words > 40 || complexKw.some(k => msg.includes(k)) || longHistory;
 
-  if (complexKw.some(k => msg.includes(k)) || longHistory) {
-    return { provider: 'claude', model: 'claude-haiku-4-5-20251001', reason: 'Requête complexe/analyse', needsWeb, needsDb };
-  }
+  // Perplexity : recherche web temps réel
+  if (needsWeb && !needsDb)
+    return { provider: 'perplexity', model: 'perplexity/llama-3.1-sonar-small-128k-online', reason: 'Recherche web temps réel', needsWeb, needsDb, isComplex: true };
 
-  if (creativeKw.some(k => msg.includes(k))) {
-    return { provider: 'openai', model: 'gpt-4o-mini', reason: 'Requête créative', needsWeb, needsDb };
-  }
+  // Gemini : multimodal
+  if (imageKw.some(k => msg.includes(k)))
+    return { provider: 'gemini', model: 'gemini-1.5-flash', reason: 'Requête multimodale', needsWeb, needsDb, isComplex };
 
-  if (isShort && simpleKw.some(k => msg.includes(k))) {
-    return { provider: 'groq', model: 'llama-3.1-8b-instant', reason: 'Requête simple/FAQ', needsWeb, needsDb };
-  }
+  // Claude : analyse complexe
+  if (complexKw.some(k => msg.includes(k)) || (words > 40 && !needsWeb))
+    return { provider: 'claude', model: 'claude-haiku-4-5-20251001', reason: 'Requête complexe/analyse', needsWeb, needsDb, isComplex: true };
 
-  // Par défaut : Groq pour les requêtes courtes, Claude pour les longues
-  if (words < 40) {
-    return { provider: 'groq', model: 'llama-3.3-70b-versatile', reason: 'Requête modérée', needsWeb, needsDb };
-  }
-  return { provider: 'claude', model: 'claude-haiku-4-5-20251001', reason: 'Requête longue', needsWeb, needsDb };
+  // OpenAI : créatif
+  if (creativeKw.some(k => msg.includes(k)))
+    return { provider: 'openai', model: 'gpt-4o-mini', reason: 'Requête créative', needsWeb, needsDb, isComplex };
+
+  // Kimi : longues conversations
+  if (longHistory)
+    return { provider: 'kimi', model: 'moonshot-v1-8k', reason: 'Contexte long', needsWeb, needsDb, isComplex };
+
+  // Groq : tout le reste (rapide, gratuit)
+  return { provider: 'groq', model: words < 20 ? 'llama-3.1-8b-instant' : 'llama-3.3-70b-versatile', reason: 'Requête simple/FAQ', needsWeb, needsDb, isComplex: false };
 }
 
 // ── Recherche web Tavily ──────────────────────────────────────────────────────
@@ -103,7 +110,7 @@ async function searchDatabase(q: string) {
   } catch { return null; }
 }
 
-// ── Sauvegarde mémoire Supabase ────────────────────────────────────────────────
+// ── Mémoire ───────────────────────────────────────────────────────────────────
 async function saveMemory(userId: string | null, role: string, content: string) {
   if (!userId) return;
   try {
@@ -111,65 +118,104 @@ async function saveMemory(userId: string | null, role: string, content: string) 
       `INSERT INTO ai_memory (user_id, role, content, created_at) VALUES ($1, $2, $3, NOW())`,
       [userId, role, content.slice(0, 2000)]
     );
-  } catch { /* table peut ne pas exister encore */ }
+  } catch {}
 }
 
-// ── Appel Groq ────────────────────────────────────────────────────────────────
+// ── Appels providers ──────────────────────────────────────────────────────────
 async function callGroq(model: string, system: string, messages: any[]) {
   const res = await fetch(GROQ_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.GROQ_API_KEY}` },
     body: JSON.stringify({ model, messages: [{ role: 'system', content: system }, ...messages], max_tokens: 1024, temperature: 0.6 }),
   });
-  if (!res.ok) throw new Error(`Groq error: ${res.status}`);
+  if (!res.ok) throw new Error(`Groq ${res.status}`);
   const data = await res.json();
   return data.choices?.[0]?.message?.content || '';
 }
 
-// ── Appel Claude ──────────────────────────────────────────────────────────────
 async function callClaude(model: string, system: string, messages: any[]) {
   const response = await anthropic.messages.create({
-    model,
-    max_tokens: 2048,
-    system,
+    model, max_tokens: 2048, system,
     messages: messages.map((m: any) => ({ role: m.role, content: m.content })),
   });
   return response.content[0].type === 'text' ? response.content[0].text : '';
 }
 
-// ── Appel OpenAI ──────────────────────────────────────────────────────────────
 async function callOpenAI(model: string, system: string, messages: any[]) {
   const res = await fetch(OPENAI_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
     body: JSON.stringify({ model, messages: [{ role: 'system', content: system }, ...messages], max_tokens: 1024, temperature: 0.8 }),
   });
-  if (!res.ok) throw new Error(`OpenAI error: ${res.status}`);
+  if (!res.ok) throw new Error(`OpenAI ${res.status}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callGemini(system: string, messages: any[]) {
+  const lastUser = [...messages].reverse().find((m: any) => m.role === 'user')?.content || '';
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: `${system}\n\n${lastUser}` }] }] }),
+    }
+  );
+  if (!res.ok) throw new Error(`Gemini ${res.status}`);
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function callKimi(system: string, messages: any[]) {
+  const res = await fetch('https://api.moonshot.cn/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.KIMI_API_KEY}` },
+    body: JSON.stringify({ model: 'moonshot-v1-8k', messages: [{ role: 'system', content: system }, ...messages], max_tokens: 1024, temperature: 0.6 }),
+  });
+  if (!res.ok) throw new Error(`Kimi ${res.status}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callPerplexity(system: string, messages: any[]) {
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://boursedutemps.vercel.app',
+    },
+    body: JSON.stringify({
+      model: 'perplexity/llama-3.1-sonar-small-128k-online',
+      messages: [{ role: 'system', content: system }, ...messages],
+      max_tokens: 1024,
+    }),
+  });
+  if (!res.ok) throw new Error(`Perplexity ${res.status}`);
   const data = await res.json();
   return data.choices?.[0]?.message?.content || '';
 }
 
 // ── Fallback en cascade ───────────────────────────────────────────────────────
 async function callWithFallback(decision: RoutingDecision, system: string, messages: any[]): Promise<{ reply: string; usedProvider: AIProvider }> {
-  const order: AIProvider[] = decision.provider === 'groq'
-    ? ['groq', 'claude', 'openai']
-    : decision.provider === 'claude'
-    ? ['claude', 'groq', 'openai']
-    : ['openai', 'claude', 'groq'];
+  const chain: AIProvider[] = [
+    decision.provider,
+    'groq', 'claude', 'openai',
+  ].filter((v, i, a) => a.indexOf(v) === i) as AIProvider[];
 
-  for (const provider of order) {
+  for (const provider of chain) {
     try {
       let reply = '';
-      if (provider === 'groq')
-        reply = await callGroq(decision.provider === 'groq' ? decision.model : 'llama-3.3-70b-versatile', system, messages);
-      else if (provider === 'claude')
-        reply = await callClaude(decision.provider === 'claude' ? decision.model : 'claude-haiku-4-5-20251001', system, messages);
-      else
-        reply = await callOpenAI(decision.provider === 'openai' ? decision.model : 'gpt-4o-mini', system, messages);
-
+      if (provider === 'groq')       reply = await callGroq(decision.provider === 'groq' ? decision.model : 'llama-3.3-70b-versatile', system, messages);
+      if (provider === 'claude')     reply = await callClaude(decision.provider === 'claude' ? decision.model : 'claude-haiku-4-5-20251001', system, messages);
+      if (provider === 'openai')     reply = await callOpenAI(decision.provider === 'openai' ? decision.model : 'gpt-4o-mini', system, messages);
+      if (provider === 'gemini')     reply = await callGemini(system, messages);
+      if (provider === 'kimi')       reply = await callKimi(system, messages);
+      if (provider === 'perplexity') reply = await callPerplexity(system, messages);
       if (reply) return { reply, usedProvider: provider };
     } catch (e) {
-      console.warn(`${provider} failed, trying next...`, e);
+      console.warn(`[router] ${provider} failed:`, e);
     }
   }
   return { reply: 'Désolé, tous les services IA sont temporairement indisponibles.', usedProvider: 'groq' };
@@ -184,16 +230,14 @@ export async function POST(req: NextRequest) {
 
     const lastMessage    = messages[messages.length - 1]?.content || '';
     const recentMessages = messages.slice(-12);
+    const decision       = detectQueryType(lastMessage, messages);
 
-    // 1. Détection automatique
-    const decision = detectQueryType(lastMessage, messages);
+    // Recherches parallèles
+    let webResults: any = null;
+    let dbResults:  any = null;
+    let contextBlocks   = '';
 
-    // 2. Recherches parallèles si nécessaire (page aldea seulement)
-    let webResults: { answer: any; results: any[] } | null = null;
-    let dbResults:  { services: any[]; members: any[]; requests: any[] } | null = null;
-    let contextBlocks = '';
-
-    if (mode === 'aldea') {
+    if (mode === 'aldea' || mode === 'search') {
       [webResults, dbResults] = await Promise.all([
         decision.needsWeb ? searchWeb(lastMessage) : Promise.resolve(null),
         decision.needsDb  ? searchDatabase(lastMessage) : Promise.resolve(null),
@@ -212,16 +256,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3. Système prompt enrichi
     const userInfo = userContext ? `\nUtilisateur: ${JSON.stringify(userContext)}` : '';
     const system   = contextBlocks
       ? `${BASE_SYSTEM}${userInfo}\n\n${contextBlocks}\nUtilise ces données dans ta réponse.`
       : `${BASE_SYSTEM}${userInfo}`;
 
-    // 4. Appel IA avec fallback
     const { reply, usedProvider } = await callWithFallback(decision, system, recentMessages);
 
-    // 5. Sauvegarde mémoire
     if (userContext?.uid) {
       await saveMemory(userContext.uid, 'user',      lastMessage);
       await saveMemory(userContext.uid, 'assistant', reply);
@@ -233,6 +274,7 @@ export async function POST(req: NextRequest) {
         provider:    usedProvider,
         model:       decision.model,
         reason:      decision.reason,
+        isComplex:   decision.isComplex,
         searchedWeb: !!webResults,
         searchedDb:  !!dbResults,
       },

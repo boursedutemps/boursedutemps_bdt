@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, Loader2, Minimize2 } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Loader2, Minimize2, ExternalLink } from 'lucide-react';
 import { useUser } from './UserProvider';
+import { useRouter } from 'next/navigation';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  isComplex?: boolean;
 }
 
 const SUGGESTIONS = [
@@ -16,14 +18,19 @@ const SUGGESTIONS = [
   "Comment créer un compte ?",
 ];
 
+// Seuil : si la requête est détectée complexe par le router, on propose la redirection
+const COMPLEX_REDIRECT_MSG = `Cette question mérite une analyse approfondie 🔍\n\nJe peux vous répondre ici, mais la **page Recherche IA** vous donnera une réponse plus complète avec accès au web et aux modèles avancés.`;
+
 export default function AIChat() {
-  const { user } = useUser();
-  const [isOpen, setIsOpen]         = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages]     = useState<Message[]>([]);
-  const [input, setInput]           = useState('');
-  const [loading, setLoading]       = useState(false);
-  const [unread, setUnread]         = useState(0);
+  const { user }  = useUser();
+  const router    = useRouter();
+  const [isOpen, setIsOpen]             = useState(false);
+  const [isMinimized, setIsMinimized]   = useState(false);
+  const [messages, setMessages]         = useState<Message[]>([]);
+  const [input, setInput]               = useState('');
+  const [loading, setLoading]           = useState(false);
+  const [unread, setUnread]             = useState(0);
+  const [pendingComplex, setPendingComplex] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +45,6 @@ export default function AIChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Message de bienvenue à l'ouverture
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       const welcome = user
@@ -48,6 +54,11 @@ export default function AIChat() {
     }
   }, [isOpen, user]);
 
+  const redirectToSearch = (query: string) => {
+    setIsOpen(false);
+    router.push(`/recherche?q=${encodeURIComponent(query)}`);
+  };
+
   const sendMessage = async (text?: string) => {
     const content = (text || input).trim();
     if (!content || loading) return;
@@ -56,14 +67,15 @@ export default function AIChat() {
     setMessages(newMessages);
     setInput('');
     setLoading(true);
+    setPendingComplex(null);
 
     try {
       const userContext = user ? {
-        name:     `${user.firstName} ${user.lastName}`,
-        email:    user.email,
-        credits:  user.credits,
-        role:     user.role,
-        country:  user.country,
+        name:    `${user.firstName} ${user.lastName}`,
+        email:   user.email,
+        credits: user.credits,
+        role:    user.role,
+        country: user.country,
       } : null;
 
       const res = await fetch('/api/ai/router', {
@@ -72,17 +84,32 @@ export default function AIChat() {
         body: JSON.stringify({
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
           userContext,
+          mode: 'chat',
         }),
       });
 
       const data = await res.json();
-      const reply = data.reply || 'Désolé, une erreur est survenue.';
+      const isComplex = data.meta?.isComplex === true;
+      const reply     = data.reply || 'Désolé, une erreur est survenue.';
 
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      if (isComplex) {
+        // Affiche la réponse + bouton redirection
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: reply,
+          isComplex: true,
+        }]);
+        setPendingComplex(content);
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      }
 
       if (!isOpen) setUnread(u => u + 1);
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Désolé, je suis temporairement indisponible. Réessayez dans un moment.' }]);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Désolé, je suis temporairement indisponible. Réessayez dans un moment.',
+      }]);
     } finally {
       setLoading(false);
     }
@@ -113,7 +140,8 @@ export default function AIChat() {
 
       {/* Fenêtre de chat */}
       {isOpen && !isMinimized && (
-        <div className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden"
+        <div
+          className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden"
           style={{ height: '520px' }}
         >
           {/* Header */}
@@ -131,6 +159,14 @@ export default function AIChat() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              {/* Lien vers page recherche */}
+              <button
+                onClick={() => router.push('/recherche')}
+                className="p-1.5 hover:bg-white/20 rounded-lg transition"
+                title="Ouvrir la page Recherche IA"
+              >
+                <ExternalLink size={14} />
+              </button>
               <button onClick={() => setIsMinimized(true)} className="p-1.5 hover:bg-white/20 rounded-lg transition">
                 <Minimize2 size={14} />
               </button>
@@ -143,19 +179,35 @@ export default function AIChat() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-hide">
             {messages.map((msg, i) => (
-              <div key={i} className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-blue-600'
-                }`}>
-                  {msg.role === 'user' ? <User size={13} /> : <Bot size={13} />}
+              <div key={i}>
+                <div className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-blue-600'
+                  }`}>
+                    {msg.role === 'user' ? <User size={13} /> : <Bot size={13} />}
+                  </div>
+                  <div className={`max-w-[78%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    msg.role === 'user'
+                      ? 'bg-blue-600 text-white rounded-tr-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm'
+                  }`}>
+                    {msg.content}
+                  </div>
                 </div>
-                <div className={`max-w-[78%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === 'user'
-                    ? 'bg-blue-600 text-white rounded-tr-sm'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-sm'
-                }`}>
-                  {msg.content}
-                </div>
+
+                {/* Bouton redirection si question complexe */}
+                {msg.isComplex && pendingComplex && i === messages.length - 1 && (
+                  <div className="mt-2 ml-10 flex flex-col gap-1.5">
+                    <p className="text-[11px] text-slate-400">Voulez-vous une réponse plus approfondie ?</p>
+                    <button
+                      onClick={() => redirectToSearch(pendingComplex)}
+                      className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-2 rounded-xl hover:opacity-90 transition w-fit"
+                    >
+                      <ExternalLink size={12} />
+                      Ouvrir dans Recherche IA
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -174,7 +226,7 @@ export default function AIChat() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Suggestions (seulement au début) */}
+          {/* Suggestions */}
           {messages.length <= 1 && (
             <div className="px-4 pb-2 flex flex-wrap gap-2 flex-shrink-0">
               {SUGGESTIONS.map((s, i) => (
