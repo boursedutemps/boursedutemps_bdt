@@ -1,12 +1,20 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { User, ForumTopic, MediaItem } from '../types';
 import RichTextEditor from './RichTextEditor';
 import { uploadToCloudinary } from '../lib/useCloudinaryUpload';
 import { supabase } from '../lib/supabaseClient';
-import { Edit2, Trash2, MessageCircle, Heart, Share2 } from 'lucide-react';
+import { Edit2, Trash2, MessageCircle, Heart, Share2, Radio, X, Mic, MicOff, Video, VideoOff, PhoneOff } from 'lucide-react';
+import {
+  LiveKitRoom,
+  VideoConference,
+  useLocalParticipant,
+  RoomAudioRenderer,
+  ControlBar,
+} from '@livekit/components-react';
+import '@livekit/components-styles';
 
 interface ForumProps {
   user: User | null;
@@ -27,6 +35,13 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
   const [commentText, setCommentText] = useState('');
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // ── LiveKit state ──────────────────────────────────────────────────────────
+  const [liveToken, setLiveToken]       = useState<string | null>(null);
+  const [liveRoomName, setLiveRoomName] = useState<string | null>(null);
+  const [liveError, setLiveError]       = useState('');
+  const [liveLoading, setLiveLoading]   = useState(false);
+  const LIVEKIT_URL = process.env.NEXT_PUBLIC_LIVEKIT_URL ?? '';
 
   // ── Auth : token Supabase (remplace localStorage) ─────────────────────────
   const getHeaders = async (): Promise<HeadersInit> => {
@@ -176,19 +191,94 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
     setActiveCommentPost(null);
   };
 
+  // ── LiveKit : rejoindre / créer une salle ─────────────────────────────────
+  const handleJoinLive = useCallback(async () => {
+    if (!user) { alert('Connectez-vous pour accéder au live'); return; }
+    setLiveError('');
+    setLiveLoading(true);
+    try {
+      const token = supabase
+        ? (await supabase.auth.getSession()).data.session?.access_token ?? ''
+        : '';
+      const roomName = 'forum-live';
+      const res = await fetch(`/api/livekit-token?room=${roomName}&username=${encodeURIComponent(`${user.firstName} ${user.lastName}`)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error('Impossible de rejoindre le live.');
+      const { token: livekitToken } = await res.json();
+      setLiveRoomName(roomName);
+      setLiveToken(livekitToken);
+    } catch (e: unknown) {
+      setLiveError(e instanceof Error ? e.message : 'Erreur live');
+    } finally {
+      setLiveLoading(false);
+    }
+  }, [user]);
+
+  const handleLeaveLive = useCallback(() => {
+    setLiveToken(null);
+    setLiveRoomName(null);
+    setLiveError('');
+  }, []);
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
+
+      {/* ── LiveKit overlay ──────────────────────────────────────────────── */}
+      {liveToken && liveRoomName && (
+        <div className="fixed inset-0 z-50 bg-black flex flex-col">
+          <div className="flex items-center justify-between px-6 py-3 bg-black/80 border-b border-white/10">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-white text-sm font-bold tracking-wide">LIVE — Forum des échanges</span>
+            </div>
+            <button
+              onClick={handleLeaveLive}
+              className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition"
+            >
+              <PhoneOff size={14} /> Quitter
+            </button>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <LiveKitRoom
+              video={true}
+              audio={true}
+              token={liveToken}
+              serverUrl={LIVEKIT_URL}
+              onDisconnected={handleLeaveLive}
+              data-lk-theme="default"
+              style={{ height: '100%' }}
+            >
+              <VideoConference />
+              <RoomAudioRenderer />
+            </LiveKitRoom>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between items-center mb-10">
         <h1 className="font-heading text-4xl font-bold text-slate-900">Forum des échanges</h1>
-        <button
-          onClick={() => {
-            if (!user) return alert('Connectez-vous pour participer');
-            setEditingPost(null); setNewTitle(''); setNewMsg(''); setMediaData(null); setExternalLink(''); setShowAdd(true);
-          }}
-          className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition"
-        >
-          Nouveau Sujet
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Bouton Live */}
+          <button
+            onClick={handleJoinLive}
+            disabled={liveLoading}
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white px-5 py-3 rounded-xl font-bold transition"
+          >
+            <Radio size={16} className={liveLoading ? '' : 'animate-pulse'} />
+            {liveLoading ? 'Connexion...' : 'Live'}
+          </button>
+          {liveError && <span className="text-xs text-red-500">{liveError}</span>}
+          <button
+            onClick={() => {
+              if (!user) return alert('Connectez-vous pour participer');
+              setEditingPost(null); setNewTitle(''); setNewMsg(''); setMediaData(null); setExternalLink(''); setShowAdd(true);
+            }}
+            className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition"
+          >
+            Nouveau Sujet
+          </button>
+        </div>
       </div>
 
       {showAdd && (
