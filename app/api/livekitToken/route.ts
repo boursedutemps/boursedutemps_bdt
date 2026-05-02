@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { query } from '@/db';
+import { query } from '@/lib/db';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { createClient } from '@supabase/supabase-js';
 
@@ -22,7 +22,7 @@ async function getUidFromRequest(req: Request): Promise<string | null> {
     const { data: { user }, error } = await admin.auth.getUser(token);
     if (error || !user) return null;
     // Find user in our DB by email
-    const { query } = await import('@/db');
+    const { query } = await import('@/lib/db');
     const result = await query('SELECT uid FROM users WHERE email = $1', [user.email]);
     return result.rows[0]?.uid || null;
   } catch { return null; }
