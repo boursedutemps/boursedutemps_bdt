@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     
 
     // 3. Notification a l admin
-    await sendContactEmail({ name, email, subject: subject || '', message });
+    await sendContactEmail({ fullName: name, email, subject: subject || '', message });
 
     return NextResponse.json({ success: true, message: 'Message envoyé avec succès.' });
   } catch (e: any) {
