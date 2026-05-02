@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
-import { sendContactConfirmationEmail, sendContactNotificationEmail } from '@/lib/email';
+import { sendContactEmail } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
@@ -19,10 +19,10 @@ export async function POST(req: Request) {
     );
 
     // 2. Accuse de reception a l expediteur
-    await sendContactConfirmationEmail(name, email, subject || 'Votre message');
+    
 
     // 3. Notification a l admin
-    await sendContactNotificationEmail(name, email, whatsapp || '', organization || '', subject || '', message);
+    await sendContactEmail({ name, email, subject: subject || '', message });
 
     return NextResponse.json({ success: true, message: 'Message envoyé avec succès.' });
   } catch (e: any) {
