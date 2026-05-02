@@ -1,4 +1,3 @@
-@'
 import { NextRequest, NextResponse } from 'next/server';
 import { AccessToken } from 'livekit-server-sdk';
 
@@ -10,7 +9,7 @@ export async function POST(req: NextRequest) {
   const apiKey    = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
   if (!apiKey || !apiSecret)
-    return NextResponse.json({ error: 'LiveKit non configuré' }, { status: 500 });
+    return NextResponse.json({ error: 'LiveKit non configure' }, { status: 500 });
 
   const at = new AccessToken(apiKey, apiSecret, { identity: userName, ttl: '2h' });
   at.addGrant({
@@ -23,4 +22,3 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ token: await at.toJwt() });
 }
-'@ | Set-Content app\api\livekitToken\route.ts
