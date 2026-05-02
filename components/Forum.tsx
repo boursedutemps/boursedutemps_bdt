@@ -201,7 +201,7 @@ const Forum: React.FC<ForumProps> = ({ user, topics: initialTopics, onAdd }) => 
         ? (await supabase.auth.getSession()).data.session?.access_token ?? ''
         : '';
       const roomName = 'forum-live';
-      const res = await fetch(`/api/livekit-token?room=${roomName}&username=${encodeURIComponent(`${user.firstName} ${user.lastName}`)}`, {
+      const res = await fetch(`/api/livekitToken?room=${roomName}&username=${encodeURIComponent(`${user.firstName} ${user.lastName}`)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Impossible de rejoindre le live.');
