@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { query } from '@/lib/db';
 
-// Parse un champ qui peut être un array PG, une string JSON, ou null
 function toArray(val: any): any[] {
   if (Array.isArray(val)) return val;
   if (typeof val === 'string') {
@@ -11,41 +10,67 @@ function toArray(val: any): any[] {
   return [];
 }
 
+/* ─── POST : créer ou retrouver un profil ──────────────────────────────────── */
 export async function POST(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
   if (!supabaseUid)
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
 
   const data = await req.json();
-  const { email, firstName, lastName, department, gender, country, whatsapp,
-    offeredSkills, requestedSkills, availability, languages, avatar } = data;
+  const {
+    email, firstName, lastName, gender, country, whatsapp, availability,
+    // champs multiples avec aliases (AuthModal vs ancien format)
+    department,   domains,
+    offeredSkills,   skillsOffered,
+    requestedSkills, skillsSought,
+    languages,
+    avatar,      photoUrl,     // alias photo
+  } = data;
 
   if (!email || !firstName || !lastName)
     return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 });
 
+  // Normalisation des aliases
+  const avatarFinal    = avatar || photoUrl || '';
+  const offeredFinal   = offeredSkills  || skillsOffered  || [];
+  const requestedFinal = requestedSkills || skillsSought  || [];
+  const deptFinal      = department || (Array.isArray(domains) && domains.length ? domains[0] : 'Management');
+
   try {
     const existing = await query('SELECT * FROM users WHERE email = $1', [email]);
 
+    // Utilisateur existant → mettre à jour l'uid et la photo si fournie
     if ((existing.rowCount ?? 0) > 0) {
-      await query('UPDATE users SET uid = $1 WHERE email = $2', [supabaseUid, email]);
+      await query(
+        `UPDATE users SET uid = $1 ${avatarFinal ? ', avatar = $3' : ''} WHERE email = $2`,
+        avatarFinal ? [supabaseUid, email, avatarFinal] : [supabaseUid, email]
+      );
       const updated = await query('SELECT * FROM users WHERE uid = $1', [supabaseUid]);
       return NextResponse.json({ user: formatUser(updated.rows[0]) });
     }
 
+    // Nouveau membre → insérer avec 5 crédits offerts
     const role = email === process.env.ADMIN_EMAIL ? 'admin' : 'user';
+    const WELCOME_CREDITS = 5;
 
     await query(
       `INSERT INTO users (
         uid, email, password, first_name, last_name, whatsapp, department, gender, country,
-        availability, languages, offered_skills, requested_skills, avatar, terms_accepted, role
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+        availability, languages, offered_skills, requested_skills, avatar,
+        terms_accepted, role, credits
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)`,
       [
-        supabaseUid, email, '', firstName, lastName, whatsapp || '', department || 'Management',
-        gender || 'Homme', country || '', availability || '',
-        JSON.stringify(languages || []),
-        JSON.stringify(offeredSkills || []),
-        JSON.stringify(requestedSkills || []),
-        avatar || '', true, role,
+        supabaseUid, email, '', firstName, lastName,
+        whatsapp     || '',
+        deptFinal,
+        gender       || 'Non précisé',
+        country      || '',
+        availability || '',
+        JSON.stringify(Array.isArray(languages)    ? languages    : []),
+        JSON.stringify(Array.isArray(offeredFinal)  ? offeredFinal  : []),
+        JSON.stringify(Array.isArray(requestedFinal)? requestedFinal: []),
+        avatarFinal,
+        true, role, WELCOME_CREDITS,
       ]
     );
 
@@ -58,6 +83,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/* ─── GET : récupérer son profil ───────────────────────────────────────────── */
 export async function GET(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
   if (!supabaseUid)
@@ -70,6 +96,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(formatUser(result.rows[0]));
 }
 
+/* ─── PATCH : mettre à jour son profil (y compris la photo) ───────────────── */
 export async function PATCH(req: NextRequest) {
   const supabaseUid = await getUserIdFromRequest(req);
   if (!supabaseUid)
@@ -80,15 +107,25 @@ export async function PATCH(req: NextRequest) {
   const values: unknown[] = [];
   let idx = 1;
 
-  const allowed = ['first_name', 'last_name', 'bio', 'avatar', 'whatsapp',
-    'department', 'gender', 'country', 'availability'];
+  const allowed = [
+    'first_name', 'last_name', 'bio', 'avatar', 'whatsapp',
+    'department', 'gender', 'country', 'availability',
+    'offered_skills', 'requested_skills', 'languages',
+  ];
 
   for (const [key, val] of Object.entries(data)) {
     const snake = key.replace(/[A-Z]/g, l => `_${l.toLowerCase()}`);
     if (allowed.includes(snake)) {
       fields.push(`${snake} = $${idx++}`);
-      values.push(val);
+      // Sérialiser les arrays
+      values.push(Array.isArray(val) ? JSON.stringify(val) : val);
     }
+  }
+
+  // Alias : photoUrl → avatar
+  if (data.photoUrl && !data.avatar) {
+    fields.push(`avatar = $${idx++}`);
+    values.push(data.photoUrl);
   }
 
   if (fields.length === 0)
@@ -101,6 +138,7 @@ export async function PATCH(req: NextRequest) {
   return NextResponse.json(formatUser(result.rows[0]));
 }
 
+/* ─── Format ───────────────────────────────────────────────────────────────── */
 function formatUser(user: any) {
   return {
     id:              user.uid,
@@ -117,7 +155,7 @@ function formatUser(user: any) {
     requestedSkills: toArray(user.requested_skills),
     availability:    user.availability,
     languages:       toArray(user.languages),
-    credits:         user.credits,
+    credits:         user.credits ?? 0,
     avatar:          user.avatar,
     coverPhoto:      user.cover_photo,
     role:            user.role,
