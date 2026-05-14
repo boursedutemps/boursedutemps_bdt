@@ -6,6 +6,10 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 export async function PATCH(req: Request) {
   try {
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Configuration serveur manquante' }, { status: 500 })
+    }
+
     const body = await req.json()
     const { uid, step } = body
 
@@ -200,6 +204,10 @@ export async function PATCH(req: Request) {
 
 // ── GET — vérifier le statut d'onboarding ─────────────────────────────────────
 export async function GET(req: Request) {
+  if (!supabaseAdmin) {
+    return NextResponse.json({ error: 'Configuration serveur manquante' }, { status: 500 })
+  }
+
   const { searchParams } = new URL(req.url)
   const uid = searchParams.get('uid')
 
