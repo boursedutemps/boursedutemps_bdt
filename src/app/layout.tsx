@@ -2,6 +2,7 @@ import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { UserProvider } from '@/components/UserProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import OnboardingWrapper from '@/components/OnboardingWrapper';
 import { Metadata, Viewport } from 'next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <UserProvider>
             {children}
+            <OnboardingWrapper />
           </UserProvider>
         </ThemeProvider>
       </body>

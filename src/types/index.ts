@@ -3,24 +3,37 @@ export interface User {
   uid: string;
   firstName: string;
   lastName: string;
+  first_name?: string;
+  last_name?: string;
+  name?: string;
   email: string;
   department?: string;
+  campus?: string;
   whatsapp?: string;
   gender?: 'Homme' | 'Femme';
   country?: string;
   bio?: string;
   offeredSkills?: string[];
   requestedSkills?: string[];
+  offered_skills?: string;
+  requested_skills?: string;
   availability?: string;
   languages?: string[];
   credits?: number;
   createdAt?: string;
+  created_at?: string;
   avatar?: string;
   coverPhoto?: string;
+  cover_photo?: string;
   role?: 'user' | 'moderator' | 'admin';
   status?: 'active' | 'deactivated' | 'deleted';
+  verified?: boolean;
+  is_verified_email?: boolean;
+  // Onboarding (Fiche 3.1)
+  onboarding_step?: number;
+  onboarding_completed_at?: string | null;
+  last_active_at?: string;
 }
-
 export type Page =
   | 'home'
   | 'about'
@@ -33,12 +46,10 @@ export type Page =
   | 'profile'
   | 'profile-view'
   | 'moderation';
-
 export interface MediaItem {
   type: 'image' | 'video';
   url: string;
 }
-
 export interface BlogComment {
   id: string;
   authorId: string;
@@ -47,7 +58,6 @@ export interface BlogComment {
   content: string;
   createdAt: string;
 }
-
 export interface BlogPost {
   id: string;
   authorId: string;
@@ -65,7 +75,6 @@ export interface BlogPost {
   externalLink?: string;
   createdAt: string;
 }
-
 export interface Testimonial {
   id: string;
   authorId: string;
@@ -83,7 +92,6 @@ export interface Testimonial {
   comments: BlogComment[];
   createdAt: string;
 }
-
 export interface ForumTopic {
   id: string;
   authorId: string;
@@ -102,7 +110,6 @@ export interface ForumTopic {
   externalLink?: string;
   createdAt: string;
 }
-
 export interface Service {
   id: string;
   userId: string;
@@ -117,7 +124,6 @@ export interface Service {
   createdAt: string;
   updatedAt?: string;
 }
-
 export interface Request {
   id: string;
   userId: string;
@@ -132,7 +138,6 @@ export interface Request {
   createdAt: string;
   updatedAt?: string;
 }
-
 export interface Transaction {
   id: string;
   fromId: string;
@@ -142,7 +147,6 @@ export interface Transaction {
   type?: string;
   date: string;
 }
-
 export interface Connection {
   id: string;
   senderId: string;
@@ -151,7 +155,6 @@ export interface Connection {
   createdAt: string;
   updatedAt?: string;
 }
-
 export interface ChatMessage {
   id: string;
   senderId: string;
@@ -160,7 +163,6 @@ export interface ChatMessage {
   timestamp?: string;
   isRead?: boolean;
 }
-
 export interface Notification {
   id: string;
   userId: string;
