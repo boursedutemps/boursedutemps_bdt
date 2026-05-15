@@ -45,7 +45,8 @@ export type Page =
   | 'testimonials'
   | 'profile'
   | 'profile-view'
-  | 'moderation';
+  | 'moderation'
+  | 'workshops';
 export interface MediaItem {
   type: 'image' | 'video';
   url: string;
