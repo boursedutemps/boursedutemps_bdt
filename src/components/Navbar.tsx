@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { Search, Bell, Menu, X, Clock, LogOut, User } from 'lucide-react';
-import { Page, User as UserType, Notification } from '../types';
+import { Page, User as UserType, Notification } from '@/types';
 
 interface NavbarProps {
   currentPage: Page;
@@ -52,6 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
     { label: 'Services',    page: 'services',     path: '/services' },
     { label: 'Demandes',    page: 'requests',     path: '/requests' },
     { label: 'Membres',     page: 'members',      path: '/members' },
+    { label: 'Ateliers',    page: 'workshops',    path: '/workshops' },
     { label: 'Forum',       page: 'forum',        path: '/forum' },
     { label: 'Blog',        page: 'blog',         path: '/blog' },
     { label: 'Témoignages', page: 'testimonials', path: '/testimonials' },
