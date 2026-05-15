@@ -57,7 +57,7 @@ export default function WorkshopsPage() {
       const res = await fetch('/api/workshops')
       const data = await res.json()
       setWorkshops(Array.isArray(data) ? data : [])
-    } catch (console.error)
+    } catch (e) { console.error(e) }
     finally { setLoading(false) }
   }
 
