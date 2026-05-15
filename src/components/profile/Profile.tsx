@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { User, Transaction, Connection, ChatMessage } from '@/types';
 import { uploadToCloudinary } from '@/lib/cloudinary';
+import ChallengesPanel from '@/components/ChallengesPanel';
 
 interface ProfileProps {
   user: User;
@@ -105,8 +106,8 @@ const Profile: React.FC<ProfileProps> = ({
       onUpdate({ ...user, avatar: avatarUrl });
       setShowSuccessMessage('Photo de profil mise à jour !');
       setTimeout(() => setShowSuccessMessage(null), 3000);
-    } catch (err: any) {
-      alert(err.message || 'Erreur upload avatar');
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : 'Erreur upload avatar');
     } finally {
       setUploadingAvatar(false);
     }
@@ -135,7 +136,7 @@ const Profile: React.FC<ProfileProps> = ({
     <div className="max-w-5xl mx-auto px-6 py-12">
       <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
 
-        {/* ── Cover ───────────────────────────────────────────────────────── */}
+        {/* ── Cover ──────────────────────────────────────────────────────────── */}
         <div className="h-48 bg-slate-900 p-8 flex items-end justify-between relative group">
           {(isEditing ? editedUser.coverPhoto : user.coverPhoto) ? (
             <Image
@@ -162,8 +163,7 @@ const Profile: React.FC<ProfileProps> = ({
           )}
 
           <div className="flex items-center gap-6 translate-y-12 relative z-10">
-
-            {/* ── Avatar avec upload ──────────────────────────────────────── */}
+            {/* ── Avatar ── */}
             <div
               className="relative group/avatar cursor-pointer w-32 h-32 flex-shrink-0"
               onClick={() => !readOnly && !uploadingAvatar && avatarInputRef.current?.click()}
@@ -189,7 +189,6 @@ const Profile: React.FC<ProfileProps> = ({
                 </div>
               </div>
 
-              {/* Overlay caméra */}
               {!readOnly && (
                 <>
                   <div className="absolute inset-0 rounded-3xl bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200">
@@ -215,7 +214,6 @@ const Profile: React.FC<ProfileProps> = ({
                 </>
               )}
             </div>
-            {/* ── Fin avatar ──────────────────────────────────────────────── */}
 
             <div className="pb-4">
               <div className="bg-white/95 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl">
@@ -263,7 +261,7 @@ const Profile: React.FC<ProfileProps> = ({
           )}
         </div>
 
-        {/* ── Tabs ────────────────────────────────────────────────────────── */}
+        {/* ── Tabs ──────────────────────────────────────────────────────────── */}
         {!readOnly && (
           <div className="mt-20 px-10 border-b border-slate-100 flex gap-8">
             {(['info', 'suivi', 'connections', 'messages'] as const).map(tab => (
@@ -278,7 +276,7 @@ const Profile: React.FC<ProfileProps> = ({
 
         <div className="pt-10 px-10 pb-16">
 
-          {/* ── Onglet Info ─────────────────────────────────────────────── */}
+          {/* ── Onglet Info ─────────────────────────────────────────────────── */}
           {activeTab === 'info' && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="md:col-span-2 space-y-8">
@@ -374,7 +372,7 @@ const Profile: React.FC<ProfileProps> = ({
                                   <p className="text-[10px] text-slate-400 uppercase font-bold">{new Date(t.date).toLocaleDateString()}</p>
                                 </div>
                               </div>
-                              <div className="font-bold text-sm text-slate-700">{t.amount} ⏰</div>
+                              <div className="font-bold text-sm text-slate-700">{t.amount} ⏱</div>
                             </div>
                           ))}
                         </div>
@@ -397,16 +395,21 @@ const Profile: React.FC<ProfileProps> = ({
                 )}
               </div>
 
-              {/* Crédits */}
-              <div className="bg-blue-600 p-8 rounded-[2rem] text-white shadow-xl h-fit">
-                <p className="text-xs font-bold opacity-70 mb-1 tracking-widest uppercase">Solde Actuel</p>
-                <h4 className="text-5xl font-bold">⏰ {user.credits ?? 0}</h4>
-                <p className="mt-4 text-[10px] opacity-60">Crédits négociables pour vos services.</p>
+              {/* Colonne droite : Crédits + Défis */}
+              <div className="space-y-0">
+                <div className="bg-blue-600 p-8 rounded-[2rem] text-white shadow-xl">
+                  <p className="text-xs font-bold opacity-70 mb-1 tracking-widest uppercase">Solde Actuel</p>
+                  <h4 className="text-5xl font-bold">⏱ {user.credits ?? 0}</h4>
+                  <p className="mt-4 text-[10px] opacity-60">Crédits négociables pour vos services.</p>
+                </div>
+
+                {/* ── Défis gamifiés (Fiche 3.3) ── */}
+                <ChallengesPanel uid={user.uid} isOwner={!readOnly} />
               </div>
             </div>
           )}
 
-          {/* ── Onglet Suivi ────────────────────────────────────────────── */}
+          {/* ── Onglet Suivi ────────────────────────────────────────────────── */}
           {activeTab === 'suivi' && (
             <div className="space-y-4 animate-in fade-in">
               <h3 className="font-heading text-lg font-bold text-slate-800 mb-6">Historique des transactions</h3>
@@ -426,7 +429,7 @@ const Profile: React.FC<ProfileProps> = ({
                         </div>
                       </div>
                       <div className={`font-bold text-lg ${t.fromId === user.id ? 'text-red-500' : 'text-green-500'}`}>
-                        {t.fromId === user.id ? '-' : '+'}{t.amount} ⏰
+                        {t.fromId === user.id ? '-' : '+'}{t.amount} ⏱
                       </div>
                     </div>
                   ))}
@@ -435,7 +438,7 @@ const Profile: React.FC<ProfileProps> = ({
             </div>
           )}
 
-          {/* ── Onglet Connections ──────────────────────────────────────── */}
+          {/* ── Onglet Connections ──────────────────────────────────────────── */}
           {activeTab === 'connections' && (
             <div className="space-y-8 animate-in fade-in">
               {pendingRequests.length > 0 && (
@@ -492,7 +495,7 @@ const Profile: React.FC<ProfileProps> = ({
             </div>
           )}
 
-          {/* ── Onglet Messages ─────────────────────────────────────────── */}
+          {/* ── Onglet Messages ─────────────────────────────────────────────── */}
           {activeTab === 'messages' && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[500px] animate-in fade-in">
               <div className="md:col-span-1 border-r border-slate-100 pr-4 overflow-y-auto">
@@ -561,7 +564,7 @@ const Profile: React.FC<ProfileProps> = ({
         </div>
       </div>
 
-      {/* ── Modals ──────────────────────────────────────────────────────── */}
+      {/* ── Modals ────────────────────────────────────────────────────────── */}
       {showDeactivateConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <div className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl">
