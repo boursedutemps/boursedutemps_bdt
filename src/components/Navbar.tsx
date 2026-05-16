@@ -59,6 +59,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
   ];
 
   const isAdminOrMod = user?.role === 'admin' || user?.role === 'moderator';
+  const isAdmin = user?.role === 'admin';
+  const isInstitutionAdmin = user?.role === 'institution_admin';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm transition-all duration-300">
@@ -93,6 +95,20 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
                 pathname === '/moderation' ? 'text-purple-600 bg-purple-50' : 'text-purple-500 hover:text-purple-600 hover:bg-purple-50'
               }`}>
                 Modération
+              </Link>
+            )}
+            {isAdmin && (
+              <Link href="/admin/institutions" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 ml-1 ${
+                pathname.startsWith('/admin/institutions') ? 'text-violet-600 bg-violet-50' : 'text-violet-500 hover:text-violet-600 hover:bg-violet-50'
+              }`}>
+                🏛️ Institutions
+              </Link>
+            )}
+            {isInstitutionAdmin && (
+              <Link href="/i/dashboard" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 ml-1 ${
+                pathname.includes('/dashboard') ? 'text-violet-600 bg-violet-50' : 'text-violet-500 hover:text-violet-600 hover:bg-violet-50'
+              }`}>
+                🏛️ Mon institution
               </Link>
             )}
             <Link href="/recherche" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 ${
@@ -225,6 +241,18 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
               {item.label}
             </Link>
           ))}
+          {isAdmin && (
+            <Link href="/admin/institutions" onClick={() => setIsOpen(false)}
+              className={`w-full text-left px-4 py-3 rounded-xl text-base font-bold transition-colors block ${pathname.startsWith('/admin/institutions') ? 'bg-violet-50 text-violet-600' : 'text-violet-600 hover:bg-violet-50'}`}>
+              🏛️ Institutions
+            </Link>
+          )}
+          {isInstitutionAdmin && (
+            <Link href="/i/dashboard" onClick={() => setIsOpen(false)}
+              className={`w-full text-left px-4 py-3 rounded-xl text-base font-bold transition-colors block ${pathname.includes('/dashboard') ? 'bg-violet-50 text-violet-600' : 'text-violet-600 hover:bg-violet-50'}`}>
+              🏛️ Mon institution
+            </Link>
+          )}
           <Link href="/recherche" onClick={() => setIsOpen(false)}
             className={`w-full text-left px-4 py-3 rounded-xl text-base font-bold transition-colors flex items-center gap-2 ${
               pathname === '/recherche' ? 'bg-blue-600 text-white' : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
