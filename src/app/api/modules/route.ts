@@ -78,7 +78,9 @@ export async function PATCH(req: Request) {
 
     if (action === 'add_service') {
       await supabaseAdmin.from('module_services').upsert({ module_id, service_id, added_by }, { onConflict: 'module_id,service_id' })
-      await supabaseAdmin.rpc('increment', { table: 'modules', column: 'services_count', row_id: module_id }).catch(() => {})
+      // Incrémenter services_count manuellement
+      const { data: mod } = await supabaseAdmin.from('modules').select('services_count').eq('id', module_id).single()
+      if (mod) await supabaseAdmin.from('modules').update({ services_count: (mod.services_count || 0) + 1 }).eq('id', module_id)
     }
 
     if (action === 'remove_service') {
