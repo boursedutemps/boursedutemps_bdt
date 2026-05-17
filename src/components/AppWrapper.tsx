@@ -360,10 +360,8 @@ export default function AppWrapper() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar 
-        currentPage={currentPage} 
         user={user} 
         notifications={notifications}
-        onNavigate={handleNavigate} 
         onLogin={() => setShowAuthModal('login')} 
         onSignup={() => setShowAuthModal('signup')} 
         onLogout={handleLogout} 
