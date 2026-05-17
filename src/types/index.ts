@@ -47,7 +47,9 @@ export type Page =
   | 'profile-view'
   | 'moderation'
   | 'workshops'
-  | 'institution';
+  | 'institution'
+  | 'modules'
+  | 'projects';
 export interface MediaItem {
   type: 'image' | 'video';
   url: string;

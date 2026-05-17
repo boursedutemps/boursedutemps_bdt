@@ -53,6 +53,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, user, notifications, onNav
     { label: 'Demandes',    page: 'requests',     path: '/requests' },
     { label: 'Membres',     page: 'members',      path: '/members' },
     { label: 'Ateliers',    page: 'workshops',    path: '/workshops' },
+    { label: 'Modules',     page: 'modules',      path: '/modules' },
+    { label: 'Projets',     page: 'projects',     path: '/projects' },
     { label: 'Forum',       page: 'forum',        path: '/forum' },
     { label: 'Blog',        page: 'blog',         path: '/blog' },
     { label: 'Témoignages', page: 'testimonials', path: '/testimonials' },
