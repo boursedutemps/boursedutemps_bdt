@@ -84,8 +84,10 @@ export async function POST(req: Request) {
 
         await supabaseAdmin.from('users')
           .update({ credits: (user.credits || 0) - bdt_credits }).eq('uid', user_uid)
+        const { data: conn } = await supabaseAdmin.from('sel_connections')
+          .select('sel_balance').eq('user_uid', user_uid).eq('sel_id', sel_id).single()
         await supabaseAdmin.from('sel_connections')
-          .update({ sel_balance: supabaseAdmin.raw('sel_balance + ?', [selAmount]) })
+          .update({ sel_balance: (conn?.sel_balance || 0) + selAmount })
           .eq('user_uid', user_uid).eq('sel_id', sel_id)
 
         return NextResponse.json({
