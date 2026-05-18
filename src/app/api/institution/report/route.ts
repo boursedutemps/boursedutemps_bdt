@@ -75,9 +75,9 @@ export async function GET(req: Request) {
     }
 
     // ── 5. Générer le PDF ─────────────────────────────────────────────────────
-    const buffer = await renderToBuffer(
-      React.createElement(InstitutionReportPDF, { data: reportData })
-    )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const element = React.createElement(InstitutionReportPDF, { data: reportData }) as any
+    const buffer = await renderToBuffer(element)
 
     const MONTHS_FR = [
       'Janvier','Février','Mars','Avril','Mai','Juin',
