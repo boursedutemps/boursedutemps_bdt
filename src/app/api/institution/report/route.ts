@@ -75,7 +75,7 @@ export async function GET(req: Request) {
     }
 
     // ── 5. Générer le PDF ─────────────────────────────────────────────────────
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const element = React.createElement(InstitutionReportPDF, { data: reportData }) as any
     const buffer = await renderToBuffer(element)
 
