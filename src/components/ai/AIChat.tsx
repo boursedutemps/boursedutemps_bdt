@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2, Minimize2, ExternalLink } from 'lucide-react';
-import { useUser } from './UserProvider';
+import { useUser } from '../UserProvider';
 import { useRouter } from 'next/navigation';
 
 interface Message {
