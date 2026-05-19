@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2, Minimize2, ExternalLink } from 'lucide-react';
-import { useUser } from '@/components/UserProvider';
+import { useUser } from './UserProvider';
 import { useRouter } from 'next/navigation';
 
 interface Message {
@@ -52,6 +52,7 @@ export default function AIChat() {
         : "Bonjour 👋 Je suis ALDÉA, votre assistante de Bourse du Temps. Comment puis-je vous aider ?";
       setMessages([{ role: 'assistant', content: welcome }]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, user]);
 
   const redirectToSearch = (query: string) => {

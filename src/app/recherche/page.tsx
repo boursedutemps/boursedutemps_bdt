@@ -139,6 +139,7 @@ function SearchContent() {
       initialized.current = true;
       setTimeout(() => sendMessage(q), 300);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   useEffect(() => {

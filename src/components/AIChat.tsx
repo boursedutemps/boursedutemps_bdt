@@ -52,6 +52,7 @@ export default function AIChat() {
         : "Bonjour 👋 Je suis ALDÉA, votre assistante de Bourse du Temps. Comment puis-je vous aider ?";
       setMessages([{ role: 'assistant', content: welcome }]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, user]);
 
   const redirectToSearch = (query: string) => {
