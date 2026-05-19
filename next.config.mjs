@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  serverExternalPackages: ['pg', 'bcryptjs', 'jsonwebtoken', '@react-pdf/renderer'],
+  experimental: {
+    serverComponentsExternalPackages: ['pg', 'bcryptjs', 'jsonwebtoken', '@react-pdf/renderer'],
+  },
   transpilePackages: ['@livekit/components-react', '@livekit/components-core'],
   images: {
     remotePatterns: [
