@@ -114,11 +114,20 @@ export async function POST(req: Request) {
       role: 'admin',
     })
 
-    // Mettre à jour le rôle de l'utilisateur
-    await supabaseAdmin
-      .from('users')
-      .update({ role: 'institution_admin', primary_institution_id: institution.id })
-      .eq('uid', admin_uid)
+    // Mettre à jour le rôle uniquement si pas déjà admin
+    const { data: existingUser } = await supabaseAdmin
+      .from('users').select('role').eq('uid', admin_uid).single()
+    if (existingUser && existingUser.role !== 'admin' && existingUser.role !== 'moderator') {
+      await supabaseAdmin
+        .from('users')
+        .update({ role: 'institution_admin', primary_institution_id: institution.id })
+        .eq('uid', admin_uid)
+    } else {
+      await supabaseAdmin
+        .from('users')
+        .update({ primary_institution_id: institution.id })
+        .eq('uid', admin_uid)
+    }
 
     // Notifier les super admins
     const { data: admins } = await supabaseAdmin
