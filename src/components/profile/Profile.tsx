@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { User, Transaction, Connection, ChatMessage } from '@/types';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import ChallengesPanel from '@/components/ChallengesPanel';
+import ChallengesPanel    from '@/components/ChallengesPanel';
+import ReputationBadges  from '@/components/ReputationBadges';
+import VerificationPanel from '@/components/VerificationPanel';
 
 interface ProfileProps {
   user: User;
@@ -405,6 +407,19 @@ const Profile: React.FC<ProfileProps> = ({
 
                 {/* ── Défis gamifiés (Fiche 3.3) ── */}
                 <ChallengesPanel uid={user.uid} isOwner={!readOnly} />
+
+                {/* ── Réputation & Badges (Fiche 1) ── */}
+                <ReputationBadges uid={user.uid} isOwner={!readOnly} />
+
+                {/* ── Vérification identité (Fiche 4) ── */}
+                <VerificationPanel
+                  uid={user.uid}
+                  isVerifiedEmail={user.is_verified_email ?? false}
+                  isVerifiedSms={user.is_verified_sms ?? false}
+                  isVerifiedId={user.is_verified_id ?? false}
+                  verificationLevel={user.verification_level ?? 0}
+                  onUpdate={() => window.location.reload()}
+                />
               </div>
             </div>
           )}
