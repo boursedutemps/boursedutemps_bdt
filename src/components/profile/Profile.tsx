@@ -415,7 +415,7 @@ const Profile: React.FC<ProfileProps> = ({
                 <VerificationPanel
                   uid={user.uid}
                   isVerifiedEmail={user.is_verified_email ?? false}
-                  isVerifiedSms={user.is_verified_sms ?? false}
+                  isVerifiedSms={false}
                   isVerifiedId={user.is_verified_id ?? false}
                   verificationLevel={user.verification_level ?? 0}
                   onUpdate={() => window.location.reload()}
