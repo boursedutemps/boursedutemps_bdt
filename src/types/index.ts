@@ -25,10 +25,14 @@ export interface User {
   avatar?: string;
   coverPhoto?: string;
   cover_photo?: string;
-  role?: 'user' | 'moderator' | 'admin' | 'institution_admin';
+  role?: 'user' | 'moderator' | 'admin';
   status?: 'active' | 'deactivated' | 'deleted';
   verified?: boolean;
   is_verified_email?: boolean;
+  is_verified_sms?: boolean;
+  is_verified_id?: boolean;
+  verification_level?: number;
+  phone?: string;
   // Onboarding (Fiche 3.1)
   onboarding_step?: number;
   onboarding_completed_at?: string | null;
@@ -45,11 +49,7 @@ export type Page =
   | 'testimonials'
   | 'profile'
   | 'profile-view'
-  | 'moderation'
-  | 'workshops'
-  | 'institution'
-  | 'modules'
-  | 'projects';
+  | 'moderation';
 export interface MediaItem {
   type: 'image' | 'video';
   url: string;
