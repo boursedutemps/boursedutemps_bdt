@@ -25,7 +25,7 @@ export interface User {
   avatar?: string;
   coverPhoto?: string;
   cover_photo?: string;
-  role?: 'user' | 'moderator' | 'admin';
+  role?: 'user' | 'moderator' | 'admin' | 'institution_admin';
   status?: 'active' | 'deactivated' | 'deleted';
   verified?: boolean;
   is_verified_email?: boolean;
