@@ -1,0 +1,33 @@
+// src/app/api/otp/send/route.ts
+// Envoie un OTP par email pour le flux login/register
+
+import { NextResponse } from 'next/server'
+import { query } from '@/lib/db'
+import crypto from 'crypto'
+import { sendOtpEmail } from '@/lib/email'
+
+export async function POST(req: Request) {
+  const { email } = await req.json()
+
+  if (!email) {
+    return NextResponse.json({ error: 'Email requis' }, { status: 400 })
+  }
+
+  const code = crypto.randomInt(100000, 999999).toString()
+
+  try {
+    await query('DELETE FROM otps WHERE identifier = $1', [email])
+    await query(
+      "INSERT INTO otps (identifier, code, expires_at) VALUES ($1, $2, NOW() + INTERVAL '10 minutes')",
+      [email, code]
+    )
+
+    await sendOtpEmail(email, code)
+    console.log(`📧 OTP envoyé à ${email}`)
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('[otp/send]', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
