@@ -33,6 +33,11 @@ export interface User {
   is_verified_id?: boolean;
   verification_level?: number;
   phone?: string;
+  // camelCase aliases (utilisés par Profile.tsx + /api/auth/me)
+  isVerifiedEmail?: boolean;
+  isVerifiedSms?: boolean;
+  isVerifiedId?: boolean;
+  verificationLevel?: number;
   // Onboarding (Fiche 3.1)
   onboarding_step?: number;
   onboarding_completed_at?: string | null;
