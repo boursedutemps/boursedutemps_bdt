@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useUser } from '@/components/UserProvider'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -21,6 +22,8 @@ interface BlogPost {
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const { user } = useUser()
+  const isAdmin = user?.role === 'admin' || user?.role === 'moderator'
 
   useEffect(() => {
     fetch('/api/blogs')
@@ -58,7 +61,18 @@ export default function BlogPage() {
           <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
             Ressources & inspirations
           </p>
-          <h1 className="text-3xl font-bold text-slate-800">Le Blog</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-slate-800">Le Blog</h1>
+            {isAdmin && (
+              <a
+                href="/blog/new"
+                className="text-sm font-bold px-4 py-2 rounded-xl text-white"
+                style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}
+              >
+                ✍️ Publier un article
+              </a>
+            )}
+          </div>
           <p className="text-slate-500 mt-2">
             Actualités, témoignages et réflexions sur l'économie du temps.
           </p>
