@@ -60,8 +60,14 @@ export async function GET(req: NextRequest) {
     credits:         u.credits,
     avatar:          u.avatar,
     coverPhoto:      u.cover_photo,
-    role:            u.role,
-    status:          u.status,
-    createdAt:       u.created_at,
+    role:              u.role,
+    status:            u.status,
+    createdAt:         u.created_at,
+    // Vérification progressive
+    phone:             u.phone,
+    isVerifiedEmail:   u.is_verified_email  ?? false,
+    isVerifiedSms:     u.is_verified_sms    ?? false,
+    isVerifiedId:      u.is_verified_id     ?? false,
+    verificationLevel: u.verification_level ?? 0,
   });
 }
