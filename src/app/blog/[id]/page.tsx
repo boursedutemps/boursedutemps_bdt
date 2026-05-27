@@ -1,64 +1,58 @@
+// src/app/blog/[id]/page.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useUser } from '@/components/UserProvider'
 
 interface BlogPost {
   id: number
   title: string
   content: string
-  excerpt?: string
-  authorId?: string
-  authorName?: string
-  authorAvatar?: string
-  author_name?: string
-  cover_image?: string
-  image?: string
   category?: string
+  authorName?: string
+  author_name?: string
+  authorAvatar?: string
+  externalLink?: string
   createdAt?: string
   created_at?: string
-  externalLink?: string
-  likes?: string[]
-  comments?: unknown[]
 }
 
 export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>()
-  const router = useRouter()
   const { user } = useUser()
-  const [post, setPost] = useState<BlogPost | null>(null)
+  const [post, setPost]       = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    if (!id) return
+    if (!id || !/^\d+$/.test(id)) { setNotFound(true); setLoading(false); return }
     fetch(`/api/blogs/${id}`)
       .then(async r => {
         if (r.status === 404) { setNotFound(true); return null }
+        if (!r.ok) throw new Error('Erreur serveur')
         return r.json()
       })
       .then(data => { if (data) setPost(data) })
-      .catch(console.error)
+      .catch(() => setNotFound(true))
       .finally(() => setLoading(false))
   }, [id])
 
-  const formatDate = (str?: string) => {
-    if (!str) return ''
-    return new Date(str).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-  }
+  const formatDate = (str?: string) =>
+    str ? new Date(str).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''
 
   const isAdmin = user?.role === 'admin' || user?.role === 'moderator'
 
   if (loading) return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-2xl mx-auto space-y-4">
-        <div className="h-8 w-3/4 bg-slate-100 rounded-xl animate-pulse" />
-        <div className="h-64 bg-slate-100 rounded-2xl animate-pulse" />
-        <div className="space-y-3">
-          {[...Array(6)].map((_, i) => <div key={i} className="h-4 bg-slate-100 rounded animate-pulse" />)}
+        <div className="h-8 w-2/3 bg-slate-100 rounded-xl animate-pulse" />
+        <div className="h-4 w-1/3 bg-slate-100 rounded animate-pulse" />
+        <div className="space-y-3 mt-8">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="h-4 bg-slate-100 rounded animate-pulse" style={{ width: `${85 + Math.random() * 15}%` }} />
+          ))}
         </div>
       </div>
     </main>
@@ -75,9 +69,8 @@ export default function BlogPostPage() {
     </main>
   )
 
-  const coverImg = post.cover_image || post.image
-  const date = formatDate(post.createdAt || post.created_at)
   const author = post.authorName || post.author_name || 'Bourse du Temps'
+  const date   = formatDate(post.createdAt || post.created_at)
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
@@ -85,16 +78,20 @@ export default function BlogPostPage() {
 
         {/* Breadcrumb */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/blog" className="text-sm text-slate-400 hover:text-amber-600 transition-colors flex items-center gap-1">
+          <Link href="/blog" className="text-sm text-slate-400 hover:text-amber-600 transition-colors">
             ← Retour au blog
           </Link>
           {isAdmin && (
-            <Link
-              href={`/blog/${id}/edit`}
-              className="text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200 hover:bg-amber-100 transition-colors"
+            <button
+              onClick={async () => {
+                if (!confirm('Supprimer cet article ?')) return
+                await fetch(`/api/blogs/${post.id}`, { method: 'DELETE' })
+                window.location.href = '/blog'
+              }}
+              className="text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-500 border border-red-200 hover:bg-red-100 transition-colors"
             >
-              ✏️ Modifier
-            </Link>
+              🗑️ Supprimer
+            </button>
           )}
         </div>
 
@@ -106,47 +103,30 @@ export default function BlogPostPage() {
         )}
 
         {/* Titre */}
-        <h1 className="text-3xl font-bold text-slate-800 leading-tight mb-4">
-          {post.title}
-        </h1>
+        <h1 className="text-3xl font-bold text-slate-800 leading-tight mb-4">{post.title}</h1>
 
-        {/* Meta auteur */}
+        {/* Auteur + date */}
         <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-100">
-          {post.authorAvatar ? (
-            <Image src={post.authorAvatar} alt={author} width={36} height={36} className="rounded-full object-cover" />
-          ) : (
-            <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
-              {author.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
+            {author.charAt(0).toUpperCase()}
+          </div>
           <div>
             <p className="text-sm font-semibold text-slate-700">{author}</p>
-            <p className="text-xs text-slate-400">{date}</p>
+            {date && <p className="text-xs text-slate-400">{date}</p>}
           </div>
         </div>
-
-        {/* Image de couverture */}
-        {coverImg && (
-          <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden mb-8 bg-slate-100">
-            <Image src={coverImg} alt={post.title} fill className="object-cover" />
-          </div>
-        )}
 
         {/* Contenu */}
         <article
           className="prose prose-slate max-w-none prose-headings:font-bold prose-a:text-amber-600 prose-img:rounded-xl"
-          dangerouslySetInnerHTML={{ __html: post.content || '' }}
+          dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
         {/* Lien externe */}
         {post.externalLink && (
-          <a
-            href={post.externalLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 flex items-center gap-2 text-sm font-semibold text-amber-600 hover:underline"
-          >
-            🔗 Voir la source externe →
+          <a href={post.externalLink} target="_blank" rel="noopener noreferrer"
+            className="mt-8 flex items-center gap-2 text-sm font-semibold text-amber-600 hover:underline">
+            🔗 Voir la source →
           </a>
         )}
 
