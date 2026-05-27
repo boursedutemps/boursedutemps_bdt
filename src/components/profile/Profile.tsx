@@ -414,10 +414,11 @@ const Profile: React.FC<ProfileProps> = ({
                 {/* ── Vérification identité (Fiche 4) ── */}
                 <VerificationPanel
                   uid={user.uid}
-                  isVerifiedEmail={user.is_verified_email ?? false}
-                  isVerifiedSms={user.is_verified_sms ?? false}
-                  isVerifiedId={user.is_verified_id ?? false}
-                  verificationLevel={user.verification_level ?? 0}
+                  isVerifiedEmail={user.isVerifiedEmail ?? false}
+                  isVerifiedSms={user.isVerifiedSms ?? false}
+                  isVerifiedId={user.isVerifiedId ?? false}
+                  verificationLevel={user.verificationLevel ?? 0}
+                  phone={user.phone}
                   onUpdate={() => window.location.reload()}
                 />
               </div>
