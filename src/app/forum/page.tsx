@@ -1,26 +1,27 @@
-"use client";
+// src/app/forum/page.tsx
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import PageLayout from '@/components/PageLayout';
-import Forum from '@/components/Forum';
-import { ForumTopic } from '@/types';
-import { onSnapshot, collection, db, query, orderBy } from '@/api';
-import { useUser } from '@/components/UserProvider';
+import { useState, useEffect } from 'react'
+import Forum from '@/components/Forum'
+import { ForumTopic } from '@/types'
+import { useUser } from '@/components/UserProvider'
 
 export default function ForumRoute() {
-  const { user } = useUser();
-  const [topics, setTopics] = useState<ForumTopic[]>([]);
+  const { user } = useUser()
+  const [topics, setTopics] = useState<ForumTopic[]>([])
 
   useEffect(() => {
-    const unsub = onSnapshot(query(collection(db, 'forumTopics'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setTopics(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as unknown as ForumTopic)));
-    });
-    return () => unsub();
-  }, []);
+    fetch('/api/forumTopics')
+      .then(r => r.json())
+      .then(data => setTopics(Array.isArray(data) ? data : []))
+      .catch(console.error)
+  }, [])
 
   return (
-    <PageLayout>
-      <Forum user={user} topics={topics} onAdd={(t) => setTopics([t, ...topics])} />
-    </PageLayout>
-  );
+    <Forum
+      user={user}
+      topics={topics}
+      onAdd={t => setTopics(prev => [t, ...prev])}
+    />
+  )
 }
