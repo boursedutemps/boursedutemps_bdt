@@ -1,48 +1,40 @@
-import { NextResponse } from 'next/server';
-import { query } from '@/lib/db';
+// src/app/api/users/route.ts
+import { NextResponse } from 'next/server'
+import { query } from '@/lib/db'
 
 function toArray(val: any): any[] {
-  if (Array.isArray(val)) return val;
+  if (Array.isArray(val)) return val
   if (typeof val === 'string') {
-    try { const p = JSON.parse(val); return Array.isArray(p) ? p : []; } catch { return []; }
+    try { const p = JSON.parse(val); return Array.isArray(p) ? p : [] } catch { return [] }
   }
-  return [];
+  return []
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { uid: string } }
-) {
+export async function GET() {
   try {
-    const result = await query('SELECT * FROM users WHERE uid = $1', [params.uid]);
-    if ((result.rowCount ?? 0) === 0)
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
-
-    const u = result.rows[0];
-    return NextResponse.json({
-      id:              u.uid,
-      uid:             u.uid,
-      firstName:       u.first_name,
-      lastName:        u.last_name,
-      email:           u.email,
-      department:      u.department,
-      whatsapp:        u.whatsapp,
-      gender:          u.gender,
-      country:         u.country,
-      bio:             u.bio,
-      offeredSkills:   toArray(u.offered_skills),
-      requestedSkills: toArray(u.requested_skills),
-      availability:    u.availability,
-      languages:       toArray(u.languages),
-      credits:         u.credits,
-      avatar:          u.avatar,
-      coverPhoto:      u.cover_photo,
-      role:            u.role,
-      status:          u.status,
-      createdAt:       u.created_at,
-    });
+    const result = await query(
+      `SELECT uid, first_name, last_name, avatar, bio, country,
+              offered_skills, department, is_verified_email, credits, role
+       FROM users
+       WHERE status = 'active'
+       ORDER BY created_at DESC`
+    )
+    const users = result.rows.map(u => ({
+      uid:            u.uid,
+      first_name:     u.first_name,
+      last_name:      u.last_name,
+      avatar:         u.avatar,
+      bio:            u.bio,
+      country:        u.country,
+      offered_skills: toArray(u.offered_skills).join(', '),
+      department:     u.department,
+      verified:       u.is_verified_email ?? false,
+      credits:        u.credits ?? 0,
+      role:           u.role,
+    }))
+    return NextResponse.json(users)
   } catch (error) {
-    console.error('Error fetching user:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('[api/users GET]', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
