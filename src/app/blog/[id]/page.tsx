@@ -1,10 +1,11 @@
-// src/app/blog/[id]/page.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useUser } from '@/components/UserProvider'
+import ShareMenu from '@/components/ShareMenu'
+import CommentsSection, { Comment } from '@/components/CommentsSection'
 
 interface BlogPost {
   id: number
@@ -17,13 +18,15 @@ interface BlogPost {
   externalLink?: string
   createdAt?: string
   created_at?: string
+  shares?: number
+  comments?: Comment[]
 }
 
 export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>()
   const { user } = useUser()
-  const [post, setPost]       = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [post, setPost]         = useState<BlogPost | null>(null)
+  const [loading, setLoading]   = useState(true)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function BlogPostPage() {
         <div className="h-4 w-1/3 bg-slate-100 rounded animate-pulse" />
         <div className="space-y-3 mt-8">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-4 bg-slate-100 rounded animate-pulse" style={{ width: `${85 + Math.random() * 15}%` }} />
+            <div key={i} className="h-4 bg-slate-100 rounded animate-pulse" />
           ))}
         </div>
       </div>
@@ -69,8 +72,18 @@ export default function BlogPostPage() {
     </main>
   )
 
-  const author = post.authorName || post.author_name || 'Bourse du Temps'
-  const date   = formatDate(post.createdAt || post.created_at)
+  const author    = post.authorName || post.author_name || 'Bourse du Temps'
+  const date      = formatDate(post.createdAt || post.created_at)
+  const pageUrl   = typeof window !== 'undefined' ? window.location.href : `https://boursedutemps.vercel.app/blog/${id}`
+  const comments  = Array.isArray(post.comments) ? post.comments : []
+
+  const handleShareCount = async () => {
+    await fetch(`/api/blogs/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ shares: (post.shares || 0) + 1 }),
+    })
+  }
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
@@ -107,10 +120,10 @@ export default function BlogPostPage() {
 
         {/* Auteur + date */}
         <div className="flex items-center gap-3 mb-8 pb-6 border-b border-slate-100">
-          <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
+          <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm flex-shrink-0">
             {author.charAt(0).toUpperCase()}
           </div>
-          <div>
+          <div className="flex-1">
             <p className="text-sm font-semibold text-slate-700">{author}</p>
             {date && <p className="text-xs text-slate-400">{date}</p>}
           </div>
@@ -130,17 +143,34 @@ export default function BlogPostPage() {
           </a>
         )}
 
+        {/* Actions : Commentaires + Partager */}
+        <div className="mt-10 pt-6 border-t border-slate-100">
+          <div className="flex items-center gap-6">
+
+            {/* Commentaires */}
+            <CommentsSection
+              postId={post.id}
+              comments={comments}
+              apiPath={`/api/blogs/${post.id}`}
+              onUpdate={updated => setPost(p => p ? { ...p, comments: updated } : p)}
+            />
+
+            {/* Partager */}
+            <ShareMenu
+              url={pageUrl}
+              title={post.title}
+              text={post.content?.replace(/<[^>]+>/g, '').slice(0, 200)}
+              count={post.shares}
+              onShare={handleShareCount}
+            />
+          </div>
+        </div>
+
         {/* Footer */}
-        <div className="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
+        <div className="mt-8 pt-4 border-t border-slate-100">
           <Link href="/blog" className="text-sm text-slate-400 hover:text-amber-600 transition-colors">
             ← Tous les articles
           </Link>
-          <button
-            onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Lien copié !') }}
-            className="text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            🔗 Partager
-          </button>
         </div>
       </div>
     </main>
