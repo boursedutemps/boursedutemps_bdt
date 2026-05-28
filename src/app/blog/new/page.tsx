@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useUser } from '@/components/UserProvider'
+import RichTextEditor from '@/components/RichTextEditor'
 
 const CATEGORIES = ['Actualités', 'Témoignages', 'Guides pratiques', 'Économie du temps', 'Communauté', 'Institutions', 'Ressources']
 
@@ -36,7 +37,10 @@ export default function BlogNewPage() {
   )
 
   const handleSubmit = async () => {
-    if (!title.trim() || !content.trim()) { setError('Titre et contenu requis'); return }
+    if (!title.trim() || !content || content === '<p></p>') {
+      setError('Titre et contenu requis')
+      return
+    }
     setLoading(true); setError(null)
     try {
       const token = localStorage.getItem('token') || ''
@@ -44,11 +48,11 @@ export default function BlogNewPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
-          authorId:   user.uid,
-          authorName: `${user.firstName} ${user.lastName}`,
+          authorId:     user.uid,
+          authorName:   `${user.firstName} ${user.lastName}`,
           authorAvatar: user.avatar || '',
-          title:      title.trim(),
-          content:    content.trim(),
+          title:        title.trim(),
+          content,
           category,
           externalLink: extLink.trim() || null,
           media: [],
@@ -68,7 +72,7 @@ export default function BlogNewPage() {
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -98,49 +102,44 @@ export default function BlogNewPage() {
             />
           </div>
 
-          {/* Catégorie */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-              Catégorie
-            </label>
-            <select
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-              className={inputClass}
-            >
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
+          {/* Catégorie + Lien externe */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                Catégorie
+              </label>
+              <select value={category} onChange={e => setCategory(e.target.value)} className={inputClass}>
+                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                Lien externe <span className="text-slate-400 normal-case font-normal">(optionnel)</span>
+              </label>
+              <input
+                type="url"
+                value={extLink}
+                onChange={e => setExtLink(e.target.value)}
+                placeholder="https://..."
+                className={inputClass}
+              />
+            </div>
           </div>
 
-          {/* Contenu */}
+          {/* Éditeur riche */}
           <div>
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-              Contenu * <span className="text-slate-400 normal-case font-normal">(HTML autorisé)</span>
+              Contenu * <span className="text-slate-400 normal-case font-normal">— photos, vidéos, tableaux, mise en forme</span>
             </label>
-            <textarea
+            <RichTextEditor
               value={content}
-              onChange={e => setContent(e.target.value)}
-              placeholder="Rédigez votre article ici...&#10;&#10;Vous pouvez utiliser du HTML basique : <b>gras</b>, <i>italique</i>, <p>paragraphes</p>"
-              rows={14}
-              className={`${inputClass} resize-none leading-relaxed`}
+              onChange={setContent}
+              placeholder="Rédigez votre article... Insérez des images depuis votre appareil avec le bouton 🖼️"
+              maxLength={20000}
             />
           </div>
 
-          {/* Lien externe */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-              Lien externe <span className="text-slate-400 normal-case font-normal">(optionnel)</span>
-            </label>
-            <input
-              type="url"
-              value={extLink}
-              onChange={e => setExtLink(e.target.value)}
-              placeholder="https://..."
-              className={inputClass}
-            />
-          </div>
-
-          {/* Auteur (lecture seule) */}
+          {/* Auteur */}
           <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
             <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm">
               {user.firstName?.charAt(0).toUpperCase()}
@@ -157,15 +156,12 @@ export default function BlogNewPage() {
 
           {/* Actions */}
           <div className="flex gap-3 pt-2">
-            <Link
-              href="/blog"
-              className="flex-1 py-3 rounded-xl text-sm font-semibold text-center bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors"
-            >
+            <Link href="/blog" className="flex-1 py-3 rounded-xl text-sm font-semibold text-center bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
               Annuler
             </Link>
             <button
               onClick={handleSubmit}
-              disabled={loading || !title.trim() || !content.trim()}
+              disabled={loading || !title.trim()}
               className="flex-1 py-3 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-50"
               style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}
             >
