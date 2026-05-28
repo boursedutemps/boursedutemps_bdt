@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { Heart } from 'lucide-react'
 import { useUser } from '@/components/UserProvider'
+import ShareMenu from '@/components/ShareMenu'
 
 interface Testimonial {
   id: number
@@ -13,13 +15,14 @@ interface Testimonial {
   content: string
   rating?: number
   created_at: string
+  likes?: string[]
+  shares?: number
 }
 
 interface Member {
   uid: string
   first_name?: string
   last_name?: string
-  avatar?: string
 }
 
 export default function TestimonialsPage() {
@@ -28,14 +31,12 @@ export default function TestimonialsPage() {
   const [members, setMembers]           = useState<Member[]>([])
   const [loading, setLoading]           = useState(true)
   const [showForm, setShowForm]         = useState(false)
-
-  // Formulaire
-  const [toUserId, setToUserId]   = useState('')
-  const [content, setContent]     = useState('')
-  const [rating, setRating]       = useState(5)
-  const [submitting, setSubmitting] = useState(false)
-  const [formError, setFormError] = useState<string | null>(null)
-  const [formSuccess, setFormSuccess] = useState(false)
+  const [toUserId, setToUserId]         = useState('')
+  const [content, setContent]           = useState('')
+  const [rating, setRating]             = useState(5)
+  const [submitting, setSubmitting]     = useState(false)
+  const [formError, setFormError]       = useState<string | null>(null)
+  const [formSuccess, setFormSuccess]   = useState(false)
 
   const fetchTestimonials = () =>
     fetch('/api/testimonials')
@@ -59,14 +60,7 @@ export default function TestimonialsPage() {
       const res = await fetch('/api/testimonials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          author_id:     user.uid,
-          author_name:   `${user.firstName} ${user.lastName}`,
-          author_avatar: user.avatar || null,
-          to_user_id:    toUserId,
-          content:       content.trim(),
-          rating,
-        }),
+        body: JSON.stringify({ author_id: user.uid, author_name: `${user.firstName} ${user.lastName}`, author_avatar: user.avatar || null, to_user_id: toUserId, content: content.trim(), rating }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur serveur')
@@ -76,27 +70,31 @@ export default function TestimonialsPage() {
       setTimeout(() => { setFormSuccess(false); setShowForm(false) }, 2000)
     } catch (e: unknown) {
       setFormError(e instanceof Error ? e.message : 'Erreur')
-    } finally {
-      setSubmitting(false)
-    }
+    } finally { setSubmitting(false) }
   }
 
-  const formatDate = (str: string) =>
-    new Date(str).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+  const handleLike = async (t: Testimonial) => {
+    if (!user) return
+    const likes = t.likes || []
+    const newLikes = likes.includes(user.uid) ? likes.filter(id => id !== user.uid) : [...likes, user.uid]
+    await fetch(`/api/testimonials/${t.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ likes: newLikes }) })
+    setTestimonials(prev => prev.map(x => x.id === t.id ? { ...x, likes: newLikes } : x))
+  }
 
-  const initials = (name?: string) =>
-    (name || 'M').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+  const handleShare = async (t: Testimonial) => {
+    await fetch(`/api/testimonials/${t.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shares: (t.shares || 0) + 1 }) })
+    setTestimonials(prev => prev.map(x => x.id === t.id ? { ...x, shares: (x.shares || 0) + 1 } : x))
+  }
 
-  const stars = (n: number, interactive = false) =>
-    [1,2,3,4,5].map(i => (
-      <button key={i} type="button"
-        onClick={() => interactive && setRating(i)}
-        className={`text-xl transition-colors ${interactive ? 'cursor-pointer hover:scale-110' : 'cursor-default'} ${i <= n ? 'text-amber-400' : 'text-slate-200'}`}>
-        ★
-      </button>
-    ))
+  const formatDate = (str: string) => new Date(str).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+  const initials = (name?: string) => (name || 'M').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+  const stars = (n: number, interactive = false) => [1,2,3,4,5].map(i => (
+    <button key={i} type="button" onClick={() => interactive && setRating(i)}
+      className={`text-xl transition-colors ${interactive ? 'cursor-pointer hover:scale-110' : 'cursor-default'} ${i <= n ? 'text-amber-400' : 'text-slate-200'}`}>★</button>
+  ))
 
   const otherMembers = members.filter(m => m.uid !== user?.uid)
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://boursedutemps.vercel.app/testimonials'
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
@@ -104,19 +102,13 @@ export default function TestimonialsPage() {
 
         {/* En-tête */}
         <div className="mb-10 text-center">
-          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-            Ils en parlent mieux que nous
-          </p>
+          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">Ils en parlent mieux que nous</p>
           <h1 className="text-3xl font-bold text-slate-800">Témoignages</h1>
-          <p className="text-slate-500 mt-2 max-w-xl mx-auto">
-            Des échanges réels, des liens durables. Voici ce que vivent les membres de la Bourse du Temps.
-          </p>
+          <p className="text-slate-500 mt-2 max-w-xl mx-auto">Des échanges réels, des liens durables. Voici ce que vivent les membres de la Bourse du Temps.</p>
           {user && (
-            <button
-              onClick={() => setShowForm(f => !f)}
+            <button onClick={() => setShowForm(f => !f)}
               className="mt-6 px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-              style={{ background: showForm ? '#94A3B8' : 'linear-gradient(135deg,#F59E0B,#EF4444)' }}
-            >
+              style={{ background: showForm ? '#94A3B8' : 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
               {showForm ? '✕ Annuler' : '✍️ Laisser un témoignage'}
             </button>
           )}
@@ -127,56 +119,35 @@ export default function TestimonialsPage() {
           <div className="bg-white rounded-2xl border border-amber-100 p-6 mb-10 shadow-sm">
             <h2 className="text-lg font-bold text-slate-800 mb-5">Votre témoignage</h2>
             <div className="space-y-4">
-
-              {/* Destinataire */}
               <div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-                  À propos de quel membre ? *
-                </label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">À propos de quel membre ? *</label>
                 <select value={toUserId} onChange={e => setToUserId(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400">
                   <option value="">Sélectionnez un membre…</option>
                   {otherMembers.map(m => (
-                    <option key={m.uid} value={m.uid}>
-                      {[m.first_name, m.last_name].filter(Boolean).join(' ')}
-                    </option>
+                    <option key={m.uid} value={m.uid}>{[m.first_name, m.last_name].filter(Boolean).join(' ')}</option>
                   ))}
                 </select>
               </div>
-
-              {/* Note */}
               <div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-                  Note
-                </label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Note</label>
                 <div className="flex gap-1">{stars(rating, true)}</div>
               </div>
-
-              {/* Contenu */}
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
                   Votre témoignage * <span className="text-slate-400 normal-case font-normal">(min 20 caractères)</span>
                 </label>
-                <textarea
-                  value={content}
-                  onChange={e => setContent(e.target.value)}
-                  placeholder="Décrivez votre expérience d'échange avec ce membre…"
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400 resize-none leading-relaxed"
-                />
+                <textarea value={content} onChange={e => setContent(e.target.value)}
+                  placeholder="Décrivez votre expérience d'échange avec ce membre…" rows={5}
+                  className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400 resize-none leading-relaxed" />
                 <p className="text-xs text-slate-400 mt-1 text-right">{content.length} / 1000</p>
               </div>
-
               {formError && <p className="text-sm text-red-500 bg-red-50 px-4 py-3 rounded-xl">⚠️ {formError}</p>}
               {formSuccess && <p className="text-sm text-green-600 bg-green-50 px-4 py-3 rounded-xl">✅ Témoignage publié !</p>}
-
               <div className="flex gap-3">
-                <button onClick={() => setShowForm(false)}
-                  className="flex-1 py-3 rounded-xl text-sm font-semibold bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors">
-                  Annuler
-                </button>
+                <button onClick={() => setShowForm(false)} className="flex-1 py-3 rounded-xl text-sm font-semibold bg-slate-100 text-slate-500">Annuler</button>
                 <button onClick={handleSubmit} disabled={submitting || content.trim().length < 20}
-                  className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all"
+                  className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50"
                   style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
                   {submitting ? '⏳ Envoi…' : '🚀 Publier'}
                 </button>
@@ -199,22 +170,38 @@ export default function TestimonialsPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {testimonials.map(t => (
-              <div key={t.id}
-                className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-amber-200 hover:shadow-sm transition-all flex flex-col">
+              <div key={t.id} className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-amber-200 hover:shadow-sm transition-all flex flex-col">
                 {t.rating && <div className="flex gap-0.5 mb-3">{stars(t.rating)}</div>}
                 <p className="text-3xl text-amber-200 leading-none mb-1 font-serif">"</p>
                 <p className="text-slate-600 text-sm leading-relaxed flex-1 italic">{t.content}</p>
+
+                {/* Auteur */}
                 <div className="flex items-center gap-3 mt-5 pt-4 border-t border-slate-50">
                   <div className="w-9 h-9 rounded-xl overflow-hidden bg-amber-100 flex items-center justify-center flex-shrink-0">
                     {t.author_avatar
                       ? <Image src={t.author_avatar} alt={t.author_name || ''} width={36} height={36} className="object-cover w-full h-full" />
-                      : <span className="text-xs font-bold text-amber-600">{initials(t.author_name)}</span>
-                    }
+                      : <span className="text-xs font-bold text-amber-600">{initials(t.author_name)}</span>}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-semibold text-slate-700">{t.author_name || 'Membre anonyme'}</p>
                     <p className="text-xs text-slate-400">{formatDate(t.created_at)}</p>
                   </div>
+                </div>
+
+                {/* Actions : Like + Partager */}
+                <div className="flex items-center gap-5 mt-4 pt-3 border-t border-slate-50">
+                  <button onClick={() => handleLike(t)}
+                    className={`flex items-center gap-1.5 text-sm font-bold transition ${user && (t.likes || []).includes(user.uid) ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}>
+                    <Heart size={16} className={user && (t.likes || []).includes(user.uid) ? 'fill-current' : ''} />
+                    <span className="text-xs">{(t.likes || []).length}</span>
+                  </button>
+                  <ShareMenu
+                    url={pageUrl}
+                    title={`Témoignage — ${t.author_name || 'Membre'}`}
+                    text={t.content.slice(0, 200)}
+                    count={t.shares}
+                    onShare={() => handleShare(t)}
+                  />
                 </div>
               </div>
             ))}
