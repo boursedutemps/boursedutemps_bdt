@@ -1,17 +1,17 @@
 'use client'
-
 // src/app/projects/[slug]/page.tsx
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useUser } from '@/components/UserProvider'
 
-interface Contributor {
+interface Contribution {
   user_uid: string
-  role: string
+  role: 'leader' | 'contributor'
   hours: number
-  users: { first_name?: string; name?: string; avatar?: string }
+  users?: { first_name?: string; name?: string; avatar?: string }
 }
 
 interface Project {
@@ -29,205 +29,277 @@ interface Project {
   status: string
   deadline?: string
   created_at: string
-  project_contributions: Contributor[]
+  created_by: string
+  project_contributions?: Contribution[]
+}
+
+const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+  open:        { label: 'Ouvert',    color: '#10B981', bg: '#F0FDF4' },
+  in_progress: { label: 'En cours', color: '#3B82F6', bg: '#EFF6FF' },
+  completed:   { label: 'Complété', color: '#8B5CF6', bg: '#F5F3FF' },
+  cancelled:   { label: 'Annulé',   color: '#94A3B8', bg: '#F8FAFC' },
 }
 
 export default function ProjectDetailPage() {
-  const { slug } = useParams() as { slug: string }
-  const router   = useRouter()
+  const { slug } = useParams<{ slug: string }>()
+  const router = useRouter()
+  const { user } = useUser()
+  const [project, setProject]   = useState<Project | null>(null)
+  const [loading, setLoading]   = useState(true)
+  const [notFound, setNotFound] = useState(false)
+  const [joining, setJoining]   = useState(false)
+  const [hours, setHours]       = useState('')
+  const [desc, setDesc]         = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess]   = useState<string | null>(null)
+  const [error, setError]       = useState<string | null>(null)
 
-  const [project, setProject] = useState<Project | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [joining, setJoining] = useState(false)
-  const [hours, setHours]     = useState(1)
-  const [note, setNote]       = useState('')
-  const [saving, setSaving]   = useState(false)
-  const [myUid, setMyUid]     = useState<string | null>(null)
-
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
-        .then(r => r.ok ? r.json() : null)
-        .then(me => { if (me) setMyUid(me.uid || me.id) })
-        .catch(console.error)
-    }
-
+  const fetchProject = () =>
     fetch(`/api/projects?slug=${slug}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => { if (!data) { router.replace('/projects'); return } setProject(data) })
+      .then(async r => {
+        if (r.status === 404) { setNotFound(true); return }
+        const data = await r.json()
+        if (data.error) { setNotFound(true); return }
+        setProject(data)
+      })
+      .catch(() => setNotFound(true))
       .finally(() => setLoading(false))
-  }, [slug, router])
 
-  const isMember = myUid && project?.project_contributions?.some(c => c.user_uid === myUid)
-  const pct = project ? Math.min(100, Math.round((project.hours_contributed / project.hours_goal) * 100)) : 0
+  useEffect(() => { fetchProject() }, [slug])
+
+  const isMember = project?.project_contributions?.some(c => c.user_uid === user?.uid)
+  const isLeader = project?.project_contributions?.some(c => c.user_uid === user?.uid && c.role === 'leader')
+  const myContrib = project?.project_contributions?.find(c => c.user_uid === user?.uid)
 
   const handleJoin = async () => {
-    if (!myUid || !project) return
-    setJoining(true)
+    if (!user) return
+    setJoining(true); setError(null)
     try {
       const res = await fetch('/api/projects', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ project_id: project.id, user_uid: myUid, action: 'join' }),
+        body: JSON.stringify({ project_id: project!.id, user_uid: user.uid, action: 'join' }),
       })
-      if (res.ok) {
-        setProject(prev => prev ? { ...prev, members_count: prev.members_count + 1 } : prev)
-        window.location.reload()
-      }
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setSuccess('Vous avez rejoint le projet !')
+      fetchProject()
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Erreur')
     } finally { setJoining(false) }
   }
 
   const handleContribute = async () => {
-    if (!myUid || !project) return
-    setSaving(true)
+    if (!user || !hours) return
+    setSubmitting(true); setError(null)
     try {
-      await fetch('/api/projects', {
+      const res = await fetch('/api/projects', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ project_id: project.id, user_uid: myUid, action: 'contribute', hours, description: note }),
+        body: JSON.stringify({ project_id: project!.id, user_uid: user.uid, action: 'contribute', hours: parseFloat(hours), description: desc }),
       })
-      window.location.reload()
-    } finally { setSaving(false) }
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setSuccess(`${hours}h de contribution enregistrées !`)
+      setHours(''); setDesc('')
+      fetchProject()
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Erreur')
+    } finally { setSubmitting(false) }
   }
 
-  const displayName = (c: Contributor) => c.users?.first_name || c.users?.name || 'Membre'
-
-  const formatDate = (d?: string) => d
-    ? new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+  const formatDate = (str?: string) => str
+    ? new Date(str).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
     : null
 
   if (loading) return (
-    <main className="min-h-screen bg-[#FFFCF7] pt-24 flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+    <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
+      <div className="max-w-3xl mx-auto space-y-4">
+        <div className="h-10 w-2/3 bg-slate-100 rounded-xl animate-pulse" />
+        <div className="h-4 w-1/3 bg-slate-100 rounded animate-pulse" />
+        <div className="h-48 bg-slate-100 rounded-2xl animate-pulse mt-6" />
+      </div>
     </main>
   )
-  if (!project) return null
+
+  if (notFound || !project) return (
+    <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4 flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-5xl mb-4">🚀</p>
+        <h1 className="text-2xl font-bold text-slate-700 mb-2">Projet introuvable</h1>
+        <Link href="/projects" className="text-amber-600 font-semibold hover:underline">← Retour aux projets</Link>
+      </div>
+    </main>
+  )
+
+  const sc = STATUS_CONFIG[project.status] || STATUS_CONFIG.open
+  const pct = Math.min(100, Math.round((project.hours_contributed / project.hours_goal) * 100))
+  const contributors = project.project_contributions || []
+  const leader = contributors.find(c => c.role === 'leader')
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
 
-        <Link href="/projects" className="text-xs text-slate-400 hover:text-slate-600 transition mb-6 block">
+        {/* Breadcrumb */}
+        <Link href="/projects" className="text-sm text-slate-400 hover:text-amber-600 transition-colors mb-8 block">
           ← Retour aux projets
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-          {/* Colonne principale */}
-          <div className="lg:col-span-2 space-y-5">
-
-            {/* En-tête */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-100">
-              <div className="flex items-start gap-4 mb-4">
-                <span className="text-4xl">{project.icon}</span>
-                <div className="flex-1">
-                  <h1 className="text-xl font-bold text-slate-800">{project.title}</h1>
-                  {project.category && <p className="text-xs text-slate-400 capitalize mt-0.5">{project.category}</p>}
+        {/* Header */}
+        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden mb-6">
+          <div className="p-6 pb-4" style={{ background: 'linear-gradient(135deg,#FEF3C7,#FFF7ED)' }}>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <span className="text-5xl">{project.icon}</span>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    {project.category && (
+                      <span className="text-xs text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full font-semibold capitalize">
+                        {project.category}
+                      </span>
+                    )}
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full"
+                      style={{ background: sc.bg, color: sc.color }}>
+                      {sc.label}
+                    </span>
+                  </div>
+                  <h1 className="text-2xl font-bold text-slate-800 leading-tight">{project.title}</h1>
                 </div>
-                <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                  project.status === 'completed' ? 'bg-purple-50 text-purple-600' :
-                  project.status === 'in_progress' ? 'bg-blue-50 text-blue-600' :
-                  'bg-green-50 text-green-600'
-                }`}>
-                  {project.status === 'completed' ? '✓ Complété' :
-                   project.status === 'in_progress' ? '⚡ En cours' : '🟢 Ouvert'}
-                </span>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">{project.description}</p>
-              <div className="bg-amber-50 rounded-xl p-3 border border-amber-100">
-                <p className="text-xs font-semibold text-amber-800 mb-1">🎯 Objectif</p>
-                <p className="text-sm text-slate-700">{project.goal}</p>
-              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <p className="text-slate-600 leading-relaxed mb-5">{project.description}</p>
+
+            {/* Objectif */}
+            <div className="bg-amber-50 rounded-xl p-4 mb-5 border border-amber-100">
+              <p className="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1">🎯 Objectif</p>
+              <p className="text-sm text-slate-600 leading-relaxed">{project.goal}</p>
             </div>
 
             {/* Progression */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-100">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="font-bold text-slate-800 text-sm">Progression</h2>
-                <span className="text-sm font-bold text-amber-600">{pct}%</span>
+            <div className="mb-5">
+              <div className="flex justify-between text-sm text-slate-500 mb-2">
+                <span className="font-semibold">{project.hours_contributed}h contribuées</span>
+                <span>{project.hours_goal}h objectif</span>
               </div>
-              <div className="h-3 bg-slate-100 rounded-full overflow-hidden mb-2">
+              <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                 <div className="h-full rounded-full transition-all"
                   style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#F59E0B,#EF4444)' }} />
               </div>
-              <div className="flex justify-between text-xs text-slate-400">
-                <span>{project.hours_contributed}h contribuées</span>
-                <span>{project.hours_goal}h objectif</span>
-              </div>
-              {project.deadline && (
-                <p className="text-xs text-slate-400 mt-2">📅 Deadline : {formatDate(project.deadline)}</p>
-              )}
+              <p className="text-right text-xs text-slate-400 mt-1">{pct}% accompli</p>
             </div>
 
-            {/* Contribution (si membre) */}
-            {isMember && project.status !== 'completed' && (
-              <div className="bg-white rounded-2xl p-6 border border-amber-100">
-                <h2 className="font-bold text-slate-800 mb-4">✍️ Déclarer ma contribution</h2>
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1.5">Heures contribuées</label>
-                    <input type="number" value={hours} min={1} onChange={e => setHours(+e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400 transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1.5">Description (optionnel)</label>
-                    <textarea value={note} onChange={e => setNote(e.target.value)}
-                      placeholder="Qu'avez-vous réalisé ?" rows={2}
-                      className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none resize-none focus:border-amber-400 transition-colors" />
-                  </div>
-                  <button onClick={handleContribute} disabled={saving}
-                    className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all"
-                    style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)', opacity: saving ? 0.7 : 1 }}>
-                    {saving ? '⏳ Enregistrement…' : '+ Enregistrer ma contribution'}
-                  </button>
-                </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="bg-slate-50 rounded-xl p-3">
+                <p className="text-xl font-bold text-slate-800">{project.members_count}</p>
+                <p className="text-xs text-slate-400">/ {project.members_limit} membres</p>
               </div>
-            )}
-          </div>
-
-          {/* Colonne latérale */}
-          <div className="space-y-5">
-
-            {/* CTA rejoindre */}
-            {!isMember && project.status === 'open' && (
-              <button onClick={handleJoin} disabled={joining}
-                className="w-full py-4 rounded-2xl text-sm font-bold text-white transition-all shadow-lg"
-                style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)', opacity: joining ? 0.7 : 1,
-                         boxShadow: '0 4px 14px rgba(245,158,11,0.3)' }}>
-                {joining ? '⏳ Rejoindre…' : '🙋 Contribuer au projet →'}
-              </button>
-            )}
-
-            {/* Contributeurs */}
-            <div className="bg-white rounded-2xl p-5 border border-slate-100">
-              <h2 className="font-bold text-slate-700 text-sm mb-4">
-                👥 Contributeurs ({project.members_count}/{project.members_limit})
-              </h2>
-              {project.project_contributions?.length === 0 ? (
-                <p className="text-xs text-slate-400 italic">Soyez le premier à contribuer !</p>
-              ) : (
-                <div className="space-y-3">
-                  {(project.project_contributions || []).slice(0, 8).map(c => (
-                    <div key={c.user_uid} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl overflow-hidden bg-amber-100 flex items-center justify-center flex-shrink-0">
-                        {c.users?.avatar ? (
-                          <Image src={c.users.avatar} alt={displayName(c)} width={32} height={32} className="object-cover w-full h-full" />
-                        ) : (
-                          <span className="text-xs font-bold text-amber-700">{displayName(c)[0]}</span>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-slate-700 truncate">{displayName(c)}</p>
-                        <p className="text-[10px] text-slate-400">{c.hours}h · {c.role}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="bg-slate-50 rounded-xl p-3">
+                <p className="text-xl font-bold text-slate-800">{project.hours_contributed}h</p>
+                <p className="text-xs text-slate-400">contribuées</p>
+              </div>
+              <div className="bg-slate-50 rounded-xl p-3">
+                <p className="text-xl font-bold text-slate-800">{pct}%</p>
+                <p className="text-xs text-slate-400">de l'objectif</p>
+              </div>
             </div>
+
+            {project.deadline && (
+              <p className="text-xs text-slate-400 mt-3 text-center">
+                📅 Deadline : {formatDate(project.deadline)}
+              </p>
+            )}
           </div>
         </div>
+
+        {/* Messages feedback */}
+        {success && <p className="text-sm text-green-600 bg-green-50 px-4 py-3 rounded-xl mb-4">✅ {success}</p>}
+        {error   && <p className="text-sm text-red-500 bg-red-50 px-4 py-3 rounded-xl mb-4">⚠️ {error}</p>}
+
+        {/* Actions */}
+        {user && project.status === 'open' && !isMember && (
+          <div className="bg-white rounded-2xl border border-amber-100 p-5 mb-6">
+            <h2 className="font-bold text-slate-800 mb-3">Rejoindre ce projet</h2>
+            <p className="text-sm text-slate-500 mb-4">
+              En rejoignant, vous vous engagez à contribuer selon vos disponibilités.
+            </p>
+            <button onClick={handleJoin} disabled={joining}
+              className="w-full py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all"
+              style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
+              {joining ? '⏳ Rejoindre…' : '🚀 Rejoindre le projet'}
+            </button>
+          </div>
+        )}
+
+        {/* Log contribution */}
+        {isMember && project.status !== 'completed' && (
+          <div className="bg-white rounded-2xl border border-blue-100 p-5 mb-6">
+            <h2 className="font-bold text-slate-800 mb-4">📝 Enregistrer ma contribution</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
+                  Heures contribuées *
+                </label>
+                <input type="number" value={hours} onChange={e => setHours(e.target.value)}
+                  placeholder="Ex: 2.5" min="0.5" step="0.5"
+                  className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1.5">
+                  Description (optionnel)
+                </label>
+                <textarea value={desc} onChange={e => setDesc(e.target.value)}
+                  placeholder="Ce que vous avez accompli…" rows={3}
+                  className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400 resize-none" />
+              </div>
+              <button onClick={handleContribute} disabled={submitting || !hours}
+                className="w-full py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all"
+                style={{ background: 'linear-gradient(135deg,#3B82F6,#6366F1)' }}>
+                {submitting ? '⏳ Enregistrement…' : '✅ Enregistrer'}
+              </button>
+            </div>
+            {myContrib && (
+              <p className="text-xs text-slate-400 mt-3 text-center">
+                Votre contribution actuelle : <strong>{myContrib.hours}h</strong>
+                {myContrib.role === 'leader' && ' 👑 (Leader)'}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Contributeurs */}
+        {contributors.length > 0 && (
+          <div className="bg-white rounded-2xl border border-slate-100 p-5">
+            <h2 className="font-bold text-slate-800 mb-4">
+              👥 Contributeurs ({contributors.length})
+            </h2>
+            <div className="space-y-3">
+              {contributors.map(c => {
+                const name = c.users?.first_name || c.users?.name || 'Membre'
+                return (
+                  <div key={c.user_uid} className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {c.users?.avatar
+                        ? <Image src={c.users.avatar} alt={name} width={36} height={36} className="object-cover w-full h-full" />
+                        : <span className="text-xs font-bold text-amber-600">{name[0]}</span>}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-slate-700 flex items-center gap-1">
+                        {name}
+                        {c.role === 'leader' && <span className="text-xs">👑</span>}
+                      </p>
+                      <p className="text-xs text-slate-400">{c.hours}h contribuées</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   )
