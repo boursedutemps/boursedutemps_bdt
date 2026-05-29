@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-react';
 import { User as UserType, Notification } from '@/types';
 
@@ -30,7 +30,7 @@ const NAV_GROUPS = [
     label: 'Apprendre',
     items: [
       { label: '📚 Modules',     path: '/modules',      desc: 'Parcours thématiques' },
-      { label: '✍️ Blog',        path: '/blog',         desc: 'Articles & ressources' },
+      { label: '✏️ Blog',        path: '/blog',         desc: 'Articles & ressources' },
       { label: '⭐ Témoignages', path: '/testimonials', desc: 'Avis de la communauté' },
     ],
   },
@@ -52,6 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [mounted, setMounted]           = useState(false);
   const pathname    = usePathname();
+  const router      = useRouter();
   const notifsRef   = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const groupRefs   = useRef<Record<string, HTMLDivElement | null>>({});
@@ -66,12 +67,24 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
     const handleClick = (e: MouseEvent) => {
       if (notifsRef.current && !notifsRef.current.contains(e.target as Node)) setShowNotifs(false);
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setShowUserMenu(false);
-      const inGroup = Object.values(groupRefs.current).some(ref => ref?.contains(e.target as Node));
-      if (!inGroup) setOpenGroup(null);
+      // Ne ferme PAS openGroup ici — géré par chaque bouton
     };
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
+
+  // Ferme le menu mobile et navigue — fiable sur iOS et Android
+  const mobileNavigate = useCallback((path: string) => {
+    setMobileOpen(false);
+    setOpenGroup(null);
+    router.push(path);
+  }, [router]);
+
+  // Ferme le menu quand la route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenGroup(null);
+  }, [pathname]);
 
   const isGroupActive = (group: typeof NAV_GROUPS[0]) =>
     group.items.some(item => pathname === item.path || pathname.startsWith(item.path + '/'));
@@ -147,7 +160,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             )}
           </div>
 
-          {/* Actions droite */}
+          {/* Actions droite desktop */}
           <div className="hidden lg:flex items-center gap-2 ml-auto">
             <Link href="/recherche" className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
               pathname === '/recherche'
@@ -247,76 +260,94 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
           </div>
 
           {/* Mobile burger */}
-          <button className="lg:hidden ml-auto p-2 text-slate-600 hover:bg-slate-50 rounded-full"
-            onClick={() => setMobileOpen(!mobileOpen)}>
+          <button
+            className="lg:hidden ml-auto p-2 text-slate-600 hover:bg-slate-50 rounded-full"
+            onClick={() => setMobileOpen(v => !v)}
+          >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* ── Menu mobile ────────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-slate-100 shadow-2xl max-h-[80vh] overflow-y-auto">
+        <div className="lg:hidden bg-white border-t border-slate-100 shadow-2xl overflow-y-auto"
+          style={{ maxHeight: 'calc(100vh - 64px)' }}>
           <div className="p-4 space-y-1">
-            <Link href="/" onClick={() => setMobileOpen(false)}
-              className={`block px-4 py-3 rounded-xl text-sm font-bold transition ${pathname === '/' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}>
+
+            {/* Accueil */}
+            <button
+              onClick={() => mobileNavigate('/')}
+              className={`w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold transition ${pathname === '/' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}>
               🏠 Accueil
-            </Link>
+            </button>
+
+            {/* Groupes */}
             {NAV_GROUPS.map(group => (
               <div key={group.label}>
-                <button onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${
+                <button
+                  onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
+                  className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold transition ${
                     isGroupActive(group) ? 'text-blue-600 bg-blue-50' : 'text-slate-700 hover:bg-slate-50'
                   }`}>
                   {group.label}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${openGroup === group.label ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openGroup === group.label ? 'rotate-180' : ''}`} />
                 </button>
+
                 {openGroup === group.label && (
                   <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-blue-100 pl-3">
                     {group.items.map(item => (
-                      <Link key={item.path} href={item.path}
-                        onClick={() => { setMobileOpen(false); setOpenGroup(null); }}
-                        className={`block px-3 py-2 rounded-lg text-sm transition ${
-                          pathname === item.path ? 'text-blue-600 font-bold bg-blue-50' : 'text-slate-600 hover:bg-slate-50'
+                      <button
+                        key={item.path}
+                        onClick={() => mobileNavigate(item.path)}
+                        className={`w-full text-left px-3 py-3 rounded-lg text-sm transition font-semibold ${
+                          pathname === item.path ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:bg-slate-50'
                         }`}>
                         {item.label}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 )}
               </div>
             ))}
+
+            {/* Admin */}
             {isAdminOrMod && (
-              <Link href="/moderation" onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 rounded-xl text-sm font-bold text-purple-600 hover:bg-purple-50 transition">
+              <button onClick={() => mobileNavigate('/moderation')}
+                className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-purple-600 hover:bg-purple-50 transition">
                 🛡️ Modération
-              </Link>
+              </button>
             )}
             {isAdmin && (
-              <Link href="/admin/institutions" onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 rounded-xl text-sm font-bold text-violet-600 hover:bg-violet-50 transition">
+              <button onClick={() => mobileNavigate('/admin/institutions')}
+                className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-violet-600 hover:bg-violet-50 transition">
                 🏛️ Institutions
-              </Link>
+              </button>
             )}
-            <Link href="/recherche" onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition">
+
+            {/* Recherche IA */}
+            <button onClick={() => mobileNavigate('/recherche')}
+              className="w-full flex items-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition">
               <Search className="w-4 h-4" /> Recherche IA
-            </Link>
+            </button>
+
+            {/* Auth */}
             <div className="pt-3 mt-3 border-t border-slate-100 space-y-2">
               {user ? (
                 <>
-                  <Link href="/profile" onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm">
+                  <button onClick={() => mobileNavigate('/profile')}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 bg-blue-600 text-white rounded-xl font-bold text-sm">
                     <Clock className="w-5 h-5" /> Mon profil · {user.credits} crédits
-                  </Link>
+                  </button>
                   <button onClick={() => { setMobileOpen(false); onLogout(); }}
                     className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-600 py-3 rounded-xl font-bold text-sm hover:bg-red-50 transition">
                     <LogOut size={16} /> Se déconnecter
                   </button>
                 </>
               ) : (
-                <button onClick={() => { onLogin(); setMobileOpen(false); }}
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-100">
+                <button
+                  onClick={() => { onLogin(); setMobileOpen(false); }}
+                  className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-lg shadow-blue-100">
                   Accès Membre
                 </button>
               )}
