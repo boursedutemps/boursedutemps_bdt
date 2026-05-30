@@ -14,9 +14,10 @@ export async function GET() {
   try {
     const result = await query(
       `SELECT uid, first_name, last_name, avatar, bio, country,
-              offered_skills, department, is_verified_email, credits, role
+              offered_skills, department, is_verified_email, credits, role, status
        FROM users
-       WHERE status = 'active'
+       WHERE status IS DISTINCT FROM 'deleted'
+         AND status IS DISTINCT FROM 'deactivated'
        ORDER BY created_at DESC`
     )
     const users = result.rows.map(u => ({
@@ -31,6 +32,7 @@ export async function GET() {
       verified:       u.is_verified_email ?? false,
       credits:        u.credits ?? 0,
       role:           u.role,
+      status:         u.status,
     }))
     return NextResponse.json(users)
   } catch (error) {
