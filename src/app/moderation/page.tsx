@@ -1,66 +1,74 @@
-"use client";
+'use client'
+// src/app/moderation/page.tsx — migré Firebase → REST
 
-import React, { useState, useEffect } from 'react';
-import PageLayout from '@/components/PageLayout';
-import Moderation from '@/components/pages-old/Moderation';
-import { User, Service, Request } from '@/types';
-import { onSnapshot, collection, db, query, orderBy } from '@/api';
-import { useUser } from '@/components/UserProvider';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useUser } from '@/components/UserProvider'
+import { User, Service, Request } from '@/types'
+import dynamic from 'next/dynamic'
+
+const ModerationComponent = dynamic(() => import('@/components/pages-old/Moderation'), { ssr: false })
 
 export default function ModerationRoute() {
-  const { user } = useUser();
-  const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
-  const [requests, setRequests] = useState<Request[]>([]);
+  const { user, isAuthReady } = useUser()
+  const router = useRouter()
+  const [users, setUsers]       = useState<User[]>([])
+  const [services, setServices] = useState<Service[]>([])
+  const [requests, setRequests] = useState<Request[]>([])
+  const [loading, setLoading]   = useState(true)
 
-  useEffect(() => {
-    if (!user || (user.role !== 'admin' && user.role !== 'moderator')) {
-      // router.push('/'); // Redirect if not authorized
-      return;
+  const isAuthorized = user?.role === 'admin' || user?.role === 'moderator'
+
+  const fetchAll = async () => {
+    if (!user) return
+    const token = localStorage.getItem('token') || ''
+    const headers = { Authorization: `Bearer ${token}` }
+    setLoading(true)
+    try {
+      const [usersRes, servicesRes, requestsRes] = await Promise.all([
+        fetch('/api/users',    { headers }).then(r => r.ok ? r.json() : []),
+        fetch('/api/services', { headers }).then(r => r.ok ? r.json() : []),
+        fetch('/api/requests', { headers }).then(r => r.ok ? r.json() : []),
+      ])
+      setUsers(Array.isArray(usersRes)    ? usersRes    : [])
+      setServices(Array.isArray(servicesRes) ? servicesRes : [])
+      setRequests(Array.isArray(requestsRes) ? requestsRes : [])
+    } finally {
+      setLoading(false)
     }
-
-    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
-      setUsers(snapshot.docs.map(doc => doc.data() as User));
-    });
-
-    const unsubServices = onSnapshot(query(collection(db, 'services'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setServices(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Service)));
-    });
-
-    const unsubRequests = onSnapshot(query(collection(db, 'requests'), orderBy('createdAt', 'desc')), (snapshot) => {
-      setRequests(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Request)));
-    });
-
-    return () => {
-      unsubUsers();
-      unsubServices();
-      unsubRequests();
-    };
-  }, [user]);
-
-  if (!user || (user.role !== 'admin' && user.role !== 'moderator')) {
-    return (
-      <PageLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <p className="text-slate-500">Accès restreint aux modérateurs.</p>
-        </div>
-      </PageLayout>
-    );
   }
 
+  useEffect(() => {
+    if (!isAuthReady) return
+    if (!user || !isAuthorized) { setLoading(false); return }
+    fetchAll()
+  }, [user, isAuthReady])
+
+  // Attendre que l'auth soit prête
+  if (!isAuthReady || loading) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+
+  // Accès refusé
+  if (!user || !isAuthorized) return (
+    <div className="flex items-center justify-center min-h-[60vh] flex-col gap-3">
+      <p className="text-4xl">🔒</p>
+      <p className="text-slate-500 font-medium">Accès restreint aux modérateurs et administrateurs.</p>
+    </div>
+  )
+
   return (
-    <PageLayout>
-      <Moderation onRefresh={async () => {}} 
-        users={users} 
-        onUpdateUsers={setUsers} 
-        services={services} 
-        onUpdateServices={setServices} 
-        requests={requests} 
-        onUpdateRequests={setRequests} 
-        currentUser={user} 
-      />
-    </PageLayout>
-  );
+    <ModerationComponent
+      users={users}
+      onUpdateUsers={setUsers}
+      services={services}
+      onUpdateServices={setServices}
+      requests={requests}
+      onUpdateRequests={setRequests}
+      currentUser={user}
+      onRefresh={fetchAll}
+    />
+  )
 }
