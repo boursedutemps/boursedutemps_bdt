@@ -1,3 +1,4 @@
+export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { query } from '@/lib/db'
 
@@ -50,3 +51,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
+
