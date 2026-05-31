@@ -51,7 +51,7 @@ export default function BlogNewPage() {
 
       const formData = new FormData()
       formData.append('file', file)
-      formData.append('upload_preset', uploadPreset || 'bdt_avatars')
+      formData.append('upload_preset', uploadPreset || 'boursedutemps_upload')
 
       const res  = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, { method: 'POST', body: formData })
       const data = await res.json()
@@ -208,3 +208,4 @@ export default function BlogNewPage() {
     </main>
   )
 }
+
