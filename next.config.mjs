@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverComponentsExternalPackages: ['pg', 'bcryptjs', 'jsonwebtoken', '@react-pdf/renderer'],
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
   },
   transpilePackages: ['@livekit/components-react', '@livekit/components-core'],
   images: {
