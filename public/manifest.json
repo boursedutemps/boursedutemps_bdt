@@ -3,26 +3,49 @@
   "short_name": "BdT",
   "description": "Échangez vos talents, apprenez gratuitement et construisez l'avenir au sein de notre banque de temps solidaire.",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
-  "background_color": "#f8fafc",
+  "background_color": "#FFFCF7",
   "theme_color": "#2563eb",
   "orientation": "portrait",
+  "lang": "fr",
+  "categories": ["education", "social", "productivity"],
   "icons": [
     {
       "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
       "sizes": "192x192",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["education", "social", "productivity"],
-  "lang": "fr",
+  "screenshots": [
+    {
+      "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Bourse du Temps — Tableau de bord"
+    },
+    {
+      "src": "https://i.postimg.cc/5Y3Rg6zs/image-1.jpg",
+      "sizes": "390x844",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Bourse du Temps — Mobile"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Forum",
@@ -38,6 +61,13 @@
       "name": "Mon Profil",
       "url": "/profile",
       "description": "Accéder à mon profil"
+    },
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "description": "Mon tableau de bord"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
