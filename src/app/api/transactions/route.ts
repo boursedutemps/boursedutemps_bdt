@@ -4,23 +4,32 @@ import { getUserIdFromRequest } from '@/lib/auth';
 
 export async function GET(req: Request) {
   const uid = getUserIdFromRequest(req);
-  if (!uid) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+  // Sans auth → stats publiques pour la page d'accueil
+  if (!uid) {
+    try {
+      const result = await query('SELECT COUNT(*) as total FROM transactions');
+      return NextResponse.json({ total: parseInt(result.rows[0]?.total || '0') })
+    } catch {
+      return NextResponse.json([])
+    }
+  }
+
+  // Avec auth → transactions personnelles
   try {
     const result = await query(
       'SELECT * FROM transactions WHERE from_id = $1 OR to_id = $1 ORDER BY created_at DESC',
       [uid]
     );
-    const transactions = result.rows.map(t => ({
-      id: t.id,
-      fromId: t.from_id,
-      toId: t.to_id,
-      amount: t.amount,
+    return NextResponse.json(result.rows.map(t => ({
+      id:           t.id,
+      fromId:       t.from_id,
+      toId:         t.to_id,
+      amount:       t.amount,
       serviceTitle: t.service_title,
-      type: t.type,
-      date: t.created_at,
-    }));
-    return NextResponse.json(transactions);
+      type:         t.type,
+      date:         t.created_at,
+    })));
   } catch (error) {
     console.error('Error fetching transactions:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
@@ -41,4 +50,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-
