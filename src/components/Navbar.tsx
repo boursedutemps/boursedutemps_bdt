@@ -90,14 +90,14 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
     group.items.some(item => pathname === item.path || pathname.startsWith(item.path + '/'));
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <nav aria-label="Navigation principale" className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16 gap-4">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
             <div className="relative w-9 h-9">
-              <Image src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" alt="Logo" fill
+              <Image src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" alt="Logo Bourse du Temps" fill
                 className="rounded-full object-cover border border-slate-100 group-hover:scale-105 transition-transform" />
             </div>
             <span className="font-bold text-base tracking-tight text-slate-900 hidden sm:block uppercase">
@@ -116,6 +116,8 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
                 ref={el => { groupRefs.current[group.label] = el }}>
                 <button
                   onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
+                  aria-expanded={openGroup === group.label}
+                  aria-haspopup="true"
                   className={`flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
                     isGroupActive(group) || openGroup === group.label
                       ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
@@ -134,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
                           <span className={`text-sm font-semibold ${pathname === item.path ? 'text-blue-600' : 'text-slate-700'}`}>
                             {item.label}
                           </span>
-                          <span className="text-xs text-slate-400 mt-0.5">{item.desc}</span>
+                          <span className="text-xs text-slate-500 mt-0.5">{item.desc}</span>
                         </Link>
                       ))}
                     </div>
@@ -173,6 +175,8 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             {user && (
               <div className="relative" ref={notifsRef}>
                 <button onClick={() => setShowNotifs(!showNotifs)}
+                  aria-label={`Notifications${unread > 0 ? ` — ${unread} non lue${unread > 1 ? 's' : ''}` : ''}`}
+                  aria-expanded={showNotifs}
                   className="relative p-2 rounded-full text-slate-500 hover:bg-slate-50 transition">
                   <Bell className="w-5 h-5" />
                   {unread > 0 && (
@@ -219,12 +223,14 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             {user ? (
               <div className="relative" ref={userMenuRef}>
                 <button onClick={() => setShowUserMenu(!showUserMenu)}
+                  aria-label={`Compte de ${user.firstName} — ${user.credits} crédit${user.credits !== 1 ? 's' : ''}`}
+                  aria-expanded={showUserMenu}
                   className="flex items-center gap-2 bg-blue-600 text-white pl-3 pr-1.5 py-1.5 rounded-full hover:bg-blue-700 transition shadow-md shadow-blue-200">
                   <Clock className="w-4 h-4 text-blue-100" />
                   <span className="text-sm font-bold">{user.credits}</span>
                   <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden border border-blue-300 relative">
                     {user.avatar
-                      ? <Image src={user.avatar} alt="avatar" fill className="object-cover" sizes="28px" />
+                      ? <Image src={user.avatar} alt={`Avatar de ${user.firstName}`} fill className="object-cover" sizes="28px" />
                       : <span className="text-[10px] text-blue-600 font-bold">{user.firstName?.[0] || '?'}</span>
                     }
                   </div>
@@ -261,6 +267,9 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
 
           {/* Mobile burger */}
           <button
+            aria-label={mobileOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
             className="lg:hidden ml-auto p-2 text-slate-600 hover:bg-slate-50 rounded-full"
             onClick={() => setMobileOpen(v => !v)}
           >
@@ -271,7 +280,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
 
       {/* ── Menu mobile ────────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-slate-100 shadow-2xl overflow-y-auto"
+        <div id="mobile-menu" className="lg:hidden bg-white border-t border-slate-100 shadow-2xl overflow-y-auto"
           style={{ maxHeight: 'calc(100vh - 64px)' }}>
           <div className="p-4 space-y-1">
 

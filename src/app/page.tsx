@@ -165,14 +165,14 @@ export default function HomePage() {
                 <p className="text-2xl font-bold text-slate-800">
                   {loading ? '—' : s.value > 0 ? s.value.toLocaleString('fr-FR') : '0'}
                 </p>
-                <p className="text-xs text-slate-400 mt-0.5">{s.label}</p>
+                <p className="text-xs text-slate-600 mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-300 animate-bounce">
+        <div aria-hidden="true" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-400 animate-bounce">
           <span className="text-xs font-medium">Découvrir</span>
           <div className="w-0.5 h-8 bg-gradient-to-b from-slate-300 to-transparent" />
         </div>
@@ -182,7 +182,7 @@ export default function HomePage() {
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-bold tracking-widest uppercase text-blue-500 mb-3">Simple & équitable</p>
+            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">Simple & équitable</p>
             <h2 className="text-3xl font-bold text-slate-800">Comment ça marche ?</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -219,7 +219,7 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="text-xs font-bold tracking-widest uppercase text-amber-500 mb-2">Disponibles maintenant</p>
+                <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-2">Disponibles maintenant</p>
                 <h2 className="text-3xl font-bold text-slate-800">Services proposés</h2>
               </div>
               <Link href="/services" className="text-sm font-bold text-blue-600 hover:text-blue-700 transition">
@@ -239,7 +239,7 @@ export default function HomePage() {
                   <h3 className="font-bold text-slate-800 mb-1 leading-snug flex-1 group-hover:text-amber-700 transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-3">par {s.user_name}</p>
+                  <p className="text-xs text-slate-600 mt-3">par {s.user_name}</p>
                 </Link>
               ))}
             </div>
@@ -251,7 +251,7 @@ export default function HomePage() {
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-bold tracking-widest uppercase text-blue-500 mb-3">Une plateforme complète</p>
+            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">Une plateforme complète</p>
             <h2 className="text-3xl font-bold text-slate-800">Tout ce dont vous avez besoin</h2>
             <p className="text-slate-500 mt-3 max-w-xl mx-auto">
               Des outils pensés pour faciliter le partage, renforcer la confiance et créer du lien dans votre communauté.
@@ -275,7 +275,7 @@ export default function HomePage() {
         <section className="py-24 px-4 bg-white">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold tracking-widest uppercase text-amber-500 mb-3">Ils en parlent</p>
+              <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-3">Ils en parlent</p>
               <h2 className="text-3xl font-bold text-slate-800">Ce que dit la communauté</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -314,7 +314,7 @@ export default function HomePage() {
       {/* ══ INSTITUTIONS ══════════════════════════════════════════════════════ */}
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs font-bold tracking-widest uppercase text-violet-500 mb-3">Pour les organisations</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-violet-700 mb-3">Pour les organisations</p>
           <h2 className="text-3xl font-bold text-slate-800 mb-4">
             Vous êtes une institution ?
           </h2>
@@ -331,7 +331,7 @@ export default function HomePage() {
               <div key={item.label} className="bg-white rounded-2xl p-5 border border-slate-100 text-center">
                 <p className="text-2xl mb-2">{item.icon}</p>
                 <p className="text-sm font-bold text-slate-700">{item.label}</p>
-                <p className="text-xs text-slate-400 mt-1">{item.desc}</p>
+                <p className="text-xs text-slate-600 mt-1">{item.desc}</p>
               </div>
             ))}
           </div>
