@@ -3,6 +3,7 @@
 
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { query } from '@/lib/db'  // ← users sont en PostgreSQL direct, pas Supabase
 
 // ── GET — avis en attente pour un utilisateur ─────────────────────────────────
 export async function GET(req: Request) {
@@ -17,12 +18,7 @@ export async function GET(req: Request) {
   try {
     const { data, error } = await supabaseAdmin
       .from('review_prompts')
-      .select(`
-        id,
-        transaction_id,
-        reviewee_id,
-        completed
-      `)
+      .select('id, transaction_id, reviewee_id, completed')
       .eq('reviewer_id', uid)
       .eq('completed', false)
       .order('created_at', { ascending: true })
@@ -30,19 +26,20 @@ export async function GET(req: Request) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-    // Enrichir avec le nom de la personne à évaluer
+    // Enrichir avec le nom/avatar depuis PostgreSQL direct (les users ne sont PAS dans Supabase)
     const enriched = await Promise.all(
       (data || []).map(async prompt => {
-        const { data: reviewee } = await supabaseAdmin!
-          .from('users')
-          .select('uid, first_name, name, avatar')
-          .eq('uid', prompt.reviewee_id)
-          .single()
-
+        const revieweeRes = await query(
+          'SELECT uid, first_name, last_name, avatar FROM users WHERE uid = $1',
+          [prompt.reviewee_id]
+        )
+        const reviewee = revieweeRes.rows[0] ?? null
         return {
           ...prompt,
-          reviewee_name:   reviewee?.first_name || reviewee?.name || 'Membre',
-          reviewee_avatar: reviewee?.avatar || null,
+          reviewee_name:   reviewee
+            ? `${reviewee.first_name ?? ''} ${reviewee.last_name ?? ''}`.trim() || 'Membre'
+            : 'Membre',
+          reviewee_avatar: reviewee?.avatar ?? null,
         }
       })
     )
@@ -55,6 +52,7 @@ export async function GET(req: Request) {
 }
 
 // ── POST — créer des review prompts après un échange ─────────────────────────
+// (appelé depuis transactions/route.ts en interne — conservé pour usage direct)
 export async function POST(req: Request) {
   if (!supabaseAdmin) {
     return NextResponse.json({ error: 'Configuration serveur manquante' }, { status: 500 })
@@ -67,7 +65,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Paramètres manquants' }, { status: 400 })
     }
 
-    // Créer 2 prompts (mutuel)
     const { error } = await supabaseAdmin
       .from('review_prompts')
       .upsert([
