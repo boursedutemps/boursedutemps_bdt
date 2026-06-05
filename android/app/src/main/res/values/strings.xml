@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bourse du Temps</string>
+    <string name="title_activity_main">Bourse du Temps</string>
+    <string name="package_name">org.boursedutemps.app</string>
+    <string name="custom_url_scheme">org.boursedutemps.app</string>
+</resources>
