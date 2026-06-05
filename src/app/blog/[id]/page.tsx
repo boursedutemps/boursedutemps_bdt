@@ -15,6 +15,8 @@ interface BlogPost {
   authorName?: string
   author_name?: string
   authorAvatar?: string
+  user_id?: string
+  authorId?: string
   externalLink?: string
   createdAt?: string
   created_at?: string
@@ -45,7 +47,8 @@ export default function BlogPostPage() {
   const formatDate = (str?: string) =>
     str ? new Date(str).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : ''
 
-  const isAdmin = user?.role === 'admin' || user?.role === 'moderator'
+  const isAdmin  = user?.role === 'admin' || user?.role === 'moderator'
+  const isAuthor = !!user && (user.uid === post?.user_id || user.uid === post?.authorId)
 
   if (loading) return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
@@ -94,23 +97,33 @@ export default function BlogPostPage() {
           <Link href="/blog" className="text-sm text-slate-400 hover:text-amber-600 transition-colors">
             ← Retour au blog
           </Link>
-          {isAdmin && (
-            <button
-              onClick={async () => {
-                if (!confirm('Supprimer cet article ?')) return
-                await fetch(`/api/blogs/${post.id}`, { method: 'DELETE' })
-                window.location.href = '/blog'
-              }}
-              className="text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-500 border border-red-200 hover:bg-red-100 transition-colors"
-            >
-              🗑️ Supprimer
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {isAuthor && (
+              <Link
+                href={`/blog/new?edit=${post.id}`}
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-colors"
+              >
+                ✏️ Modifier
+              </Link>
+            )}
+            {isAdmin && (
+              <button
+                onClick={async () => {
+                  if (!confirm('Supprimer cet article ?')) return
+                  await fetch(`/api/blogs/${post.id}`, { method: 'DELETE' })
+                  window.location.href = '/blog'
+                }}
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-500 border border-red-200 hover:bg-red-100 transition-colors"
+              >
+                🗑️ Supprimer
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Catégorie */}
         {post.category && (
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-500 mb-3 block">
+          <span className="text-xs font-bold uppercase tracking-widest text-amber-700 mb-3 block">
             {post.category}
           </span>
         )}
