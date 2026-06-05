@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useRef, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useUser } from '@/components/UserProvider'
 import RichTextEditor from '@/components/RichTextEditor'
@@ -9,7 +9,11 @@ import RichTextEditor from '@/components/RichTextEditor'
 const CATEGORIES = ['Actualités', 'Témoignages', 'Guides pratiques', 'Économie du temps', 'Communauté', 'Institutions', 'Ressources']
 
 export default function BlogNewPage() {
-  const router = useRouter()
+  const router       = useRouter()
+  const searchParams = useSearchParams()
+  const editId       = searchParams.get('edit')
+  const isEditMode   = !!editId
+
   const { user } = useUser()
   const [title, setTitle]         = useState('')
   const [content, setContent]     = useState('')
@@ -18,22 +22,50 @@ export default function BlogNewPage() {
   const [loading, setLoading]     = useState(false)
   const [uploading, setUploading] = useState(false)
   const [error, setError]         = useState<string | null>(null)
+  const [loadingEdit, setLoadingEdit] = useState(isEditMode)
   const mediaInputRef = useRef<HTMLInputElement>(null)
 
   const isAdmin = user?.role === 'admin' || user?.role === 'moderator'
 
+  // Charger l'article existant en mode édition
+  useEffect(() => {
+    if (!isEditMode || !editId) return
+    fetch(`/api/blogs/${editId}`)
+      .then(r => r.json())
+      .then(data => {
+        setTitle(data.title       || '')
+        setContent(data.content   || '')
+        setCategory(data.category || 'Actualités')
+        setExtLink(data.externalLink || '')
+      })
+      .catch(() => setError("Impossible de charger l'article."))
+      .finally(() => setLoadingEdit(false))
+  }, [editId, isEditMode])
+
   if (!user) return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 flex items-center justify-center">
-      <p className="text-slate-500">Connectez-vous pour publier un article.</p>
+      <p className="text-slate-500">Connectez-vous pour continuer.</p>
     </main>
   )
 
-  if (!isAdmin) return (
+  // Nouvel article : admin/mod seulement — Édition : tout membre connecté (auteur vérifié côté API)
+  if (!isAdmin && !isEditMode) return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 flex items-center justify-center">
       <div className="text-center">
         <p className="text-4xl mb-3">🔒</p>
         <p className="text-slate-500">Réservé aux administrateurs et modérateurs.</p>
         <Link href="/blog" className="text-amber-600 font-semibold mt-4 inline-block hover:underline">← Retour au blog</Link>
+      </div>
+    </main>
+  )
+
+  // Skeleton pendant le chargement de l'article en mode édition
+  if (loadingEdit) return (
+    <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
+      <div className="max-w-3xl mx-auto space-y-4 animate-pulse">
+        <div className="h-6 w-1/3 bg-slate-100 rounded-xl" />
+        <div className="h-12 bg-slate-100 rounded-xl" />
+        <div className="h-64 bg-slate-100 rounded-xl" />
       </div>
     </main>
   )
@@ -78,23 +110,42 @@ export default function BlogNewPage() {
     setLoading(true); setError(null)
     try {
       const token = localStorage.getItem('token') || ''
-      const res = await fetch('/api/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          authorId:     user.uid,
-          authorName:   `${user.firstName} ${user.lastName}`,
-          authorAvatar: user.avatar || '',
-          title:        title.trim(),
-          content,
-          category,
-          externalLink: extLink.trim() || null,
-          media: [],
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur serveur')
-      router.push(`/blog/${data.id}`)
+
+      if (isEditMode) {
+        // ── Mode édition : PATCH ────────────────────────────────────────────
+        const res = await fetch(`/api/blogs/${editId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            title:        title.trim(),
+            content,
+            category,
+            externalLink: extLink.trim() || null,
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Erreur serveur')
+        router.push(`/blog/${editId}`)
+      } else {
+        // ── Mode création : POST ────────────────────────────────────────────
+        const res = await fetch('/api/blogs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            authorId:     user.uid,
+            authorName:   `${user.firstName} ${user.lastName}`,
+            authorAvatar: user.avatar || '',
+            title:        title.trim(),
+            content,
+            category,
+            externalLink: extLink.trim() || null,
+            media: [],
+          }),
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Erreur serveur')
+        router.push(`/blog/${data.id}`)
+      }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Erreur')
     } finally {
@@ -110,10 +161,14 @@ export default function BlogNewPage() {
 
         <div className="flex items-center justify-between mb-8">
           <Link href="/blog" className="text-sm text-slate-400 hover:text-amber-600 transition-colors">← Retour au blog</Link>
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-200">✍️ Nouvel article</span>
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
+            {isEditMode ? '✏️ Modifier l\'article' : '✍️ Nouvel article'}
+          </span>
         </div>
 
-        <h1 className="text-2xl font-bold text-slate-800 mb-8">Publier un article</h1>
+        <h1 className="text-2xl font-bold text-slate-800 mb-8">
+          {isEditMode ? 'Modifier l\'article' : 'Publier un article'}
+        </h1>
 
         <div className="space-y-5">
 
@@ -200,7 +255,10 @@ export default function BlogNewPage() {
             <button onClick={handleSubmit} disabled={loading || !title.trim()}
               className="flex-1 py-3 rounded-xl text-sm font-bold text-white transition-all disabled:opacity-50"
               style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
-              {loading ? '⏳ Publication…' : '🚀 Publier l\'article'}
+              {loading
+                ? '⏳ Enregistrement…'
+                : isEditMode ? '💾 Enregistrer les modifications' : '🚀 Publier l\'article'
+              }
             </button>
           </div>
         </div>
