@@ -148,7 +148,7 @@ const Profile: React.FC<ProfileProps> = ({
       <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
 
         {/* ── Cover ──────────────────────────────────────────────────────────── */}
-        <div className="h-48 bg-slate-900 p-8 flex items-end justify-between relative group">
+        <div className="h-48 bg-slate-900 p-4 sm:p-8 flex items-end justify-between relative group">
           {(isEditing ? editedUser.coverPhoto : user.coverPhoto) ? (
             <Image
               src={(isEditing ? editedUser.coverPhoto : user.coverPhoto) ?? ''}
@@ -246,7 +246,7 @@ const Profile: React.FC<ProfileProps> = ({
 
           {/* Boutons connexion (readOnly) */}
           {readOnly && currentUser && currentUser.uid !== user.uid && (
-            <div className="relative z-10 flex gap-4">
+            <div className="absolute top-4 right-4 z-20 flex gap-2">
               {!connection && (
                 <button onClick={() => onSendConnection?.(user.uid)} className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">Se connecter</button>
               )}
@@ -266,7 +266,7 @@ const Profile: React.FC<ProfileProps> = ({
           )}
 
           {!readOnly && (
-            <button onClick={() => setIsEditing(true)} className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold transition border border-white/30 relative z-10">
+            <button onClick={() => setIsEditing(true)} className="absolute top-4 right-4 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-2xl font-bold transition border border-white/30 text-sm">
               Modifier
             </button>
           )}

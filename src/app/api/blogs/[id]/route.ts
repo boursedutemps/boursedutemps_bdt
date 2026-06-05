@@ -67,6 +67,22 @@ export async function PATCH(
       fields.push(`likes = $${idx++}`)
       values.push(JSON.stringify(body.likes))
     }
+    if (body.title !== undefined) {
+      fields.push(`title = $${idx++}`)
+      values.push(body.title)
+    }
+    if (body.content !== undefined) {
+      fields.push(`content = $${idx++}`)
+      values.push(body.content)
+    }
+    if (body.category !== undefined) {
+      fields.push(`category = $${idx++}`)
+      values.push(body.category)
+    }
+    if (body.externalLink !== undefined) {
+      fields.push(`external_link = $${idx++}`)
+      values.push(body.externalLink)
+    }
 
     if (fields.length === 0)
       return NextResponse.json({ error: 'Rien à mettre à jour' }, { status: 400 })
