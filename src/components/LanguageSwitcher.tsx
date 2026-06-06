@@ -31,10 +31,14 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // ✅ next-intl gère automatiquement les préfixes d'URL
+  // ✅ window.location.href bypass le cache du service worker PWA
   const switchLocale = (newLocale: Locale) => {
     setOpen(false);
-    router.replace(pathname, { locale: newLocale });
+    const base = pathname === '/' ? '' : pathname;
+    const target = newLocale === 'fr'
+      ? `${window.location.origin}${base || '/'}`
+      : `${window.location.origin}/${newLocale}${base || '/'}`;
+    window.location.href = target;
   };
 
   const isRTL = locale === 'ar';
