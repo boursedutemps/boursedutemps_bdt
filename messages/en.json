@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "close": "Close",
+    "learnMore": "Learn more",
+    "viewAll": "View all",
+    "send": "Send",
+    "publish": "Publish",
+    "create": "Create",
+    "update": "Update",
+    "hours": "hour",
+    "hours_plural": "hours",
+    "credits": "credit",
+    "credits_plural": "credits",
+    "by": "by",
+    "required": "required",
+    "optional": "optional",
+    "or": "or",
+    "and": "and",
+    "member": "member",
+    "members": "members",
+    "noResults": "No results found",
+    "seeMore": "See more"
+  },
+  "nav": {
+    "home": "Home",
+    "exchange": "Exchange",
+    "services": "Services",
+    "requests": "Requests",
+    "learn": "Learn",
+    "workshops": "Workshops",
+    "modules": "Modules",
+    "projects": "Projects",
+    "community": "Community",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "Members",
+    "testimonials": "Testimonials",
+    "marketplace": "Marketplace",
+    "moderation": "Moderation",
+    "institutions": "Institutions",
+    "aiSearch": "AI Search",
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "dashboard": "Dashboard",
+    "profile": "My profile",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "notifications": "Notifications"
+  },
+  "home": {
+    "hero": {
+      "title": "Exchange your talents,",
+      "titleHighlight": "learn for free",
+      "subtitle": "Bourse du Temps is a solidarity exchange platform. 1 hour given = 1 hour received. Always fair, always free.",
+      "ctaServices": "Explore services",
+      "ctaWorkshops": "View workshops",
+      "scrollHint": "Discover"
+    },
+    "stats": {
+      "members": "Members",
+      "services": "Services",
+      "exchanges": "Exchanges",
+      "workshops": "Workshops"
+    },
+    "howItWorks": {
+      "label": "Simple & fair",
+      "title": "How it works",
+      "step1Title": "Offer a skill",
+      "step1Desc": "Share what you know: cooking, languages, IT, DIY...",
+      "step2Title": "Exchange 1h for 1h",
+      "step2Desc": "Each hour you give earns you a credit. Use it to receive a service.",
+      "step3Title": "Grow together",
+      "step3Desc": "Join collective workshops and collaborative projects."
+    },
+    "services": {
+      "label": "Available now",
+      "title": "Offered services",
+      "cta": "See all services"
+    },
+    "features": {
+      "label": "A complete platform",
+      "title": "Everything you need"
+    },
+    "testimonials": {
+      "label": "What they say",
+      "title": "Community voices"
+    },
+    "institutions": {
+      "label": "For organizations",
+      "title": "Are you an institution?",
+      "subtitle": "Associations, cooperatives, educational institutions — join Bourse du Temps.",
+      "cta": "Contact us"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "No account yet?",
+      "signup": "Create account",
+      "forgotPassword": "Forgot password?"
+    },
+    "signup": {
+      "title": "Create an account",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Create my account",
+      "hasAccount": "Already have an account?",
+      "login": "Log in",
+      "terms": "By signing up, you agree to our terms of use."
+    }
+  },
+  "services": {
+    "title": "Offered services",
+    "subtitle": "Discover what the community can offer you in exchange for one hour of your time.",
+    "label": "Available skills",
+    "searchPlaceholder": "Search for a service…",
+    "allCategories": "All categories",
+    "noResults": "No services found",
+    "requestBtn": "Request →",
+    "loginBtn": "Login →",
+    "yourService": "Your service",
+    "creditsPerHour": "credit/h",
+    "confirm": {
+      "title": "Confirm exchange",
+      "subtitle": "You are requesting this service from",
+      "serviceLabel": "Service",
+      "costLabel": "Cost",
+      "yourCreditsLabel": "Your credits",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "successMsg": "Exchange initiated ✅ You will be asked for a review after the session.",
+      "insufficientCredits": "Insufficient credits"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "News, guides and testimonials from the community.",
+    "newArticle": "New article",
+    "readMore": "Read article →",
+    "backToBlog": "← Back to blog",
+    "allArticles": "← All articles",
+    "by": "by",
+    "publish": "Publish an article",
+    "editArticle": "Edit article",
+    "titleLabel": "Title",
+    "categoryLabel": "Category",
+    "contentLabel": "Content",
+    "externalLinkLabel": "External link",
+    "importMedia": "Import Photo / Video",
+    "saveChanges": "Save changes",
+    "publishArticle": "Publish article",
+    "delete": "Delete",
+    "modify": "Edit"
+  },
+  "profile": {
+    "presentation": "About",
+    "noPresentation": "No presentation.",
+    "iOffer": "I offer",
+    "iSeek": "I seek",
+    "availability": "Availability",
+    "verificationLevel": "Verification level",
+    "badges": "Badges",
+    "editProfile": "Edit",
+    "saveProfile": "Save",
+    "tabs": {
+      "profile": "Profile",
+      "credits": "Credits",
+      "network": "Network",
+      "messages": "Messages"
+    }
+  },
+  "footer": {
+    "tagline": "Exchange time, share talents.",
+    "platform": "Platform",
+    "community": "Community",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "terms": "Terms of use",
+    "contact": "Contact",
+    "rights": "All rights reserved"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

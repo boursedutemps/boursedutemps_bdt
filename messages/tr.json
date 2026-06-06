@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "İletişim",
+    "cancel": "Tüm hakları saklıdır",
+    "submit": "Gönder",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "success": "Başarılı",
+    "search": "Ana Sayfa",
+    "back": "Ara",
+    "next": "Geri",
+    "previous": "İleri",
+    "confirm": "Önceki",
+    "close": "Onayla",
+    "learnMore": "Kapat",
+    "viewAll": "Daha fazla bilgi",
+    "send": "Tümünü gör",
+    "publish": "Gönder",
+    "create": "Yayınla",
+    "update": "Oluştur",
+    "hours": "Güncelle",
+    "hours_plural": "saat",
+    "credits": "saat",
+    "credits_plural": "kredi",
+    "by": "kredi",
+    "required": "tarafından",
+    "optional": "zorunlu",
+    "or": "isteğe bağlı",
+    "and": "veya",
+    "member": "ve",
+    "members": "üye",
+    "noResults": "üyeler",
+    "seeMore": "Sonuç bulunamadı"
+  },
+  "nav": {
+    "home": "Öğren",
+    "exchange": "Topluluk",
+    "services": "Daha fazla gör",
+    "requests": "Hizmetler",
+    "learn": "Yeteneklerini paylaş,",
+    "workshops": "Talepler",
+    "modules": "Atölyeler",
+    "projects": "Modüller",
+    "community": "ücretsiz öğren",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "üye",
+    "testimonials": "Projeler",
+    "marketplace": "Referanslar",
+    "moderation": "Pazar yeri",
+    "institutions": "Moderasyon",
+    "aiSearch": "Kurumlar",
+    "login": "Kullanım koşulları",
+    "signup": "Tüm hakları saklıdır",
+    "logout": "Yapay Zeka Araması",
+    "dashboard": "Çıkış yap",
+    "profile": "Panel",
+    "openMenu": "Profilim",
+    "closeMenu": "Menüyü aç",
+    "notifications": "Menüyü kapat"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps bir dayanışma değişim platformudur. Verilen 1 saat = Alınan 1 saat. Her zaman adil, her zaman ücretsiz.",
+      "titleHighlight": "Hizmetleri keşfet",
+      "subtitle": "Atölyeleri gör",
+      "ctaServices": "Basit ve adil",
+      "ctaWorkshops": "Nasıl çalışır",
+      "scrollHint": "Bildirimler"
+    },
+    "stats": {
+      "members": "üye",
+      "services": "Daha fazla gör",
+      "exchanges": "Keşfet",
+      "workshops": "Talepler"
+    },
+    "howItWorks": {
+      "label": "Bir beceri sun",
+      "title": "Bildiklerini paylaş: yemek pişirme, diller, BT, el işi...",
+      "step1Title": "1s karşılığında 1s değiştir",
+      "step1Desc": "Verdiğin her saat sana kredi kazandırır. Hizmet almak için kullan.",
+      "step2Title": "Birlikte büyü",
+      "step2Desc": "Kolektif atölyelere ve işbirlikçi projelere katıl.",
+      "step3Title": "Giriş yap",
+      "step3Desc": "Kayıt ol"
+    },
+    "services": {
+      "label": "Alışveriş",
+      "title": "Şu an mevcut",
+      "cta": "Sunulan hizmetler"
+    },
+    "features": {
+      "label": "Tüm hizmetleri gör",
+      "title": "Tam bir platform"
+    },
+    "testimonials": {
+      "label": "İhtiyacınız olan her şey",
+      "title": "Ne diyorlar"
+    },
+    "institutions": {
+      "label": "Topluluk sesleri",
+      "title": "Kuruluşlar için",
+      "subtitle": "Bir kurum musunuz?",
+      "cta": "Dernekler, kooperatifler, eğitim kurumları — Bourse du Temps'e katılın."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Kullanım koşulları",
+      "email": "Şifre",
+      "password": "Ad",
+      "submit": "Kullanım koşulları",
+      "noAccount": "Bize ulaşın",
+      "signup": "",
+      "forgotPassword": "Hesabınız yok mu?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Soyad",
+      "lastName": "Kaydet",
+      "email": "Şifre",
+      "password": "Ad",
+      "submit": "Şifrenizi mi unuttunuz?",
+      "hasAccount": "Hesabımı oluştur",
+      "login": "Kullanım koşulları",
+      "terms": "Zaten hesabınız var mı?"
+    }
+  },
+  "services": {
+    "title": "Şu an mevcut",
+    "subtitle": "Kaydolarak kullanım koşullarımızı kabul etmiş olursunuz.",
+    "label": "Bir saatiniz karşılığında toplumun sunabileceğini keşfedin.",
+    "searchPlaceholder": "Mevcut beceriler",
+    "allCategories": "Hizmet ara…",
+    "noResults": "Tüm kategoriler",
+    "requestBtn": "Hizmet bulunamadı",
+    "loginBtn": "Talep et →",
+    "yourService": "Giriş yap →",
+    "creditsPerHour": "Hizmetiniz",
+    "confirm": {
+      "title": "kredi/saat",
+      "subtitle": "Değişimi onayla",
+      "serviceLabel": "Daha fazla gör",
+      "costLabel": "Bu hizmeti şu kişiden talep ediyorsunuz",
+      "yourCreditsLabel": "Maliyet",
+      "cancel": "Tüm hakları saklıdır",
+      "confirm": "Önceki",
+      "successMsg": "Krediniz",
+      "insufficientCredits": "Alışveriş başlatıldı ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Yetersiz kredi",
+    "newArticle": "Haberler, rehberler ve referanslar.",
+    "readMore": "Yeni makale",
+    "backToBlog": "Makaleyi oku →",
+    "allArticles": "← Bloga dön",
+    "by": "kredi",
+    "publish": "← Tüm makaleler",
+    "editArticle": "Makale yayınla",
+    "titleLabel": "Makaleyi düzenle",
+    "categoryLabel": "Başlık",
+    "contentLabel": "Kategori",
+    "externalLinkLabel": "İçerik",
+    "importMedia": "Harici bağlantı",
+    "saveChanges": "İletişim",
+    "publishArticle": "← Tüm makaleler",
+    "delete": "Sil",
+    "modify": "Düzenle"
+  },
+  "profile": {
+    "presentation": "Fotoğraf / Video içe aktar",
+    "noPresentation": "Tanıtım",
+    "iOffer": "Tanıtım yok.",
+    "iSeek": "Sunuyorum",
+    "availability": "Arıyorum",
+    "verificationLevel": "Müsaitlik",
+    "badges": "Doğrulama seviyesi",
+    "editProfile": "Düzenle",
+    "saveProfile": "İletişim",
+    "tabs": {
+      "profile": "Rozetler",
+      "credits": "Profil",
+      "network": "Kredi",
+      "messages": "Ağ"
+    }
+  },
+  "footer": {
+    "tagline": "Değiştir",
+    "platform": "Mesajlar",
+    "community": "ücretsiz öğren",
+    "legal": "Platform",
+    "privacy": "Topluluk",
+    "terms": "Hukuki",
+    "contact": "Gizlilik",
+    "rights": "Dil"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

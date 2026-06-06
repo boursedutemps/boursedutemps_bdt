@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "연락처",
+    "cancel": "모든 권리 보유",
+    "submit": "제출",
+    "delete": "삭제",
+    "edit": "편집",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "success": "성공",
+    "search": "홈",
+    "back": "검색",
+    "next": "뒤로",
+    "previous": "다음",
+    "confirm": "이전",
+    "close": "확인",
+    "learnMore": "닫기",
+    "viewAll": "자세히 보기",
+    "send": "모두 보기",
+    "publish": "보내기",
+    "create": "게시",
+    "update": "만들기",
+    "hours": "업데이트",
+    "hours_plural": "시간",
+    "credits": "시간",
+    "credits_plural": "크레딧",
+    "by": "크레딧",
+    "required": "by",
+    "optional": "필수",
+    "or": "선택",
+    "and": "또는",
+    "member": "및",
+    "members": "회원",
+    "noResults": "회원",
+    "seeMore": "결과를 찾을 수 없습니다"
+  },
+  "nav": {
+    "home": "배우기",
+    "exchange": "커뮤니티",
+    "services": "더 보기",
+    "requests": "서비스",
+    "learn": "재능을 교환하고,",
+    "workshops": "요청",
+    "modules": "워크샵",
+    "projects": "모듈",
+    "community": "무료로 배우세요",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "회원",
+    "testimonials": "프로젝트",
+    "marketplace": "추천",
+    "moderation": "마켓플레이스",
+    "institutions": "모더레이션",
+    "aiSearch": "기관",
+    "login": "이용약관",
+    "signup": "모든 권리 보유",
+    "logout": "AI 검색",
+    "dashboard": "로그아웃",
+    "profile": "대시보드",
+    "openMenu": "내 프로필",
+    "closeMenu": "메뉴 열기",
+    "notifications": "메뉴 닫기"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps는 연대 교환 플랫폼입니다. 1시간 제공 = 1시간 수령. 항상 공정하고 항상 무료입니다.",
+      "titleHighlight": "서비스 탐색",
+      "subtitle": "워크샵 보기",
+      "ctaServices": "간단하고 공정한",
+      "ctaWorkshops": "작동 방식",
+      "scrollHint": "알림"
+    },
+    "stats": {
+      "members": "회원",
+      "services": "더 보기",
+      "exchanges": "발견",
+      "workshops": "요청"
+    },
+    "howItWorks": {
+      "label": "기술 제공",
+      "title": "아는 것을 공유하세요: 요리, 언어, IT, DIY...",
+      "step1Title": "1시간에 1시간 교환",
+      "step1Desc": "제공한 매 시간마다 크레딧을 얻습니다. 서비스를 받는 데 사용하세요.",
+      "step2Title": "함께 성장",
+      "step2Desc": "집단 워크샵과 협업 프로젝트에 참여하세요.",
+      "step3Title": "로그인",
+      "step3Desc": "회원가입"
+    },
+    "services": {
+      "label": "교환",
+      "title": "지금 이용 가능",
+      "cta": "제공 서비스"
+    },
+    "features": {
+      "label": "모든 서비스 보기",
+      "title": "완전한 플랫폼"
+    },
+    "testimonials": {
+      "label": "필요한 모든 것",
+      "title": "그들이 말하는 것"
+    },
+    "institutions": {
+      "label": "커뮤니티의 목소리",
+      "title": "조직을 위해",
+      "subtitle": "당신은 기관입니까?",
+      "cta": "협회, 협동조합, 교육기관 — Bourse du Temps에 참여하세요."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "이용약관",
+      "email": "비밀번호",
+      "password": "이름",
+      "submit": "이용약관",
+      "noAccount": "문의하기",
+      "signup": "",
+      "forgotPassword": "아직 계정이 없으신가요?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "성",
+      "lastName": "저장",
+      "email": "비밀번호",
+      "password": "이름",
+      "submit": "비밀번호를 잊으셨나요?",
+      "hasAccount": "내 계정 만들기",
+      "login": "이용약관",
+      "terms": "이미 계정이 있으신가요?"
+    }
+  },
+  "services": {
+    "title": "지금 이용 가능",
+    "subtitle": "가입함으로써 이용 약관에 동의합니다.",
+    "label": "한 시간의 시간으로 커뮤니티가 제공할 수 있는 것을 발견하세요.",
+    "searchPlaceholder": "사용 가능한 기술",
+    "allCategories": "서비스 검색…",
+    "noResults": "모든 카테고리",
+    "requestBtn": "서비스를 찾을 수 없습니다",
+    "loginBtn": "요청 →",
+    "yourService": "로그인 →",
+    "creditsPerHour": "내 서비스",
+    "confirm": {
+      "title": "크레딧/시간",
+      "subtitle": "교환 확인",
+      "serviceLabel": "더 보기",
+      "costLabel": "이 서비스를 요청 중입니다",
+      "yourCreditsLabel": "비용",
+      "cancel": "모든 권리 보유",
+      "confirm": "이전",
+      "successMsg": "내 크레딧",
+      "insufficientCredits": "교환 시작됨 ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "크레딧 부족",
+    "newArticle": "뉴스, 가이드 및 추천.",
+    "readMore": "새 기사",
+    "backToBlog": "기사 읽기 →",
+    "allArticles": "← 블로그로 돌아가기",
+    "by": "크레딧",
+    "publish": "← 모든 기사",
+    "editArticle": "기사 게시",
+    "titleLabel": "기사 편집",
+    "categoryLabel": "제목",
+    "contentLabel": "카테고리",
+    "externalLinkLabel": "내용",
+    "importMedia": "외부 링크",
+    "saveChanges": "연락처",
+    "publishArticle": "← 모든 기사",
+    "delete": "삭제",
+    "modify": "편집"
+  },
+  "profile": {
+    "presentation": "사진/동영상 가져오기",
+    "noPresentation": "소개",
+    "iOffer": "소개 없음.",
+    "iSeek": "제공합니다",
+    "availability": "찾습니다",
+    "verificationLevel": "가용성",
+    "badges": "인증 수준",
+    "editProfile": "편집",
+    "saveProfile": "연락처",
+    "tabs": {
+      "profile": "배지",
+      "credits": "프로필",
+      "network": "크레딧",
+      "messages": "네트워크"
+    }
+  },
+  "footer": {
+    "tagline": "교환",
+    "platform": "메시지",
+    "community": "무료로 배우세요",
+    "legal": "플랫폼",
+    "privacy": "커뮤니티",
+    "terms": "법률",
+    "contact": "개인정보",
+    "rights": "언어"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

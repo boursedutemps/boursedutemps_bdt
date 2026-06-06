@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "連絡先",
+    "cancel": "無断転載禁止",
+    "submit": "送信",
+    "delete": "削除",
+    "edit": "編集",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "success": "成功",
+    "search": "ホーム",
+    "back": "検索",
+    "next": "戻る",
+    "previous": "次へ",
+    "confirm": "前へ",
+    "close": "確認",
+    "learnMore": "閉じる",
+    "viewAll": "詳細を見る",
+    "send": "すべて見る",
+    "publish": "送信",
+    "create": "公開",
+    "update": "作成",
+    "hours": "更新",
+    "hours_plural": "時間",
+    "credits": "時間",
+    "credits_plural": "クレジット",
+    "by": "クレジット",
+    "required": "by",
+    "optional": "必須",
+    "or": "任意",
+    "and": "または",
+    "member": "と",
+    "members": "メンバー",
+    "noResults": "メンバー",
+    "seeMore": "結果が見つかりません"
+  },
+  "nav": {
+    "home": "学習",
+    "exchange": "コミュニティ",
+    "services": "もっと見る",
+    "requests": "サービス",
+    "learn": "才能を交換し、",
+    "workshops": "リクエスト",
+    "modules": "ワークショップ",
+    "projects": "モジュール",
+    "community": "無料で学ぼう",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "メンバー",
+    "testimonials": "プロジェクト",
+    "marketplace": "体験談",
+    "moderation": "マーケット",
+    "institutions": "モデレーション",
+    "aiSearch": "機関",
+    "login": "利用規約",
+    "signup": "無断転載禁止",
+    "logout": "AI検索",
+    "dashboard": "ログアウト",
+    "profile": "ダッシュボード",
+    "openMenu": "マイプロフィール",
+    "closeMenu": "メニューを開く",
+    "notifications": "メニューを閉じる"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Tempsは連帯交換プラットフォームです。1時間提供 = 1時間受取。常に公平、常に無料。",
+      "titleHighlight": "サービスを探す",
+      "subtitle": "ワークショップを見る",
+      "ctaServices": "シンプル＆公平",
+      "ctaWorkshops": "使い方",
+      "scrollHint": "通知"
+    },
+    "stats": {
+      "members": "メンバー",
+      "services": "もっと見る",
+      "exchanges": "発見",
+      "workshops": "リクエスト"
+    },
+    "howItWorks": {
+      "label": "スキルを提供",
+      "title": "あなたの知識を共有：料理、言語、IT、DIY...",
+      "step1Title": "1時間で1時間を交換",
+      "step1Desc": "提供した1時間ごとにクレジットが貯まります。サービスを受けるために使いましょう。",
+      "step2Title": "共に成長",
+      "step2Desc": "集団ワークショップや共同プロジェクトに参加。",
+      "step3Title": "ログイン",
+      "step3Desc": "登録"
+    },
+    "services": {
+      "label": "交換",
+      "title": "今すぐ利用可能",
+      "cta": "提供サービス"
+    },
+    "features": {
+      "label": "すべてのサービスを見る",
+      "title": "完全なプラットフォーム"
+    },
+    "testimonials": {
+      "label": "必要なすべて",
+      "title": "彼らの声"
+    },
+    "institutions": {
+      "label": "コミュニティの声",
+      "title": "組織向け",
+      "subtitle": "あなたは機関ですか？",
+      "cta": "協会、協同組合、教育機関 — Bourse du Tempsに参加してください。"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "利用規約",
+      "email": "パスワード",
+      "password": "名",
+      "submit": "利用規約",
+      "noAccount": "お問い合わせ",
+      "signup": "",
+      "forgotPassword": "まだアカウントがありませんか？"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "姓",
+      "lastName": "保存",
+      "email": "パスワード",
+      "password": "名",
+      "submit": "パスワードを忘れましたか？",
+      "hasAccount": "アカウントを作成",
+      "login": "利用規約",
+      "terms": "すでにアカウントをお持ちですか？"
+    }
+  },
+  "services": {
+    "title": "今すぐ利用可能",
+    "subtitle": "登録することで、利用規約に同意したことになります。",
+    "label": "あなたの時間1時間と引き換えにコミュニティが提供できるものを発見してください。",
+    "searchPlaceholder": "利用可能なスキル",
+    "allCategories": "サービスを検索…",
+    "noResults": "すべてのカテゴリ",
+    "requestBtn": "サービスが見つかりません",
+    "loginBtn": "リクエスト →",
+    "yourService": "ログイン →",
+    "creditsPerHour": "あなたのサービス",
+    "confirm": {
+      "title": "クレジット/時間",
+      "subtitle": "交換を確認",
+      "serviceLabel": "もっと見る",
+      "costLabel": "このサービスをリクエストしています",
+      "yourCreditsLabel": "費用",
+      "cancel": "無断転載禁止",
+      "confirm": "前へ",
+      "successMsg": "あなたのクレジット",
+      "insufficientCredits": "交換が開始されました ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "クレジットが不足しています",
+    "newArticle": "ニュース、ガイド、体験談。",
+    "readMore": "新しい記事",
+    "backToBlog": "記事を読む →",
+    "allArticles": "← ブログに戻る",
+    "by": "クレジット",
+    "publish": "← すべての記事",
+    "editArticle": "記事を公開",
+    "titleLabel": "記事を編集",
+    "categoryLabel": "タイトル",
+    "contentLabel": "カテゴリ",
+    "externalLinkLabel": "コンテンツ",
+    "importMedia": "外部リンク",
+    "saveChanges": "連絡先",
+    "publishArticle": "← すべての記事",
+    "delete": "削除",
+    "modify": "編集"
+  },
+  "profile": {
+    "presentation": "写真/動画をインポート",
+    "noPresentation": "自己紹介",
+    "iOffer": "自己紹介なし",
+    "iSeek": "提供するもの",
+    "availability": "求めているもの",
+    "verificationLevel": "利用可能時間",
+    "badges": "確認レベル",
+    "editProfile": "編集",
+    "saveProfile": "連絡先",
+    "tabs": {
+      "profile": "バッジ",
+      "credits": "プロフィール",
+      "network": "クレジット",
+      "messages": "ネットワーク"
+    }
+  },
+  "footer": {
+    "tagline": "交換",
+    "platform": "メッセージ",
+    "community": "無料で学ぼう",
+    "legal": "プラットフォーム",
+    "privacy": "コミュニティ",
+    "terms": "法的",
+    "contact": "プライバシー",
+    "rights": "言語"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

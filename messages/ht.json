@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Anrejistre",
+    "cancel": "Anile",
+    "submit": "Soumèt",
+    "delete": "Efase",
+    "edit": "Modifye",
+    "loading": "Chajman...",
+    "error": "Gen yon erè",
+    "success": "Siksè",
+    "search": "Chèche",
+    "back": "Retounen",
+    "next": "Pwochen",
+    "previous": "Anvan",
+    "confirm": "Konfime",
+    "close": "Fèmen",
+    "learnMore": "Aprann plis",
+    "viewAll": "Wè tout",
+    "send": "Voye",
+    "publish": "Pibliye",
+    "create": "Kreye",
+    "update": "Mete ajou",
+    "hours": "èdtan",
+    "hours_plural": "èdtan",
+    "credits": "kredi",
+    "credits_plural": "kredi",
+    "by": "pa",
+    "required": "obligatwa",
+    "optional": "opsyonèl",
+    "or": "oswa",
+    "and": "ak",
+    "member": "manm",
+    "members": "manm",
+    "noResults": "Pa jwenn rezilta",
+    "seeMore": "Wè plis"
+  },
+  "nav": {
+    "home": "Akèy",
+    "exchange": "Echanj",
+    "services": "Sèvis",
+    "requests": "Demann",
+    "learn": "Aprann",
+    "workshops": "Atelye",
+    "modules": "Modil",
+    "projects": "Pwojè",
+    "community": "Kominote",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "Manm",
+    "testimonials": "Temwayaj",
+    "marketplace": "Mache",
+    "moderation": "Moderasyon",
+    "institutions": "Enstitisyon",
+    "aiSearch": "Rechèch IA",
+    "login": "Konekte",
+    "signup": "Enskri",
+    "logout": "Dekonekte",
+    "dashboard": "Tablo de bò",
+    "profile": "Pwofil mwen",
+    "openMenu": "Ouvri meni navigasyon",
+    "closeMenu": "Fèmen meni navigasyon",
+    "notifications": "Notifikasyon"
+  },
+  "home": {
+    "hero": {
+      "title": "Echanje talan ou,",
+      "titleHighlight": "aprann gratis",
+      "subtitle": "Bourse du Temps se yon platfòm echanj solidè. 1 èdtan ba = 1 èdtan resevwa. Toujou ekitab, toujou gratis.",
+      "ctaServices": "Eksplore sèvis yo",
+      "ctaWorkshops": "Wè atelye yo",
+      "scrollHint": "Dekouvri"
+    },
+    "stats": {
+      "members": "Manm",
+      "services": "Sèvis",
+      "exchanges": "Echanj",
+      "workshops": "Atelye"
+    },
+    "howItWorks": {
+      "label": "Senp & ekitab",
+      "title": "Kijan sa travay",
+      "step1Title": "Ofri yon konpetans",
+      "step1Desc": "Pataje sa ou konn fè: kwizin, lang, enfomasyon, reparasyon...",
+      "step2Title": "Echanje 1è pou 1è",
+      "step2Desc": "Chak èdtan ou bay fè ou yon kredi. Itilize li pou resevwa yon sèvis.",
+      "step3Title": "Grandi ansanm",
+      "step3Desc": "Patisipe nan atelye kolektif ak pwojè kolaboratif."
+    },
+    "services": {
+      "label": "Disponib kounye a",
+      "title": "Sèvis ki ofri",
+      "cta": "Wè tout sèvis yo"
+    },
+    "features": {
+      "label": "Yon platfòm konplè",
+      "title": "Tout sa ou bezwen"
+    },
+    "testimonials": {
+      "label": "Sa yo di",
+      "title": "Vwa kominote a"
+    },
+    "institutions": {
+      "label": "Pou òganizasyon",
+      "title": "Ou se yon enstitisyon?",
+      "subtitle": "Asosyasyon, kooperativ, etablisman edikasyon — rantre nan Bourse du Temps.",
+      "cta": "Kontakte nou"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Koneksyon",
+      "email": "Adrès imèl",
+      "password": "Modpas",
+      "submit": "Konekte",
+      "noAccount": "Pa gen kont ankò?",
+      "signup": "Kreye kont",
+      "forgotPassword": "Bliye modpas?"
+    },
+    "signup": {
+      "title": "Kreye yon kont",
+      "firstName": "Prenon",
+      "lastName": "Non",
+      "email": "Adrès imèl",
+      "password": "Modpas",
+      "submit": "Kreye kont mwen",
+      "hasAccount": "Deja gen kont?",
+      "login": "Konekte",
+      "terms": "Lè ou enskri, ou aksepte kondisyon itilizasyon nou yo."
+    }
+  },
+  "services": {
+    "title": "Sèvis ki ofri",
+    "subtitle": "Dekouvri sa kominote a ka ofri ou an echanj pou yon èdtan tan ou.",
+    "label": "Konpetans disponib",
+    "searchPlaceholder": "Chèche yon sèvis…",
+    "allCategories": "Tout kategori",
+    "noResults": "Pa jwenn sèvis",
+    "requestBtn": "Mande →",
+    "loginBtn": "Koneksyon →",
+    "yourService": "Sèvis ou",
+    "creditsPerHour": "kredi/è",
+    "confirm": {
+      "title": "Konfime echanj lan",
+      "subtitle": "Ou mande sèvis sa a nan men",
+      "serviceLabel": "Sèvis",
+      "costLabel": "Pri",
+      "yourCreditsLabel": "Kredi ou yo",
+      "cancel": "Anile",
+      "confirm": "Konfime",
+      "successMsg": "Echanj inisye ✅ Yo pral mande avis ou apre sesyon an.",
+      "insufficientCredits": "Pa gen ase kredi"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Aktyalite, gid ak temwayaj nan kominote a.",
+    "newArticle": "Nouvo atik",
+    "readMore": "Li atik la →",
+    "backToBlog": "← Retounen nan blog",
+    "allArticles": "← Tout atik yo",
+    "by": "pa",
+    "publish": "Pibliye yon atik",
+    "editArticle": "Modifye atik",
+    "titleLabel": "Tit",
+    "categoryLabel": "Kategori",
+    "contentLabel": "Kontni",
+    "externalLinkLabel": "Lyen ekstèn",
+    "importMedia": "Enpòte Foto / Videyo",
+    "saveChanges": "Anrejistre chanjman",
+    "publishArticle": "Pibliye atik",
+    "delete": "Efase",
+    "modify": "Modifye"
+  },
+  "profile": {
+    "presentation": "Prezantasyon",
+    "noPresentation": "Pa gen prezantasyon.",
+    "iOffer": "Mwen ofri",
+    "iSeek": "Mwen chèche",
+    "availability": "Disponiblite",
+    "verificationLevel": "Nivo verifikasyon",
+    "badges": "Badj",
+    "editProfile": "Modifye",
+    "saveProfile": "Anrejistre",
+    "tabs": {
+      "profile": "Pwofil",
+      "credits": "Kredi",
+      "network": "Rezo",
+      "messages": "Mesaj"
+    }
+  },
+  "footer": {
+    "tagline": "Echanje tan, pataje talan.",
+    "platform": "Platfòm",
+    "community": "Kominote",
+    "legal": "Legal",
+    "privacy": "Konfidansyalite",
+    "terms": "Kondisyon itilizasyon",
+    "contact": "Kontak",
+    "rights": "Tout dwa rezève"
+  },
+  "language": {
+    "select": "Lang",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

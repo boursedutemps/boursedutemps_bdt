@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "submit": "إرسال",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "loading": "جار التحميل...",
+    "error": "حدث خطأ",
+    "success": "نجاح",
+    "search": "بحث",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "confirm": "تأكيد",
+    "close": "إغلاق",
+    "learnMore": "اعرف المزيد",
+    "viewAll": "عرض الكل",
+    "send": "إرسال",
+    "publish": "نشر",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "hours": "ساعة",
+    "hours_plural": "ساعات",
+    "credits": "رصيد",
+    "credits_plural": "أرصدة",
+    "by": "بواسطة",
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "or": "أو",
+    "and": "و",
+    "member": "عضو",
+    "members": "أعضاء",
+    "noResults": "لا توجد نتائج",
+    "seeMore": "عرض المزيد"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "exchange": "تبادل",
+    "services": "خدمات",
+    "requests": "طلبات",
+    "learn": "تعلم",
+    "workshops": "ورش عمل",
+    "modules": "وحدات",
+    "projects": "مشاريع",
+    "community": "مجتمع",
+    "blog": "مدونة",
+    "forum": "منتدى",
+    "members": "أعضاء",
+    "testimonials": "شهادات",
+    "marketplace": "سوق",
+    "moderation": "إشراف",
+    "institutions": "مؤسسات",
+    "aiSearch": "بحث ذكي",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "dashboard": "لوحة التحكم",
+    "profile": "ملفي",
+    "openMenu": "فتح قائمة التنقل",
+    "closeMenu": "إغلاق قائمة التنقل",
+    "notifications": "إشعارات"
+  },
+  "home": {
+    "hero": {
+      "title": "تبادل مواهبك،",
+      "titleHighlight": "تعلم مجاناً",
+      "subtitle": "بورص دو تون منصة للتبادل التضامني. ساعة تُعطى = ساعة تُستلم. دائماً عادل، دائماً مجاني.",
+      "ctaServices": "استكشف الخدمات",
+      "ctaWorkshops": "عرض الورش",
+      "scrollHint": "اكتشف"
+    },
+    "stats": {
+      "members": "أعضاء",
+      "services": "خدمات",
+      "exchanges": "تبادلات",
+      "workshops": "ورش"
+    },
+    "howItWorks": {
+      "label": "بسيط وعادل",
+      "title": "كيف يعمل",
+      "step1Title": "قدّم مهارة",
+      "step1Desc": "شارك ما تعرفه: طبخ، لغات، تكنولوجيا، أعمال يدوية...",
+      "step2Title": "تبادل ساعة بساعة",
+      "step2Desc": "كل ساعة تقدمها تمنحك رصيداً. استخدمه للحصول على خدمة.",
+      "step3Title": "ننمو معاً",
+      "step3Desc": "شارك في ورش العمل الجماعية والمشاريع التعاونية."
+    },
+    "services": {
+      "label": "متاح الآن",
+      "title": "الخدمات المقدمة",
+      "cta": "عرض جميع الخدمات"
+    },
+    "features": {
+      "label": "منصة متكاملة",
+      "title": "كل ما تحتاجه"
+    },
+    "testimonials": {
+      "label": "ماذا يقولون",
+      "title": "أصوات المجتمع"
+    },
+    "institutions": {
+      "label": "للمنظمات",
+      "title": "هل أنت مؤسسة؟",
+      "subtitle": "جمعيات، تعاونيات، مؤسسات تعليمية — انضم إلى بورص دو تون.",
+      "cta": "تواصل معنا"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "submit": "دخول",
+      "noAccount": "ليس لديك حساب؟",
+      "signup": "إنشاء حساب",
+      "forgotPassword": "نسيت كلمة المرور؟"
+    },
+    "signup": {
+      "title": "إنشاء حساب",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "submit": "إنشاء حسابي",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول",
+      "terms": "بالتسجيل، أنت توافق على شروط الاستخدام."
+    }
+  },
+  "services": {
+    "title": "الخدمات المقدمة",
+    "subtitle": "اكتشف ما يمكن للمجتمع تقديمه مقابل ساعة من وقتك.",
+    "label": "المهارات المتاحة",
+    "searchPlaceholder": "ابحث عن خدمة…",
+    "allCategories": "جميع الفئات",
+    "noResults": "لم يتم العثور على خدمات",
+    "requestBtn": "اطلب ←",
+    "loginBtn": "تسجيل الدخول ←",
+    "yourService": "خدمتك",
+    "creditsPerHour": "رصيد/س",
+    "confirm": {
+      "title": "تأكيد التبادل",
+      "subtitle": "أنت تطلب هذه الخدمة من",
+      "serviceLabel": "الخدمة",
+      "costLabel": "التكلفة",
+      "yourCreditsLabel": "رصيدك",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد",
+      "successMsg": "تم بدء التبادل ✅ سيُطلب منك تقييم بعد الجلسة.",
+      "insufficientCredits": "رصيد غير كافٍ"
+    }
+  },
+  "blog": {
+    "title": "المدونة",
+    "subtitle": "أخبار وأدلة وشهادات من المجتمع.",
+    "newArticle": "مقال جديد",
+    "readMore": "اقرأ المقال ←",
+    "backToBlog": "← العودة للمدونة",
+    "allArticles": "← جميع المقالات",
+    "by": "بقلم",
+    "publish": "نشر مقال",
+    "editArticle": "تعديل المقال",
+    "titleLabel": "العنوان",
+    "categoryLabel": "الفئة",
+    "contentLabel": "المحتوى",
+    "externalLinkLabel": "رابط خارجي",
+    "importMedia": "استيراد صورة / فيديو",
+    "saveChanges": "حفظ التغييرات",
+    "publishArticle": "نشر المقال",
+    "delete": "حذف",
+    "modify": "تعديل"
+  },
+  "profile": {
+    "presentation": "التعريف",
+    "noPresentation": "لا يوجد تعريف.",
+    "iOffer": "أقدم",
+    "iSeek": "أبحث عن",
+    "availability": "التوفر",
+    "verificationLevel": "مستوى التحقق",
+    "badges": "الشارات",
+    "editProfile": "تعديل",
+    "saveProfile": "حفظ",
+    "tabs": {
+      "profile": "الملف",
+      "credits": "الأرصدة",
+      "network": "الشبكة",
+      "messages": "الرسائل"
+    }
+  },
+  "footer": {
+    "tagline": "تبادل الوقت، شارك المواهب.",
+    "platform": "المنصة",
+    "community": "المجتمع",
+    "legal": "قانوني",
+    "privacy": "الخصوصية",
+    "terms": "شروط الاستخدام",
+    "contact": "اتصل بنا",
+    "rights": "جميع الحقوق محفوظة"
+  },
+  "language": {
+    "select": "اللغة",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

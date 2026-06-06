@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "联系",
+    "cancel": "版权所有",
+    "submit": "提交",
+    "delete": "删除",
+    "edit": "编辑",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "success": "成功",
+    "search": "首页",
+    "back": "搜索",
+    "next": "返回",
+    "previous": "下一个",
+    "confirm": "上一个",
+    "close": "确认",
+    "learnMore": "关闭",
+    "viewAll": "了解更多",
+    "send": "查看全部",
+    "publish": "发送",
+    "create": "发布",
+    "update": "创建",
+    "hours": "更新",
+    "hours_plural": "小时",
+    "credits": "小时",
+    "credits_plural": "积分",
+    "by": "积分",
+    "required": "由",
+    "optional": "必填",
+    "or": "可选",
+    "and": "或",
+    "member": "和",
+    "members": "会员",
+    "noResults": "会员",
+    "seeMore": "未找到结果"
+  },
+  "nav": {
+    "home": "学习",
+    "exchange": "社区",
+    "services": "查看更多",
+    "requests": "服务",
+    "learn": "交换您的才能，",
+    "workshops": "请求",
+    "modules": "工作坊",
+    "projects": "模块",
+    "community": "免费学习",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "会员",
+    "testimonials": "项目",
+    "marketplace": "推荐",
+    "moderation": "市场",
+    "institutions": "管理",
+    "aiSearch": "机构",
+    "login": "使用条款",
+    "signup": "版权所有",
+    "logout": "AI搜索",
+    "dashboard": "退出",
+    "profile": "控制台",
+    "openMenu": "我的主页",
+    "closeMenu": "打开菜单",
+    "notifications": "关闭菜单"
+  },
+  "home": {
+    "hero": {
+      "title": "时间交换所是一个互助交换平台。给出1小时 = 收到1小时。始终公平，始终免费。",
+      "titleHighlight": "探索服务",
+      "subtitle": "查看工作坊",
+      "ctaServices": "简单公平",
+      "ctaWorkshops": "如何运作",
+      "scrollHint": "通知"
+    },
+    "stats": {
+      "members": "会员",
+      "services": "查看更多",
+      "exchanges": "发现",
+      "workshops": "请求"
+    },
+    "howItWorks": {
+      "label": "提供技能",
+      "title": "分享您的知识：烹饪、语言、IT、手工...",
+      "step1Title": "1小时换1小时",
+      "step1Desc": "您给出的每小时都能获得积分。用它来获得服务。",
+      "step2Title": "共同成长",
+      "step2Desc": "参加集体工作坊和协作项目。",
+      "step3Title": "登录",
+      "step3Desc": "注册"
+    },
+    "services": {
+      "label": "交换",
+      "title": "现在可用",
+      "cta": "提供的服务"
+    },
+    "features": {
+      "label": "查看所有服务",
+      "title": "完整平台"
+    },
+    "testimonials": {
+      "label": "您需要的一切",
+      "title": "他们说什么"
+    },
+    "institutions": {
+      "label": "社区之声",
+      "title": "为组织",
+      "subtitle": "您是机构吗?",
+      "cta": "协会、合作社、教育机构——加入时间交换所。"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "使用条款",
+      "email": "密码",
+      "password": "名字",
+      "submit": "使用条款",
+      "noAccount": "联系我们",
+      "signup": "",
+      "forgotPassword": "还没有账户?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "姓氏",
+      "lastName": "保存",
+      "email": "密码",
+      "password": "名字",
+      "submit": "忘记密码?",
+      "hasAccount": "创建我的账户",
+      "login": "使用条款",
+      "terms": "已有账户?"
+    }
+  },
+  "services": {
+    "title": "现在可用",
+    "subtitle": "注册即表示您同意我们的使用条款。",
+    "label": "发现社区可以用您一小时时间换取什么。",
+    "searchPlaceholder": "可用技能",
+    "allCategories": "搜索服务…",
+    "noResults": "所有类别",
+    "requestBtn": "未找到服务",
+    "loginBtn": "申请 →",
+    "yourService": "登录 →",
+    "creditsPerHour": "您的服务",
+    "confirm": {
+      "title": "积分/小时",
+      "subtitle": "确认交换",
+      "serviceLabel": "查看更多",
+      "costLabel": "您正在向以下人申请此服务",
+      "yourCreditsLabel": "费用",
+      "cancel": "版权所有",
+      "confirm": "上一个",
+      "successMsg": "您的积分",
+      "insufficientCredits": "交换已启动 ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "积分不足",
+    "newArticle": "社区新闻、指南和推荐。",
+    "readMore": "新文章",
+    "backToBlog": "阅读文章 →",
+    "allArticles": "← 返回博客",
+    "by": "积分",
+    "publish": "← 所有文章",
+    "editArticle": "发布文章",
+    "titleLabel": "编辑文章",
+    "categoryLabel": "标题",
+    "contentLabel": "类别",
+    "externalLinkLabel": "内容",
+    "importMedia": "外部链接",
+    "saveChanges": "联系",
+    "publishArticle": "← 所有文章",
+    "delete": "删除",
+    "modify": "编辑"
+  },
+  "profile": {
+    "presentation": "导入照片/视频",
+    "noPresentation": "介绍",
+    "iOffer": "没有介绍。",
+    "iSeek": "我提供",
+    "availability": "我寻找",
+    "verificationLevel": "可用性",
+    "badges": "验证级别",
+    "editProfile": "编辑",
+    "saveProfile": "联系",
+    "tabs": {
+      "profile": "徽章",
+      "credits": "主页",
+      "network": "积分",
+      "messages": "网络"
+    }
+  },
+  "footer": {
+    "tagline": "交换",
+    "platform": "消息",
+    "community": "免费学习",
+    "legal": "平台",
+    "privacy": "社区",
+    "terms": "法律",
+    "contact": "隐私",
+    "rights": "语言"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

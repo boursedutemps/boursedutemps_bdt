@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Contact",
+    "cancel": "Alle rechten voorbehouden",
+    "submit": "Versturen",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "success": "Succes",
+    "search": "Home",
+    "back": "Zoeken",
+    "next": "Terug",
+    "previous": "Volgende",
+    "confirm": "Vorige",
+    "close": "Bevestigen",
+    "learnMore": "Sluiten",
+    "viewAll": "Meer informatie",
+    "send": "Alles bekijken",
+    "publish": "Sturen",
+    "create": "Publiceren",
+    "update": "Aanmaken",
+    "hours": "Bijwerken",
+    "hours_plural": "uur",
+    "credits": "uren",
+    "credits_plural": "tegoed",
+    "by": "tegoeden",
+    "required": "door",
+    "optional": "verplicht",
+    "or": "optioneel",
+    "and": "of",
+    "member": "en",
+    "members": "lid",
+    "noResults": "leden",
+    "seeMore": "Geen resultaten gevonden"
+  },
+  "nav": {
+    "home": "Leren",
+    "exchange": "Gemeenschap",
+    "services": "Meer bekijken",
+    "requests": "Diensten",
+    "learn": "Wissel je talenten uit,",
+    "workshops": "Verzoeken",
+    "modules": "Workshops",
+    "projects": "Modules",
+    "community": "leer gratis",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "lid",
+    "testimonials": "Projecten",
+    "marketplace": "Getuigenissen",
+    "moderation": "Marktplaats",
+    "institutions": "Moderatie",
+    "aiSearch": "Instellingen",
+    "login": "Gebruiksvoorwaarden",
+    "signup": "Alle rechten voorbehouden",
+    "logout": "AI-zoeken",
+    "dashboard": "Uitloggen",
+    "profile": "Dashboard",
+    "openMenu": "Mijn profiel",
+    "closeMenu": "Menu openen",
+    "notifications": "Menu sluiten"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps is een solidair uitwisselingsplatform. 1 gegeven uur = 1 ontvangen uur. Altijd eerlijk, altijd gratis.",
+      "titleHighlight": "Diensten verkennen",
+      "subtitle": "Workshops bekijken",
+      "ctaServices": "Eenvoudig en eerlijk",
+      "ctaWorkshops": "Hoe het werkt",
+      "scrollHint": "Meldingen"
+    },
+    "stats": {
+      "members": "lid",
+      "services": "Meer bekijken",
+      "exchanges": "Ontdekken",
+      "workshops": "Verzoeken"
+    },
+    "howItWorks": {
+      "label": "Bied een vaardigheid aan",
+      "title": "Deel wat je weet: koken, talen, IT, doe-het-zelf...",
+      "step1Title": "Wissel 1u voor 1u",
+      "step1Desc": "Elk uur dat je geeft levert je een tegoed op. Gebruik het om een dienst te ontvangen.",
+      "step2Title": "Samen groeien",
+      "step2Desc": "Neem deel aan collectieve workshops en samenwerkingsprojecten.",
+      "step3Title": "Inloggen",
+      "step3Desc": "Registreren"
+    },
+    "services": {
+      "label": "Uitwisselingen",
+      "title": "Nu beschikbaar",
+      "cta": "Aangeboden diensten"
+    },
+    "features": {
+      "label": "Alle diensten bekijken",
+      "title": "Een volledig platform"
+    },
+    "testimonials": {
+      "label": "Alles wat je nodig hebt",
+      "title": "Wat zij zeggen"
+    },
+    "institutions": {
+      "label": "Stemmen van de gemeenschap",
+      "title": "Voor organisaties",
+      "subtitle": "Bent u een instelling?",
+      "cta": "Verenigingen, coöperaties, onderwijsinstellingen — sluit u aan bij Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Gebruiksvoorwaarden",
+      "email": "Wachtwoord",
+      "password": "Voornaam",
+      "submit": "Gebruiksvoorwaarden",
+      "noAccount": "Neem contact op",
+      "signup": "",
+      "forgotPassword": "Nog geen account?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Achternaam",
+      "lastName": "Opslaan",
+      "email": "Wachtwoord",
+      "password": "Voornaam",
+      "submit": "Wachtwoord vergeten?",
+      "hasAccount": "Mijn account aanmaken",
+      "login": "Gebruiksvoorwaarden",
+      "terms": "Al een account?"
+    }
+  },
+  "services": {
+    "title": "Nu beschikbaar",
+    "subtitle": "Door je te registreren, ga je akkoord met onze gebruiksvoorwaarden.",
+    "label": "Ontdek wat de gemeenschap kan bieden in ruil voor een uur van uw tijd.",
+    "searchPlaceholder": "Beschikbare vaardigheden",
+    "allCategories": "Zoek een dienst…",
+    "noResults": "Alle categorieën",
+    "requestBtn": "Geen diensten gevonden",
+    "loginBtn": "Aanvragen →",
+    "yourService": "Inloggen →",
+    "creditsPerHour": "Uw dienst",
+    "confirm": {
+      "title": "tegoed/u",
+      "subtitle": "Uitwisseling bevestigen",
+      "serviceLabel": "Meer bekijken",
+      "costLabel": "U vraagt deze dienst aan bij",
+      "yourCreditsLabel": "Kosten",
+      "cancel": "Alle rechten voorbehouden",
+      "confirm": "Vorige",
+      "successMsg": "Uw tegoeden",
+      "insufficientCredits": "Uitwisseling gestart ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Onvoldoende tegoeden",
+    "newArticle": "Nieuws, gidsen en getuigenissen.",
+    "readMore": "Nieuw artikel",
+    "backToBlog": "Artikel lezen →",
+    "allArticles": "← Terug naar blog",
+    "by": "tegoeden",
+    "publish": "← Alle artikelen",
+    "editArticle": "Een artikel publiceren",
+    "titleLabel": "Artikel bewerken",
+    "categoryLabel": "Titel",
+    "contentLabel": "Categorie",
+    "externalLinkLabel": "Inhoud",
+    "importMedia": "Externe link",
+    "saveChanges": "Contact",
+    "publishArticle": "← Alle artikelen",
+    "delete": "Verwijderen",
+    "modify": "Bewerken"
+  },
+  "profile": {
+    "presentation": "Foto / Video importeren",
+    "noPresentation": "Voorstelling",
+    "iOffer": "Geen voorstelling.",
+    "iSeek": "Ik bied aan",
+    "availability": "Ik zoek",
+    "verificationLevel": "Beschikbaarheid",
+    "badges": "Verificatieniveau",
+    "editProfile": "Bewerken",
+    "saveProfile": "Contact",
+    "tabs": {
+      "profile": "Badges",
+      "credits": "Profiel",
+      "network": "Tegoeden",
+      "messages": "Netwerk"
+    }
+  },
+  "footer": {
+    "tagline": "Ruilen",
+    "platform": "Berichten",
+    "community": "leer gratis",
+    "legal": "Platform",
+    "privacy": "Gemeenschap",
+    "terms": "Juridisch",
+    "contact": "Privacy",
+    "rights": "Taal"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

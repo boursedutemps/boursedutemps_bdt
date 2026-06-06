@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Contato",
+    "cancel": "Todos os direitos reservados",
+    "submit": "Enviar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "loading": "Carregando...",
+    "error": "Ocorreu um erro",
+    "success": "Sucesso",
+    "search": "Início",
+    "back": "Buscar",
+    "next": "Voltar",
+    "previous": "Próximo",
+    "confirm": "Anterior",
+    "close": "Confirmar",
+    "learnMore": "Fechar",
+    "viewAll": "Saiba mais",
+    "send": "Ver tudo",
+    "publish": "Enviar",
+    "create": "Publicar",
+    "update": "Criar",
+    "hours": "Atualizar",
+    "hours_plural": "hora",
+    "credits": "horas",
+    "credits_plural": "crédito",
+    "by": "créditos",
+    "required": "por",
+    "optional": "obrigatório",
+    "or": "opcional",
+    "and": "ou",
+    "member": "e",
+    "members": "membro",
+    "noResults": "membros",
+    "seeMore": "Nenhum resultado encontrado"
+  },
+  "nav": {
+    "home": "Aprender",
+    "exchange": "Comunidade",
+    "services": "Ver mais",
+    "requests": "Serviços",
+    "learn": "Troque seus talentos,",
+    "workshops": "Solicitações",
+    "modules": "Oficinas",
+    "projects": "Módulos",
+    "community": "aprenda gratuitamente",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "membro",
+    "testimonials": "Projetos",
+    "marketplace": "Depoimentos",
+    "moderation": "Mercado",
+    "institutions": "Moderação",
+    "aiSearch": "Instituições",
+    "login": "Termos de uso",
+    "signup": "Todos os direitos reservados",
+    "logout": "Pesquisa IA",
+    "dashboard": "Sair",
+    "profile": "Painel",
+    "openMenu": "Meu perfil",
+    "closeMenu": "Abrir menu",
+    "notifications": "Fechar menu"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps é uma plataforma de troca solidária. 1 hora dada = 1 hora recebida. Sempre justo, sempre gratuito.",
+      "titleHighlight": "Explorar serviços",
+      "subtitle": "Ver oficinas",
+      "ctaServices": "Simples e justo",
+      "ctaWorkshops": "Como funciona",
+      "scrollHint": "Notificações"
+    },
+    "stats": {
+      "members": "membro",
+      "services": "Ver mais",
+      "exchanges": "Descobrir",
+      "workshops": "Solicitações"
+    },
+    "howItWorks": {
+      "label": "Ofereça uma habilidade",
+      "title": "Compartilhe o que você sabe: culinária, idiomas, informática, bricolagem...",
+      "step1Title": "Troque 1h por 1h",
+      "step1Desc": "Cada hora que você dá rende um crédito. Use-o para receber um serviço.",
+      "step2Title": "Crescer juntos",
+      "step2Desc": "Participe de oficinas coletivas e projetos colaborativos.",
+      "step3Title": "Entrar",
+      "step3Desc": "Cadastrar"
+    },
+    "services": {
+      "label": "Trocas",
+      "title": "Disponíveis agora",
+      "cta": "Serviços oferecidos"
+    },
+    "features": {
+      "label": "Ver todos os serviços",
+      "title": "Uma plataforma completa"
+    },
+    "testimonials": {
+      "label": "Tudo o que você precisa",
+      "title": "O que dizem"
+    },
+    "institutions": {
+      "label": "Vozes da comunidade",
+      "title": "Para organizações",
+      "subtitle": "Você é uma instituição?",
+      "cta": "Associações, cooperativas, instituições educacionais — junte-se ao Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Termos de uso",
+      "email": "Senha",
+      "password": "Nome",
+      "submit": "Termos de uso",
+      "noAccount": "Entre em contato",
+      "signup": "",
+      "forgotPassword": "Ainda não tem uma conta?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Sobrenome",
+      "lastName": "Salvar",
+      "email": "Senha",
+      "password": "Nome",
+      "submit": "Esqueceu sua senha?",
+      "hasAccount": "Criar minha conta",
+      "login": "Termos de uso",
+      "terms": "Já tem uma conta?"
+    }
+  },
+  "services": {
+    "title": "Disponíveis agora",
+    "subtitle": "Ao se cadastrar, você concorda com nossos termos de uso.",
+    "label": "Descubra o que a comunidade pode oferecer em troca de uma hora do seu tempo.",
+    "searchPlaceholder": "Habilidades disponíveis",
+    "allCategories": "Buscar um serviço…",
+    "noResults": "Todas as categorias",
+    "requestBtn": "Nenhum serviço encontrado",
+    "loginBtn": "Solicitar →",
+    "yourService": "Entrar →",
+    "creditsPerHour": "Seu serviço",
+    "confirm": {
+      "title": "crédito/h",
+      "subtitle": "Confirmar a troca",
+      "serviceLabel": "Ver mais",
+      "costLabel": "Você está solicitando este serviço de",
+      "yourCreditsLabel": "Custo",
+      "cancel": "Todos os direitos reservados",
+      "confirm": "Anterior",
+      "successMsg": "Seus créditos",
+      "insufficientCredits": "Troca iniciada ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Créditos insuficientes",
+    "newArticle": "Notícias, guias e depoimentos da comunidade.",
+    "readMore": "Novo artigo",
+    "backToBlog": "Ler artigo →",
+    "allArticles": "← Voltar ao blog",
+    "by": "créditos",
+    "publish": "← Todos os artigos",
+    "editArticle": "Publicar um artigo",
+    "titleLabel": "Editar artigo",
+    "categoryLabel": "Título",
+    "contentLabel": "Categoria",
+    "externalLinkLabel": "Conteúdo",
+    "importMedia": "Link externo",
+    "saveChanges": "Contato",
+    "publishArticle": "← Todos os artigos",
+    "delete": "Excluir",
+    "modify": "Editar"
+  },
+  "profile": {
+    "presentation": "Importar Foto / Vídeo",
+    "noPresentation": "Apresentação",
+    "iOffer": "Sem apresentação.",
+    "iSeek": "Ofereço",
+    "availability": "Procuro",
+    "verificationLevel": "Disponibilidade",
+    "badges": "Nível de verificação",
+    "editProfile": "Editar",
+    "saveProfile": "Contato",
+    "tabs": {
+      "profile": "Distintivos",
+      "credits": "Perfil",
+      "network": "Créditos",
+      "messages": "Rede"
+    }
+  },
+  "footer": {
+    "tagline": "Trocar",
+    "platform": "Mensagens",
+    "community": "aprenda gratuitamente",
+    "legal": "Plataforma",
+    "privacy": "Comunidade",
+    "terms": "Legal",
+    "contact": "Privacidade",
+    "rights": "Idioma"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

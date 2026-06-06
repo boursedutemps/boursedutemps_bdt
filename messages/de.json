@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Kontakt",
+    "cancel": "Alle Rechte vorbehalten",
+    "submit": "Senden",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "loading": "Wird geladen...",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Erfolg",
+    "search": "Startseite",
+    "back": "Suchen",
+    "next": "Zurück",
+    "previous": "Weiter",
+    "confirm": "Zurück",
+    "close": "Bestätigen",
+    "learnMore": "Schließen",
+    "viewAll": "Mehr erfahren",
+    "send": "Alle anzeigen",
+    "publish": "Senden",
+    "create": "Veröffentlichen",
+    "update": "Erstellen",
+    "hours": "Aktualisieren",
+    "hours_plural": "Stunde",
+    "credits": "Stunden",
+    "credits_plural": "Guthaben",
+    "by": "Guthaben",
+    "required": "von",
+    "optional": "erforderlich",
+    "or": "optional",
+    "and": "oder",
+    "member": "und",
+    "members": "Mitglied",
+    "noResults": "Mitglieder",
+    "seeMore": "Keine Ergebnisse gefunden"
+  },
+  "nav": {
+    "home": "Lernen",
+    "exchange": "Gemeinschaft",
+    "services": "Mehr anzeigen",
+    "requests": "Dienste",
+    "learn": "Tausche deine Talente,",
+    "workshops": "Anfragen",
+    "modules": "Workshops",
+    "projects": "Module",
+    "community": "lerne kostenlos",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "Mitglied",
+    "testimonials": "Projekte",
+    "marketplace": "Erfahrungsberichte",
+    "moderation": "Marktplatz",
+    "institutions": "Moderation",
+    "aiSearch": "Institutionen",
+    "login": "Nutzungsbedingungen",
+    "signup": "Alle Rechte vorbehalten",
+    "logout": "KI-Suche",
+    "dashboard": "Abmelden",
+    "profile": "Dashboard",
+    "openMenu": "Mein Profil",
+    "closeMenu": "Menü öffnen",
+    "notifications": "Menü schließen"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps ist eine solidarische Tauschplattform. 1 gegebene Stunde = 1 erhaltene Stunde. Immer fair, immer kostenlos.",
+      "titleHighlight": "Dienste erkunden",
+      "subtitle": "Workshops anzeigen",
+      "ctaServices": "Einfach & fair",
+      "ctaWorkshops": "Wie es funktioniert",
+      "scrollHint": "Benachrichtigungen"
+    },
+    "stats": {
+      "members": "Mitglied",
+      "services": "Mehr anzeigen",
+      "exchanges": "Entdecken",
+      "workshops": "Anfragen"
+    },
+    "howItWorks": {
+      "label": "Biete eine Fähigkeit an",
+      "title": "Teile, was du weißt: Kochen, Sprachen, IT, Heimwerken...",
+      "step1Title": "Tausche 1h gegen 1h",
+      "step1Desc": "Jede Stunde, die du gibst, bringt dir ein Guthaben. Nutze es, um einen Dienst zu erhalten.",
+      "step2Title": "Gemeinsam wachsen",
+      "step2Desc": "Nimm an kollektiven Workshops und kollaborativen Projekten teil.",
+      "step3Title": "Anmelden",
+      "step3Desc": "Registrieren"
+    },
+    "services": {
+      "label": "Tausche",
+      "title": "Jetzt verfügbar",
+      "cta": "Angebotene Dienste"
+    },
+    "features": {
+      "label": "Alle Dienste anzeigen",
+      "title": "Eine vollständige Plattform"
+    },
+    "testimonials": {
+      "label": "Alles was du brauchst",
+      "title": "Was sie sagen"
+    },
+    "institutions": {
+      "label": "Stimmen der Gemeinschaft",
+      "title": "Für Organisationen",
+      "subtitle": "Sind Sie eine Institution?",
+      "cta": "Vereine, Genossenschaften, Bildungseinrichtungen — treten Sie Bourse du Temps bei."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Nutzungsbedingungen",
+      "email": "Passwort",
+      "password": "Vorname",
+      "submit": "Nutzungsbedingungen",
+      "noAccount": "Kontaktieren Sie uns",
+      "signup": "",
+      "forgotPassword": "Noch kein Konto?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Nachname",
+      "lastName": "Speichern",
+      "email": "Passwort",
+      "password": "Vorname",
+      "submit": "Passwort vergessen?",
+      "hasAccount": "Mein Konto erstellen",
+      "login": "Nutzungsbedingungen",
+      "terms": "Haben Sie bereits ein Konto?"
+    }
+  },
+  "services": {
+    "title": "Jetzt verfügbar",
+    "subtitle": "Mit der Anmeldung stimmen Sie unseren Nutzungsbedingungen zu.",
+    "label": "Entdecken Sie, was die Gemeinschaft im Tausch gegen eine Stunde Ihrer Zeit anbieten kann.",
+    "searchPlaceholder": "Verfügbare Fähigkeiten",
+    "allCategories": "Nach einem Dienst suchen…",
+    "noResults": "Alle Kategorien",
+    "requestBtn": "Keine Dienste gefunden",
+    "loginBtn": "Anfragen →",
+    "yourService": "Anmelden →",
+    "creditsPerHour": "Ihr Dienst",
+    "confirm": {
+      "title": "Guthaben/h",
+      "subtitle": "Tausch bestätigen",
+      "serviceLabel": "Mehr anzeigen",
+      "costLabel": "Sie fordern diesen Dienst an von",
+      "yourCreditsLabel": "Kosten",
+      "cancel": "Alle Rechte vorbehalten",
+      "confirm": "Zurück",
+      "successMsg": "Ihr Guthaben",
+      "insufficientCredits": "Tausch initiiert ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Unzureichendes Guthaben",
+    "newArticle": "Neuigkeiten, Anleitungen und Erfahrungsberichte.",
+    "readMore": "Neuer Artikel",
+    "backToBlog": "Artikel lesen →",
+    "allArticles": "← Zurück zum Blog",
+    "by": "Guthaben",
+    "publish": "← Alle Artikel",
+    "editArticle": "Artikel veröffentlichen",
+    "titleLabel": "Artikel bearbeiten",
+    "categoryLabel": "Titel",
+    "contentLabel": "Kategorie",
+    "externalLinkLabel": "Inhalt",
+    "importMedia": "Externer Link",
+    "saveChanges": "Kontakt",
+    "publishArticle": "← Alle Artikel",
+    "delete": "Löschen",
+    "modify": "Bearbeiten"
+  },
+  "profile": {
+    "presentation": "Foto / Video importieren",
+    "noPresentation": "Vorstellung",
+    "iOffer": "Keine Vorstellung.",
+    "iSeek": "Ich biete an",
+    "availability": "Ich suche",
+    "verificationLevel": "Verfügbarkeit",
+    "badges": "Verifizierungsstufe",
+    "editProfile": "Bearbeiten",
+    "saveProfile": "Kontakt",
+    "tabs": {
+      "profile": "Abzeichen",
+      "credits": "Profil",
+      "network": "Guthaben",
+      "messages": "Netzwerk"
+    }
+  },
+  "footer": {
+    "tagline": "Tauschen",
+    "platform": "Nachrichten",
+    "community": "lerne kostenlos",
+    "legal": "Plattform",
+    "privacy": "Gemeinschaft",
+    "terms": "Rechtliches",
+    "contact": "Datenschutz",
+    "rights": "Sprache"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

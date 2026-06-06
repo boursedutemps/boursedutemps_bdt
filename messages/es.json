@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "error": "Se produjo un error",
+    "success": "Éxito",
+    "search": "Buscar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "learnMore": "Saber más",
+    "viewAll": "Ver todo",
+    "send": "Enviar",
+    "publish": "Publicar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "hours": "hora",
+    "hours_plural": "horas",
+    "credits": "crédito",
+    "credits_plural": "créditos",
+    "by": "por",
+    "required": "requerido",
+    "optional": "opcional",
+    "or": "o",
+    "and": "y",
+    "member": "miembro",
+    "members": "miembros",
+    "noResults": "No se encontraron resultados",
+    "seeMore": "Ver más"
+  },
+  "nav": {
+    "home": "Inicio",
+    "exchange": "Intercambiar",
+    "services": "Servicios",
+    "requests": "Solicitudes",
+    "learn": "Aprender",
+    "workshops": "Talleres",
+    "modules": "Módulos",
+    "projects": "Proyectos",
+    "community": "Comunidad",
+    "blog": "Blog",
+    "forum": "Foro",
+    "members": "Miembros",
+    "testimonials": "Testimonios",
+    "marketplace": "Mercado",
+    "moderation": "Moderación",
+    "institutions": "Instituciones",
+    "aiSearch": "Búsqueda IA",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "logout": "Cerrar sesión",
+    "dashboard": "Panel",
+    "profile": "Mi perfil",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "notifications": "Notificaciones"
+  },
+  "home": {
+    "hero": {
+      "title": "Intercambia tus talentos,",
+      "titleHighlight": "aprende gratis",
+      "subtitle": "Bourse du Temps es una plataforma de intercambio solidario. 1 hora dada = 1 hora recibida. Siempre justo, siempre gratuito.",
+      "ctaServices": "Explorar servicios",
+      "ctaWorkshops": "Ver talleres",
+      "scrollHint": "Descubrir"
+    },
+    "stats": {
+      "members": "Miembros",
+      "services": "Servicios",
+      "exchanges": "Intercambios",
+      "workshops": "Talleres"
+    },
+    "howItWorks": {
+      "label": "Simple y justo",
+      "title": "Cómo funciona",
+      "step1Title": "Ofrece una habilidad",
+      "step1Desc": "Comparte lo que sabes: cocina, idiomas, informática, bricolaje...",
+      "step2Title": "Intercambia 1h por 1h",
+      "step2Desc": "Cada hora que das te gana un crédito. Úsalo para recibir un servicio.",
+      "step3Title": "Crecer juntos",
+      "step3Desc": "Participa en talleres colectivos y proyectos colaborativos."
+    },
+    "services": {
+      "label": "Disponibles ahora",
+      "title": "Servicios ofrecidos",
+      "cta": "Ver todos los servicios"
+    },
+    "features": {
+      "label": "Una plataforma completa",
+      "title": "Todo lo que necesitas"
+    },
+    "testimonials": {
+      "label": "Lo que dicen",
+      "title": "Voces de la comunidad"
+    },
+    "institutions": {
+      "label": "Para organizaciones",
+      "title": "¿Eres una institución?",
+      "subtitle": "Asociaciones, cooperativas, instituciones educativas — únete a Bourse du Temps.",
+      "cta": "Contáctanos"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "signup": "Crear cuenta",
+      "forgotPassword": "¿Olvidaste tu contraseña?"
+    },
+    "signup": {
+      "title": "Crear una cuenta",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Crear mi cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión",
+      "terms": "Al registrarte, aceptas nuestros términos de uso."
+    }
+  },
+  "services": {
+    "title": "Servicios ofrecidos",
+    "subtitle": "Descubre lo que la comunidad puede ofrecerte a cambio de una hora de tu tiempo.",
+    "label": "Habilidades disponibles",
+    "searchPlaceholder": "Buscar un servicio…",
+    "allCategories": "Todas las categorías",
+    "noResults": "No se encontraron servicios",
+    "requestBtn": "Solicitar →",
+    "loginBtn": "Iniciar sesión →",
+    "yourService": "Tu servicio",
+    "creditsPerHour": "crédito/h",
+    "confirm": {
+      "title": "Confirmar el intercambio",
+      "subtitle": "Estás solicitando este servicio a",
+      "serviceLabel": "Servicio",
+      "costLabel": "Costo",
+      "yourCreditsLabel": "Tus créditos",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "successMsg": "¡Intercambio iniciado ✅ Se te pedirá una reseña después de la sesión.",
+      "insufficientCredits": "Créditos insuficientes"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Noticias, guías y testimonios de la comunidad.",
+    "newArticle": "Nuevo artículo",
+    "readMore": "Leer artículo →",
+    "backToBlog": "← Volver al blog",
+    "allArticles": "← Todos los artículos",
+    "by": "por",
+    "publish": "Publicar un artículo",
+    "editArticle": "Editar artículo",
+    "titleLabel": "Título",
+    "categoryLabel": "Categoría",
+    "contentLabel": "Contenido",
+    "externalLinkLabel": "Enlace externo",
+    "importMedia": "Importar Foto / Video",
+    "saveChanges": "Guardar cambios",
+    "publishArticle": "Publicar artículo",
+    "delete": "Eliminar",
+    "modify": "Editar"
+  },
+  "profile": {
+    "presentation": "Presentación",
+    "noPresentation": "Sin presentación.",
+    "iOffer": "Ofrezco",
+    "iSeek": "Busco",
+    "availability": "Disponibilidad",
+    "verificationLevel": "Nivel de verificación",
+    "badges": "Insignias",
+    "editProfile": "Editar",
+    "saveProfile": "Guardar",
+    "tabs": {
+      "profile": "Perfil",
+      "credits": "Créditos",
+      "network": "Red",
+      "messages": "Mensajes"
+    }
+  },
+  "footer": {
+    "tagline": "Intercambia tiempo, comparte talentos.",
+    "platform": "Plataforma",
+    "community": "Comunidad",
+    "legal": "Legal",
+    "privacy": "Privacidad",
+    "terms": "Términos de uso",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados"
+  },
+  "language": {
+    "select": "Idioma",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

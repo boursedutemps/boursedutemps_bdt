@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Contatto",
+    "cancel": "Tutti i diritti riservati",
+    "submit": "Invia",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "success": "Successo",
+    "search": "Home",
+    "back": "Cerca",
+    "next": "Indietro",
+    "previous": "Avanti",
+    "confirm": "Indietro",
+    "close": "Conferma",
+    "learnMore": "Chiudi",
+    "viewAll": "Scopri di più",
+    "send": "Vedi tutto",
+    "publish": "Invia",
+    "create": "Pubblica",
+    "update": "Crea",
+    "hours": "Aggiorna",
+    "hours_plural": "ora",
+    "credits": "ore",
+    "credits_plural": "credito",
+    "by": "crediti",
+    "required": "di",
+    "optional": "obbligatorio",
+    "or": "opzionale",
+    "and": "o",
+    "member": "e",
+    "members": "membro",
+    "noResults": "membri",
+    "seeMore": "Nessun risultato trovato"
+  },
+  "nav": {
+    "home": "Impara",
+    "exchange": "Comunità",
+    "services": "Vedi altro",
+    "requests": "Servizi",
+    "learn": "Scambia i tuoi talenti,",
+    "workshops": "Richieste",
+    "modules": "Laboratori",
+    "projects": "Moduli",
+    "community": "impara gratuitamente",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "membro",
+    "testimonials": "Progetti",
+    "marketplace": "Testimonianze",
+    "moderation": "Mercato",
+    "institutions": "Moderazione",
+    "aiSearch": "Istituzioni",
+    "login": "Termini di utilizzo",
+    "signup": "Tutti i diritti riservati",
+    "logout": "Ricerca IA",
+    "dashboard": "Esci",
+    "profile": "Dashboard",
+    "openMenu": "Il mio profilo",
+    "closeMenu": "Apri menu",
+    "notifications": "Chiudi menu"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps è una piattaforma di scambio solidale. 1 ora data = 1 ora ricevuta. Sempre equo, sempre gratuito.",
+      "titleHighlight": "Esplora i servizi",
+      "subtitle": "Vedi i laboratori",
+      "ctaServices": "Semplice ed equo",
+      "ctaWorkshops": "Come funziona",
+      "scrollHint": "Notifiche"
+    },
+    "stats": {
+      "members": "membro",
+      "services": "Vedi altro",
+      "exchanges": "Scopri",
+      "workshops": "Richieste"
+    },
+    "howItWorks": {
+      "label": "Offri una competenza",
+      "title": "Condividi ciò che sai: cucina, lingue, informatica, fai da te...",
+      "step1Title": "Scambia 1h per 1h",
+      "step1Desc": "Ogni ora che dai ti guadagna un credito. Usalo per ricevere un servizio.",
+      "step2Title": "Crescere insieme",
+      "step2Desc": "Partecipa a laboratori collettivi e progetti collaborativi.",
+      "step3Title": "Accedi",
+      "step3Desc": "Registrati"
+    },
+    "services": {
+      "label": "Scambi",
+      "title": "Disponibili ora",
+      "cta": "Servizi offerti"
+    },
+    "features": {
+      "label": "Vedi tutti i servizi",
+      "title": "Una piattaforma completa"
+    },
+    "testimonials": {
+      "label": "Tutto ciò di cui hai bisogno",
+      "title": "Cosa dicono"
+    },
+    "institutions": {
+      "label": "Voci della comunità",
+      "title": "Per le organizzazioni",
+      "subtitle": "Sei un'istituzione?",
+      "cta": "Associazioni, cooperative, istituzioni educative — unisciti a Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Termini di utilizzo",
+      "email": "Password",
+      "password": "Nome",
+      "submit": "Termini di utilizzo",
+      "noAccount": "Contattaci",
+      "signup": "",
+      "forgotPassword": "Non hai ancora un account?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Cognome",
+      "lastName": "Salva",
+      "email": "Password",
+      "password": "Nome",
+      "submit": "Password dimenticata?",
+      "hasAccount": "Crea il mio account",
+      "login": "Termini di utilizzo",
+      "terms": "Hai già un account?"
+    }
+  },
+  "services": {
+    "title": "Disponibili ora",
+    "subtitle": "Registrandoti, accetti i nostri termini di utilizzo.",
+    "label": "Scopri cosa può offrirti la comunità in cambio di un'ora del tuo tempo.",
+    "searchPlaceholder": "Competenze disponibili",
+    "allCategories": "Cerca un servizio…",
+    "noResults": "Tutte le categorie",
+    "requestBtn": "Nessun servizio trovato",
+    "loginBtn": "Richiedi →",
+    "yourService": "Accedi →",
+    "creditsPerHour": "Il tuo servizio",
+    "confirm": {
+      "title": "crediti/h",
+      "subtitle": "Conferma lo scambio",
+      "serviceLabel": "Vedi altro",
+      "costLabel": "Stai richiedendo questo servizio a",
+      "yourCreditsLabel": "Costo",
+      "cancel": "Tutti i diritti riservati",
+      "confirm": "Indietro",
+      "successMsg": "I tuoi crediti",
+      "insufficientCredits": "Scambio avviato ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Crediti insufficienti",
+    "newArticle": "Notizie, guide e testimonianze dalla comunità.",
+    "readMore": "Nuovo articolo",
+    "backToBlog": "Leggi l'articolo →",
+    "allArticles": "← Torna al blog",
+    "by": "crediti",
+    "publish": "← Tutti gli articoli",
+    "editArticle": "Pubblica un articolo",
+    "titleLabel": "Modifica articolo",
+    "categoryLabel": "Titolo",
+    "contentLabel": "Categoria",
+    "externalLinkLabel": "Contenuto",
+    "importMedia": "Link esterno",
+    "saveChanges": "Contatto",
+    "publishArticle": "← Tutti gli articoli",
+    "delete": "Elimina",
+    "modify": "Modifica"
+  },
+  "profile": {
+    "presentation": "Importa Foto / Video",
+    "noPresentation": "Presentazione",
+    "iOffer": "Nessuna presentazione.",
+    "iSeek": "Offro",
+    "availability": "Cerco",
+    "verificationLevel": "Disponibilità",
+    "badges": "Livello di verifica",
+    "editProfile": "Modifica",
+    "saveProfile": "Contatto",
+    "tabs": {
+      "profile": "Badge",
+      "credits": "Profilo",
+      "network": "Crediti",
+      "messages": "Rete"
+    }
+  },
+  "footer": {
+    "tagline": "Scambia",
+    "platform": "Messaggi",
+    "community": "impara gratuitamente",
+    "legal": "Piattaforma",
+    "privacy": "Comunità",
+    "terms": "Legale",
+    "contact": "Privacy",
+    "rights": "Lingua"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Faramfàtte",
+    "cancel": "Joxe yi dafa am droit",
+    "submit": "Dëkkal",
+    "delete": "Fay",
+    "edit": "Soppul",
+    "loading": "Jël wàllu...",
+    "error": "Am na njëkël",
+    "success": "Dëgg na",
+    "search": "Kër",
+    "back": "Seet",
+    "next": "Delloo",
+    "previous": "Ci kanam",
+    "confirm": "Ci ginnaaw",
+    "close": "Mëna",
+    "learnMore": "Tëj",
+    "viewAll": "Xam ci kanam",
+    "send": "Xool lépp",
+    "publish": "Yónnee",
+    "create": "Feeñal",
+    "update": "Def",
+    "hours": "Mëttu",
+    "hours_plural": "waxtaane",
+    "credits": "waxtaane",
+    "credits_plural": "krédi",
+    "by": "krédi",
+    "required": "ak",
+    "optional": "dafko soxor",
+    "or": "yaakaar",
+    "and": "walla",
+    "member": "ak",
+    "members": "jëkkër",
+    "noResults": "jëkkër yi",
+    "seeMore": "Amul dara"
+  },
+  "nav": {
+    "home": "Jàng",
+    "exchange": "Kër gi",
+    "services": "Xool ci kanam",
+    "requests": "Njëkëlam",
+    "learn": "Waxtaan sa jëkkëram,",
+    "workshops": "Ci soxor",
+    "modules": "Atelier",
+    "projects": "Modil",
+    "community": "jàng ci ndaw",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "jëkkër",
+    "testimonials": "Proje",
+    "marketplace": "Tëmoin",
+    "moderation": "Marse",
+    "institutions": "Contrôl",
+    "aiSearch": "Etablissement",
+    "login": "Règle",
+    "signup": "Joxe yi dafa am droit",
+    "logout": "Seet IA",
+    "dashboard": "Génn",
+    "profile": "Tablo",
+    "openMenu": "Sa profil",
+    "closeMenu": "Ubbi menü",
+    "notifications": "Tëj menü"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps dafa moy plate-forme waxtaane. 1 waxtaane yi def = 1 waxtaane yi jël. Toujours juste, toujours ci ndaw.",
+      "titleHighlight": "Seet njëkël yi",
+      "subtitle": "Xool atelier yi",
+      "ctaServices": "Yomb ak juste",
+      "ctaWorkshops": "Naka lanu def",
+      "scrollHint": "Melokaanu"
+    },
+    "stats": {
+      "members": "jëkkër",
+      "services": "Xool ci kanam",
+      "exchanges": "Mënñeel",
+      "workshops": "Ci soxor"
+    },
+    "howItWorks": {
+      "label": "Yëgëlu xam-xam",
+      "title": "Wàxtaaneel sa xam-xam: togg, làkk, ordinateer, reparasyon...",
+      "step1Title": "Waxtaan 1 ci 1",
+      "step1Desc": "Kër waxtaane bu dëgg dafa feexëx sa krédi. Jëflal ko jël njëkël.",
+      "step2Title": "Yokk ak yëkëm",
+      "step2Desc": "Dugg ci atelier yi ak proje yi.",
+      "step3Title": "Dugg",
+      "step3Desc": "Bindul"
+    },
+    "services": {
+      "label": "Rawatinu",
+      "title": "Jël képp",
+      "cta": "Njëkël yi"
+    },
+    "features": {
+      "label": "Xool njëkël yi lépp",
+      "title": "Plate-forme bu mag"
+    },
+    "testimonials": {
+      "label": "Li nga soxor",
+      "title": "Lënn lañu wax"
+    },
+    "institutions": {
+      "label": "Pari dëkk",
+      "title": "Ci ndeye borom",
+      "subtitle": "Mën nga soxor dafa moy ?",
+      "cta": "Asosyasyon, kooperativ, etablisman jaangele — bindal ci Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Règle",
+      "email": "Mot de passe",
+      "password": "Tur",
+      "submit": "Règle",
+      "noAccount": "Xooleel nu",
+      "signup": "",
+      "forgotPassword": "Sëriñ li ci kanam am compte ?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Jaambaar tur",
+      "lastName": "Ëmbu",
+      "email": "Mot de passe",
+      "password": "Tur",
+      "submit": "Xam sa code bi ?",
+      "hasAccount": "Def sa compte",
+      "login": "Règle",
+      "terms": "Am nga account ?"
+    }
+  },
+  "services": {
+    "title": "Jël képp",
+    "subtitle": "Bii bind nga, dafa fiy mëna yëgël ci njëkël yi.",
+    "label": "Mëna xam sa yëgëleem ci yokk na waxtaane ak jamm bi.",
+    "searchPlaceholder": "Xam-xam bi jël",
+    "allCategories": "Seet njëkël...",
+    "noResults": "Categori bii",
+    "requestBtn": "Amul njëkël",
+    "loginBtn": "Wànt →",
+    "yourService": "Dugg →",
+    "creditsPerHour": "Sa njëkël",
+    "confirm": {
+      "title": "krédi/w",
+      "subtitle": "Mëna waxtaane",
+      "serviceLabel": "Xool ci kanam",
+      "costLabel": "Danga soxor bi njëkël bi ci",
+      "yourCreditsLabel": "Wërs",
+      "cancel": "Joxe yi dafa am droit",
+      "confirm": "Ci ginnaaw",
+      "successMsg": "Sa crédit yi",
+      "insufficientCredits": "Waxtaane bi doone ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Krédi yi duñu màgg",
+    "newArticle": "Xibaar, guide ak temoignage.",
+    "readMore": "Makale bu bees",
+    "backToBlog": "Jàng makale →",
+    "allArticles": "← Delloo ci blog",
+    "by": "krédi",
+    "publish": "← Makale yi",
+    "editArticle": "Feeñal makale",
+    "titleLabel": "Soppul makale",
+    "categoryLabel": "Tiitre",
+    "contentLabel": "Catégorie",
+    "externalLinkLabel": "Xam-xam",
+    "importMedia": "Lien digg",
+    "saveChanges": "Faramfàtte",
+    "publishArticle": "← Makale yi",
+    "delete": "Fay",
+    "modify": "Soppul"
+  },
+  "profile": {
+    "presentation": "Bind foto / vidéo",
+    "noPresentation": "Feeñal",
+    "iOffer": "Amul feeñal.",
+    "iSeek": "Mànggi jox",
+    "availability": "Mànggi seet",
+    "verificationLevel": "Amdi",
+    "badges": "Niveau vérification",
+    "editProfile": "Soppul",
+    "saveProfile": "Faramfàtte",
+    "tabs": {
+      "profile": "Badge",
+      "credits": "Profil",
+      "network": "Crédit",
+      "messages": "Réseau"
+    }
+  },
+  "footer": {
+    "tagline": "Waxtaan",
+    "platform": "Message",
+    "community": "jàng ci ndaw",
+    "legal": "Plate-forme",
+    "privacy": "Kër gi",
+    "terms": "Droit",
+    "contact": "Intimité",
+    "rights": "Làkk"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

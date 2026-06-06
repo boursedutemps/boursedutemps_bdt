@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Mawasiliano",
+    "cancel": "Haki zote zimehifadhiwa",
+    "submit": "Wasilisha",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "loading": "Inapakia...",
+    "error": "Hitilafu imetokea",
+    "success": "Mafanikio",
+    "search": "Nyumbani",
+    "back": "Tafuta",
+    "next": "Rudi",
+    "previous": "Ifuatayo",
+    "confirm": "Iliyopita",
+    "close": "Thibitisha",
+    "learnMore": "Funga",
+    "viewAll": "Jifunze zaidi",
+    "send": "Angalia yote",
+    "publish": "Tuma",
+    "create": "Chapisha",
+    "update": "Unda",
+    "hours": "Sasisha",
+    "hours_plural": "saa",
+    "credits": "masaa",
+    "credits_plural": "mkopo",
+    "by": "mikopo",
+    "required": "na",
+    "optional": "inahitajika",
+    "or": "hiari",
+    "and": "au",
+    "member": "na",
+    "members": "mwanachama",
+    "noResults": "wanachama",
+    "seeMore": "Hakuna matokeo"
+  },
+  "nav": {
+    "home": "Jifunze",
+    "exchange": "Jamii",
+    "services": "Angalia zaidi",
+    "requests": "Huduma",
+    "learn": "Badilishana vipaji vyako,",
+    "workshops": "Maombi",
+    "modules": "Warsha",
+    "projects": "Moduli",
+    "community": "jifunze bila malipo",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "mwanachama",
+    "testimonials": "Miradi",
+    "marketplace": "Ushuhuda",
+    "moderation": "Soko",
+    "institutions": "Usimamizi",
+    "aiSearch": "Taasisi",
+    "login": "Masharti ya matumizi",
+    "signup": "Haki zote zimehifadhiwa",
+    "logout": "Utafutaji wa AI",
+    "dashboard": "Toka",
+    "profile": "Dashibodi",
+    "openMenu": "Profaili yangu",
+    "closeMenu": "Fungua menyu",
+    "notifications": "Funga menyu"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps ni jukwaa la kubadilishana kwa mshikamano. Saa 1 uliyotoa = Saa 1 uliyopokea. Daima ya haki, daima bure.",
+      "titleHighlight": "Chunguza huduma",
+      "subtitle": "Tazama warsha",
+      "ctaServices": "Rahisi na ya haki",
+      "ctaWorkshops": "Jinsi inavyofanya kazi",
+      "scrollHint": "Arifa"
+    },
+    "stats": {
+      "members": "mwanachama",
+      "services": "Angalia zaidi",
+      "exchanges": "Gundua",
+      "workshops": "Maombi"
+    },
+    "howItWorks": {
+      "label": "Toa ujuzi",
+      "title": "Shiriki unachojua: upishi, lugha, teknolojia, ukarabati...",
+      "step1Title": "Badilishana 1s kwa 1s",
+      "step1Desc": "Kila saa unayotoa inakupa mkopo. Uitumie kupokea huduma.",
+      "step2Title": "Kukua pamoja",
+      "step2Desc": "Shiriki katika warsha za pamoja na miradi shirikishi.",
+      "step3Title": "Kuingia",
+      "step3Desc": "Jiandikishe"
+    },
+    "services": {
+      "label": "Ubadilishanaji",
+      "title": "Inapatikana sasa",
+      "cta": "Huduma zinazotolewa"
+    },
+    "features": {
+      "label": "Angalia huduma zote",
+      "title": "Jukwaa kamili"
+    },
+    "testimonials": {
+      "label": "Unachohitaji",
+      "title": "Wanasema nini"
+    },
+    "institutions": {
+      "label": "Sauti za jamii",
+      "title": "Kwa mashirika",
+      "subtitle": "Je, wewe ni taasisi?",
+      "cta": "Vyama, ushirika, taasisi za elimu — jiunge na Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Masharti ya matumizi",
+      "email": "Nenosiri",
+      "password": "Jina la kwanza",
+      "submit": "Masharti ya matumizi",
+      "noAccount": "Wasiliana nasi",
+      "signup": "",
+      "forgotPassword": "Bado huna akaunti?"
+    },
+    "signup": {
+      "title": "Haki zote zimehifadhiwa",
+      "firstName": "Jina la mwisho",
+      "lastName": "Hifadhi",
+      "email": "Nenosiri",
+      "password": "Jina la kwanza",
+      "submit": "Umesahau nenosiri?",
+      "hasAccount": "Unda akaunti yangu",
+      "login": "Masharti ya matumizi",
+      "terms": "Una akaunti tayari?"
+    }
+  },
+  "services": {
+    "title": "Inapatikana sasa",
+    "subtitle": "Kwa kujiandikisha, unakubali masharti yetu.",
+    "label": "Gundua kinachoweza kutolewa na jamii badala ya saa moja ya muda wako.",
+    "searchPlaceholder": "Ujuzi unaopatikana",
+    "allCategories": "Tafuta huduma…",
+    "noResults": "Makundi yote",
+    "requestBtn": "Huduma haikupatikana",
+    "loginBtn": "Omba →",
+    "yourService": "Ingia →",
+    "creditsPerHour": "Huduma yako",
+    "confirm": {
+      "title": "mkopo/s",
+      "subtitle": "Thibitisha ubadilishanaji",
+      "serviceLabel": "Angalia zaidi",
+      "costLabel": "Unaiomba huduma hii kutoka",
+      "yourCreditsLabel": "Gharama",
+      "cancel": "Haki zote zimehifadhiwa",
+      "confirm": "Iliyopita",
+      "successMsg": "Mikopo yako",
+      "insufficientCredits": "Ubadilishanaji ulianzishwa ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Mikopo haitoshi",
+    "newArticle": "Habari, miongozo na ushuhuda.",
+    "readMore": "Makala mpya",
+    "backToBlog": "Soma makala →",
+    "allArticles": "← Rudi kwenye blogu",
+    "by": "mikopo",
+    "publish": "← Makala zote",
+    "editArticle": "Chapisha makala",
+    "titleLabel": "Hariri makala",
+    "categoryLabel": "Kichwa",
+    "contentLabel": " Категori",
+    "externalLinkLabel": "Maudhui",
+    "importMedia": "Kiungo cha nje",
+    "saveChanges": "Mawasiliano",
+    "publishArticle": "← Makala zote",
+    "delete": "Futa",
+    "modify": "Hariri"
+  },
+  "profile": {
+    "presentation": "Ingiza Picha / Video",
+    "noPresentation": "Utambulisho",
+    "iOffer": "Hakuna utambulisho.",
+    "iSeek": "Natoa",
+    "availability": "Natafuta",
+    "verificationLevel": "Upatikanaji",
+    "badges": "Kiwango cha uthibitisho",
+    "editProfile": "Hariri",
+    "saveProfile": "Mawasiliano",
+    "tabs": {
+      "profile": "Beji",
+      "credits": "Profaili",
+      "network": "Mikopo",
+      "messages": "Mtandao"
+    }
+  },
+  "footer": {
+    "tagline": "Badilishana",
+    "platform": "Ujumbe",
+    "community": "jifunze bila malipo",
+    "legal": "Jukwaa",
+    "privacy": "Jamii",
+    "terms": "Kisheria",
+    "contact": "Faragha",
+    "rights": "Lugha"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

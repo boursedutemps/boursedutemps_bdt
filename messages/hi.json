@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "संपर्क",
+    "cancel": "सर्वाधिकार सुरक्षित",
+    "submit": "सबमिट करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "loading": "लोड हो रहा है...",
+    "error": "एक त्रुटि हुई",
+    "success": "सफलता",
+    "search": "होम",
+    "back": "खोजें",
+    "next": "वापस",
+    "previous": "अगला",
+    "confirm": "पिछला",
+    "close": "पुष्टि करें",
+    "learnMore": "बंद करें",
+    "viewAll": "अधिक जानें",
+    "send": "सब देखें",
+    "publish": "भेजें",
+    "create": "प्रकाशित करें",
+    "update": "बनाएं",
+    "hours": "अपडेट करें",
+    "hours_plural": "घंटा",
+    "credits": "घंटे",
+    "credits_plural": "क्रेडिट",
+    "by": "क्रेडिट",
+    "required": "द्वारा",
+    "optional": "आवश्यक",
+    "or": "वैकल्पिक",
+    "and": "या",
+    "member": "और",
+    "members": "सदस्य",
+    "noResults": "सदस्य",
+    "seeMore": "कोई परिणाम नहीं मिला"
+  },
+  "nav": {
+    "home": "सीखें",
+    "exchange": "समुदाय",
+    "services": "और देखें",
+    "requests": "सेवाएं",
+    "learn": "अपनी प्रतिभाओं का आदान-प्रदान करें,",
+    "workshops": "अनुरोध",
+    "modules": "कार्यशालाएं",
+    "projects": "मॉड्यूल",
+    "community": "मुफ्त में सीखें",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "सदस्य",
+    "testimonials": "परियोजनाएं",
+    "marketplace": "प्रशंसापत्र",
+    "moderation": "बाज़ार",
+    "institutions": "संयम",
+    "aiSearch": "संस्थान",
+    "login": "उपयोग की शर्तें",
+    "signup": "सर्वाधिकार सुरक्षित",
+    "logout": "AI खोज",
+    "dashboard": "लॉग आउट",
+    "profile": "डैशबोर्ड",
+    "openMenu": "मेरी प्रोफ़ाइल",
+    "closeMenu": "मेनू खोलें",
+    "notifications": "मेनू बंद करें"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps एक एकजुटता एक्सचेंज प्लेटफ़ॉर्म है। दिया 1 घंटा = प्राप्त 1 घंटा। हमेशा निष्पक्ष, हमेशा मुफ्त।",
+      "titleHighlight": "सेवाएं एक्सप्लोर करें",
+      "subtitle": "कार्यशालाएं देखें",
+      "ctaServices": "सरल और निष्पक्ष",
+      "ctaWorkshops": "यह कैसे काम करता है",
+      "scrollHint": "सूचनाएं"
+    },
+    "stats": {
+      "members": "सदस्य",
+      "services": "और देखें",
+      "exchanges": "खोजें",
+      "workshops": "अनुरोध"
+    },
+    "howItWorks": {
+      "label": "एक कौशल प्रदान करें",
+      "title": "जो आप जानते हैं उसे साझा करें: खाना बनाना, भाषाएं, आईटी, DIY...",
+      "step1Title": "1 घंटे के बदले 1 घंटा",
+      "step1Desc": "आपका प्रत्येक घंटा आपको एक क्रेडिट देता है। एक सेवा पाने के लिए इसका उपयोग करें।",
+      "step2Title": "साथ मिलकर बढ़ें",
+      "step2Desc": "सामूहिक कार्यशालाओं और सहयोगी परियोजनाओं में भाग लें।",
+      "step3Title": "लॉग इन करें",
+      "step3Desc": "साइन अप करें"
+    },
+    "services": {
+      "label": "एक्सचेंज",
+      "title": "अभी उपलब्ध",
+      "cta": "प्रदत्त सेवाएं"
+    },
+    "features": {
+      "label": "सभी सेवाएं देखें",
+      "title": "एक पूर्ण प्लेटफ़ॉर्म"
+    },
+    "testimonials": {
+      "label": "जो आपको चाहिए वह सब",
+      "title": "वे क्या कहते हैं"
+    },
+    "institutions": {
+      "label": "समुदाय की आवाज़ें",
+      "title": "संगठनों के लिए",
+      "subtitle": "क्या आप एक संस्था हैं?",
+      "cta": "संघ, सहकारी समितियां, शैक्षणिक संस्थान — Bourse du Temps से जुड़ें।"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "उपयोग की शर्तें",
+      "email": "पासवर्ड",
+      "password": "पहला नाम",
+      "submit": "उपयोग की शर्तें",
+      "noAccount": "हमसे संपर्क करें",
+      "signup": "",
+      "forgotPassword": "अभी तक कोई खाता नहीं है?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "उपनाम",
+      "lastName": "सहेजें",
+      "email": "पासवर्ड",
+      "password": "पहला नाम",
+      "submit": "पासवर्ड भूल गए?",
+      "hasAccount": "मेरा खाता बनाएं",
+      "login": "उपयोग की शर्तें",
+      "terms": "पहले से खाता है?"
+    }
+  },
+  "services": {
+    "title": "अभी उपलब्ध",
+    "subtitle": "पंजीकरण करके, आप हमारी उपयोग की शर्तों से सहमत होते हैं।",
+    "label": "अपने एक घंटे के बदले समुदाय क्या प्रदान कर सकता है, यह जानें।",
+    "searchPlaceholder": "उपलब्ध कौशल",
+    "allCategories": "एक सेवा खोजें…",
+    "noResults": "सभी श्रेणियां",
+    "requestBtn": "कोई सेवा नहीं मिली",
+    "loginBtn": "अनुरोध करें →",
+    "yourService": "लॉगिन →",
+    "creditsPerHour": "आपकी सेवा",
+    "confirm": {
+      "title": "क्रेडिट/घंटा",
+      "subtitle": "एक्सचेंज की पुष्टि करें",
+      "serviceLabel": "और देखें",
+      "costLabel": "आप यह सेवा अनुरोध कर रहे हैं",
+      "yourCreditsLabel": "लागत",
+      "cancel": "सर्वाधिकार सुरक्षित",
+      "confirm": "पिछला",
+      "successMsg": "आपके क्रेडिट",
+      "insufficientCredits": "एक्सचेंज शुरू हुआ ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "अपर्याप्त क्रेडिट",
+    "newArticle": "समाचार, गाइड और प्रशंसापत्र।",
+    "readMore": "नया लेख",
+    "backToBlog": "लेख पढ़ें →",
+    "allArticles": "← ब्लॉग पर वापस",
+    "by": "क्रेडिट",
+    "publish": "← सभी लेख",
+    "editArticle": "एक लेख प्रकाशित करें",
+    "titleLabel": "लेख संपादित करें",
+    "categoryLabel": "शीर्षक",
+    "contentLabel": "श्रेणी",
+    "externalLinkLabel": "सामग्री",
+    "importMedia": "बाहरी लिंक",
+    "saveChanges": "संपर्क",
+    "publishArticle": "← सभी लेख",
+    "delete": "हटाएं",
+    "modify": "संपादित करें"
+  },
+  "profile": {
+    "presentation": "फ़ोटो / वीडियो आयात करें",
+    "noPresentation": "परिचय",
+    "iOffer": "कोई परिचय नहीं।",
+    "iSeek": "मैं प्रदान करता हूं",
+    "availability": "मैं खोज रहा हूं",
+    "verificationLevel": "उपलब्धता",
+    "badges": "सत्यापन स्तर",
+    "editProfile": "संपादित करें",
+    "saveProfile": "संपर्क",
+    "tabs": {
+      "profile": "बैज",
+      "credits": "प्रोफ़ाइल",
+      "network": "क्रेडिट",
+      "messages": "नेटवर्क"
+    }
+  },
+  "footer": {
+    "tagline": "एक्सचेंज",
+    "platform": "संदेश",
+    "community": "मुफ्त में सीखें",
+    "legal": "प्लेटफ़ॉर्म",
+    "privacy": "समुदाय",
+    "terms": "कानूनी",
+    "contact": "गोपनीयता",
+    "rights": "भाषा"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}

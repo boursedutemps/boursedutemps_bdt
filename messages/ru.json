@@ -1,0 +1,221 @@
+{
+  "common": {
+    "save": "Контакт",
+    "cancel": "Все права защищены",
+    "submit": "Отправить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "loading": "Загрузка...",
+    "error": "Произошла ошибка",
+    "success": "Успех",
+    "search": "Главная",
+    "back": "Поиск",
+    "next": "Назад",
+    "previous": "Далее",
+    "confirm": "Назад",
+    "close": "Подтвердить",
+    "learnMore": "Закрыть",
+    "viewAll": "Узнать больше",
+    "send": "Посмотреть всё",
+    "publish": "Отправить",
+    "create": "Опубликовать",
+    "update": "Создать",
+    "hours": "Обновить",
+    "hours_plural": "час",
+    "credits": "часов",
+    "credits_plural": "кредит",
+    "by": "кредитов",
+    "required": "от",
+    "optional": "обязательно",
+    "or": "необязательно",
+    "and": "или",
+    "member": "и",
+    "members": "участник",
+    "noResults": "участники",
+    "seeMore": "Результаты не найдены"
+  },
+  "nav": {
+    "home": "Обучение",
+    "exchange": "Сообщество",
+    "services": "Смотреть больше",
+    "requests": "Услуги",
+    "learn": "Обменяйтесь талантами,",
+    "workshops": "Запросы",
+    "modules": "Мастерские",
+    "projects": "Модули",
+    "community": "учитесь бесплатно",
+    "blog": "Blog",
+    "forum": "Forum",
+    "members": "участник",
+    "testimonials": "Проекты",
+    "marketplace": "Отзывы",
+    "moderation": "Маркет",
+    "institutions": "Модерация",
+    "aiSearch": "Учреждения",
+    "login": "Условия использования",
+    "signup": "Все права защищены",
+    "logout": "ИИ-поиск",
+    "dashboard": "Выйти",
+    "profile": "Панель",
+    "openMenu": "Мой профиль",
+    "closeMenu": "Открыть меню",
+    "notifications": "Закрыть меню"
+  },
+  "home": {
+    "hero": {
+      "title": "Bourse du Temps — платформа солидарного обмена. 1 час отдан = 1 час получен. Всегда справедливо, всегда бесплатно.",
+      "titleHighlight": "Исследовать услуги",
+      "subtitle": "Смотреть мастерские",
+      "ctaServices": "Просто и справедливо",
+      "ctaWorkshops": "Как это работает",
+      "scrollHint": "Уведомления"
+    },
+    "stats": {
+      "members": "участник",
+      "services": "Смотреть больше",
+      "exchanges": "Открыть",
+      "workshops": "Запросы"
+    },
+    "howItWorks": {
+      "label": "Предложите навык",
+      "title": "Поделитесь тем, что умеете: кулинария, языки, IT, ремонт...",
+      "step1Title": "Обменяй 1ч на 1ч",
+      "step1Desc": "Каждый час, который вы отдаёте, приносит вам кредит. Используйте его для получения услуги.",
+      "step2Title": "Расти вместе",
+      "step2Desc": "Участвуйте в коллективных мастерских и совместных проектах.",
+      "step3Title": "Войти",
+      "step3Desc": "Зарегистрироваться"
+    },
+    "services": {
+      "label": "Обменов",
+      "title": "Доступно сейчас",
+      "cta": "Предлагаемые услуги"
+    },
+    "features": {
+      "label": "Посмотреть все услуги",
+      "title": "Полная платформа"
+    },
+    "testimonials": {
+      "label": "Всё что вам нужно",
+      "title": "Что они говорят"
+    },
+    "institutions": {
+      "label": "Голоса сообщества",
+      "title": "Для организаций",
+      "subtitle": "Вы учреждение?",
+      "cta": "Ассоциации, кооперативы, учебные заведения — присоединяйтесь к Bourse du Temps."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Условия использования",
+      "email": "Пароль",
+      "password": "Имя",
+      "submit": "Условия использования",
+      "noAccount": "Связаться с нами",
+      "signup": "",
+      "forgotPassword": "Нет аккаунта?"
+    },
+    "signup": {
+      "title": "",
+      "firstName": "Фамилия",
+      "lastName": "Сохранить",
+      "email": "Пароль",
+      "password": "Имя",
+      "submit": "Забыли пароль?",
+      "hasAccount": "Создать аккаунт",
+      "login": "Условия использования",
+      "terms": "Уже есть аккаунт?"
+    }
+  },
+  "services": {
+    "title": "Доступно сейчас",
+    "subtitle": "Регистрируясь, вы соглашаетесь с нашими условиями.",
+    "label": "Узнайте, что сообщество может предложить в обмен на один час вашего времени.",
+    "searchPlaceholder": "Доступные навыки",
+    "allCategories": "Поиск услуги…",
+    "noResults": "Все категории",
+    "requestBtn": "Услуги не найдены",
+    "loginBtn": "Запросить →",
+    "yourService": "Войти →",
+    "creditsPerHour": "Ваша услуга",
+    "confirm": {
+      "title": "кредит/ч",
+      "subtitle": "Подтвердить обмен",
+      "serviceLabel": "Смотреть больше",
+      "costLabel": "Вы запрашиваете эту услугу у",
+      "yourCreditsLabel": "Стоимость",
+      "cancel": "Все права защищены",
+      "confirm": "Назад",
+      "successMsg": "Ваши кредиты",
+      "insufficientCredits": "Обмен инициирован ✅"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Недостаточно кредитов",
+    "newArticle": "Новости, руководства и отзывы.",
+    "readMore": "Новая статья",
+    "backToBlog": "Читать статью →",
+    "allArticles": "← Назад в блог",
+    "by": "кредитов",
+    "publish": "← Все статьи",
+    "editArticle": "Опубликовать статью",
+    "titleLabel": "Редактировать статью",
+    "categoryLabel": "Заголовок",
+    "contentLabel": "Категория",
+    "externalLinkLabel": "Содержание",
+    "importMedia": "Внешняя ссылка",
+    "saveChanges": "Контакт",
+    "publishArticle": "← Все статьи",
+    "delete": "Удалить",
+    "modify": "Редактировать"
+  },
+  "profile": {
+    "presentation": "Импорт Фото / Видео",
+    "noPresentation": "О себе",
+    "iOffer": "Нет описания.",
+    "iSeek": "Предлагаю",
+    "availability": "Ищу",
+    "verificationLevel": "Доступность",
+    "badges": "Уровень верификации",
+    "editProfile": "Редактировать",
+    "saveProfile": "Контакт",
+    "tabs": {
+      "profile": "Значки",
+      "credits": "Профиль",
+      "network": "Кредиты",
+      "messages": "Сеть"
+    }
+  },
+  "footer": {
+    "tagline": "Обмен",
+    "platform": "Сообщения",
+    "community": "учитесь бесплатно",
+    "legal": "Платформа",
+    "privacy": "Сообщество",
+    "terms": "Правовое",
+    "contact": "Конфиденциальность",
+    "rights": "Язык"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "ht": "Kreyòl ayisyen",
+    "es": "Español",
+    "ar": "العربية",
+    "sw": "Kiswahili",
+    "wo": "Wolof",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "zh": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "hi": "हिन्दी"
+  }
+}
