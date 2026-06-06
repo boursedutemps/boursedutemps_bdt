@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-react';
 import { User as UserType, Notification } from '@/types';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 interface NavbarProps {
   user: UserType | null;
@@ -171,6 +172,9 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             }`}>
               <Search className="w-3.5 h-3.5" /> Recherche IA
             </Link>
+
+            {/* Sélecteur de langue */}
+            <LanguageSwitcher />
 
             {user && (
               <div className="relative" ref={notifsRef}>
@@ -339,6 +343,12 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
               className="w-full flex items-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition">
               <Search className="w-4 h-4" /> Recherche IA
             </button>
+
+            {/* Langue */}
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Langue</span>
+              <LanguageSwitcher />
+            </div>
 
             {/* Auth */}
             <div className="pt-3 mt-3 border-t border-slate-100 space-y-2">

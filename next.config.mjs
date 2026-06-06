@@ -1,3 +1,8 @@
+// @ts-check
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -13,28 +18,18 @@ const nextConfig = {
       { protocol: 'https', hostname: 'livekit.io' },
     ],
   },
-
-  // ── En-têtes de sécurité ─────────────────────────────────────────────
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: [
-          // Clickjacking protection
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          // XSS protection
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          // HTTPS only
-          { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-          // Referrer
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          // Permissions
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-          // Cross-Origin Opener Policy
-          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
-          // Cross-Origin Resource Policy
-          { key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' },
-          // Content Security Policy
+          { key: 'X-Frame-Options',                  value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options',            value: 'nosniff' },
+          { key: 'Strict-Transport-Security',         value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'Referrer-Policy',                   value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy',                value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Cross-Origin-Opener-Policy',        value: 'same-origin-allow-popups' },
+          { key: 'Cross-Origin-Resource-Policy',      value: 'cross-origin' },
           {
             key: 'Content-Security-Policy',
             value: [
@@ -51,21 +46,16 @@ const nextConfig = {
           },
         ],
       },
-      // Cache statique long pour les assets
       {
         source: '/static/(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
         source: '/_next/static/(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
     ];
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
