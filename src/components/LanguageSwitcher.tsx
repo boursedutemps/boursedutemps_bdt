@@ -2,9 +2,9 @@
 
 // src/components/LanguageSwitcher.tsx
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import { useState, useRef, useEffect } from 'react';
-import { locales, type Locale, rtlLocales } from '@/i18n/routing';
+import { locales, type Locale } from '@/i18n/routing';
 
 const LOCALE_FLAGS: Record<Locale, string> = {
   fr: '🇫🇷', en: '🇬🇧', ht: '🇭🇹', es: '🇪🇸',
@@ -15,12 +15,12 @@ const LOCALE_FLAGS: Record<Locale, string> = {
 };
 
 export default function LanguageSwitcher() {
-  const locale    = useLocale() as Locale;
-  const t         = useTranslations('language');
-  const router    = useRouter();
-  const pathname  = usePathname();
-  const [open, setOpen]     = useState(false);
-  const ref                 = useRef<HTMLDivElement>(null);
+  const locale   = useLocale() as Locale;
+  const t        = useTranslations('language');
+  const router   = useRouter();
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const ref             = useRef<HTMLDivElement>(null);
 
   // Fermer au clic extérieur
   useEffect(() => {
@@ -31,28 +31,13 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // ✅ next-intl gère automatiquement les préfixes d'URL
   const switchLocale = (newLocale: Locale) => {
-    // Construire la nouvelle URL
-    let newPath = pathname;
-
-    // Retirer le préfixe de locale actuel s'il existe
-    for (const loc of locales) {
-      if (newPath.startsWith(`/${loc}/`) || newPath === `/${loc}`) {
-        newPath = newPath.replace(`/${loc}`, '') || '/';
-        break;
-      }
-    }
-
-    // Ajouter le nouveau préfixe (sauf pour le français = défaut)
-    const finalPath = newLocale === 'fr'
-      ? newPath || '/'
-      : `/${newLocale}${newPath || '/'}`;
-
     setOpen(false);
-    router.push(finalPath);
+    router.replace(pathname, { locale: newLocale });
   };
 
-  const isRTL = rtlLocales.includes(locale);
+  const isRTL = locale === 'ar';
 
   return (
     <div ref={ref} className="relative">
@@ -65,7 +50,10 @@ export default function LanguageSwitcher() {
       >
         <span>{LOCALE_FLAGS[locale]}</span>
         <span className="uppercase text-xs">{locale}</span>
-        <svg className={`w-3 h-3 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className={`w-3 h-3 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -74,7 +62,7 @@ export default function LanguageSwitcher() {
         <div
           role="listbox"
           aria-label={t('select')}
-          className={`absolute top-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 min-w-[180px] max-h-[320px] overflow-y-auto ${isRTL ? 'left-0' : 'right-0'}`}
+          className={`absolute top-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 py-2 min-w-[190px] max-h-[320px] overflow-y-auto ${isRTL ? 'left-0' : 'right-0'}`}
         >
           {locales.map(loc => (
             <button
@@ -88,10 +76,10 @@ export default function LanguageSwitcher() {
                   : 'text-slate-700'
               }`}
             >
-              <span className="text-base">{LOCALE_FLAGS[loc]}</span>
-              <span>{t(loc)}</span>
+              <span className="text-base flex-shrink-0">{LOCALE_FLAGS[loc]}</span>
+              <span className="flex-1">{t(loc)}</span>
               {loc === locale && (
-                <svg className="w-4 h-4 ml-auto text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               )}
