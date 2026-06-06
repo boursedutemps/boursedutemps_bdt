@@ -6,8 +6,7 @@ import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-
 import { User as UserType, Notification } from '@/types';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 // ← next-intl : Link et navigation locale-aware (remplace next/link + next/navigation)
-import Link      from 'next-intl/link';
-import { usePathname, useRouter } from 'next-intl/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 
 interface NavbarProps {
   user: UserType | null;
