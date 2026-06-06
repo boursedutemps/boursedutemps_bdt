@@ -11,24 +11,30 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'system',
+  theme: 'light',
   setTheme: () => {},
   isDark: false,
 });
 
+// Détecte si l'app tourne dans Capacitor (APK Android)
+const isCapacitor = () =>
+  typeof window !== 'undefined' && !!(window as unknown as { Capacitor?: unknown }).Capacitor;
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('system');
-  const [isDark, setIsDark] = useState(false);
+  const [theme, setThemeState] = useState<Theme>('light');
+  const [isDark, setIsDark]    = useState(false);
 
   useEffect(() => {
-    // Lire la préférence sauvegardée
-    const saved = (localStorage.getItem('bdt_theme') as Theme) || 'system';
-    setThemeState(saved);
+    const saved = localStorage.getItem('bdt_theme') as Theme | null;
+    // Dans l'APK : light par défaut (évite le texte invisible sur téléphone sombre)
+    // Sur le web  : system par défaut (respecte la préférence du système)
+    const defaultTheme: Theme = isCapacitor() ? 'light' : 'system';
+    setThemeState(saved || defaultTheme);
   }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const mql  = window.matchMedia('(prefers-color-scheme: dark)');
 
     const applyTheme = (t: Theme) => {
       const dark = t === 'dark' || (t === 'system' && mql.matches);
