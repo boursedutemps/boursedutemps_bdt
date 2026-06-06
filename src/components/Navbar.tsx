@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
 import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-react';
 import { User as UserType, Notification } from '@/types';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+// ← next-intl : Link et navigation locale-aware (remplace next/link + next/navigation)
+import Link      from 'next-intl/link';
+import { usePathname, useRouter } from 'next-intl/navigation';
 
 interface NavbarProps {
   user: UserType | null;
