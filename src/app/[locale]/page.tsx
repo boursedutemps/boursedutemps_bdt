@@ -1,11 +1,10 @@
 'use client'
 
-// src/app/page.tsx
-// Nouvelle page d'accueil — utilise GlobalShell (layout.tsx) pour la Navbar
-
+// src/app/[locale]/page.tsx
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 interface Stats {
   members:      number
@@ -76,6 +75,9 @@ const HOW_IT_WORKS = [
 ]
 
 export default function HomePage() {
+  const t = useTranslations('home')
+  const tCommon = useTranslations('common')
+
   const [stats, setStats]             = useState<Stats>({ members: 0, exchanges: 0, services: 0, institutions: 0 })
   const [services, setServices]       = useState<RecentService[]>([])
   const [testimonials, setTestimonials] = useState<RecentTestimonial[]>([])
@@ -135,8 +137,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Échangez vos talents, apprenez gratuitement et construisez l'avenir.{' '}
-            <strong className="text-slate-700">1 heure donnée = 1 heure reçue.</strong>
+            {t('hero.subtitle')}
           </p>
 
           {/* CTAs */}
@@ -144,21 +145,21 @@ export default function HomePage() {
             <Link href="/services"
               className="px-8 py-4 rounded-2xl text-base font-bold text-white shadow-2xl shadow-blue-200 hover:shadow-blue-300 transition-all hover:-translate-y-0.5"
               style={{ background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)' }}>
-              🛠️ Explorer les services
+              🛠️ {t('hero.ctaServices')}
             </Link>
             <Link href="/workshops"
               className="px-8 py-4 rounded-2xl text-base font-bold text-slate-700 bg-white border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
-              🎓 Voir les ateliers →
+              🎓 {t('hero.ctaWorkshops')}
             </Link>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
             {[
-              { value: stats.members,      label: 'Membres',      icon: '👥' },
-              { value: stats.services,     label: 'Services',     icon: '🛠️' },
-              { value: stats.exchanges,    label: 'Échanges',     icon: '🔄' },
-              { value: stats.institutions, label: 'Institutions', icon: '🏛️' },
+              { value: stats.members,      label: t('stats.members'),      icon: '👥' },
+              { value: stats.services,     label: t('stats.services'),     icon: '🛠️' },
+              { value: stats.exchanges,    label: t('stats.exchanges'),    icon: '🔄' },
+              { value: stats.institutions, label: t('stats.institutions'), icon: '🏛️' },
             ].map(s => (
               <div key={s.label} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm text-center">
                 <p className="text-xl mb-1">{s.icon}</p>
@@ -173,7 +174,7 @@ export default function HomePage() {
 
         {/* Scroll hint */}
         <div aria-hidden="true" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-400 animate-bounce">
-          <span className="text-xs font-medium">Découvrir</span>
+          <span className="text-xs font-medium">{t("hero.scrollHint")}</span>
           <div className="w-0.5 h-8 bg-gradient-to-b from-slate-300 to-transparent" />
         </div>
       </section>
@@ -182,8 +183,8 @@ export default function HomePage() {
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">Simple & équitable</p>
-            <h2 className="text-3xl font-bold text-slate-800">Comment ça marche ?</h2>
+            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">{t("howItWorks.label")}</p>
+            <h2 className="text-3xl font-bold text-slate-800">{t("howItWorks.title")}</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {HOW_IT_WORKS.map((step, i) => (
@@ -219,8 +220,8 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-2">Disponibles maintenant</p>
-                <h2 className="text-3xl font-bold text-slate-800">Services proposés</h2>
+                <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-2">{t("services.label")}</p>
+                <h2 className="text-3xl font-bold text-slate-800">{t("services.title")}</h2>
               </div>
               <Link href="/services" className="text-sm font-bold text-blue-600 hover:text-blue-700 transition">
                 Voir tout →
@@ -239,7 +240,7 @@ export default function HomePage() {
                   <h3 className="font-bold text-slate-800 mb-1 leading-snug flex-1 group-hover:text-amber-700 transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-xs text-slate-600 mt-3">par {s.user_name}</p>
+                  <p className="text-xs text-slate-600 mt-3">{tCommon("by")} {s.user_name}</p>
                 </Link>
               ))}
             </div>
@@ -251,8 +252,8 @@ export default function HomePage() {
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">Une plateforme complète</p>
-            <h2 className="text-3xl font-bold text-slate-800">Tout ce dont vous avez besoin</h2>
+            <p className="text-xs font-bold tracking-widest uppercase text-blue-700 mb-3">{t("features.label")}</p>
+            <h2 className="text-3xl font-bold text-slate-800">{t("features.title")}</h2>
             <p className="text-slate-500 mt-3 max-w-xl mx-auto">
               Des outils pensés pour faciliter le partage, renforcer la confiance et créer du lien dans votre communauté.
             </p>
@@ -275,8 +276,8 @@ export default function HomePage() {
         <section className="py-24 px-4 bg-white">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-14">
-              <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-3">Ils en parlent</p>
-              <h2 className="text-3xl font-bold text-slate-800">Ce que dit la communauté</h2>
+              <p className="text-xs font-bold tracking-widest uppercase text-amber-700 mb-3">{t("testimonials.label")}</p>
+              <h2 className="text-3xl font-bold text-slate-800">{t("testimonials.title")}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {testimonials.map(t => (
@@ -314,13 +315,12 @@ export default function HomePage() {
       {/* ══ INSTITUTIONS ══════════════════════════════════════════════════════ */}
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs font-bold tracking-widest uppercase text-violet-700 mb-3">Pour les organisations</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-violet-700 mb-3">{t("institutions.label")}</p>
           <h2 className="text-3xl font-bold text-slate-800 mb-4">
-            Vous êtes une institution ?
+            {t("institutions.title")}
           </h2>
           <p className="text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed">
-            Universités, ONG, collectivités — créez votre propre espace brandé, invitez vos membres et accédez
-            à des tableaux de bord KPIs en temps réel.
+            {t("institutions.subtitle")}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 max-w-2xl mx-auto">
             {[
@@ -348,11 +348,10 @@ export default function HomePage() {
         style={{ background: 'linear-gradient(135deg, #1E40AF 0%, #7C3AED 50%, #B45309 100%)' }}>
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Prêt à rejoindre la communauté ?
+            {t("cta.readyTitle")}
           </h2>
           <p className="text-blue-100 mb-10 leading-relaxed text-lg">
-            Des milliers de personnes échangent déjà leurs compétences.<br />
-            Votre heure a de la valeur — partagez-la.
+            {t("cta.readySubtitle")}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/services"

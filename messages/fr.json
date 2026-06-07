@@ -74,7 +74,8 @@
       "members": "Membres",
       "services": "Services",
       "exchanges": "Échanges",
-      "workshops": "Ateliers"
+      "workshops": "Ateliers",
+      "institutions": "Institutions"
     },
     "howItWorks": {
       "label": "Simple & équitable",
@@ -104,6 +105,14 @@
       "title": "Vous êtes une institution ?",
       "subtitle": "Associations, coopératives, établissements d'enseignement — rejoignez la Bourse du Temps.",
       "cta": "Nous contacter"
+    },
+    "cta": {
+      "start": "Commencer maintenant →",
+      "partnership": "Demander un partenariat →",
+      "readyTitle": "Prêt à rejoindre la communauté ?",
+      "readySubtitle": "Des milliers de personnes échangent déjà leurs compétences. Votre heure a de la valeur — partagez-la.",
+      "viewTestimonials": "Voir tous les témoignages →",
+      "learnMore": "En savoir plus"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Confidentialité",
     "terms": "Conditions d'utilisation",
     "contact": "Contact",
-    "rights": "Tous droits réservés"
+    "rights": "Tous droits réservés",
+    "navigation": "Navigation",
+    "requests": "Demandes d'Aide",
+    "aboutUs": "À propos",
+    "blogNews": "Blog & Actualités",
+    "forumDiscussion": "Forum de Discussion",
+    "contactEmail": "Contactez-nous (Email)",
+    "intro": "Une plateforme pour favoriser l'entraide, le partage de connaissances et la solidarité."
   },
   "language": {
     "select": "Langue",

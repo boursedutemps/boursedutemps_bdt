@@ -74,7 +74,8 @@
       "members": "membro",
       "services": "Vedi altro",
       "exchanges": "Scopri",
-      "workshops": "Richieste"
+      "workshops": "Richieste",
+      "institutions": "Istituzioni"
     },
     "howItWorks": {
       "label": "Offri una competenza",
@@ -104,6 +105,14 @@
       "title": "Per le organizzazioni",
       "subtitle": "Sei un'istituzione?",
       "cta": "Associazioni, cooperative, istituzioni educative — unisciti a Bourse du Temps."
+    },
+    "cta": {
+      "start": "Inizia ora →",
+      "partnership": "Richiedi partnership →",
+      "readyTitle": "Pronto a unirti alla community?",
+      "readySubtitle": "Migliaia di persone scambiano già le loro competenze. Il tuo tempo ha valore — condividilo.",
+      "viewTestimonials": "Vedi tutte le testimonianze →",
+      "learnMore": "Scopri di più"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Comunità",
     "terms": "Legale",
     "contact": "Privacy",
-    "rights": "Lingua"
+    "rights": "Lingua",
+    "navigation": "Navigazione",
+    "requests": "Richieste di Aiuto",
+    "aboutUs": "Chi siamo",
+    "blogNews": "Blog & Notizie",
+    "forumDiscussion": "Forum di Discussione",
+    "contactEmail": "Contattaci (Email)",
+    "intro": "Una piattaforma per favorire il mutuo aiuto, la condivisione di conoscenze e la solidarietà."
   },
   "language": {
     "select": "Language",

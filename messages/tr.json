@@ -74,7 +74,8 @@
       "members": "üye",
       "services": "Daha fazla gör",
       "exchanges": "Keşfet",
-      "workshops": "Talepler"
+      "workshops": "Talepler",
+      "institutions": "Kurumlar"
     },
     "howItWorks": {
       "label": "Bir beceri sun",
@@ -104,6 +105,14 @@
       "title": "Kuruluşlar için",
       "subtitle": "Bir kurum musunuz?",
       "cta": "Dernekler, kooperatifler, eğitim kurumları — Bourse du Temps'e katılın."
+    },
+    "cta": {
+      "start": "Hemen başla →",
+      "partnership": "Ortaklık talep et →",
+      "readyTitle": "Topluluğa katılmaya hazır mısınız?",
+      "readySubtitle": "Binlerce insan zaten becerilerini takas ediyor. Zamanınızın değeri var — paylaşın.",
+      "viewTestimonials": "Tüm referansları görüntüle →",
+      "learnMore": "Daha fazla bilgi"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Topluluk",
     "terms": "Hukuki",
     "contact": "Gizlilik",
-    "rights": "Dil"
+    "rights": "Dil",
+    "navigation": "Navigasyon",
+    "requests": "Yardım İstekleri",
+    "aboutUs": "Hakkımızda",
+    "blogNews": "Blog & Haberler",
+    "forumDiscussion": "Tartışma Forumu",
+    "contactEmail": "Bize ulaşın (E-posta)",
+    "intro": "Karşılıklı yardım, bilgi paylaşımı ve dayanışmayı teşvik eden bir platform."
   },
   "language": {
     "select": "Language",

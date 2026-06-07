@@ -6,7 +6,7 @@ import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-
 import { User as UserType, Notification } from '@/types';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import ThemeToggle from '@/components/ThemeToggle';
-// ← next-intl : Link et navigation locale-aware (remplace next/link + next/navigation)
+import { useTranslations } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 
 interface NavbarProps {
@@ -18,36 +18,38 @@ interface NavbarProps {
   onMarkRead: (id: string) => void;
 }
 
-const NAV_GROUPS = [
-  {
-    label: 'Échanger',
-    items: [
-      { label: '🛠️ Services',  path: '/services',  desc: 'Compétences proposées' },
-      { label: '📋 Demandes',  path: '/requests',  desc: 'Besoins de la communauté' },
-      { label: '🎓 Ateliers',  path: '/workshops', desc: 'Sessions collectives' },
-      { label: '🚀 Projets',   path: '/projects',  desc: 'Temps collaboratif' },
-    ],
-  },
-  {
-    label: 'Apprendre',
-    items: [
-      { label: '📚 Modules',     path: '/modules',      desc: 'Parcours thématiques' },
-      { label: '✏️ Blog',        path: '/blog',         desc: 'Articles & ressources' },
-      { label: '⭐ Témoignages', path: '/testimonials', desc: 'Avis de la communauté' },
-    ],
-  },
-  {
-    label: 'Communauté',
-    items: [
-      { label: '👥 Membres',  path: '/members', desc: 'Annuaire des membres' },
-      { label: '💬 Forum',    path: '/forum',   desc: 'Discussions en direct' },
-      { label: 'ℹ️ À propos', path: '/about',   desc: 'Notre mission' },
-      { label: '📩 Contact',  path: '/contact', desc: 'Nous écrire' },
-    ],
-  },
-]
-
 const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout, onMarkRead }) => {
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
+
+  const NAV_GROUPS = [
+    {
+      label: t('exchange'),
+      items: [
+        { label: `🛠️ ${t('services')}`,  path: '/services',  desc: tCommon('seeMore') },
+        { label: `📋 ${t('requests')}`,  path: '/requests',  desc: tCommon('seeMore') },
+        { label: `🎓 ${t('workshops')}`, path: '/workshops', desc: tCommon('seeMore') },
+        { label: `🚀 ${t('projects')}`,  path: '/projects',  desc: tCommon('seeMore') },
+      ],
+    },
+    {
+      label: t('learn'),
+      items: [
+        { label: `📚 ${t('modules')}`,      path: '/modules',      desc: tCommon('seeMore') },
+        { label: `✏️ ${t('blog')}`,          path: '/blog',         desc: tCommon('seeMore') },
+        { label: `⭐ ${t('testimonials')}`,  path: '/testimonials', desc: tCommon('seeMore') },
+      ],
+    },
+    {
+      label: t('community'),
+      items: [
+        { label: `👥 ${t('members')}`, path: '/members', desc: tCommon('seeMore') },
+        { label: `💬 ${t('forum')}`,   path: '/forum',   desc: tCommon('seeMore') },
+        { label: `ℹ️ À propos`,        path: '/about',   desc: tCommon('seeMore') },
+        { label: `📩 ${t('contact') || 'Contact'}`, path: '/contact', desc: tCommon('seeMore') },
+      ],
+    },
+  ];
   const [mobileOpen, setMobileOpen]     = useState(false);
   const [openGroup, setOpenGroup]       = useState<string | null>(null);
   const [showNotifs, setShowNotifs]     = useState(false);
@@ -111,7 +113,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
           <div className="hidden lg:flex items-center gap-1 flex-1">
             <Link href="/" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
               pathname === '/' ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
-            }`}>Accueil</Link>
+            }`}>{t("home")}</Link>
 
             {NAV_GROUPS.map(group => (
               <div key={group.label} className="relative"
@@ -150,12 +152,12 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             {isAdminOrMod && (
               <Link href="/moderation" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
                 pathname === '/moderation' ? 'text-purple-600 bg-purple-50' : 'text-purple-500 hover:bg-purple-50'
-              }`}>Modération</Link>
+              }`}>{t("moderation")}</Link>
             )}
             {isAdmin && (
               <Link href="/admin/institutions" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
                 pathname.startsWith('/admin') ? 'text-violet-600 bg-violet-50' : 'text-violet-500 hover:bg-violet-50'
-              }`}>🏛️ Institutions</Link>
+              }`}>🏛️ {t("institutions")}</Link>
             )}
             {isInstitutionAdmin && (
               <Link href="/i/dashboard" className="px-3 py-2 rounded-full text-sm font-semibold text-violet-500 hover:bg-violet-50 transition-all">
@@ -171,7 +173,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
                 ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600'
                 : 'text-blue-600 border border-blue-200 hover:bg-blue-50'
             }`}>
-              <Search className="w-3.5 h-3.5" /> Recherche IA
+              <Search className="w-3.5 h-3.5" /> {t("aiSearch")}
             </Link>
 
             {/* Sélecteur de langue */}
@@ -251,7 +253,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
                     </div>
                     <Link href="/profile" onClick={() => setShowUserMenu(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition font-semibold">
-                      <User size={15} className="text-blue-500" /> Mon profil
+                      <User size={15} className="text-blue-500" /> {t("profile")}
                     </Link>
                     <Link href="/dashboard" onClick={() => setShowUserMenu(false)}
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition font-semibold">
@@ -296,7 +298,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             <button
               onClick={() => mobileNavigate('/')}
               className={`w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold transition ${pathname === '/' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}>
-              🏠 Accueil
+              🏠 {t("home")}
             </button>
 
             {/* Groupes */}
@@ -332,20 +334,20 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             {isAdminOrMod && (
               <button onClick={() => mobileNavigate('/moderation')}
                 className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-purple-600 hover:bg-purple-50 transition">
-                🛡️ Modération
+                🛡️ {t("moderation")}
               </button>
             )}
             {isAdmin && (
               <button onClick={() => mobileNavigate('/admin/institutions')}
                 className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-violet-600 hover:bg-violet-50 transition">
-                🏛️ Institutions
+                🏛️ {t("institutions")}
               </button>
             )}
 
             {/* Recherche IA */}
             <button onClick={() => mobileNavigate('/recherche')}
               className="w-full flex items-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition">
-              <Search className="w-4 h-4" /> Recherche IA
+              <Search className="w-4 h-4" /> {t("aiSearch")}
             </button>
 
             {/* Langue */}
@@ -366,7 +368,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
                 <>
                   <button onClick={() => mobileNavigate('/profile')}
                     className="w-full flex items-center gap-3 px-4 py-3.5 bg-blue-600 text-white rounded-xl font-bold text-sm">
-                    <Clock className="w-5 h-5" /> Mon profil · {user.credits} crédits
+                    <Clock className="w-5 h-5" /> {t("profile")} · {user.credits} {tCommon("credits")}
                   </button>
                   <button onClick={() => { setMobileOpen(false); onLogout(); }}
                     className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-600 py-3 rounded-xl font-bold text-sm hover:bg-red-50 transition">

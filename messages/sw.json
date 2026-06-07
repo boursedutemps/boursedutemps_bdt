@@ -74,7 +74,8 @@
       "members": "mwanachama",
       "services": "Angalia zaidi",
       "exchanges": "Gundua",
-      "workshops": "Maombi"
+      "workshops": "Maombi",
+      "institutions": "Taasisi"
     },
     "howItWorks": {
       "label": "Toa ujuzi",
@@ -104,6 +105,14 @@
       "title": "Kwa mashirika",
       "subtitle": "Je, wewe ni taasisi?",
       "cta": "Vyama, ushirika, taasisi za elimu — jiunge na Bourse du Temps."
+    },
+    "cta": {
+      "start": "Anza sasa →",
+      "partnership": "Ombi la ushirikiano →",
+      "readyTitle": "Je, uko tayari kujiunga na jamii?",
+      "readySubtitle": "Maelfu ya watu wanabadilishana ujuzi wao. Muda wako una thamani — ushiriki.",
+      "viewTestimonials": "Angalia ushuhuda wote →",
+      "learnMore": "Jifunze zaidi"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Jamii",
     "terms": "Kisheria",
     "contact": "Faragha",
-    "rights": "Lugha"
+    "rights": "Lugha",
+    "navigation": "Urambazaji",
+    "requests": "Maombi ya Msaada",
+    "aboutUs": "Kuhusu",
+    "blogNews": "Blogu & Habari",
+    "forumDiscussion": "Jukwaa la Majadiliano",
+    "contactEmail": "Wasiliana nasi (Barua pepe)",
+    "intro": "Jukwaa la kusaidia, kushiriki maarifa na mshikamano."
   },
   "language": {
     "select": "Language",

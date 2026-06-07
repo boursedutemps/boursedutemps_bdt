@@ -74,7 +74,8 @@
       "members": "lid",
       "services": "Meer bekijken",
       "exchanges": "Ontdekken",
-      "workshops": "Verzoeken"
+      "workshops": "Verzoeken",
+      "institutions": "Instellingen"
     },
     "howItWorks": {
       "label": "Bied een vaardigheid aan",
@@ -104,6 +105,14 @@
       "title": "Voor organisaties",
       "subtitle": "Bent u een instelling?",
       "cta": "Verenigingen, coöperaties, onderwijsinstellingen — sluit u aan bij Bourse du Temps."
+    },
+    "cta": {
+      "start": "Nu beginnen →",
+      "partnership": "Partnerschap aanvragen →",
+      "readyTitle": "Klaar om lid te worden van de gemeenschap?",
+      "readySubtitle": "Duizenden mensen wisselen al vaardigheden uit. Jouw tijd heeft waarde — deel het.",
+      "viewTestimonials": "Alle getuigenissen bekijken →",
+      "learnMore": "Meer informatie"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Gemeenschap",
     "terms": "Juridisch",
     "contact": "Privacy",
-    "rights": "Taal"
+    "rights": "Taal",
+    "navigation": "Navigatie",
+    "requests": "Hulpverzoeken",
+    "aboutUs": "Over ons",
+    "blogNews": "Blog & Nieuws",
+    "forumDiscussion": "Discussieforum",
+    "contactEmail": "Neem contact op (E-mail)",
+    "intro": "Een platform voor onderlinge hulp, kennisdeling en solidariteit."
   },
   "language": {
     "select": "Language",

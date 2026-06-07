@@ -74,7 +74,8 @@
       "members": "Mitglied",
       "services": "Mehr anzeigen",
       "exchanges": "Entdecken",
-      "workshops": "Anfragen"
+      "workshops": "Anfragen",
+      "institutions": "Institutionen"
     },
     "howItWorks": {
       "label": "Biete eine Fähigkeit an",
@@ -104,6 +105,14 @@
       "title": "Für Organisationen",
       "subtitle": "Sind Sie eine Institution?",
       "cta": "Vereine, Genossenschaften, Bildungseinrichtungen — treten Sie Bourse du Temps bei."
+    },
+    "cta": {
+      "start": "Jetzt starten →",
+      "partnership": "Partnerschaft anfragen →",
+      "readyTitle": "Bereit, der Gemeinschaft beizutreten?",
+      "readySubtitle": "Tausende Menschen tauschen bereits ihre Fähigkeiten aus. Ihre Zeit hat Wert — teilen Sie sie.",
+      "viewTestimonials": "Alle Erfahrungsberichte ansehen →",
+      "learnMore": "Mehr erfahren"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Gemeinschaft",
     "terms": "Rechtliches",
     "contact": "Datenschutz",
-    "rights": "Sprache"
+    "rights": "Sprache",
+    "navigation": "Navigation",
+    "requests": "Hilfsanfragen",
+    "aboutUs": "Über uns",
+    "blogNews": "Blog & Nachrichten",
+    "forumDiscussion": "Diskussionsforum",
+    "contactEmail": "Kontaktiere uns (E-Mail)",
+    "intro": "Eine Plattform zur Förderung gegenseitiger Hilfe, Wissensteilung und Solidarität."
   },
   "language": {
     "select": "Language",

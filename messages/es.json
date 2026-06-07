@@ -74,7 +74,8 @@
       "members": "Miembros",
       "services": "Servicios",
       "exchanges": "Intercambios",
-      "workshops": "Talleres"
+      "workshops": "Talleres",
+      "institutions": "Instituciones"
     },
     "howItWorks": {
       "label": "Simple y justo",
@@ -104,6 +105,14 @@
       "title": "¿Eres una institución?",
       "subtitle": "Asociaciones, cooperativas, instituciones educativas — únete a Bourse du Temps.",
       "cta": "Contáctanos"
+    },
+    "cta": {
+      "start": "Empezar ahora →",
+      "partnership": "Solicitar asociación →",
+      "readyTitle": "¿Listo para unirte a la comunidad?",
+      "readySubtitle": "Miles de personas ya intercambian sus habilidades. Tu tiempo tiene valor — compártelo.",
+      "viewTestimonials": "Ver todos los testimonios →",
+      "learnMore": "Saber más"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Privacidad",
     "terms": "Términos de uso",
     "contact": "Contacto",
-    "rights": "Todos los derechos reservados"
+    "rights": "Todos los derechos reservados",
+    "navigation": "Navegación",
+    "requests": "Solicitudes de Ayuda",
+    "aboutUs": "Acerca de",
+    "blogNews": "Blog & Noticias",
+    "forumDiscussion": "Foro de Discusión",
+    "contactEmail": "Contáctanos (Email)",
+    "intro": "Una plataforma para fomentar la ayuda mutua, el intercambio de conocimientos y la solidaridad."
   },
   "language": {
     "select": "Idioma",

@@ -74,7 +74,8 @@
       "members": "会员",
       "services": "查看更多",
       "exchanges": "发现",
-      "workshops": "请求"
+      "workshops": "请求",
+      "institutions": "机构"
     },
     "howItWorks": {
       "label": "提供技能",
@@ -104,6 +105,14 @@
       "title": "为组织",
       "subtitle": "您是机构吗?",
       "cta": "协会、合作社、教育机构——加入时间交换所。"
+    },
+    "cta": {
+      "start": "立即开始 →",
+      "partnership": "申请合作 →",
+      "readyTitle": "准备好加入社区了吗？",
+      "readySubtitle": "数千人已经在交换技能。您的时间有价值——分享它。",
+      "viewTestimonials": "查看所有推荐 →",
+      "learnMore": "了解更多"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "社区",
     "terms": "法律",
     "contact": "隐私",
-    "rights": "语言"
+    "rights": "语言",
+    "navigation": "导航",
+    "requests": "求助请求",
+    "aboutUs": "关于我们",
+    "blogNews": "博客与新闻",
+    "forumDiscussion": "讨论论坛",
+    "contactEmail": "联系我们（邮件）",
+    "intro": "一个促进互助、知识共享和团结的平台。"
   },
   "language": {
     "select": "Language",

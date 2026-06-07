@@ -74,7 +74,8 @@
       "members": "jëkkër",
       "services": "Xool ci kanam",
       "exchanges": "Mënñeel",
-      "workshops": "Ci soxor"
+      "workshops": "Ci soxor",
+      "institutions": "Enstitisyon"
     },
     "howItWorks": {
       "label": "Yëgëlu xam-xam",
@@ -104,6 +105,14 @@
       "title": "Ci ndeye borom",
       "subtitle": "Mën nga soxor dafa moy ?",
       "cta": "Asosyasyon, kooperativ, etablisman jaangele — bindal ci Bourse du Temps."
+    },
+    "cta": {
+      "start": "Dem ci kanam →",
+      "partnership": "Seet patenarya →",
+      "readyTitle": "Mën nga dugg ci kër gi?",
+      "readySubtitle": "Junni nelaw ci xam-xam. Sa waxtu dafa am solo — yëgëlël ko.",
+      "viewTestimonials": "Xool tëmoin yi lépp →",
+      "learnMore": "Xam ci kanam"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Kër gi",
     "terms": "Droit",
     "contact": "Intimité",
-    "rights": "Làkk"
+    "rights": "Làkk",
+    "navigation": "Navigasyon",
+    "requests": "Ci soxor",
+    "aboutUs": "Ci baat bii",
+    "blogNews": "Blog & Xibaar",
+    "forumDiscussion": "Forum",
+    "contactEmail": "Xooleel nu (Email)",
+    "intro": "Plate-forme bu bokk ak yëkëm, yëgëlu xam-xam ak pari."
   },
   "language": {
     "select": "Language",

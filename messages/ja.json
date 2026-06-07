@@ -74,7 +74,8 @@
       "members": "メンバー",
       "services": "もっと見る",
       "exchanges": "発見",
-      "workshops": "リクエスト"
+      "workshops": "リクエスト",
+      "institutions": "機関"
     },
     "howItWorks": {
       "label": "スキルを提供",
@@ -104,6 +105,14 @@
       "title": "組織向け",
       "subtitle": "あなたは機関ですか？",
       "cta": "協会、協同組合、教育機関 — Bourse du Tempsに参加してください。"
+    },
+    "cta": {
+      "start": "今すぐ始める →",
+      "partnership": "パートナーシップを申請 →",
+      "readyTitle": "コミュニティに参加する準備はできていますか？",
+      "readySubtitle": "何千人もの人々がすでにスキルを交換しています。あなたの時間には価値があります——共有してください。",
+      "viewTestimonials": "すべての体験談を見る →",
+      "learnMore": "詳しく見る"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "コミュニティ",
     "terms": "法的",
     "contact": "プライバシー",
-    "rights": "言語"
+    "rights": "言語",
+    "navigation": "ナビゲーション",
+    "requests": "ヘルプリクエスト",
+    "aboutUs": "私たちについて",
+    "blogNews": "ブログ＆ニュース",
+    "forumDiscussion": "ディスカッションフォーラム",
+    "contactEmail": "お問い合わせ（メール）",
+    "intro": "相互扶助、知識共有、連帯を促進するプラットフォーム。"
   },
   "language": {
     "select": "Language",

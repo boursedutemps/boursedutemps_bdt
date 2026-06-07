@@ -2,23 +2,20 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Page } from "@/types";
-import { useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 import LoiEtCharteModal from "@/components/modals/LoiEtCharteModal";
 import PolitiqueConfidentialiteModal from "@/components/modals/PolitiqueConfidentialiteModal";
 import ContactFormModal from "@/components/modals/ContactFormModal";
 
 export default function Footer() {
   const router = useRouter();
-  const [year, setYear] = React.useState(new Date().getFullYear());
-
+  const t = useTranslations('footer');
+  const tNav = useTranslations('nav');
+  const [year] = React.useState(new Date().getFullYear());
   const [showLoi, setShowLoi] = useState(false);
   const [showPolitique, setShowPolitique] = useState(false);
   const [showContact, setShowContact] = useState(false);
-
-  React.useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
 
   const handleNavigate = (page: string) => {
     if (page === "home") router.push("/");
@@ -35,7 +32,7 @@ export default function Footer() {
               <div className="relative w-10 h-10">
                 <Image
                   src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg"
-                  alt="Logo"
+                  alt="Logo Bourse du Temps"
                   fill
                   className="rounded-full object-cover border border-slate-700 shadow-sm"
                 />
@@ -45,8 +42,7 @@ export default function Footer() {
               </h2>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Une plateforme pour favoriser l'entraide, le partage de
-              connaissances et la solidarité.
+              {t("intro")}
             </p>
             <div className="flex gap-4">
               <a
@@ -73,7 +69,7 @@ export default function Footer() {
           {/* Navigation */}
           <div>
             <h3 className="font-bold text-white mb-6 text-sm uppercase tracking-widest">
-              Navigation
+              {t("navigation")}
             </h3>
             <ul className="space-y-4">
               <li>
@@ -81,7 +77,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("home")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Accueil
+                  {tNav("home")}
                 </button>
               </li>
               <li>
@@ -89,7 +85,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("services")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Services Offerts
+                  {tNav("services")}
                 </button>
               </li>
               <li>
@@ -97,7 +93,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("requests")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Demandes d'Aide
+                  {t("requests")}
                 </button>
               </li>
               <li>
@@ -105,7 +101,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("members")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Membres
+                  {tNav("members")}
                 </button>
               </li>
             </ul>
@@ -114,7 +110,7 @@ export default function Footer() {
           {/* Communauté */}
           <div>
             <h3 className="font-bold text-white mb-6 text-sm uppercase tracking-widest">
-              Communauté
+              {t("community")}
             </h3>
             <ul className="space-y-4">
               <li>
@@ -122,7 +118,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("blog")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Blog & Actualités
+                  {t("blogNews")}
                 </button>
               </li>
               <li>
@@ -130,7 +126,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("forum")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Forum de Discussion
+                  {t("forumDiscussion")}
                 </button>
               </li>
               <li>
@@ -138,7 +134,7 @@ export default function Footer() {
                   onClick={() => handleNavigate("testimonials")}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors"
                 >
-                  Témoignages
+                  {tNav("testimonials")}
                 </button>
               </li>
               <li>
@@ -155,7 +151,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3 className="font-bold text-white mb-6 text-sm uppercase tracking-widest">
-              Contact
+              {t("contact")}
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
@@ -170,7 +166,7 @@ export default function Footer() {
                   onClick={() => setShowContact(true)}
                   className="text-slate-400 hover:text-blue-400 text-sm transition-colors text-left"
                 >
-                  Contactez-nous (Email)
+                  {t("contactEmail")}
                 </button>
               </li>
               <li className="flex items-center gap-3">
@@ -192,20 +188,20 @@ export default function Footer() {
         {/* Bas de page */}
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-slate-500 text-xs font-medium">
-            © {year} Bourse du Temps. Tous droits réservés.
+            © {year} Bourse du Temps. {t("rights")}.
           </p>
           <div className="flex gap-8">
             <button
               onClick={() => setShowPolitique(true)}
               className="text-slate-500 hover:text-slate-300 text-xs font-medium transition-colors"
             >
-              Politique de Confidentialité
+              {t("privacy")}
             </button>
             <button
               onClick={() => setShowLoi(true)}
               className="text-slate-500 hover:text-orange-400 text-xs font-medium transition-colors"
             >
-              ⚖️ Loi des Conditions d’Échange
+              ⚖️ {t("terms")}
             </button>
           </div>
         </div>

@@ -74,7 +74,8 @@
       "members": "회원",
       "services": "더 보기",
       "exchanges": "발견",
-      "workshops": "요청"
+      "workshops": "요청",
+      "institutions": "기관"
     },
     "howItWorks": {
       "label": "기술 제공",
@@ -104,6 +105,14 @@
       "title": "조직을 위해",
       "subtitle": "당신은 기관입니까?",
       "cta": "협회, 협동조합, 교육기관 — Bourse du Temps에 참여하세요."
+    },
+    "cta": {
+      "start": "지금 시작 →",
+      "partnership": "파트너십 요청 →",
+      "readyTitle": "커뮤니티에 참여할 준비가 됐나요?",
+      "readySubtitle": "수천 명이 이미 기술을 교환하고 있습니다. 당신의 시간은 가치 있습니다 — 공유하세요.",
+      "viewTestimonials": "모든 추천글 보기 →",
+      "learnMore": "자세히 알아보기"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "커뮤니티",
     "terms": "법률",
     "contact": "개인정보",
-    "rights": "언어"
+    "rights": "언어",
+    "navigation": "내비게이션",
+    "requests": "도움 요청",
+    "aboutUs": "소개",
+    "blogNews": "블로그 & 뉴스",
+    "forumDiscussion": "토론 포럼",
+    "contactEmail": "문의하기 (이메일)",
+    "intro": "상호 부조, 지식 공유, 연대를 위한 플랫폼."
   },
   "language": {
     "select": "Language",

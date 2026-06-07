@@ -74,7 +74,8 @@
       "members": "Manm",
       "services": "Sèvis",
       "exchanges": "Echanj",
-      "workshops": "Atelye"
+      "workshops": "Atelye",
+      "institutions": "Enstitisyon"
     },
     "howItWorks": {
       "label": "Senp & ekitab",
@@ -104,6 +105,14 @@
       "title": "Ou se yon enstitisyon?",
       "subtitle": "Asosyasyon, kooperativ, etablisman edikasyon — rantre nan Bourse du Temps.",
       "cta": "Kontakte nou"
+    },
+    "cta": {
+      "start": "Kòmanse kounye a →",
+      "partnership": "Mande yon patenarya →",
+      "readyTitle": "Pare pou rantre nan kominote a?",
+      "readySubtitle": "Dè milye moun echanje konpetans yo deja. Tan ou gen valè — pataje li.",
+      "viewTestimonials": "Wè tout temwayaj yo →",
+      "learnMore": "Aprann plis"
     }
   },
   "auth": {
@@ -196,7 +205,14 @@
     "privacy": "Konfidansyalite",
     "terms": "Kondisyon itilizasyon",
     "contact": "Kontak",
-    "rights": "Tout dwa rezève"
+    "rights": "Tout dwa rezève",
+    "navigation": "Navigasyon",
+    "requests": "Demann Èd",
+    "aboutUs": "Sou nou",
+    "blogNews": "Blog & Aktyalite",
+    "forumDiscussion": "Forum Diskisyon",
+    "contactEmail": "Kontakte nou (Imèl)",
+    "intro": "Yon platfòm pou ankouraje èd mutuel, pataj konesans ak solidarite."
   },
   "language": {
     "select": "Lang",
