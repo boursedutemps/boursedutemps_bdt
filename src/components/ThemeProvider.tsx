@@ -26,10 +26,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('bdt_theme') as Theme | null;
-    // Dans l'APK : light par défaut (évite le texte invisible sur téléphone sombre)
-    // Sur le web  : system par défaut (respecte la préférence du système)
-    const defaultTheme: Theme = isCapacitor() ? 'light' : 'system';
-    setThemeState(saved || defaultTheme);
+    // Par défaut : light (évite tout problème d'inversion de couleurs)
+    setThemeState(saved || 'light');
   }, []);
 
   useEffect(() => {
