@@ -31,20 +31,11 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // Toutes les locales ont un préfixe /xx/ → navigation directe, aucune ambiguïté
   const switchLocale = (newLocale: Locale) => {
     setOpen(false);
-
-    if (newLocale === 'fr') {
-      // Français = locale par défaut (pas de préfixe URL)
-      // router.replace gère correctement le cookie NEXT_LOCALE via next-intl
-      // Puis reload pour bypasser le service worker
-      router.replace(pathname as never, { locale: 'fr' });
-      setTimeout(() => window.location.reload(), 150);
-    } else {
-      // Autres locales : préfixe explicite dans l'URL → pas d'ambiguïté pour le middleware
-      const base = pathname === '/' ? '' : pathname;
-      window.location.href = `${window.location.origin}/${newLocale}${base || '/'}`;
-    }
+    const base = pathname === '/' ? '' : pathname;
+    window.location.href = `${window.location.origin}/${newLocale}${base || '/'}`;
   };
 
   const isRTL = locale === 'ar';

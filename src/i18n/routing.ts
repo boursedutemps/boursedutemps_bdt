@@ -14,7 +14,7 @@ export const rtlLocales: Locale[] = ['ar'];
 export const routing = defineRouting({
   locales,
   defaultLocale: 'fr',
-  // Le français garde des URLs propres (/services)
-  // Les autres langues sont préfixées (/en/services, /es/services)
-  localePrefix: 'as-needed',
+  // Toutes les langues ont un préfixe explicite dans l'URL :
+  // /fr/, /en/, /ht/, /es/... → pas d'ambiguïté pour le middleware
+  localePrefix: 'always',
 });
