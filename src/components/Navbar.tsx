@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-react';
 import { User as UserType, Notification } from '@/types';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ThemeToggle from '@/components/ThemeToggle';
 // ← next-intl : Link et navigation locale-aware (remplace next/link + next/navigation)
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 
@@ -175,6 +176,9 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
 
             {/* Sélecteur de langue */}
             <LanguageSwitcher />
+
+            {/* Toggle sombre / clair */}
+            <ThemeToggle />
 
             {user && (
               <div className="relative" ref={notifsRef}>
@@ -348,6 +352,12 @@ const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout,
             <div className="flex items-center justify-between px-4 py-2">
               <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Langue</span>
               <LanguageSwitcher />
+            </div>
+
+            {/* Thème */}
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Thème</span>
+              <ThemeToggle />
             </div>
 
             {/* Auth */}
