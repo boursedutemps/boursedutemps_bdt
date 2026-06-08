@@ -362,11 +362,8 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
 
   /* ── Render ───────────────────────────────────────────────────────────── */
   return (
-    <div
-      className="fixed inset-x-0 bottom-0 bg-black/50 flex items-center justify-center z-50 p-4"
-      style={{ top: 'env(safe-area-inset-top, 0px)' }}
-    >
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg relative max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white text-slate-800 rounded-2xl shadow-xl w-full max-w-lg relative max-h-[92vh] flex flex-col">
 
         {/* ── Fixed header ─────────────────────────────────────────────── */}
         <div className="px-8 pt-8 pb-4 flex-shrink-0">
