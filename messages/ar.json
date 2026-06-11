@@ -158,7 +158,8 @@
       "confirm": "تأكيد",
       "successMsg": "تم بدء التبادل ✅ سيُطلب منك تقييم بعد الجلسة.",
       "insufficientCredits": "رصيد غير كافٍ"
-    }
+    },
+    "sending": "إرسال…"
   },
   "blog": {
     "title": "المدونة",
@@ -178,7 +179,20 @@
     "saveChanges": "حفظ التغييرات",
     "publishArticle": "نشر المقال",
     "delete": "حذف",
-    "modify": "تعديل"
+    "modify": "تعديل",
+    "label": "موارد وإلهام",
+    "noPosts": "لا توجد مقالات منشورة حتى الآن",
+    "readShort": "← اقرأ",
+    "notFound": "المقال غير موجود",
+    "notFoundDesc": "هذا المقال غير موجود أو تم حذفه.",
+    "confirmDelete": "حذف هذا المقال؟",
+    "viewSource": "🔗 عرض المصدر ←",
+    "articleAuthor": "كاتب المقال",
+    "titlePlaceholder": "عنوان جذاب...",
+    "contentPlaceholder": "اكتب مقالك...",
+    "importProgress": "جار الاستيراد…",
+    "connectTo": "سجل الدخول للمتابعة.",
+    "adminOnly": "مخصص للمشرفين والإداريين."
   },
   "profile": {
     "presentation": "التعريف",

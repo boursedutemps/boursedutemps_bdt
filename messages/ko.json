@@ -146,7 +146,7 @@
     "noResults": "모든 카테고리",
     "requestBtn": "서비스를 찾을 수 없습니다",
     "loginBtn": "요청 →",
-    "yourService": "로그인 →",
+    "yourService": "내 서비스",
     "creditsPerHour": "내 서비스",
     "confirm": {
       "title": "크레딧/시간",
@@ -158,7 +158,8 @@
       "confirm": "이전",
       "successMsg": "내 크레딧",
       "insufficientCredits": "교환 시작됨 ✅"
-    }
+    },
+    "sending": "전송 중…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "연락처",
     "publishArticle": "← 모든 기사",
     "delete": "삭제",
-    "modify": "편집"
+    "modify": "편집",
+    "label": "리소스 & 영감",
+    "noPosts": "아직 게시된 기사가 없습니다",
+    "readShort": "읽기 →",
+    "notFound": "기사를 찾을 수 없습니다",
+    "notFoundDesc": "이 기사는 존재하지 않거나 삭제되었습니다.",
+    "confirmDelete": "이 기사를 삭제하시겠습니까?",
+    "viewSource": "🔗 소스 보기 →",
+    "articleAuthor": "기사 작성자",
+    "titlePlaceholder": "인상적인 제목...",
+    "contentPlaceholder": "기사를 작성하세요...",
+    "importProgress": "가져오는 중...",
+    "connectTo": "계속하려면 로그인하세요.",
+    "adminOnly": "관리자 및 모더레이터 전용."
   },
   "profile": {
     "presentation": "사진/동영상 가져오기",

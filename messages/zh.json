@@ -146,7 +146,7 @@
     "noResults": "所有类别",
     "requestBtn": "未找到服务",
     "loginBtn": "申请 →",
-    "yourService": "登录 →",
+    "yourService": "您的服务",
     "creditsPerHour": "您的服务",
     "confirm": {
       "title": "积分/小时",
@@ -158,7 +158,8 @@
       "confirm": "上一个",
       "successMsg": "您的积分",
       "insufficientCredits": "交换已启动 ✅"
-    }
+    },
+    "sending": "发送中…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "联系",
     "publishArticle": "← 所有文章",
     "delete": "删除",
-    "modify": "编辑"
+    "modify": "编辑",
+    "label": "资源与灵感",
+    "noPosts": "暂无已发布的文章",
+    "readShort": "阅读 →",
+    "notFound": "文章未找到",
+    "notFoundDesc": "此文章不存在或已被删除。",
+    "confirmDelete": "删除此文章？",
+    "viewSource": "🔗 查看来源 →",
+    "articleAuthor": "文章作者",
+    "titlePlaceholder": "一个吸引人的标题...",
+    "contentPlaceholder": "撰写您的文章...",
+    "importProgress": "导入中...",
+    "connectTo": "请登录以继续。",
+    "adminOnly": "仅限管理员和版主。"
   },
   "profile": {
     "presentation": "导入照片/视频",

@@ -42,10 +42,6 @@ const Profile: React.FC<ProfileProps> = ({
   const [showDeactivateConfirm, setShowDeactivateConfirm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage]   = useState<string | null>(null);
 
-  // États locaux pour les inputs compétences — évite la perte d'espaces à chaque frappe
-  const [offeredSkillsText,   setOfferedSkillsText]   = useState(user.offeredSkills?.join(', ')   || '');
-  const [requestedSkillsText, setRequestedSkillsText] = useState(user.requestedSkills?.join(', ') || '');
-
   const coverInputRef  = React.useRef<HTMLInputElement>(null);
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -53,12 +49,7 @@ const Profile: React.FC<ProfileProps> = ({
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   const handleSave = () => {
-    const finalUser = {
-      ...editedUser,
-      offeredSkills:   offeredSkillsText.split(',').map(s => s.trim()).filter(Boolean),
-      requestedSkills: requestedSkillsText.split(',').map(s => s.trim()).filter(Boolean),
-    };
-    onUpdate(finalUser);
+    onUpdate(editedUser);
     setIsEditing(false);
     setShowSuccessMessage('Profil mis à jour avec succès !');
     setTimeout(() => setShowSuccessMessage(null), 3000);
@@ -144,7 +135,7 @@ const Profile: React.FC<ProfileProps> = ({
   const connection = getConnectionStatus();
 
   return (
-    <div className="max-w-5xl mx-auto px-3 sm:px-6 py-6 sm:py-12">
+    <div className="max-w-5xl mx-auto px-6 py-12">
       <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
 
         {/* ── Cover ──────────────────────────────────────────────────────────── */}
@@ -274,10 +265,10 @@ const Profile: React.FC<ProfileProps> = ({
 
         {/* ── Tabs ──────────────────────────────────────────────────────────── */}
         {!readOnly && (
-          <div className="mt-20 px-4 sm:px-10 border-b border-slate-100 flex gap-2 sm:gap-8 overflow-x-auto">
+          <div className="mt-20 px-10 border-b border-slate-100 flex gap-8">
             {(['info', 'suivi', 'connections', 'messages'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`pb-4 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition flex-shrink-0 ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-400'}`}
+                className={`pb-4 text-sm font-bold uppercase tracking-widest transition ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-400'}`}
               >
                 {tab === 'info' ? 'Profil' : tab === 'suivi' ? 'Suivi Crédits' : tab === 'connections' ? 'Réseau' : 'Messages'}
               </button>
@@ -285,7 +276,7 @@ const Profile: React.FC<ProfileProps> = ({
           </div>
         )}
 
-        <div className="pt-10 px-4 sm:px-10 pb-16">
+        <div className="pt-10 px-10 pb-16">
 
           {/* ── Onglet Info ─────────────────────────────────────────────────── */}
           {activeTab === 'info' && (
@@ -307,8 +298,8 @@ const Profile: React.FC<ProfileProps> = ({
                         <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Compétences Offertes</h3>
                         <input
                           className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
-                          value={offeredSkillsText}
-                          onChange={e => setOfferedSkillsText(e.target.value)}
+                          value={editedUser.offeredSkills?.join(', ')}
+                          onChange={e => setEditedUser({ ...editedUser, offeredSkills: e.target.value.split(',').map(s => s.trim()) })}
                           placeholder="Excel, Design, Cuisine..."
                         />
                       </section>
@@ -316,8 +307,8 @@ const Profile: React.FC<ProfileProps> = ({
                         <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Compétences Recherchées</h3>
                         <input
                           className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
-                          value={requestedSkillsText}
-                          onChange={e => setRequestedSkillsText(e.target.value)}
+                          value={editedUser.requestedSkills?.join(', ')}
+                          onChange={e => setEditedUser({ ...editedUser, requestedSkills: e.target.value.split(',').map(s => s.trim()) })}
                           placeholder="Anglais, Piano, Yoga..."
                         />
                       </section>
@@ -423,11 +414,10 @@ const Profile: React.FC<ProfileProps> = ({
                 {/* ── Vérification identité (Fiche 4) ── */}
                 <VerificationPanel
                   uid={user.uid}
-                  isVerifiedEmail={user.isVerifiedEmail ?? false}
-                  isVerifiedSms={user.isVerifiedSms ?? false}
-                  isVerifiedId={user.isVerifiedId ?? false}
-                  verificationLevel={user.verificationLevel ?? 0}
-                  phone={user.phone}
+                  isVerifiedEmail={user.is_verified_email ?? false}
+                  isVerifiedSms={false}
+                  isVerifiedId={user.is_verified_id ?? false}
+                  verificationLevel={user.verification_level ?? 0}
                   onUpdate={() => window.location.reload()}
                 />
               </div>

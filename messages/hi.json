@@ -146,7 +146,7 @@
     "noResults": "सभी श्रेणियां",
     "requestBtn": "कोई सेवा नहीं मिली",
     "loginBtn": "अनुरोध करें →",
-    "yourService": "लॉगिन →",
+    "yourService": "आपकी सेवा",
     "creditsPerHour": "आपकी सेवा",
     "confirm": {
       "title": "क्रेडिट/घंटा",
@@ -158,7 +158,8 @@
       "confirm": "पिछला",
       "successMsg": "आपके क्रेडिट",
       "insufficientCredits": "एक्सचेंज शुरू हुआ ✅"
-    }
+    },
+    "sending": "भेजा जा रहा है…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "संपर्क",
     "publishArticle": "← सभी लेख",
     "delete": "हटाएं",
-    "modify": "संपादित करें"
+    "modify": "संपादित करें",
+    "label": "संसाधन और प्रेरणा",
+    "noPosts": "अभी तक कोई लेख प्रकाशित नहीं",
+    "readShort": "पढ़ें →",
+    "notFound": "लेख नहीं मिला",
+    "notFoundDesc": "यह लेख मौजूद नहीं है या हटा दिया गया है।",
+    "confirmDelete": "इस लेख को हटाएं?",
+    "viewSource": "🔗 स्रोत देखें →",
+    "articleAuthor": "लेख के लेखक",
+    "titlePlaceholder": "एक आकर्षक शीर्षक...",
+    "contentPlaceholder": "अपना लेख लिखें...",
+    "importProgress": "आयात हो रहा है...",
+    "connectTo": "जारी रखने के लिए लॉगिन करें।",
+    "adminOnly": "केवल प्रशासकों और मॉडरेटर के लिए।"
   },
   "profile": {
     "presentation": "फ़ोटो / वीडियो आयात करें",

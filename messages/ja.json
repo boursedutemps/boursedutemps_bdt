@@ -146,7 +146,7 @@
     "noResults": "すべてのカテゴリ",
     "requestBtn": "サービスが見つかりません",
     "loginBtn": "リクエスト →",
-    "yourService": "ログイン →",
+    "yourService": "あなたのサービス",
     "creditsPerHour": "あなたのサービス",
     "confirm": {
       "title": "クレジット/時間",
@@ -158,7 +158,8 @@
       "confirm": "前へ",
       "successMsg": "あなたのクレジット",
       "insufficientCredits": "交換が開始されました ✅"
-    }
+    },
+    "sending": "送信中…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "連絡先",
     "publishArticle": "← すべての記事",
     "delete": "削除",
-    "modify": "編集"
+    "modify": "編集",
+    "label": "リソース＆インスピレーション",
+    "noPosts": "まだ記事が公開されていません",
+    "readShort": "読む →",
+    "notFound": "記事が見つかりません",
+    "notFoundDesc": "この記事は存在しないか削除されました。",
+    "confirmDelete": "この記事を削除しますか？",
+    "viewSource": "🔗 ソースを見る →",
+    "articleAuthor": "記事の著者",
+    "titlePlaceholder": "キャッチーなタイトル...",
+    "contentPlaceholder": "記事を書いてください...",
+    "importProgress": "インポート中...",
+    "connectTo": "続けるにはログインしてください。",
+    "adminOnly": "管理者とモデレーター専用。"
   },
   "profile": {
     "presentation": "写真/動画をインポート",

@@ -158,7 +158,8 @@
       "confirm": "Confirmar",
       "successMsg": "¡Intercambio iniciado ✅ Se te pedirá una reseña después de la sesión.",
       "insufficientCredits": "Créditos insuficientes"
-    }
+    },
+    "sending": "Enviando…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Guardar cambios",
     "publishArticle": "Publicar artículo",
     "delete": "Eliminar",
-    "modify": "Editar"
+    "modify": "Editar",
+    "label": "Recursos e inspiración",
+    "noPosts": "Ningún artículo publicado aún",
+    "readShort": "Leer →",
+    "notFound": "Artículo no encontrado",
+    "notFoundDesc": "Este artículo no existe o ha sido eliminado.",
+    "confirmDelete": "¿Eliminar este artículo?",
+    "viewSource": "🔗 Ver fuente →",
+    "articleAuthor": "Autor del artículo",
+    "titlePlaceholder": "Un título llamativo...",
+    "contentPlaceholder": "Escribe tu artículo...",
+    "importProgress": "Importando...",
+    "connectTo": "Inicia sesión para continuar.",
+    "adminOnly": "Reservado para administradores y moderadores."
   },
   "profile": {
     "presentation": "Presentación",

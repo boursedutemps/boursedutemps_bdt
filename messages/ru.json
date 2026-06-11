@@ -146,7 +146,7 @@
     "noResults": "Все категории",
     "requestBtn": "Услуги не найдены",
     "loginBtn": "Запросить →",
-    "yourService": "Войти →",
+    "yourService": "Ваша услуга",
     "creditsPerHour": "Ваша услуга",
     "confirm": {
       "title": "кредит/ч",
@@ -158,7 +158,8 @@
       "confirm": "Назад",
       "successMsg": "Ваши кредиты",
       "insufficientCredits": "Обмен инициирован ✅"
-    }
+    },
+    "sending": "Отправка…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Контакт",
     "publishArticle": "← Все статьи",
     "delete": "Удалить",
-    "modify": "Редактировать"
+    "modify": "Редактировать",
+    "label": "Ресурсы и вдохновение",
+    "noPosts": "Нет опубликованных статей",
+    "readShort": "Читать →",
+    "notFound": "Статья не найдена",
+    "notFoundDesc": "Эта статья не существует или была удалена.",
+    "confirmDelete": "Удалить эту статью?",
+    "viewSource": "🔗 Посмотреть источник →",
+    "articleAuthor": "Автор статьи",
+    "titlePlaceholder": "Привлекательный заголовок...",
+    "contentPlaceholder": "Напишите вашу статью...",
+    "importProgress": "Импорт...",
+    "connectTo": "Войдите чтобы продолжить.",
+    "adminOnly": "Только для администраторов и модераторов."
   },
   "profile": {
     "presentation": "Импорт Фото / Видео",

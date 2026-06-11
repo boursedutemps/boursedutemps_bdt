@@ -146,7 +146,7 @@
     "noResults": "Makundi yote",
     "requestBtn": "Huduma haikupatikana",
     "loginBtn": "Omba →",
-    "yourService": "Ingia →",
+    "yourService": "Huduma yako",
     "creditsPerHour": "Huduma yako",
     "confirm": {
       "title": "mkopo/s",
@@ -158,7 +158,8 @@
       "confirm": "Iliyopita",
       "successMsg": "Mikopo yako",
       "insufficientCredits": "Ubadilishanaji ulianzishwa ✅"
-    }
+    },
+    "sending": "Inatuma…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Mawasiliano",
     "publishArticle": "← Makala zote",
     "delete": "Futa",
-    "modify": "Hariri"
+    "modify": "Hariri",
+    "label": "Rasilimali na msukumo",
+    "noPosts": "Hakuna makala yaliyochapishwa bado",
+    "readShort": "Soma →",
+    "notFound": "Makala haikupatikana",
+    "notFoundDesc": "Makala hii haipo au imefutwa.",
+    "confirmDelete": "Futa makala hii?",
+    "viewSource": "🔗 Angalia chanzo →",
+    "articleAuthor": "Mwandishi wa makala",
+    "titlePlaceholder": "Kichwa cha kuvutia...",
+    "contentPlaceholder": "Andika makala yako...",
+    "importProgress": "Inaingiza...",
+    "connectTo": "Ingia ili kuendelea.",
+    "adminOnly": "Imehifadhiwa kwa wasimamizi na wahariri."
   },
   "profile": {
     "presentation": "Ingiza Picha / Video",

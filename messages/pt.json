@@ -146,7 +146,7 @@
     "noResults": "Todas as categorias",
     "requestBtn": "Nenhum serviço encontrado",
     "loginBtn": "Solicitar →",
-    "yourService": "Entrar →",
+    "yourService": "Seu serviço",
     "creditsPerHour": "Seu serviço",
     "confirm": {
       "title": "crédito/h",
@@ -158,7 +158,8 @@
       "confirm": "Anterior",
       "successMsg": "Seus créditos",
       "insufficientCredits": "Troca iniciada ✅"
-    }
+    },
+    "sending": "Enviando…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Contato",
     "publishArticle": "← Todos os artigos",
     "delete": "Excluir",
-    "modify": "Editar"
+    "modify": "Editar",
+    "label": "Recursos e inspiração",
+    "noPosts": "Nenhum artigo publicado ainda",
+    "readShort": "Ler →",
+    "notFound": "Artigo não encontrado",
+    "notFoundDesc": "Este artigo não existe ou foi excluído.",
+    "confirmDelete": "Excluir este artigo?",
+    "viewSource": "🔗 Ver fonte →",
+    "articleAuthor": "Autor do artigo",
+    "titlePlaceholder": "Um título chamativo...",
+    "contentPlaceholder": "Escreva seu artigo...",
+    "importProgress": "Importando...",
+    "connectTo": "Faça login para continuar.",
+    "adminOnly": "Reservado para administradores e moderadores."
   },
   "profile": {
     "presentation": "Importar Foto / Vídeo",

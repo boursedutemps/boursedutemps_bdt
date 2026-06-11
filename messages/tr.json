@@ -146,7 +146,7 @@
     "noResults": "Tüm kategoriler",
     "requestBtn": "Hizmet bulunamadı",
     "loginBtn": "Talep et →",
-    "yourService": "Giriş yap →",
+    "yourService": "Hizmetiniz",
     "creditsPerHour": "Hizmetiniz",
     "confirm": {
       "title": "kredi/saat",
@@ -158,7 +158,8 @@
       "confirm": "Önceki",
       "successMsg": "Krediniz",
       "insufficientCredits": "Alışveriş başlatıldı ✅"
-    }
+    },
+    "sending": "Gönderiliyor…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "İletişim",
     "publishArticle": "← Tüm makaleler",
     "delete": "Sil",
-    "modify": "Düzenle"
+    "modify": "Düzenle",
+    "label": "Kaynaklar ve ilham",
+    "noPosts": "Henüz makale yayınlanmadı",
+    "readShort": "Oku →",
+    "notFound": "Makale bulunamadı",
+    "notFoundDesc": "Bu makale mevcut değil veya silindi.",
+    "confirmDelete": "Bu makaleyi sil?",
+    "viewSource": "🔗 Kaynağı görüntüle →",
+    "articleAuthor": "Makale yazarı",
+    "titlePlaceholder": "Çarpıcı bir başlık...",
+    "contentPlaceholder": "Makalenizi yazın...",
+    "importProgress": "İçe aktarılıyor...",
+    "connectTo": "Devam etmek için giriş yapın.",
+    "adminOnly": "Yalnızca yöneticiler ve moderatörler için."
   },
   "profile": {
     "presentation": "Fotoğraf / Video içe aktar",

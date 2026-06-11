@@ -146,7 +146,7 @@
     "noResults": "Alle categorieën",
     "requestBtn": "Geen diensten gevonden",
     "loginBtn": "Aanvragen →",
-    "yourService": "Inloggen →",
+    "yourService": "Uw dienst",
     "creditsPerHour": "Uw dienst",
     "confirm": {
       "title": "tegoed/u",
@@ -158,7 +158,8 @@
       "confirm": "Vorige",
       "successMsg": "Uw tegoeden",
       "insufficientCredits": "Uitwisseling gestart ✅"
-    }
+    },
+    "sending": "Verzenden…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Contact",
     "publishArticle": "← Alle artikelen",
     "delete": "Verwijderen",
-    "modify": "Bewerken"
+    "modify": "Bewerken",
+    "label": "Bronnen & inspiratie",
+    "noPosts": "Geen artikelen gepubliceerd",
+    "readShort": "Lezen →",
+    "notFound": "Artikel niet gevonden",
+    "notFoundDesc": "Dit artikel bestaat niet of is verwijderd.",
+    "confirmDelete": "Dit artikel verwijderen?",
+    "viewSource": "🔗 Bron bekijken →",
+    "articleAuthor": "Auteur van het artikel",
+    "titlePlaceholder": "Een pakkende titel...",
+    "contentPlaceholder": "Schrijf je artikel...",
+    "importProgress": "Importeren...",
+    "connectTo": "Log in om door te gaan.",
+    "adminOnly": "Alleen voor beheerders en moderators."
   },
   "profile": {
     "presentation": "Foto / Video importeren",

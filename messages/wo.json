@@ -146,7 +146,7 @@
     "noResults": "Categori bii",
     "requestBtn": "Amul njëkël",
     "loginBtn": "Wànt →",
-    "yourService": "Dugg →",
+    "yourService": "Sa njëkël",
     "creditsPerHour": "Sa njëkël",
     "confirm": {
       "title": "krédi/w",
@@ -158,7 +158,8 @@
       "confirm": "Ci ginnaaw",
       "successMsg": "Sa crédit yi",
       "insufficientCredits": "Waxtaane bi doone ✅"
-    }
+    },
+    "sending": "Yónnee…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Faramfàtte",
     "publishArticle": "← Makale yi",
     "delete": "Fay",
-    "modify": "Soppul"
+    "modify": "Soppul",
+    "label": "Jëf yi ak enspiyasyon",
+    "noPosts": "Amul atikël ci kël bi",
+    "readShort": "Jàng →",
+    "notFound": "Atikël bi amul",
+    "notFoundDesc": "Atikël bii dafay amul walla fay dëkk.",
+    "confirmDelete": "Fay atikël bii?",
+    "viewSource": "🔗 Xool source →",
+    "articleAuthor": "Boroom atikël bi",
+    "titlePlaceholder": "Tiitre bu yaatu...",
+    "contentPlaceholder": "Bind atikël bi...",
+    "importProgress": "Jëkk ci kël...",
+    "connectTo": "Dugg ci kanam.",
+    "adminOnly": "Bañ ci administrateur yi."
   },
   "profile": {
     "presentation": "Bind foto / vidéo",

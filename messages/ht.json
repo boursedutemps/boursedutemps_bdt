@@ -158,7 +158,8 @@
       "confirm": "Konfime",
       "successMsg": "Echanj inisye ✅ Yo pral mande avis ou apre sesyon an.",
       "insufficientCredits": "Pa gen ase kredi"
-    }
+    },
+    "sending": "Voye…"
   },
   "blog": {
     "title": "Blog",
@@ -178,7 +179,20 @@
     "saveChanges": "Anrejistre chanjman",
     "publishArticle": "Pibliye atik",
     "delete": "Efase",
-    "modify": "Modifye"
+    "modify": "Modifye",
+    "label": "Resous & enspiyasyon",
+    "noPosts": "Pa gen atik pibliye pou kounye a",
+    "readShort": "Li →",
+    "notFound": "Atik pa jwenn",
+    "notFoundDesc": "Atik sa a pa egziste oswa li te efase.",
+    "confirmDelete": "Efase atik sa a?",
+    "viewSource": "🔗 Wè sous →",
+    "articleAuthor": "Otè atik la",
+    "titlePlaceholder": "Yon tit ki atiran...",
+    "contentPlaceholder": "Ekri atik ou a...",
+    "importProgress": "Enpòtasyon an pwogrè…",
+    "connectTo": "Konekte pou kontinye.",
+    "adminOnly": "Rezève pou administratè ak moderatè."
   },
   "profile": {
     "presentation": "Prezantasyon",
