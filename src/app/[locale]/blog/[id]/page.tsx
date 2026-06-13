@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useUser } from '@/components/UserProvider'
 import ShareMenu from '@/components/ShareMenu'
 import CommentsSection, { Comment } from '@/components/CommentsSection'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 
 interface BlogPost {
   id: number; title: string; content: string; category?: string
@@ -19,7 +19,7 @@ export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>()
   const { user } = useUser()
   const t = useTranslations('blog')
-  const [post, setPost] = useState<BlogPost | null>(null)
+  const [post, setPost]       = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
@@ -70,9 +70,16 @@ export default function BlogPostPage() {
 
   const handleShareCount = async () => {
     await fetch(`/api/blogs/${id}`, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ shares: (post.shares || 0) + 1 }),
     })
+  }
+
+  const handleDelete = async () => {
+    if (!confirm(t('confirmDelete'))) return
+    await fetch(`/api/blogs/${post.id}`, { method: 'DELETE' })
+    window.location.href = '/blog'
   }
 
   return (
@@ -91,12 +98,7 @@ export default function BlogPostPage() {
               </Link>
             )}
             {isAdmin && (
-              <button
-                onClick={async () => {
-                  if (!confirm(t('confirmDelete'))) return
-                  await fetch(`/api/blogs/${post.id}`, { method: 'DELETE' })
-                  window.location.href = '/blog'
-                }}
+              <button onClick={handleDelete}
                 className="text-xs font-semibold px-3 py-1.5 rounded-full bg-red-50 text-red-500 border border-red-200 hover:bg-red-100 transition-colors">
                 🗑️ {t('delete')}
               </button>
@@ -105,7 +107,9 @@ export default function BlogPostPage() {
         </div>
 
         {post.category && (
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-700 mb-3 block">{post.category}</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-amber-700 mb-3 block">
+            {post.category}
+          </span>
         )}
 
         <h1 className="text-3xl font-bold text-slate-800 leading-tight mb-4">{post.title}</h1>
@@ -120,8 +124,10 @@ export default function BlogPostPage() {
           </div>
         </div>
 
-        <article className="prose prose-slate max-w-none prose-headings:font-bold prose-a:text-amber-600 prose-img:rounded-xl"
-          dangerouslySetInnerHTML={{ __html: post.content }} />
+        <article
+          className="prose prose-slate max-w-none prose-headings:font-bold prose-a:text-amber-600 prose-img:rounded-xl"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
 
         {post.externalLink && (
           <a href={post.externalLink} target="_blank" rel="noopener noreferrer"
@@ -132,7 +138,8 @@ export default function BlogPostPage() {
 
         <div className="mt-10 pt-6 border-t border-slate-100">
           <div className="flex items-center gap-6">
-            <CommentsSection postId={post.id} comments={comments} apiPath={`/api/blogs/${post.id}`}
+            <CommentsSection postId={post.id} comments={comments}
+              apiPath={`/api/blogs/${post.id}`}
               onUpdate={updated => setPost(p => p ? { ...p, comments: updated } : p)} />
             <ShareMenu url={pageUrl} title={post.title}
               text={post.content?.replace(/<[^>]+>/g, '').slice(0, 200)}

@@ -1,46 +1,48 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useUser } from '@/components/UserProvider'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 
 interface Service {
   id: number; user_id: string; user_name: string
-  title: string; description: string; credit_cost: number; category: string; created_at: string
+  title: string; description: string; credit_cost: number
+  category: string; created_at: string
 }
 
 const CATEGORY_ICONS: Record<string, string> = {
   informatique:'💻', langues:'🌍', arts:'🎨', cuisine:'🍳',
-  sport:'⚽', musique:'🎵', bricolage:'🔧', education:'📚', sante:'🏥', juridique:'⚖️', autre:'✨',
+  sport:'⚽', musique:'🎵', bricolage:'🔧', education:'📚',
+  sante:'🏥', juridique:'⚖️', autre:'✨',
 }
 
 export default function ServicesPage() {
   const { user } = useUser()
-  const t = useTranslations('services')
-  const tCommon = useTranslations('common')
-  const [services, setServices] = useState<Service[]>([])
-  const [loading, setLoading]   = useState(true)
-  const [search, setSearch]     = useState('')
-  const [category, setCategory] = useState('')
-  const [selected, setSelected] = useState<Service | null>(null)
+  const t       = useTranslations('services')
+  const tc      = useTranslations('common')
+
+  const [services, setServices]   = useState<Service[]>([])
+  const [loading, setLoading]     = useState(true)
+  const [search, setSearch]       = useState('')
+  const [category, setCategory]   = useState('')
+  const [selected, setSelected]   = useState<Service | null>(null)
   const [requesting, setRequesting] = useState(false)
-  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
+  const [feedback, setFeedback]   = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
 
   useEffect(() => {
     fetch('/api/services')
       .then(r => r.json())
-      .then(data => setServices(Array.isArray(data) ? data : data.services ?? []))
+      .then(d => setServices(Array.isArray(d) ? d : d.services ?? []))
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
 
-  const filtered = services.filter(s => {
-    const matchSearch = s.title.toLowerCase().includes(search.toLowerCase()) ||
-      s.description.toLowerCase().includes(search.toLowerCase())
-    return matchSearch && (category ? s.category === category : true)
-  })
-
+  const filtered = services.filter(s =>
+    (s.title.toLowerCase().includes(search.toLowerCase()) ||
+     s.description.toLowerCase().includes(search.toLowerCase())) &&
+    (category ? s.category === category : true)
+  )
   const categories = [...new Set(services.map(s => s.category).filter(Boolean))]
 
   const closeModal = () => { if (requesting) return; setSelected(null); setFeedback(null) }
@@ -56,16 +58,15 @@ export default function ServicesPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        const msg = res.status === 402
+        setFeedback({ type: 'error', msg: res.status === 402
           ? `${t('confirm.insufficientCredits')} — ${data.credits} / ${data.required}`
-          : data.error || tCommon('error')
-        setFeedback({ type: 'error', msg })
+          : data.error || tc('error') })
       } else {
         setFeedback({ type: 'success', msg: t('confirm.successMsg') })
         setTimeout(closeModal, 2500)
       }
-    } catch { setFeedback({ type: 'error', msg: tCommon('error') }) }
-    finally { setRequesting(false) }
+    } catch { setFeedback({ type: 'error', msg: tc('error') }) }
+    finally  { setRequesting(false) }
   }
 
   return (
@@ -102,27 +103,27 @@ export default function ServicesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map(service => (
-              <div key={service.id} className="bg-white rounded-2xl p-5 border border-slate-100 hover:border-amber-200 hover:shadow-md transition-all duration-200 flex flex-col">
+            {filtered.map(s => (
+              <div key={s.id} className="bg-white rounded-2xl p-5 border border-slate-100 hover:border-amber-200 hover:shadow-md transition-all duration-200 flex flex-col">
                 <div className="flex items-start justify-between mb-3">
-                  <span className="text-2xl">{CATEGORY_ICONS[service.category] || '✨'}</span>
+                  <span className="text-2xl">{CATEGORY_ICONS[s.category] || '✨'}</span>
                   <span className="text-xs font-bold bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full">
-                    {service.credit_cost} {t('creditsPerHour')}
+                    {s.credit_cost} {t('creditsPerHour')}
                   </span>
                 </div>
-                <h3 className="font-bold text-slate-800 mb-1 leading-snug">{service.title}</h3>
-                <p className="text-sm text-slate-500 flex-1 leading-relaxed line-clamp-3">{service.description}</p>
+                <h3 className="font-bold text-slate-800 mb-1 leading-snug">{s.title}</h3>
+                <p className="text-sm text-slate-500 flex-1 leading-relaxed line-clamp-3">{s.description}</p>
                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between gap-2">
-                  <Link href={`/profile?uid=${service.user_id}`}
+                  <Link href={`/profile?uid=${s.user_id}`}
                     className="text-xs text-slate-500 hover:text-slate-700 transition-colors truncate">
-                    {tCommon('by')} {service.user_name || tCommon('member')}
+                    {tc('by')} {s.user_name || tc('member')}
                   </Link>
                   {!user ? (
                     <Link href="/?auth=login" className="text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors flex-shrink-0">
                       {t('loginBtn')}
                     </Link>
-                  ) : user.uid !== service.user_id ? (
-                    <button onClick={() => setSelected(service)}
+                  ) : user.uid !== s.user_id ? (
+                    <button onClick={() => setSelected(s)}
                       className="text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg transition-colors flex-shrink-0">
                       {t('requestBtn')}
                     </button>
@@ -152,7 +153,7 @@ export default function ServicesPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600">{t('confirm.costLabel')}</span>
-                <span className="font-bold text-amber-700">{selected.credit_cost} {tCommon('credits')}</span>
+                <span className="font-bold text-amber-700">{selected.credit_cost} {tc('credits')}</span>
               </div>
               <div className="flex justify-between text-sm border-t border-amber-100 pt-2.5">
                 <span className="text-slate-600">{t('confirm.yourCreditsLabel')}</span>
@@ -170,12 +171,12 @@ export default function ServicesPage() {
             <div className="flex gap-3">
               <button onClick={closeModal} disabled={requesting}
                 className="flex-1 py-3 rounded-xl text-sm font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition disabled:opacity-50">
-                {tCommon('cancel')}
+                {tc('cancel')}
               </button>
               <button onClick={handleRequest}
                 disabled={requesting || feedback?.type === 'success' || (user?.credits ?? 0) < selected.credit_cost}
                 className="flex-1 py-3 rounded-xl text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                {requesting ? t('sending') : tCommon('confirm')}
+                {requesting ? t('sending') : tc('confirm')}
               </button>
             </div>
           </div>

@@ -1,19 +1,19 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useUser } from '@/components/UserProvider'
+import Link from 'next/link'
 import Image from 'next/image'
+import { useUser } from '@/components/UserProvider'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 
 interface BlogPost {
   id: number; title: string; content?: string; excerpt?: string
-  author?: string; author_name?: string; cover_image?: string; image?: string
-  category?: string; created_at: string; slug?: string
+  author?: string; author_name?: string; cover_image?: string
+  image?: string; category?: string; created_at: string; slug?: string
 }
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [posts, setPosts]   = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const { user } = useUser()
   const t = useTranslations('blog')
@@ -22,7 +22,7 @@ export default function BlogPage() {
   useEffect(() => {
     fetch('/api/blogs')
       .then(r => r.json())
-      .then(data => setPosts(Array.isArray(data) ? data : data.blogs ?? data.posts ?? []))
+      .then(d => setPosts(Array.isArray(d) ? d : d.blogs ?? d.posts ?? []))
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
@@ -30,7 +30,7 @@ export default function BlogPage() {
   const formatDate = (str: string) =>
     new Date(str).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
 
-  const excerpt = (post: BlogPost) =>
+  const getExcerpt = (post: BlogPost) =>
     post.excerpt || post.content?.replace(/<[^>]+>/g, '').slice(0, 140) + '…' || ''
 
   if (loading) return (
@@ -49,11 +49,14 @@ export default function BlogPage() {
       <div className="max-w-4xl mx-auto">
 
         <div className="mb-10">
-          <p className="text-xs font-semibold tracking-widest uppercase text-amber-700 mb-2">{t('label')}</p>
+          <p className="text-xs font-semibold tracking-widest uppercase text-amber-700 mb-2">
+            {t('label')}
+          </p>
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
             {isAdmin && (
-              <Link href="/blog/new" className="text-sm font-bold px-4 py-2 rounded-xl text-white"
+              <Link href="/blog/new"
+                className="text-sm font-bold px-4 py-2 rounded-xl text-white"
                 style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
                 ✍️ {t('newArticle')}
               </Link>
@@ -80,10 +83,14 @@ export default function BlogPage() {
                 )}
                 <div className="p-5">
                   {post.category && (
-                    <span className="text-xs font-semibold text-amber-600 uppercase tracking-wide">{post.category}</span>
+                    <span className="text-xs font-semibold text-amber-600 uppercase tracking-wide">
+                      {post.category}
+                    </span>
                   )}
-                  <h2 className="font-bold text-slate-800 mt-1 mb-2 group-hover:text-amber-700 transition-colors leading-snug">{post.title}</h2>
-                  <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{excerpt(post)}</p>
+                  <h2 className="font-bold text-slate-800 mt-1 mb-2 group-hover:text-amber-700 transition-colors leading-snug">
+                    {post.title}
+                  </h2>
+                  <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{getExcerpt(post)}</p>
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
                     <span className="text-xs text-slate-400">
                       {post.author_name || post.author || 'Bourse du Temps'} · {formatDate(post.created_at)}
