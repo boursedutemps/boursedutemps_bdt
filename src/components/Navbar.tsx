@@ -1,309 +1,393 @@
-'use client'
-// src/components/layout/Navbar.tsx
-import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { Search, Menu, X, Globe, ChevronDown } from 'lucide-react'
-import { DISCIPLINES, SITE_CONFIG } from '@/lib/config'
-import { useTranslations } from '@/i18n/translations'
-import type { Lang } from '@/types'
-import { cn } from '@/lib/utils'
+"use client";
+
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { Search, Bell, Menu, X, Clock, LogOut, User, ChevronDown } from 'lucide-react';
+import { User as UserType, Notification } from '@/types';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ThemeToggle from '@/components/ThemeToggle';
+import { useTranslations } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 
 interface NavbarProps {
-  lang?: Lang
+  user: UserType | null;
+  notifications: Notification[];
+  onLogin: () => void;
+  onSignup: () => void;
+  onLogout: () => void;
+  onMarkRead: (id: string) => void;
 }
 
-export default function Navbar({ lang = 'fr' }: NavbarProps) {
-  const t = useTranslations(lang)
-  const pathname = usePathname()
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQ, setSearchQ] = useState('')
-  const [discOpen, setDiscOpen] = useState(false)
-  const [user, setUser] = useState<{ full_name: string | null; email: string } | null>(null)
+const Navbar: React.FC<NavbarProps> = ({ user, notifications, onLogin, onLogout, onMarkRead }) => {
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
+
+  const NAV_GROUPS = [
+    {
+      label: t('exchange'),
+      items: [
+        { label: `🛠️ ${t('services')}`,  path: '/services',  desc: tCommon('seeMore') },
+        { label: `📋 ${t('requests')}`,  path: '/requests',  desc: tCommon('seeMore') },
+        { label: `🎓 ${t('workshops')}`, path: '/workshops', desc: tCommon('seeMore') },
+        { label: `🚀 ${t('projects')}`,  path: '/projects',  desc: tCommon('seeMore') },
+      ],
+    },
+    {
+      label: t('learn'),
+      items: [
+        { label: `📚 ${t('modules')}`,      path: '/modules',      desc: tCommon('seeMore') },
+        { label: `✏️ ${t('blog')}`,          path: '/blog',         desc: tCommon('seeMore') },
+        { label: `⭐ ${t('testimonials')}`,  path: '/testimonials', desc: tCommon('seeMore') },
+      ],
+    },
+    {
+      label: t('community'),
+      items: [
+        { label: `👥 ${t('members')}`, path: '/members', desc: tCommon('seeMore') },
+        { label: `💬 ${t('forum')}`,   path: '/forum',   desc: tCommon('seeMore') },
+        { label: `ℹ️ À propos`,        path: '/about',   desc: tCommon('seeMore') },
+        { label: `📩 ${t('contact') || 'Contact'}`, path: '/contact', desc: tCommon('seeMore') },
+      ],
+    },
+  ];
+  const [mobileOpen, setMobileOpen]     = useState(false);
+  const [openGroup, setOpenGroup]       = useState<string | null>(null);
+  const [showNotifs, setShowNotifs]     = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mounted, setMounted]           = useState(false);
+  const pathname    = usePathname();
+  const router      = useRouter();
+  const notifsRef   = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const groupRefs   = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const unread             = notifications.filter(n => !n.isRead).length;
+  const isAdmin            = user?.role === 'admin';
+  const isAdminOrMod       = user?.role === 'admin' || user?.role === 'moderator';
+  const isInstitutionAdmin = (user?.role as string) === 'institution_admin';
 
   useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', handle, { passive: true })
-    return () => window.removeEventListener('scroll', handle)
-  }, [])
+    setMounted(true);
+    const handleClick = (e: MouseEvent) => {
+      if (notifsRef.current && !notifsRef.current.contains(e.target as Node)) setShowNotifs(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setShowUserMenu(false);
+      // Ne ferme PAS openGroup ici — géré par chaque bouton
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
+  // Ferme le menu mobile et navigue — fiable sur iOS et Android
+  const mobileNavigate = useCallback((path: string) => {
+    setMobileOpen(false);
+    setOpenGroup(null);
+    router.push(path);
+  }, [router]);
+
+  // Ferme le menu quand la route change
   useEffect(() => {
-    fetch('/api/auth/me')
-      .then(res => res.ok ? res.json() : null)
-      .then(data => { if (data?.user) setUser(data.user) })
-      .catch(() => {})
-  }, [])
+    setMobileOpen(false);
+    setOpenGroup(null);
+  }, [pathname]);
 
-  async function handleLogout() {
-    await fetch('/api/auth/logout', { method: 'POST' })
-    setUser(null)
-    router.push('/')
-  }
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    if (searchQ.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQ.trim())}`)
-      setSearchOpen(false)
-      setSearchQ('')
-    }
-  }
-
-  const langs: { code: Lang; label: string }[] = [
-    { code: 'fr', label: 'Français' },
-    { code: 'ht', label: 'Kreyòl' },
-    { code: 'en', label: 'English' },
-  ]
+  const isGroupActive = (group: typeof NAV_GROUPS[0]) =>
+    group.items.some(item => pathname === item.path || pathname.startsWith(item.path + '/'));
 
   return (
-    <>
-      <header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-black/[0.06]'
-            : 'bg-transparent'
-        )}
-      >
-        <nav className="section">
-          <div className="flex items-center justify-between h-16 md:h-20">
+    <nav aria-label="Navigation principale" className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 gap-4">
 
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="flex items-center">
-                {/* Drapeau haïtien stylisé */}
-                <div className="w-8 h-8 rounded-lg overflow-hidden flex flex-col shadow-sm">
-                  <div className="flex-1 bg-brand-bleu" />
-                  <div className="flex-1 bg-brand-rouge" />
-                </div>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+            <div className="relative w-9 h-9">
+              <Image src="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" alt="Logo Bourse du Temps" fill
+                className="rounded-full object-cover border border-slate-100 group-hover:scale-105 transition-transform" />
+            </div>
+            <span className="font-bold text-base tracking-tight text-slate-900 hidden sm:block uppercase">
+              Bourse du Temps
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden lg:flex items-center gap-1 flex-1">
+            <Link href="/" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+              pathname === '/' ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+            }`}>{t("home")}</Link>
+
+            {NAV_GROUPS.map(group => (
+              <div key={group.label} className="relative"
+                ref={el => { groupRefs.current[group.label] = el }}>
+                <button
+                  onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
+                  aria-expanded={openGroup === group.label}
+                  aria-haspopup="true"
+                  className={`flex items-center gap-1 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+                    isGroupActive(group) || openGroup === group.label
+                      ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50'
+                  }`}>
+                  {group.label}
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openGroup === group.label ? 'rotate-180' : ''}`} />
+                </button>
+                {openGroup === group.label && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
+                    <div className="p-2 space-y-0.5">
+                      {group.items.map(item => (
+                        <Link key={item.path} href={item.path} onClick={() => setOpenGroup(null)}
+                          className={`flex flex-col px-3 py-2.5 rounded-xl transition-all ${
+                            pathname === item.path ? 'bg-blue-50' : 'hover:bg-slate-50'
+                          }`}>
+                          <span className={`text-sm font-semibold ${pathname === item.path ? 'text-blue-600' : 'text-slate-700'}`}>
+                            {item.label}
+                          </span>
+                          <span className="text-xs text-slate-500 mt-0.5">{item.desc}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <span className="font-display font-bold text-xl text-brand-noir tracking-tight">
-                Cultu<span className="text-brand-rouge">pedia</span>
-              </span>
+            ))}
+
+            {isAdminOrMod && (
+              <Link href="/moderation" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+                pathname === '/moderation' ? 'text-purple-600 bg-purple-50' : 'text-purple-500 hover:bg-purple-50'
+              }`}>{t("moderation")}</Link>
+            )}
+            {isAdmin && (
+              <Link href="/admin/institutions" className={`px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+                pathname.startsWith('/admin') ? 'text-violet-600 bg-violet-50' : 'text-violet-500 hover:bg-violet-50'
+              }`}>🏛️ {t("institutions")}</Link>
+            )}
+            {isInstitutionAdmin && (
+              <Link href="/i/dashboard" className="px-3 py-2 rounded-full text-sm font-semibold text-violet-500 hover:bg-violet-50 transition-all">
+                🏛️ Mon institution
+              </Link>
+            )}
+          </div>
+
+          {/* Actions droite desktop */}
+          <div className="hidden lg:flex items-center gap-2 ml-auto">
+            <Link href="/recherche" className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-semibold transition-all ${
+              pathname === '/recherche'
+                ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600'
+                : 'text-blue-600 border border-blue-200 hover:bg-blue-50'
+            }`}>
+              <Search className="w-3.5 h-3.5" /> {t("aiSearch")}
             </Link>
 
-            {/* Nav desktop */}
-            <div className="hidden lg:flex items-center gap-1">
+            {/* Sélecteur de langue */}
+            <LanguageSwitcher />
 
-              {/* Dropdown disciplines */}
-              <div className="relative" onMouseLeave={() => setDiscOpen(false)}>
-                <button
-                  onMouseEnter={() => setDiscOpen(true)}
-                  onClick={() => setDiscOpen(!discOpen)}
-                  className={cn(
-                    'btn-ghost gap-1',
-                    discOpen && 'bg-black/5'
+            {/* Toggle sombre / clair */}
+            <ThemeToggle />
+
+            {user && (
+              <div className="relative" ref={notifsRef}>
+                <button onClick={() => setShowNotifs(!showNotifs)}
+                  aria-label={`Notifications${unread > 0 ? ` — ${unread} non lue${unread > 1 ? 's' : ''}` : ''}`}
+                  aria-expanded={showNotifs}
+                  className="relative p-2 rounded-full text-slate-500 hover:bg-slate-50 transition">
+                  <Bell className="w-5 h-5" />
+                  {unread > 0 && (
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+                      {unread}
+                    </span>
                   )}
-                >
-                  Explorer
-                  <ChevronDown className={cn('w-4 h-4 transition-transform duration-200', discOpen && 'rotate-180')} />
+                </button>
+                {showNotifs && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-50">
+                    <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+                      <h3 className="font-bold text-sm">Notifications</h3>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{unread} non lues</span>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto">
+                      {notifications.length === 0 ? (
+                        <div className="p-8 text-center text-sm text-slate-400">Aucune notification</div>
+                      ) : notifications.map(n => (
+                        <div key={n.id} onClick={() => { onMarkRead(n.id); setShowNotifs(false); }}
+                          className={`p-4 border-b border-slate-50 cursor-pointer hover:bg-slate-50 transition ${!n.isRead ? 'bg-blue-50/30' : ''}`}>
+                          <div className="flex gap-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-base flex-shrink-0 ${
+                              n.type === 'transaction' ? 'bg-green-100' : n.type === 'connection' ? 'bg-purple-100' : 'bg-blue-100'
+                            }`}>
+                              {n.type === 'transaction' ? '💰' : n.type === 'connection' ? '🤝' : '🔔'}
+                            </div>
+                            <div>
+                              <p className="text-sm text-slate-700 leading-tight">
+                                <span className="font-bold">{n.fromName}</span> {n.content}
+                              </p>
+                              <p className="text-[10px] text-slate-400 mt-1">
+                                {mounted ? new Date(n.createdAt).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : ''}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {user ? (
+              <div className="relative" ref={userMenuRef}>
+                <button onClick={() => setShowUserMenu(!showUserMenu)}
+                  aria-label={`Compte de ${user.firstName} — ${user.credits} crédit${user.credits !== 1 ? 's' : ''}`}
+                  aria-expanded={showUserMenu}
+                  className="flex items-center gap-2 bg-blue-600 text-white pl-3 pr-1.5 py-1.5 rounded-full hover:bg-blue-700 transition shadow-md shadow-blue-200">
+                  <Clock className="w-4 h-4 text-blue-100" />
+                  <span className="text-sm font-bold">{user.credits}</span>
+                  <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden border border-blue-300 relative">
+                    {user.avatar
+                      ? <Image src={user.avatar} alt={`Avatar de ${user.firstName}`} fill className="object-cover" sizes="28px" />
+                      : <span className="text-[10px] text-blue-600 font-bold">{user.firstName?.[0] || '?'}</span>
+                    }
+                  </div>
+                </button>
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50">
+                    <div className="px-4 py-3 border-b border-slate-50">
+                      <p className="text-sm font-bold text-slate-800 truncate">{user.firstName} {user.lastName}</p>
+                      <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                    </div>
+                    <Link href="/profile" onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition font-semibold">
+                      <User size={15} className="text-blue-500" /> {t("profile")}
+                    </Link>
+                    <Link href="/dashboard" onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition font-semibold">
+                      <Clock size={15} className="text-blue-500" /> Dashboard
+                    </Link>
+                    <div className="border-t border-slate-100" />
+                    <button onClick={() => { setShowUserMenu(false); onLogout(); }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition font-semibold">
+                      <LogOut size={15} /> Se déconnecter
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button onClick={onLogin}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold transition shadow-lg shadow-blue-100">
+                Accès Membre
+              </button>
+            )}
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            aria-label={mobileOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
+            className="lg:hidden ml-auto p-2 text-slate-600 hover:bg-slate-50 rounded-full"
+            onClick={() => setMobileOpen(v => !v)}
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* ── Menu mobile ────────────────────────────────────────────────────── */}
+      {mobileOpen && (
+        <div id="mobile-menu" className="lg:hidden bg-white border-t border-slate-100 shadow-2xl overflow-y-auto"
+          style={{ maxHeight: 'calc(100vh - 64px)' }}>
+          <div className="p-4 space-y-1">
+
+            {/* Accueil */}
+            <button
+              onClick={() => mobileNavigate('/')}
+              className={`w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold transition ${pathname === '/' ? 'bg-blue-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}>
+              🏠 {t("home")}
+            </button>
+
+            {/* Groupes */}
+            {NAV_GROUPS.map(group => (
+              <div key={group.label}>
+                <button
+                  onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)}
+                  className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold transition ${
+                    isGroupActive(group) ? 'text-blue-600 bg-blue-50' : 'text-slate-700 hover:bg-slate-50'
+                  }`}>
+                  {group.label}
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openGroup === group.label ? 'rotate-180' : ''}`} />
                 </button>
 
-                {discOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-72 bg-white rounded-2xl shadow-xl border border-black/[0.08] p-2 animate-fade-in z-50">
-                    {DISCIPLINES.map(disc => (
-                      <Link
-                        key={disc.id}
-                        href={`/categories/${disc.id}`}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04] transition-colors group"
-                        onClick={() => setDiscOpen(false)}
-                      >
-                        <span className="text-xl">{disc.emoji}</span>
-                        <div>
-                          <div className="font-semibold text-sm text-[#1A1A24] group-hover:text-brand-rouge transition-colors">
-                            {disc.label[lang]}
-                          </div>
-                          <div className="text-xs text-[#9090A8] mt-0.5">{disc.description[lang]}</div>
-                        </div>
-                      </Link>
+                {openGroup === group.label && (
+                  <div className="ml-3 mt-1 space-y-0.5 border-l-2 border-blue-100 pl-3">
+                    {group.items.map(item => (
+                      <button
+                        key={item.path}
+                        onClick={() => mobileNavigate(item.path)}
+                        className={`w-full text-left px-3 py-3 rounded-lg text-sm transition font-semibold ${
+                          pathname === item.path ? 'text-blue-600 bg-blue-50' : 'text-slate-600 hover:bg-slate-50'
+                        }`}>
+                        {item.label}
+                      </button>
                     ))}
                   </div>
                 )}
               </div>
+            ))}
 
-              <Link href="/search" className={cn('btn-ghost', pathname === '/search' && 'text-brand-rouge')}>
-                {t.nav.search}
-              </Link>
-              <Link href="/profiles" className={cn('btn-ghost', pathname === '/profiles' && 'text-brand-rouge')}>
-                Profils
-              </Link>
-              <Link href="/about" className={cn('btn-ghost', pathname === '/about' && 'text-brand-rouge')}>
-                {t.nav.about}
-              </Link>
-              <Link href="/contact" className={cn('btn-ghost', pathname === '/contact' && 'text-brand-rouge')}>
-                {t.nav.contact}
-              </Link>
+            {/* Admin */}
+            {isAdminOrMod && (
+              <button onClick={() => mobileNavigate('/moderation')}
+                className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-purple-600 hover:bg-purple-50 transition">
+                🛡️ {t("moderation")}
+              </button>
+            )}
+            {isAdmin && (
+              <button onClick={() => mobileNavigate('/admin/institutions')}
+                className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-violet-600 hover:bg-violet-50 transition">
+                🏛️ {t("institutions")}
+              </button>
+            )}
+
+            {/* Recherche IA */}
+            <button onClick={() => mobileNavigate('/recherche')}
+              className="w-full flex items-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition">
+              <Search className="w-4 h-4" /> {t("aiSearch")}
+            </button>
+
+            {/* Langue */}
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Langue</span>
+              <LanguageSwitcher />
             </div>
 
-            {/* Actions droite */}
-            <div className="flex items-center gap-2">
-              {/* Recherche rapide */}
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="btn-ghost p-2.5 rounded-xl"
-                aria-label="Rechercher"
-              >
-                <Search className="w-5 h-5" />
-              </button>
+            {/* Thème */}
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Thème</span>
+              <ThemeToggle />
+            </div>
 
-              {/* Contribuer */}
-              <Link href="/contribute" className="hidden md:flex btn-primary text-sm py-2 px-4">
-                + Contribuer
-              </Link>
-
-              {/* Auth */}
+            {/* Auth */}
+            <div className="pt-3 mt-3 border-t border-slate-100 space-y-2">
               {user ? (
-                <div className="hidden md:flex items-center gap-2">
-                  <Link href="/dashboard" className="btn-ghost text-sm py-2 px-4 flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-brand-rouge text-white text-xs flex items-center justify-center font-bold">
-                      {(user.full_name ?? user.email).charAt(0).toUpperCase()}
-                    </span>
-                    {user.full_name ?? 'Mon espace'}
-                  </Link>
-                  <button onClick={handleLogout} className="btn-ghost text-sm py-2 px-4 text-[#9090A8] hover:text-brand-rouge">
-                    Déconnexion
+                <>
+                  <button onClick={() => mobileNavigate('/profile')}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 bg-blue-600 text-white rounded-xl font-bold text-sm">
+                    <Clock className="w-5 h-5" /> {t("profile")} · {user.credits} {tCommon("credits")}
                   </button>
-                </div>
+                  <button onClick={() => { setMobileOpen(false); onLogout(); }}
+                    className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-600 py-3 rounded-xl font-bold text-sm hover:bg-red-50 transition">
+                    <LogOut size={16} /> Se déconnecter
+                  </button>
+                </>
               ) : (
-                <Link href="/auth" className="hidden md:flex btn-ghost text-sm py-2 px-4">
-                  Connexion
-                </Link>
-              )}
-
-              {/* Langue */}
-              <div className="relative group hidden md:block">
-                <button className="btn-ghost p-2.5 rounded-xl flex items-center gap-1.5">
-                  <Globe className="w-4 h-4" />
-                  <span className="text-xs font-semibold uppercase">{lang}</span>
+                <button
+                  onClick={() => { onLogin(); setMobileOpen(false); }}
+                  className="w-full bg-blue-600 text-white py-3.5 rounded-xl font-bold text-sm shadow-lg shadow-blue-100">
+                  Accès Membre
                 </button>
-                <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-black/[0.08] py-1 hidden group-hover:block w-36 z-50">
-                  {langs.map(l => (
-                    <Link
-                      key={l.code}
-                      href={`/${l.code}`}
-                      className={cn(
-                        'flex items-center px-4 py-2 text-sm hover:bg-black/[0.04] transition-colors',
-                        l.code === lang ? 'text-brand-rouge font-semibold' : 'text-[#3A3A50]'
-                      )}
-                    >
-                      {l.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Menu mobile */}
-              <button
-                onClick={() => setOpen(!open)}
-                className="lg:hidden btn-ghost p-2.5 rounded-xl"
-                aria-label="Menu"
-              >
-                {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* Menu mobile */}
-        {open && (
-          <div className="lg:hidden bg-white border-t border-black/[0.06] animate-fade-in">
-            <div className="section py-4 space-y-1">
-              <div className="px-4 py-2 text-xs font-semibold text-[#9090A8] uppercase tracking-widest">
-                Disciplines
-              </div>
-              {DISCIPLINES.map(disc => (
-                <Link
-                  key={disc.id}
-                  href={`/categories/${disc.id}`}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04] transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  <span>{disc.emoji}</span>
-                  <span className="font-medium text-sm">{disc.label[lang]}</span>
-                </Link>
-              ))}
-              <div className="border-t border-black/[0.06] pt-2 mt-2 space-y-1">
-                <Link href="/search"  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                  <Search className="w-4 h-4 text-[#9090A8]" />
-                  <span className="text-sm font-medium">{t.nav.search}</span>
-                </Link>
-                <Link href="/profiles" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                  <span className="w-4 h-4 text-[#9090A8] text-center">👤</span>
-                  <span className="text-sm font-medium">Profils</span>
-                </Link>
-                <Link href="/contribute" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                  <span className="w-4 h-4 text-[#9090A8] text-center">✚</span>
-                  <span className="text-sm font-medium">Contribuer</span>
-                </Link>
-                {user ? (
-                  <>
-                    <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                      <span className="w-4 h-4 text-[#9090A8] text-center">👤</span>
-                      <span className="text-sm font-medium">Mon espace</span>
-                    </Link>
-                    <button onClick={() => { handleLogout(); setOpen(false) }} className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04] w-full text-left">
-                      <span className="w-4 h-4 text-[#9090A8] text-center">→</span>
-                      <span className="text-sm font-medium text-[#9090A8]">Déconnexion</span>
-                    </button>
-                  </>
-                ) : (
-                  <Link href="/auth" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                    <span className="w-4 h-4 text-[#9090A8] text-center">→</span>
-                    <span className="text-sm font-medium">Connexion</span>
-                  </Link>
-                )}
-                <Link href="/about"   className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-black/[0.04]" onClick={() => setOpen(false)}>
-                  <span className="w-4 h-4 text-[#9090A8] text-center">ℹ</span>
-                  <span className="text-sm font-medium">{t.nav.about}</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </header>
-
-      {/* Overlay recherche rapide */}
-      {searchOpen && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-fade-in"
-          onClick={(e) => e.target === e.currentTarget && setSearchOpen(false)}
-        >
-          <div className="w-full max-w-2xl animate-fade-up">
-            <form onSubmit={handleSearch} className="relative">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9090A8]" />
-              <input
-                autoFocus
-                type="text"
-                value={searchQ}
-                onChange={e => setSearchQ(e.target.value)}
-                placeholder={t.search.placeholder}
-                className="search-input pr-24"
-              />
-              <button
-                type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 btn-primary py-2 px-4 text-sm"
-              >
-                Chercher
-              </button>
-            </form>
-            <div className="mt-3 flex flex-wrap gap-2 px-1">
-              {DISCIPLINES.map(d => (
-                <Link
-                  key={d.id}
-                  href={`/categories/${d.id}`}
-                  className="tag"
-                  onClick={() => setSearchOpen(false)}
-                >
-                  {d.emoji} {d.label[lang]}
-                </Link>
-              ))}
+              )}
             </div>
           </div>
         </div>
       )}
-    </>
-  )
-}
+    </nav>
+  );
+};
+
+export default Navbar;
