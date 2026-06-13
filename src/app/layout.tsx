@@ -48,9 +48,17 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale   = await getLocale();
-  const messages = await getMessages();
-  const isRTL    = rtlLocales.includes(locale as Locale);
+  let locale   = 'fr';
+  let messages = {};
+  let isRTL    = false;
+
+  try {
+    locale   = await getLocale();
+    messages = await getMessages();
+    isRTL    = rtlLocales.includes(locale as Locale);
+  } catch {
+    // Page hors [locale] (ex: /_not-found) — on utilise les valeurs par défaut
+  }
 
   return (
     <html
