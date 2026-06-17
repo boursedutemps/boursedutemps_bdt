@@ -1,13 +1,6 @@
+import type { Metadata, Viewport } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
-import { UserProvider }  from '@/components/UserProvider';
-import { ThemeProvider } from '@/components/ThemeProvider';
-import GlobalShell       from '@/components/GlobalShell';
-import { Metadata, Viewport } from 'next';
-import { Suspense } from 'react';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
-import { rtlLocales, type Locale } from '@/i18n/routing';
 
 const inter  = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-heading' });
@@ -47,42 +40,17 @@ export const metadata: Metadata = {
   alternates: { canonical: BASE_URL },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  let locale   = 'fr';
-  let messages = {};
-  let isRTL    = false;
-
-  try {
-    locale   = await getLocale();
-    messages = await getMessages();
-    isRTL    = rtlLocales.includes(locale as Locale);
-  } catch {
-    // Page hors [locale] (ex: /_not-found) — on utilise les valeurs par défaut
-  }
-
+// Root layout sans next-intl — requis pour que /_not-found ne plante pas
+// NextIntlClientProvider est dans [locale]/layout.tsx
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang={locale}
-      dir={isRTL ? 'rtl' : 'ltr'}
-      className={`${inter.variable} ${outfit.variable}`}
-      suppressHydrationWarning
-    >
+    <html className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon"             href="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" />
         <link rel="apple-touch-icon" href="https://i.postimg.cc/5Y3Rg6zs/image-1.jpg" />
       </head>
       <body className="font-sans antialiased bg-white text-slate-900 transition-colors duration-300">
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider>
-            <UserProvider>
-              <Suspense fallback={null}>
-                <GlobalShell>
-                  {children}
-                </GlobalShell>
-              </Suspense>
-            </UserProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        {children}
       </body>
     </html>
   );
