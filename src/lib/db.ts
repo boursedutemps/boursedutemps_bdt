@@ -473,3 +473,12 @@ export async function searchProfiles(
 
   return { profiles: rows, total: Number(countRows[0]?.count ?? 0) }
 }
+
+// Compatibilite avec ancien client pg - utilise par les routes API existantes
+export async function query(text: string, params: unknown[] = []) {
+  const result = await sql.unsafe(text, params as never[])
+  return {
+    rows: result as unknown as Record<string, unknown>[],
+    rowCount: (result as { count?: number }).count ?? result.length,
+  }
+}
