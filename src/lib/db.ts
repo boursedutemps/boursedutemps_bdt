@@ -475,7 +475,6 @@ export async function searchProfiles(
 }
 
 // Compatibilite avec ancien client pg - utilise par les routes API existantes
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function query(text: string, params: unknown[] = []): Promise<{ rows: any[]; rowCount: number }> {
   const result = await sql.unsafe(text, params as never[])
   return {
