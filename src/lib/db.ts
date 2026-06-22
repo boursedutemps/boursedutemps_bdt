@@ -473,9 +473,3 @@ export async function searchProfiles(
 
   return { profiles: rows, total: Number(countRows[0]?.count ?? 0) }
 }
-export async function getProfileBySlug(slug: string): Promise<Profile | null> {
-  const rows = await sql<Profile[]>`
-    SELECT * FROM profiles WHERE slug = ${slug} AND status = 'approved' LIMIT 1
-  `
-  return rows[0] || null
-}
