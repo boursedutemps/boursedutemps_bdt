@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { User, Transaction, Connection, ChatMessage } from '@/types';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import ChallengesPanel    from '@/components/ChallengesPanel';
@@ -33,6 +34,9 @@ const Profile: React.FC<ProfileProps> = ({
   onUpdateMessages, onDeactivate, onDelete,
   readOnly = false, initialTab = 'info', initialChatPartner = null
 }) => {
+  const t  = useTranslations('profile');
+  const tc = useTranslations('common');
+
   const [isEditing, setIsEditing]       = useState(false);
   const [editedUser, setEditedUser]     = useState(user);
   const [activeTab, setActiveTab]       = useState<'info' | 'connections' | 'messages' | 'suivi'>(initialTab);
@@ -60,7 +64,7 @@ const Profile: React.FC<ProfileProps> = ({
     };
     onUpdate(finalUser);
     setIsEditing(false);
-    setShowSuccessMessage('Profil mis à jour avec succès !');
+    setShowSuccessMessage(t('profileUpdatedMsg'));
     setTimeout(() => setShowSuccessMessage(null), 3000);
   };
 
@@ -86,7 +90,7 @@ const Profile: React.FC<ProfileProps> = ({
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { alert('Fichier trop lourd (max 5 Mo)'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert(tc('error')); return; }
     setUploadingAvatar(true);
     try {
       let avatarUrl = '';
@@ -115,10 +119,10 @@ const Profile: React.FC<ProfileProps> = ({
       if (!res.ok) throw new Error('Erreur mise à jour');
 
       onUpdate({ ...user, avatar: avatarUrl });
-      setShowSuccessMessage('Photo de profil mise à jour !');
+      setShowSuccessMessage(t('avatarUpdatedMsg'));
       setTimeout(() => setShowSuccessMessage(null), 3000);
     } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : 'Erreur upload avatar');
+      alert(err instanceof Error ? err.message : tc('error'));
     } finally {
       setUploadingAvatar(false);
     }
@@ -168,7 +172,7 @@ const Profile: React.FC<ProfileProps> = ({
                 disabled={uploadingCover}
                 className="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-xl font-bold transition border border-white/30 text-sm disabled:opacity-50"
               >
-                {uploadingCover ? '⏳ Upload...' : '📷 Changer la couverture'}
+                {uploadingCover ? `⏳ ${t('uploading')}` : t('changeCover')}
               </button>
             </div>
           )}
@@ -178,7 +182,7 @@ const Profile: React.FC<ProfileProps> = ({
             <div
               className="relative group/avatar cursor-pointer w-32 h-32 flex-shrink-0"
               onClick={() => !readOnly && !uploadingAvatar && avatarInputRef.current?.click()}
-              title={readOnly ? '' : 'Cliquer pour changer la photo'}
+              title={readOnly ? '' : t('changeLabel')}
             >
               <div className="w-full h-full rounded-3xl bg-white p-2 shadow-2xl">
                 <div className="w-full h-full rounded-2xl bg-slate-100 flex items-center justify-center overflow-hidden relative">
@@ -211,7 +215,7 @@ const Profile: React.FC<ProfileProps> = ({
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <span className="text-white text-[10px] font-bold tracking-wide">Changer</span>
+                        <span className="text-white text-[10px] font-bold tracking-wide">{t('changeLabel')}</span>
                       </>
                     )}
                   </div>
@@ -248,26 +252,26 @@ const Profile: React.FC<ProfileProps> = ({
           {readOnly && currentUser && currentUser.uid !== user.uid && (
             <div className="absolute top-4 right-4 z-20 flex gap-2">
               {!connection && (
-                <button onClick={() => onSendConnection?.(user.uid)} className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">Se connecter</button>
+                <button onClick={() => onSendConnection?.(user.uid)} className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">{t('connectBtn')}</button>
               )}
               {connection?.status === 'sent' && connection.senderId === currentUser.uid && (
-                <button onClick={() => onUpdateConnection?.(connection.id, 'cancelled')} className="bg-slate-700 text-white px-6 py-3 rounded-2xl font-bold transition">Annuler la demande</button>
+                <button onClick={() => onUpdateConnection?.(connection.id, 'cancelled')} className="bg-slate-700 text-white px-6 py-3 rounded-2xl font-bold transition">{t('cancelRequest')}</button>
               )}
               {connection?.status === 'sent' && connection.receiverId === currentUser.uid && (
                 <div className="flex gap-2">
-                  <button onClick={() => onUpdateConnection?.(connection.id, 'accepted')} className="bg-green-600 text-white px-6 py-3 rounded-2xl font-bold transition">Accepter</button>
-                  <button onClick={() => onUpdateConnection?.(connection.id, 'refused')} className="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition">Refuser</button>
+                  <button onClick={() => onUpdateConnection?.(connection.id, 'accepted')} className="bg-green-600 text-white px-6 py-3 rounded-2xl font-bold transition">{t('accept')}</button>
+                  <button onClick={() => onUpdateConnection?.(connection.id, 'refused')} className="bg-red-600 text-white px-6 py-3 rounded-2xl font-bold transition">{t('refuse')}</button>
                 </div>
               )}
               {connection?.status === 'accepted' && (
-                <span className="bg-green-500/20 backdrop-blur-md text-green-100 px-6 py-3 rounded-2xl font-bold border border-green-500/30">Connecté</span>
+                <span className="bg-green-500/20 backdrop-blur-md text-green-100 px-6 py-3 rounded-2xl font-bold border border-green-500/30">{t('connectedLabel')}</span>
               )}
             </div>
           )}
 
           {!readOnly && (
             <button onClick={() => setIsEditing(true)} className="absolute top-4 right-4 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-2xl font-bold transition border border-white/30 text-sm">
-              Modifier
+              {tc('edit')}
             </button>
           )}
         </div>
@@ -279,7 +283,7 @@ const Profile: React.FC<ProfileProps> = ({
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`pb-4 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition flex-shrink-0 ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-400'}`}
               >
-                {tab === 'info' ? 'Profil' : tab === 'suivi' ? 'Suivi Crédits' : tab === 'connections' ? 'Réseau' : 'Messages'}
+                {tab === 'info' ? t('tabs.profile') : tab === 'suivi' ? t('tabs.credits') : tab === 'connections' ? t('tabs.network') : t('tabs.messages')}
               </button>
             ))}
           </div>
@@ -294,17 +298,17 @@ const Profile: React.FC<ProfileProps> = ({
                 {isEditing ? (
                   <div className="space-y-8 animate-in slide-in-from-bottom-4">
                     <section>
-                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Présentation</h3>
+                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('presentation')}</h3>
                       <textarea
                         className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
                         value={editedUser.bio}
                         onChange={e => setEditedUser({ ...editedUser, bio: e.target.value })}
-                        placeholder="Parlez-nous de vous..."
+                        placeholder={t('bioPlaceholder')}
                       />
                     </section>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <section>
-                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Compétences Offertes</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('offeredSkillsTitle')}</h3>
                         <input
                           className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
                           value={offeredSkillsText}
@@ -313,7 +317,7 @@ const Profile: React.FC<ProfileProps> = ({
                         />
                       </section>
                       <section>
-                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Compétences Recherchées</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('requestedSkillsTitle')}</h3>
                         <input
                           className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
                           value={requestedSkillsText}
@@ -323,82 +327,82 @@ const Profile: React.FC<ProfileProps> = ({
                       </section>
                     </div>
                     <section>
-                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Disponibilité</h3>
+                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('availability')}</h3>
                       <input
                         className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500"
                         value={editedUser.availability}
                         onChange={e => setEditedUser({ ...editedUser, availability: e.target.value })}
-                        placeholder="Ex: Soirs et weekends..."
+                        placeholder={t('availabilityPlaceholder')}
                       />
                     </section>
                     <button onClick={handleSave} className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition">
-                      Sauvegarder les modifications
+                      {t('saveProfileChanges')}
                     </button>
                   </div>
                 ) : (
                   <>
                     <section>
-                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Présentation</h3>
-                      <p className="text-slate-500 italic leading-relaxed">{user.bio || 'Pas de présentation.'}</p>
+                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('presentation')}</h3>
+                      <p className="text-slate-500 italic leading-relaxed">{user.bio || t('noPresentation')}</p>
                     </section>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <section>
-                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Je propose</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('iOffer')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {(user.offeredSkills?.length ?? 0) > 0
                             ? user.offeredSkills!.map((s, i) => <span key={i} className="bg-green-50 text-green-600 px-4 py-1.5 rounded-xl text-xs font-bold border border-green-100">{s}</span>)
-                            : <span className="text-slate-400 text-sm italic">Aucune compétence listée</span>}
+                            : <span className="text-slate-400 text-sm italic">{t('noSkillsOffered')}</span>}
                         </div>
                       </section>
                       <section>
-                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Je recherche</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('iSeek')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {(user.requestedSkills?.length ?? 0) > 0
                             ? user.requestedSkills!.map((s, i) => <span key={i} className="bg-orange-50 text-orange-600 px-4 py-1.5 rounded-xl text-xs font-bold border border-orange-100">{s}</span>)
-                            : <span className="text-slate-400 text-sm italic">Aucune demande listée</span>}
+                            : <span className="text-slate-400 text-sm italic">{t('noSkillsRequested')}</span>}
                         </div>
                       </section>
                     </div>
                     <section>
-                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Disponibilité</h3>
+                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('availability')}</h3>
                       <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center gap-4">
                         <span className="text-2xl">📅</span>
-                        <p className="text-slate-600 font-medium">{user.availability || 'Non spécifiée'}</p>
+                        <p className="text-slate-600 font-medium">{user.availability || t('notSpecified')}</p>
                       </div>
                     </section>
                     <section>
-                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Échanges Récents</h3>
+                      <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('recentExchanges')}</h3>
                       {userTransactions.length === 0 ? (
-                        <p className="text-slate-400 italic text-sm">Aucun échange pour le moment.</p>
+                        <p className="text-slate-400 italic text-sm">{t('noExchangesYet')}</p>
                       ) : (
                         <div className="space-y-3">
-                          {userTransactions.slice(0, 3).map(t => (
-                            <div key={t.id} className="p-4 bg-white rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
+                          {userTransactions.slice(0, 3).map(t2 => (
+                            <div key={t2.id} className="p-4 bg-white rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
                               <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${t.fromId === user.id ? 'bg-red-50 text-red-500' : 'bg-green-50 text-green-500'}`}>
-                                  {t.fromId === user.id ? 'OUT' : 'IN'}
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${t2.fromId === user.id ? 'bg-red-50 text-red-500' : 'bg-green-50 text-green-500'}`}>
+                                  {t2.fromId === user.id ? 'OUT' : 'IN'}
                                 </div>
                                 <div>
-                                  <p className="font-bold text-xs text-slate-800">{t.serviceTitle}</p>
-                                  <p className="text-[10px] text-slate-400 uppercase font-bold">{new Date(t.date).toLocaleDateString()}</p>
+                                  <p className="font-bold text-xs text-slate-800">{t2.serviceTitle}</p>
+                                  <p className="text-[10px] text-slate-400 uppercase font-bold">{new Date(t2.date).toLocaleDateString()}</p>
                                 </div>
                               </div>
-                              <div className="font-bold text-sm text-slate-700">{t.amount} ⏱</div>
+                              <div className="font-bold text-sm text-slate-700">{t2.amount} ⏱</div>
                             </div>
                           ))}
                         </div>
                       )}
                     </section>
                     <section className="pt-12 border-t border-slate-100">
-                      <h3 className="font-heading text-lg font-bold text-red-600 mb-4">Zone de danger</h3>
+                      <h3 className="font-heading text-lg font-bold text-red-600 mb-4">{t('dangerZone')}</h3>
                       <div className="bg-red-50 p-6 rounded-2xl border border-red-100 flex flex-col md:flex-row gap-4 justify-between items-center">
                         <div>
-                          <p className="text-red-800 font-bold text-sm">Gestion du compte</p>
-                          <p className="text-red-600 text-xs">Désactivez temporairement ou supprimez définitivement votre compte.</p>
+                          <p className="text-red-800 font-bold text-sm">{t('accountManagement')}</p>
+                          <p className="text-red-600 text-xs">{t('accountManagementDesc')}</p>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => setShowDeactivateConfirm(true)} className="px-4 py-2 bg-white text-red-600 border border-red-200 rounded-xl text-xs font-bold hover:bg-red-100 transition">Désactiver</button>
-                          <button onClick={() => setShowDeleteConfirm(true)} className="px-4 py-2 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700 transition shadow-lg shadow-red-100">Supprimer</button>
+                          <button onClick={() => setShowDeactivateConfirm(true)} className="px-4 py-2 bg-white text-red-600 border border-red-200 rounded-xl text-xs font-bold hover:bg-red-100 transition">{t('deactivateBtn')}</button>
+                          <button onClick={() => setShowDeleteConfirm(true)} className="px-4 py-2 bg-red-600 text-white rounded-xl text-xs font-bold hover:bg-red-700 transition shadow-lg shadow-red-100">{tc('delete')}</button>
                         </div>
                       </div>
                     </section>
@@ -409,9 +413,9 @@ const Profile: React.FC<ProfileProps> = ({
               {/* Colonne droite : Crédits + Défis */}
               <div className="space-y-0">
                 <div className="bg-blue-600 p-8 rounded-[2rem] text-white shadow-xl">
-                  <p className="text-xs font-bold opacity-70 mb-1 tracking-widest uppercase">Solde Actuel</p>
+                  <p className="text-xs font-bold opacity-70 mb-1 tracking-widest uppercase">{t('currentBalance')}</p>
                   <h4 className="text-5xl font-bold">⏱ {user.credits ?? 0}</h4>
-                  <p className="mt-4 text-[10px] opacity-60">Crédits négociables pour vos services.</p>
+                  <p className="mt-4 text-[10px] opacity-60">{t('creditsDesc')}</p>
                 </div>
 
                 {/* ── Défis gamifiés (Fiche 3.3) ── */}
@@ -437,24 +441,24 @@ const Profile: React.FC<ProfileProps> = ({
           {/* ── Onglet Suivi ────────────────────────────────────────────────── */}
           {activeTab === 'suivi' && (
             <div className="space-y-4 animate-in fade-in">
-              <h3 className="font-heading text-lg font-bold text-slate-800 mb-6">Historique des transactions</h3>
+              <h3 className="font-heading text-lg font-bold text-slate-800 mb-6">{t('transactionHistory')}</h3>
               {userTransactions.length === 0 ? (
-                <p className="text-slate-400 italic">Aucune transaction enregistrée.</p>
+                <p className="text-slate-400 italic">{t('noTransactions')}</p>
               ) : (
                 <div className="space-y-3">
-                  {userTransactions.map(t => (
-                    <div key={t.id} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm">
+                  {userTransactions.map(tx => (
+                    <div key={tx.id} className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm">
                       <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${t.fromId === user.id ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
-                          {t.fromId === user.id ? '↓' : '↑'}
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${tx.fromId === user.id ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
+                          {tx.fromId === user.id ? '↓' : '↑'}
                         </div>
                         <div>
-                          <p className="font-bold text-sm">{t.serviceTitle}</p>
-                          <p className="text-[10px] text-slate-400 uppercase font-bold">{new Date(t.date).toLocaleDateString()} — {t.fromId === user.id ? 'Débit' : 'Crédit'}</p>
+                          <p className="font-bold text-sm">{tx.serviceTitle}</p>
+                          <p className="text-[10px] text-slate-400 uppercase font-bold">{new Date(tx.date).toLocaleDateString()} — {tx.fromId === user.id ? t('debit') : t('credit')}</p>
                         </div>
                       </div>
-                      <div className={`font-bold text-lg ${t.fromId === user.id ? 'text-red-500' : 'text-green-500'}`}>
-                        {t.fromId === user.id ? '-' : '+'}{t.amount} ⏱
+                      <div className={`font-bold text-lg ${tx.fromId === user.id ? 'text-red-500' : 'text-green-500'}`}>
+                        {tx.fromId === user.id ? '-' : '+'}{tx.amount} ⏱
                       </div>
                     </div>
                   ))}
@@ -468,7 +472,7 @@ const Profile: React.FC<ProfileProps> = ({
             <div className="space-y-8 animate-in fade-in">
               {pendingRequests.length > 0 && (
                 <section>
-                  <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Demandes reçues</h3>
+                  <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('receivedRequests')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {pendingRequests.map(req => {
                       const sender = allUsers.find(u => u.uid === req.senderId);
@@ -484,8 +488,8 @@ const Profile: React.FC<ProfileProps> = ({
                             <p className="font-bold text-sm">{sender.firstName} {sender.lastName}</p>
                           </div>
                           <div className="flex gap-2">
-                            <button onClick={() => onUpdateConnection?.(req.id, 'accepted')} className="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Accepter</button>
-                            <button onClick={() => onUpdateConnection?.(req.id, 'refused')} className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold">Refuser</button>
+                            <button onClick={() => onUpdateConnection?.(req.id, 'accepted')} className="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold">{t('accept')}</button>
+                            <button onClick={() => onUpdateConnection?.(req.id, 'refused')} className="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold">{t('refuse')}</button>
                           </div>
                         </div>
                       ) : null;
@@ -494,9 +498,9 @@ const Profile: React.FC<ProfileProps> = ({
                 </section>
               )}
               <section>
-                <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">Mes connexions</h3>
+                <h3 className="font-heading text-lg font-bold text-slate-800 mb-4">{t('myConnectionsTitle')}</h3>
                 {myConnections.length === 0 ? (
-                  <p className="text-slate-400 italic">Vous n'avez pas encore de connexions.</p>
+                  <p className="text-slate-400 italic">{t('noConnectionsYet')}</p>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {myConnections.map(conn => {
@@ -524,7 +528,7 @@ const Profile: React.FC<ProfileProps> = ({
           {activeTab === 'messages' && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[500px] animate-in fade-in">
               <div className="md:col-span-1 border-r border-slate-100 pr-4 overflow-y-auto">
-                <h3 className="font-heading text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Conversations</h3>
+                <h3 className="font-heading text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{t('conversationsTitle')}</h3>
                 <div className="space-y-2">
                   {myConnections.map(conn => {
                     const partnerId = conn.senderId === user.uid ? conn.receiverId : conn.senderId;
@@ -542,7 +546,7 @@ const Profile: React.FC<ProfileProps> = ({
                         </div>
                         <div className="text-left">
                           <p className="font-bold text-xs text-slate-800">{partner.firstName}</p>
-                          <p className="text-[10px] text-slate-400 truncate w-24">Dernier message...</p>
+                          <p className="text-[10px] text-slate-400 truncate w-24">{t('lastMessagePlaceholder')}</p>
                         </div>
                       </button>
                     );
@@ -566,7 +570,7 @@ const Profile: React.FC<ProfileProps> = ({
                     <div className="flex gap-2">
                       <input
                         className="flex-grow px-5 py-3 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                        placeholder="Écrivez votre message..."
+                        placeholder={t('writeMessagePlaceholder')}
                         value={messageContent}
                         onChange={e => setMessageContent(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handleSend()}
@@ -580,7 +584,7 @@ const Profile: React.FC<ProfileProps> = ({
                   </>
                 ) : (
                   <div className="flex-grow flex items-center justify-center text-slate-400 italic text-sm">
-                    Sélectionnez une conversation pour commencer à discuter.
+                    {t('selectConversation')}
                   </div>
                 )}
               </div>
@@ -594,11 +598,11 @@ const Profile: React.FC<ProfileProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <div className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl">
             <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl mb-6">⚠️</div>
-            <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">Désactiver votre compte ?</h3>
-            <p className="text-slate-500 text-sm mb-8 leading-relaxed">Votre profil ne sera plus visible. Vous pourrez le réactiver à tout moment en vous reconnectant.</p>
+            <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">{t('deactivateTitle')}</h3>
+            <p className="text-slate-500 text-sm mb-8 leading-relaxed">{t('deactivateDesc')}</p>
             <div className="flex gap-3">
-              <button onClick={() => setShowDeactivateConfirm(false)} className="flex-1 px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-200 transition">Annuler</button>
-              <button onClick={() => { onDeactivate?.(); setShowDeactivateConfirm(false); }} className="flex-1 px-6 py-3 bg-orange-600 text-white rounded-xl font-bold text-sm hover:bg-orange-700 transition">Désactiver</button>
+              <button onClick={() => setShowDeactivateConfirm(false)} className="flex-1 px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-200 transition">{tc('cancel')}</button>
+              <button onClick={() => { onDeactivate?.(); setShowDeactivateConfirm(false); }} className="flex-1 px-6 py-3 bg-orange-600 text-white rounded-xl font-bold text-sm hover:bg-orange-700 transition">{t('deactivateBtn')}</button>
             </div>
           </div>
         </div>
@@ -608,11 +612,11 @@ const Profile: React.FC<ProfileProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <div className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl">
             <div className="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl mb-6">🛑</div>
-            <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">Suppression définitive</h3>
-            <p className="text-slate-500 text-sm mb-8 leading-relaxed">Cette action est <span className="font-bold text-red-600">irréversible</span>. Toutes vos données seront supprimées.</p>
+            <h3 className="font-heading text-xl font-bold text-slate-900 mb-2">{t('deleteAccountTitle')}</h3>
+            <p className="text-slate-500 text-sm mb-8 leading-relaxed">{t('deleteAccountDescPrefix')}<span className="font-bold text-red-600">{t('irreversibleText')}</span>{t('deleteAccountDescSuffix')}</p>
             <div className="flex gap-3">
-              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-200 transition">Annuler</button>
-              <button onClick={() => { onDelete?.(); setShowDeleteConfirm(false); }} className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 transition">Supprimer</button>
+              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 px-6 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold text-sm hover:bg-slate-200 transition">{tc('cancel')}</button>
+              <button onClick={() => { onDelete?.(); setShowDeleteConfirm(false); }} className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 transition">{tc('delete')}</button>
             </div>
           </div>
         </div>
