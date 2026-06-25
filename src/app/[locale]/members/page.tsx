@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Member {
   uid: string
@@ -19,6 +20,7 @@ interface Member {
 }
 
 export default function MembersPage() {
+  const t = useTranslations('members')
   const [members, setMembers] = useState<Member[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -39,10 +41,12 @@ export default function MembersPage() {
   })
 
   const displayName = (m: Member) =>
-    [m.first_name, m.last_name].filter(Boolean).join(' ') || m.name || 'Membre'
+    [m.first_name, m.last_name].filter(Boolean).join(' ') || m.name || t('member')
 
   const initials = (m: Member) =>
     displayName(m).split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+
+  const plural = members.length > 1 ? 's' : ''
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
@@ -51,11 +55,11 @@ export default function MembersPage() {
         {/* En-tête */}
         <div className="mb-10">
           <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-            Notre communauté
+            {t('label')}
           </p>
-          <h1 className="text-3xl font-bold text-slate-800">Les membres</h1>
+          <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
           <p className="text-slate-500 mt-2">
-            {members.length} personne{members.length > 1 ? 's' : ''} prête{members.length > 1 ? 's' : ''} à échanger leur temps.
+            {t('subtitle', { count: members.length, plural })}
           </p>
         </div>
 
@@ -63,7 +67,7 @@ export default function MembersPage() {
         <div className="mb-8">
           <input
             type="text"
-            placeholder="Rechercher par nom, compétence, ville…"
+            placeholder={t('searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors"
@@ -80,7 +84,7 @@ export default function MembersPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
             <p className="text-4xl mb-3">👥</p>
-            <p className="font-medium">Aucun membre trouvé</p>
+            <p className="font-medium">{t('noResults')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -90,7 +94,6 @@ export default function MembersPage() {
                 href={`/profile?uid=${member.uid}`}
                 className="bg-white rounded-2xl p-4 border border-slate-100 hover:border-amber-200 hover:shadow-md transition-all duration-200 flex flex-col items-center text-center group"
               >
-                {/* Avatar */}
                 <div className="w-16 h-16 rounded-2xl overflow-hidden mb-3 flex-shrink-0 bg-amber-100 flex items-center justify-center">
                   {member.avatar ? (
                     <Image
@@ -115,7 +118,7 @@ export default function MembersPage() {
 
                 {member.verified && (
                   <span className="mt-1.5 text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                    ✓ Vérifié
+                    {t('verified')}
                   </span>
                 )}
 

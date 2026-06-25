@@ -1,9 +1,9 @@
 'use client'
-// src/app/dashboard/page.tsx
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useUser } from '@/components/UserProvider'
 
 interface Service     { id: number; title: string; credit_cost: number; category: string }
@@ -17,6 +17,7 @@ interface ReviewPrompt {
 }
 
 export default function DashboardPage() {
+  const t = useTranslations('dashboard')
   const { user, isAuthReady } = useUser()
   const [services, setServices]         = useState<Service[]>([])
   const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -46,8 +47,7 @@ export default function DashboardPage() {
   }
 
   const pendingReviews = reviews.filter(r => !dismissedReviews.includes(r.id))
-
-  const displayName = () => user?.first_name || user?.firstName || user?.name?.split(' ')[0] || 'Membre'
+  const displayName = () => user?.first_name || user?.firstName || user?.name?.split(' ')[0] || t('member', { ns: 'common' })
 
   if (!isAuthReady) return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 flex items-center justify-center">
@@ -59,12 +59,12 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4 flex items-center justify-center">
       <div className="text-center">
         <p className="text-4xl mb-3">🔒</p>
-        <h2 className="font-bold text-slate-800 mb-2">Connexion requise</h2>
-        <p className="text-sm text-slate-500 mb-4">Accédez à votre espace personnel</p>
+        <h2 className="font-bold text-slate-800 mb-2">{t('loginRequired')}</h2>
+        <p className="text-sm text-slate-500 mb-4">{t('loginDesc')}</p>
         <Link href="/?auth=login"
           className="px-6 py-3 rounded-xl text-sm font-bold text-white"
           style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
-          Se connecter
+          {t('login')}
         </Link>
       </div>
     </main>
@@ -73,22 +73,27 @@ export default function DashboardPage() {
   const totalCreditsEarned = transactions.filter(t => (t.amount ?? 0) > 0).reduce((a, t) => a + (t.amount ?? 0), 0)
   const totalCreditsSpent  = transactions.filter(t => (t.amount ?? 0) < 0).reduce((a, t) => a + Math.abs(t.amount ?? 0), 0)
 
+  const shortcuts = [
+    { href: '/services',  icon: '🛠️', label: t('shortcuts.services') },
+    { href: '/requests',  icon: '📋', label: t('shortcuts.requests') },
+    { href: '/members',   icon: '👥', label: t('shortcuts.members') },
+    { href: '/workshops', icon: '🎓', label: t('shortcuts.workshops') },
+    { href: '/projects',  icon: '🚀', label: t('shortcuts.projects') },
+    { href: '/recherche', icon: '🤖', label: t('shortcuts.search') },
+  ]
+
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* ── Bannière review prompts ──────────────────────────── */}
+        {/* Review prompts */}
         {pendingReviews.length > 0 && (
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-2xl">⭐</span>
               <div>
-                <p className="font-bold text-amber-800">
-                  {pendingReviews.length} avis en attente
-                </p>
-                <p className="text-xs text-amber-600">
-                  Partagez votre expérience après vos échanges récents
-                </p>
+                <p className="font-bold text-amber-800">{t('reviewsBanner', { count: pendingReviews.length })}</p>
+                <p className="text-xs text-amber-600">{t('reviewsDesc')}</p>
               </div>
             </div>
             <div className="space-y-2">
@@ -102,7 +107,7 @@ export default function DashboardPage() {
                         : <span className="text-xs font-bold text-amber-600">{r.reviewee_name[0]}</span>}
                     </div>
                     <span className="text-sm font-semibold text-slate-700">
-                      Noter {r.reviewee_name}
+                      {t('rateUser', { name: r.reviewee_name })}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -110,7 +115,7 @@ export default function DashboardPage() {
                       href={`/testimonials?to=${r.reviewee_id}`}
                       className="text-xs font-bold px-3 py-1.5 rounded-full text-white"
                       style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
-                      Laisser un avis →
+                      {t('leaveReview')}
                     </Link>
                     <button onClick={() => dismissReview(r.id)}
                       className="text-xs text-slate-400 hover:text-slate-600 px-2 py-1.5 rounded-full hover:bg-slate-100 transition-colors">
@@ -123,7 +128,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* ── En-tête profil ───────────────────────────────────── */}
+        {/* En-tête profil */}
         <div className="bg-white rounded-2xl p-6 border border-slate-100 flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl overflow-hidden bg-amber-100 flex items-center justify-center flex-shrink-0">
             {user.avatar
@@ -131,22 +136,22 @@ export default function DashboardPage() {
               : <span className="text-2xl font-bold text-amber-600">{displayName()[0].toUpperCase()}</span>}
           </div>
           <div className="flex-1">
-            <h1 className="text-xl font-bold text-slate-800">Bonjour, {displayName()} 👋</h1>
-            <p className="text-sm text-slate-500 mt-0.5">Votre espace personnel</p>
+            <h1 className="text-xl font-bold text-slate-800">{t('greeting', { name: displayName() })}</h1>
+            <p className="text-sm text-slate-500 mt-0.5">{t('subtitle')}</p>
           </div>
           <Link href={`/profile?uid=${user.uid}`}
             className="px-4 py-2 rounded-xl text-xs font-bold bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors">
-            Mon profil →
+            {t('myProfile')}
           </Link>
         </div>
 
-        {/* ── Stats ────────────────────────────────────────────── */}
+        {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { icon: '⏱️', label: 'Crédits',       value: user.credits ?? 0,   color: '#F59E0B' },
-            { icon: '🛠️', label: 'Services',      value: services.length,     color: '#3B82F6' },
-            { icon: '🔄', label: 'Échanges',      value: transactions.length, color: '#10B981' },
-            { icon: '💰', label: 'Crédits gagnés',value: totalCreditsEarned,  color: '#8B5CF6' },
+            { icon: '⏱️', label: t('statCredits'),  value: user.credits ?? 0,   color: '#F59E0B' },
+            { icon: '🛠️', label: t('statServices'), value: services.length,     color: '#3B82F6' },
+            { icon: '🔄', label: t('statExchanges'),value: transactions.length, color: '#10B981' },
+            { icon: '💰', label: t('statEarned'),   value: totalCreditsEarned,  color: '#8B5CF6' },
           ].map(stat => (
             <div key={stat.label} className="bg-white rounded-2xl p-5 border border-slate-100 text-center">
               <p className="text-2xl mb-1">{stat.icon}</p>
@@ -156,20 +161,20 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* ── Historique crédits ───────────────────────────────── */}
+        {/* Historique crédits */}
         {transactions.length > 0 && (
           <div className="bg-white rounded-2xl p-6 border border-slate-100">
-            <h2 className="font-bold text-slate-800 mb-4">💰 Historique des crédits</h2>
+            <h2 className="font-bold text-slate-800 mb-4">{t('creditHistory')}</h2>
             <div className="flex gap-6 mb-4">
-              <div><p className="text-2xl font-bold text-green-600">+{totalCreditsEarned}</p><p className="text-xs text-slate-400">gagnés</p></div>
-              <div><p className="text-2xl font-bold text-red-500">−{totalCreditsSpent}</p><p className="text-xs text-slate-400">dépensés</p></div>
+              <div><p className="text-2xl font-bold text-green-600">+{totalCreditsEarned}</p><p className="text-xs text-slate-400">{t('earned')}</p></div>
+              <div><p className="text-2xl font-bold text-red-500">−{totalCreditsSpent}</p><p className="text-xs text-slate-400">{t('spent')}</p></div>
             </div>
             <div className="space-y-2 max-h-48 overflow-y-auto">
-              {transactions.slice(0, 10).map(t => (
-                <div key={t.id} className="flex items-center justify-between py-2 border-b border-slate-50">
-                  <span className="text-sm text-slate-600">{t.description || 'Échange'}</span>
-                  <span className={`text-sm font-bold ${(t.amount ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'}`}>
-                    {(t.amount ?? 0) >= 0 ? '+' : ''}{t.amount}
+              {transactions.slice(0, 10).map(tx => (
+                <div key={tx.id} className="flex items-center justify-between py-2 border-b border-slate-50">
+                  <span className="text-sm text-slate-600">{tx.description || t('exchange')}</span>
+                  <span className={`text-sm font-bold ${(tx.amount ?? 0) >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                    {(tx.amount ?? 0) >= 0 ? '+' : ''}{tx.amount}
                   </span>
                 </div>
               ))}
@@ -177,16 +182,16 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* ── Mes services ─────────────────────────────────────── */}
+        {/* Mes services */}
         <div className="bg-white rounded-2xl p-6 border border-slate-100">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-bold text-slate-800">🛠️ Mes services</h2>
-            <Link href="/services" className="text-xs text-amber-600 hover:text-amber-700 font-semibold">Voir tous →</Link>
+            <h2 className="font-bold text-slate-800">{t('myServices')}</h2>
+            <Link href="/services" className="text-xs text-amber-600 hover:text-amber-700 font-semibold">{t('viewAll')}</Link>
           </div>
           {loading ? (
             <div className="space-y-2">{[...Array(3)].map((_, i) => <div key={i} className="h-10 rounded-xl bg-slate-100 animate-pulse" />)}</div>
           ) : services.length === 0 ? (
-            <p className="text-sm text-slate-400 text-center py-6 italic">Vous n'avez pas encore de service proposé.</p>
+            <p className="text-sm text-slate-400 text-center py-6 italic">{t('noServices')}</p>
           ) : (
             <div className="space-y-2">
               {services.slice(0, 4).map(s => (
@@ -199,16 +204,9 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* ── Raccourcis ───────────────────────────────────────── */}
+        {/* Raccourcis */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[
-            { href: '/services',  icon: '🛠️', label: 'Explorer les services' },
-            { href: '/requests',  icon: '📋', label: 'Voir les demandes' },
-            { href: '/members',   icon: '👥', label: 'Trouver des membres' },
-            { href: '/workshops', icon: '🎓', label: 'Ateliers collectifs' },
-            { href: '/projects',  icon: '🚀', label: 'Projets collaboratifs' },
-            { href: '/recherche', icon: '🤖', label: 'Recherche IA' },
-          ].map(link => (
+          {shortcuts.map(link => (
             <Link key={link.href} href={link.href}
               className="bg-white rounded-2xl p-4 border border-slate-100 hover:border-amber-200 hover:shadow-sm transition-all duration-200 flex items-center gap-3">
               <span className="text-xl">{link.icon}</span>
@@ -216,6 +214,7 @@ export default function DashboardPage() {
             </Link>
           ))}
         </div>
+
       </div>
     </main>
   )
