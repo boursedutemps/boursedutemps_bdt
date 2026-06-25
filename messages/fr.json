@@ -290,5 +290,81 @@
     "nl": "Nederlands",
     "tr": "Türkçe",
     "hi": "हिन्दी"
+  },
+  "about": {
+    "label": "Notre philosophie",
+    "titleLine1": "Réinventer l'entraide",
+    "titleLine2": "par le temps",
+    "subtitle": "La Bourse du Temps est une plateforme d'échange de compétences où 1 heure donnée vaut 1 heure reçue – sans argent, sans hiérarchie, ouverte à tous.",
+    "mission": {
+      "label": "Notre Mission",
+      "text": "Créer un écosystème d'échange où chaque personne peut valoriser ses compétences sans barrière financière. Nous croyons que le savoir partagé est la plus grande des richesses, et que chaque individu a quelque chose à offrir au monde."
+    },
+    "vision": {
+      "label": "Notre Vision",
+      "text": "Bâtir la plus grande communauté d'entraide par les compétences, en favorisant les connexions entre les personnes, les cultures et les expertises – partout dans le monde, sans condition de revenu ni de statut."
+    },
+    "values": {
+      "label": "Ce qui nous guide",
+      "title": "Nos valeurs",
+      "subtitle": "Six principes fondamentaux qui définissent chaque décision que nous prenons et chaque fonctionnalité que nous construisons.",
+      "equality":     { "title": "Égalité des temps",       "desc": "1 heure donnée = 1 heure reçue. Peu importe la compétence, le statut ou l'origine, chaque heure a la même valeur." },
+      "trust":        { "title": "Confiance mutuelle",      "desc": "Chaque échange repose sur la parole donnée. Nous cultivons une communauté où la réputation se construit par les actes." },
+      "inclusion":    { "title": "Inclusion & Diversité",   "desc": "Ouverte à tous, sans condition de diplôme, de revenu ou de localisation. La diversité des profils est notre plus grande richesse." },
+      "solidarity":   { "title": "Solidarité",              "desc": "Nous croyons que les communautés les plus résilientes sont celles qui s'entraident. Chaque service rendu renforce le tissu social." },
+      "economy":      { "title": "Économie non-monétaire",  "desc": "Le temps, pas l'argent. Nous proposons une alternative à l'économie marchande, accessible à tous et respectueuse de chacun." },
+      "transparency": { "title": "Transparence",            "desc": "Plateforme à but non lucratif pour les particuliers. Chaque échange est tracé, chaque crédit est visible. Rien n'est caché." }
+    },
+    "howItWorks": {
+      "label": "Simple & concret",
+      "title": "Comment ça marche ?",
+      "step1": { "title": "Inscrivez-vous",               "desc": "Créez votre profil en mentionnant vos compétences et vos besoins. Recevez 5 crédits de bienvenue pour démarrer." },
+      "step2": { "title": "Proposez & Échangez",          "desc": "Mettez en ligne un service ou une demande. Contactez les membres, négociez et réalisez votre premier échange." },
+      "step3": { "title": "Construisez votre réputation", "desc": "Après chaque échange, laissez un témoignage. Accumulez des badges, montez en niveau et devenez un pilier de la communauté." },
+      "step4": { "title": "Rejoignez des projets",        "desc": "Participez à des ateliers collectifs, des modules thématiques et des projets collaboratifs pour aller plus loin ensemble." }
+    },
+    "cta": {
+      "title": "Prêt à rejoindre la communauté ?",
+      "subtitle": "Des milliers de compétences vous attendent. Votre prochaine rencontre enrichissante est à un échange de distance.",
+      "btn": "Découvrir les services →"
+    }
+  },
+  "contact": {
+    "label": "On est là",
+    "title": "Nous contacter",
+    "subtitle": "Une question, un partenariat, un bug ? Écrivez-nous, on répond sous 48h.",
+    "name": "Nom",
+    "email": "Email",
+    "subject": "Sujet",
+    "message": "Message",
+    "namePlaceholder": "Votre nom",
+    "emailPlaceholder": "votre@email.com",
+    "subjectPlaceholder": "Ex : Partenariat institution, bug signalement…",
+    "messagePlaceholder": "Décrivez votre demande…",
+    "submit": "Envoyer le message →",
+    "sending": "⏳ Envoi…",
+    "successTitle": "Message envoyé !",
+    "successMsg": "Nous reviendrons vers vous très vite.",
+    "sendAnother": "Envoyer un autre message",
+    "errorMsg": "⚠️ Une erreur est survenue. Réessayez.",
+    "channelEmail": "Email",
+    "channelForum": "Forum",
+    "channelAI": "ALDÉA",
+    "channelForumVal": "Communauté",
+    "channelAIVal": "Chat IA"
+  },
+  "requests": {
+    "label": "Besoins de la communauté",
+    "title": "Demandes en cours",
+    "subtitle": "Un membre a besoin de vous ? Proposez votre aide et gagnez des crédits.",
+    "searchPlaceholder": "Rechercher une demande…",
+    "noResults": "Aucune demande pour l'instant",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "daysAgo": "il y a {days} jours",
+    "member": "Membre",
+    "reply": "Répondre",
+    "credit": "crédit",
+    "credits": "crédits"
   }
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Request {
   id: number
@@ -16,6 +17,7 @@ interface Request {
 }
 
 export default function RequestsPage() {
+  const t = useTranslations('requests')
   const [requests, setRequests] = useState<Request[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -36,38 +38,31 @@ export default function RequestsPage() {
   const timeAgo = (dateStr: string) => {
     const diff = Date.now() - new Date(dateStr).getTime()
     const days = Math.floor(diff / 86400000)
-    if (days === 0) return "Aujourd'hui"
-    if (days === 1) return 'Hier'
-    return `il y a ${days} jours`
+    if (days === 0) return t('today')
+    if (days === 1) return t('yesterday')
+    return t('daysAgo', { days })
   }
 
   return (
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-3xl mx-auto">
 
-        {/* En-tête */}
         <div className="mb-10">
-          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-            Besoins de la communauté
-          </p>
-          <h1 className="text-3xl font-bold text-slate-800">Demandes en cours</h1>
-          <p className="text-slate-500 mt-2">
-            Un membre a besoin de vous ? Proposez votre aide et gagnez des crédits.
-          </p>
+          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">{t('label')}</p>
+          <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
+          <p className="text-slate-500 mt-2">{t('subtitle')}</p>
         </div>
 
-        {/* Recherche */}
         <div className="mb-8">
           <input
             type="text"
-            placeholder="Rechercher une demande…"
+            placeholder={t('searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors"
           />
         </div>
 
-        {/* Liste */}
         {loading ? (
           <div className="space-y-4">
             {[...Array(4)].map((_, i) => (
@@ -76,8 +71,8 @@ export default function RequestsPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
-            <p className="text-4xl mb-3">📭</p>
-            <p className="font-medium">Aucune demande pour l'instant</p>
+            <p className="text-4xl mb-3">🔭</p>
+            <p className="font-medium">{t('noResults')}</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -96,16 +91,14 @@ export default function RequestsPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">
-                      {req.description}
-                    </p>
+                    <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">{req.description}</p>
                     <div className="flex items-center gap-3 mt-3">
                       <span className="text-xs text-slate-400">
-                        {req.user_name || 'Membre'} · {timeAgo(req.created_at)}
+                        {req.user_name || t('member')} · {timeAgo(req.created_at)}
                       </span>
                       {req.credit_cost && (
                         <span className="text-xs font-semibold text-amber-600">
-                          {req.credit_cost} crédit{req.credit_cost > 1 ? 's' : ''}
+                          {req.credit_cost} {req.credit_cost > 1 ? t('credits') : t('credit')}
                         </span>
                       )}
                     </div>
@@ -114,7 +107,7 @@ export default function RequestsPage() {
                     href={`/profile?uid=${req.user_id}`}
                     className="flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-amber-50 text-amber-700 hover:bg-amber-100 transition-colors"
                   >
-                    Répondre
+                    {t('reply')}
                   </Link>
                 </div>
               </div>
