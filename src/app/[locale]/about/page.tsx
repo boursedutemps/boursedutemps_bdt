@@ -1,12 +1,14 @@
+'use client'
+
 import { useTranslations } from 'next-intl'
 
 const VALUE_KEYS = [
-  { icon: '⚖️', key: 'equality',     color: 'bg-amber-50 border-amber-100',   accent: 'text-amber-600' },
-  { icon: '🤝', key: 'trust',        color: 'bg-blue-50 border-blue-100',     accent: 'text-blue-600' },
-  { icon: '🌍', key: 'inclusion',    color: 'bg-green-50 border-green-100',   accent: 'text-green-600' },
-  { icon: '🔗', key: 'solidarity',   color: 'bg-purple-50 border-purple-100', accent: 'text-purple-600' },
+  { icon: '⚖️', key: 'equality',     color: 'bg-amber-50 border-amber-100',    accent: 'text-amber-600' },
+  { icon: '🤝', key: 'trust',        color: 'bg-blue-50 border-blue-100',      accent: 'text-blue-600' },
+  { icon: '🌍', key: 'inclusion',    color: 'bg-green-50 border-green-100',    accent: 'text-green-600' },
+  { icon: '🔗', key: 'solidarity',   color: 'bg-purple-50 border-purple-100',  accent: 'text-purple-600' },
   { icon: '🌱', key: 'economy',      color: 'bg-emerald-50 border-emerald-100',accent: 'text-emerald-600' },
-  { icon: '🔍', key: 'transparency', color: 'bg-orange-50 border-orange-100', accent: 'text-orange-600' },
+  { icon: '🔍', key: 'transparency', color: 'bg-orange-50 border-orange-100',  accent: 'text-orange-600' },
 ]
 
 export default function AboutPage() {
@@ -56,8 +58,8 @@ export default function AboutPage() {
             {VALUE_KEYS.map(v => (
               <div key={v.key} className={`rounded-2xl border p-6 ${v.color} transition-all hover:shadow-md`}>
                 <span className="text-3xl mb-4 block">{v.icon}</span>
-                <h3 className={`text-lg font-bold mb-2 ${v.accent}`}>{t(`values.${v.key}.title`)}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{t(`values.${v.key}.desc`)}</p>
+                <h3 className={`text-lg font-bold mb-2 ${v.accent}`}>{t(`values.${v.key}.title` as any)}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{t(`values.${v.key}.desc` as any)}</p>
               </div>
             ))}
           </div>
@@ -72,13 +74,13 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-slate-900">{t('howItWorks.title')}</h2>
           </div>
           <div className="relative border-l-2 border-slate-100 pl-10 space-y-12 ml-4">
-            {([1, 2, 3, 4] as const).map(n => (
+            {[1, 2, 3, 4].map(n => (
               <div key={n} className="relative">
                 <div className="absolute -left-[54px] top-0 w-8 h-8 rounded-full bg-blue-600 border-4 border-white flex items-center justify-center text-white font-bold text-xs">
                   {n}
                 </div>
-                <h3 className="font-bold text-xl text-slate-800 mb-2">{t(`howItWorks.step${n}.title`)}</h3>
-                <p className="text-slate-500 leading-relaxed">{t(`howItWorks.step${n}.desc`)}</p>
+                <h3 className="font-bold text-xl text-slate-800 mb-2">{t(`howItWorks.step${n}.title` as any)}</h3>
+                <p className="text-slate-500 leading-relaxed">{t(`howItWorks.step${n}.desc` as any)}</p>
               </div>
             ))}
           </div>
@@ -91,7 +93,7 @@ export default function AboutPage() {
           <p className="text-4xl mb-4">⏱️</p>
           <h2 className="text-2xl font-bold text-slate-800 mb-3">{t('cta.title')}</h2>
           <p className="text-slate-500 mb-8">{t('cta.subtitle')}</p>
-          
+          <a
             href="/services"
             className="inline-block px-8 py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90"
             style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}
