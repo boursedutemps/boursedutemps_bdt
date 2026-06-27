@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "save": "İletişim",
     "cancel": "Tüm hakları saklıdır",
@@ -290,5 +290,67 @@
     "nl": "Nederlands",
     "tr": "Türkçe",
     "hi": "हिन्दी"
+  },
+  "about": {
+    "label": "Felsefemiz", "titleLine1": "Karsilikli yardimi yeniden kesfetmek", "titleLine2": "zaman araciligiyla",
+    "subtitle": "Bourse du Temps: 1 saat verilen = 1 saat alinan - para yok, hiyerarsji yok, herkese acik.",
+    "mission": { "label": "Misyonumuz", "text": "Herkesin finansal engeller olmadan becerilerini degerlendirebildigi bir degis tokus ekosistemi olusturmak." },
+    "vision": { "label": "Vizyonumuz", "text": "Beceriler araciligiyla en buyuk karsilikli yardim toplulugunu olusturmak, dunyada insanlar arasinda baglantilar kurmak." },
+    "values": {
+      "label": "Bizi yonlendiren", "title": "Degerlerimiz", "subtitle": "Aldigimiz her karari tanimlayan alti temel ilke.",
+      "equality":     { "title": "Zaman esitligi",         "desc": "1 saat verildi = 1 saat alindi. Her saatin ayni degeri vardir." },
+      "trust":        { "title": "Karsilikli guven",        "desc": "Her degis tokus verilen soze dayanir. Itibar eylemlerle insaa edilir." },
+      "inclusion":    { "title": "Kapsayicilik ve Cesitlilik","desc": "Sart aranmaksizin herkese acik. Profillerin cesitliligi en buyuk zenginligimizdir." },
+      "solidarity":   { "title": "Dayanisma",               "desc": "En direncli topluluklar birbirine yardim edenlerdir." },
+      "economy":      { "title": "Parasal olmayan ekonomi", "desc": "Para degil, zaman. Herkese erisebilir piyasa ekonomisine bir alternatif." },
+      "transparency": { "title": "Seffaflik",               "desc": "Kar amaci gutmeyen platform. Her degis tokus izlenir, her kredi gorulur." }
+    },
+    "howItWorks": {
+      "label": "Basit ve somut", "title": "Nasil calisir?",
+      "step1": { "title": "Kaydol",                       "desc": "Becerilerinizi belirterek profilinizi olusturun. 5 hosgeldin kredisi alin." },
+      "step2": { "title": "Teklif et ve Degis tokus et",  "desc": "Bir hizmet veya talep yayinlayin. Uyelerle iletisime gecin ve ilk degis tokusu tamamlayin." },
+      "step3": { "title": "Itibarini olustur",            "desc": "Her degis tokus sonrasi bir referans birakin. Rozetler kazanin ve seviye atlayin." },
+      "step4": { "title": "Projelere katil",              "desc": "Toplu atolyelere ve isbirligi projelerine katilarak birlikte daha ileri gidin." }
+    },
+    "cta": { "title": "TopluluÄŸa katilmaya hazir misiniz?", "subtitle": "Binlerce beceri sizi bekliyor.", "btn": "Hizmetleri kesfet ->" }
+  },
+  "contact": {
+    "label": "Buradayiz", "title": "Iletisim", "subtitle": "Bir soru, ortaklik veya hata mi? Bize yazin, 48 saat icinde cevap veririz.",
+    "name": "Ad", "email": "E-posta", "subject": "Konu", "message": "Mesaj",
+    "namePlaceholder": "Adiniz", "emailPlaceholder": "sizin@email.com",
+    "subjectPlaceholder": "Orn.: Kurum ortakligi, hata bildirimi...", "messagePlaceholder": "Talebinizi aciklayin...",
+    "submit": "Mesaj gonder ->", "sending": "Gonderiliyor...", "successTitle": "Mesaj gonderildi!", "successMsg": "Cok yakinda size donecegiz.",
+    "sendAnother": "Baska bir mesaj gonder", "errorMsg": "Bir hata olustu. Lutfen tekrar deneyin.",
+    "channelEmail": "E-posta", "channelForum": "Forum", "channelAI": "ALDEA", "channelForumVal": "Topluluk", "channelAIVal": "YZ Sohbet"
+  },
+  "requests": {
+    "label": "Topluluk ihtiyaclari", "title": "Mevcut talepler", "subtitle": "Bir uye size ihtiyac duyuyor mu? Yardiminizi sunun ve kredi kazanin.",
+    "searchPlaceholder": "Bir talep arayin...", "noResults": "Henuz talep yok",
+    "today": "Bugun", "yesterday": "Dun", "daysAgo": "{days} gun once",
+    "member": "Uye", "reply": "Yanitla", "credit": "kredi", "credits": "kredi"
+  },
+  "dashboard": {
+    "loginRequired": "Giris gerekli", "loginDesc": "Kisisel alaniniza erisIN", "login": "Giris yap",
+    "greeting": "Merhaba, {name}", "subtitle": "Kisisel alaniniz", "myProfile": "Profilim ->",
+    "statCredits": "Krediler", "statServices": "Hizmetler", "statExchanges": "Degis tokuslar", "statEarned": "Kazanilan krediler",
+    "reviewsBanner": "{count} bekleyen degerlendirme", "reviewsDesc": "Son degis tokuslarinizdan sonra deneyiminizi paylasin",
+    "rateUser": "{name} degerlendir", "leaveReview": "Degerlendirme birak ->",
+    "creditHistory": "Kredi gecmisi", "earned": "kazanildi", "spent": "harcandi",
+    "myServices": "Hizmetlerim", "viewAll": "Tumunu gor ->", "noServices": "Henuz hicbir hizmet yayinlamadiniz.",
+    "exchange": "Degis tokus",
+    "shortcuts": { "services": "Hizmetleri kesfet", "requests": "Talepleri gor", "members": "Uye bul", "workshops": "Toplu atolyeler", "projects": "Isbirligi projeleri", "search": "YZ Arama" }
+  },
+  "members": {
+    "label": "Toplulugumuz", "title": "Uyeler", "subtitle": "{count} kisi zamanini degis tokus etmeye hazir.",
+    "searchPlaceholder": "Ad, beceri, sehir ile arayin...", "noResults": "Uye bulunamadi",
+    "verified": "Dogrulandi", "member": "Uye"
+  },
+  "forum": {
+    "title": "Degis tokus forumu", "newTopic": "Yeni Konu", "editTopic": "Konuyu duzenle", "startDiscussion": "Tartisma basla",
+    "titlePlaceholder": "Konu basligi", "messagePlaceholder": "Mesajiniz...", "externalLinkPlaceholder": "Dis baglanti (istege bagli)",
+    "uploading": "Yukleniyor...", "fileReady": "Dosya hazir", "importMedia": "Fotograf/Video ice aktar",
+    "removeMedia": "Kaldir", "update": "Guncelle", "publish": "Yayinla", "cancel": "Iptal",
+    "externalLink": "Dis baglanti", "by": "Yazan", "commentPlaceholder": "Yorum yap...", "send": "Gonder",
+    "empty": "Henuz tartisma yok. Ilk siz olun!", "loginRequired": "Katilmak icin giris yapin", "confirmDelete": "Bu konuyu kalici olarak silin mi?"
   }
 }

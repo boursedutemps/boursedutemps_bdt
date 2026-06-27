@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "save": "Faramfàtte",
     "cancel": "Joxe yi dafa am droit",
@@ -290,5 +290,67 @@
     "nl": "Nederlands",
     "tr": "Türkçe",
     "hi": "हिन्दी"
+  },
+  "about": {
+    "label": "Falsafa bii", "titleLine1": "Regle ci kanam ndimbal bu rey", "titleLine2": "ci yoon bu digg",
+    "subtitle": "Bourse du Temps: 1 waxtu jox = 1 waxtu jend - xaalis aldul, nit ni dem ci kanam.",
+    "mission": { "label": "Misiyong bi", "text": "Defar ekosistem bu jefandikoo nit nep nu men a bayyil seen karaw ci pepp taxaw u xaalis." },
+    "vision": { "label": "Viziyon bi", "text": "Defar kelefaay bu mag bu ndimbal ci karaw ci aduna bii yep." },
+    "values": {
+      "label": "Lii nu naan", "title": "Njarin yi", "subtitle": "Fukki ak jurom prinsip yu digg yi def ak yep lep nu dekkal.",
+      "equality":     { "title": "Dekkante ak waxtu",  "desc": "1 waxtu jox = 1 waxtu jend. Waxtu bep am na njarin bu dekk." },
+      "trust":        { "title": "Njiitu jaaxle",       "desc": "Jefandikoo bep defar na ci wax bu jox. Mbooloo bu bokk." },
+      "inclusion":    { "title": "Bokkandoo ak Yokute", "desc": "Ub na ci nit nep. Yokute yi am na njarin bu mag." },
+      "solidarity":   { "title": "Mbooloo",             "desc": "Kelefaay yu deger yi mooy ni ndimbal neneen." },
+      "economy":      { "title": "Ekonomi bu xaalis aldul","desc": "Waxtu, xaalis du dem. Elk yu wecce ci ekonomi bu jaay." },
+      "transparency": { "title": "Seetlu",              "desc": "Elk bu xaalis aldul. Jefandikoo bep xam-xamu, kredi bep gis-gisna." }
+    },
+    "howItWorks": {
+      "label": "Yomb ak wecce", "title": "Naka la def?",
+      "step1": { "title": "Serina",             "desc": "Defar sa profil ak seen karaw ak njekl yi. Jend 5 kredi yu dalal." },
+      "step2": { "title": "Jox ak Jefandikoo",  "desc": "Bindi serin walla demantal. Xam nit nu epi yen ci kanam." },
+      "step3": { "title": "Defar sa mbooloo",   "desc": "Ginnaaw jefandikoo bep, bindi teraanga. Dejel badge epi yegel niveoo." },
+      "step4": { "title": "Bokk ci proje yi",   "desc": "Bokk ci atelier yi ak proje bu nu bokk." }
+    },
+    "cta": { "title": "Xool ngir bokk ci kelefaay bi?", "subtitle": "Junni karaw yi xaar nga.", "btn": "Xool serina yi ->" }
+  },
+  "contact": {
+    "label": "Nanu fi", "title": "Jokkoo ak nun", "subtitle": "Laaj, mbokk, bug? Bind ci nun, nu tontu ci 48 waxtu.",
+    "name": "Tur", "email": "Imel", "subject": "Suje bi", "message": "Xabaar bi",
+    "namePlaceholder": "Sa tur", "emailPlaceholder": "yaw@imel.com",
+    "subjectPlaceholder": "Ex: Mbokk ci institution, bug...", "messagePlaceholder": "Wax sa demantal...",
+    "submit": "Yonni xabaar ->", "sending": "Yonniwaat...", "successTitle": "Xabaar yonniwoon!", "successMsg": "Nu di tontu ci yaw ci kanam bu kanam.",
+    "sendAnother": "Yonni yeneen xabaar", "errorMsg": "Wereg am na. Jeema tukki.",
+    "channelEmail": "Imel", "channelForum": "Forum bi", "channelAI": "ALDEA", "channelForumVal": "Kelefaay bi", "channelAIVal": "Chat IA"
+  },
+  "requests": {
+    "label": "Njekl kelefaay bi", "title": "Demantal yi attee", "subtitle": "Gestu bokk am na njekl yaw? Jox sa ndimbal te jend kredi.",
+    "searchPlaceholder": "Seet demantal...", "noResults": "Demantal du am legi",
+    "today": "Tey", "yesterday": "Demb", "daysAgo": "{days} fan weesu",
+    "member": "Gestu bokk", "reply": "Tontu", "credit": "kredi", "credits": "kredi"
+  },
+  "dashboard": {
+    "loginRequired": "Jokkoo waajoo", "loginDesc": "Duggu ci sa espas", "login": "Jokkoo",
+    "greeting": "Salaam, {name}", "subtitle": "Sa espas", "myProfile": "Sa profil ->",
+    "statCredits": "Kredi yi", "statServices": "Serina yi", "statExchanges": "Jefandikoo yi", "statEarned": "Kredi yu jend",
+    "reviewsBanner": "{count} avi yi xaar", "reviewsDesc": "Wax sa momel ginnaaw jefandikoo yi bu mujj",
+    "rateUser": "Juge {name}", "leaveReview": "Bindi avi ->",
+    "creditHistory": "Taalif kredi yi", "earned": "jenday", "spent": "dekkal",
+    "myServices": "Serina yi", "viewAll": "Xool yep ->", "noServices": "Serina amul legi.",
+    "exchange": "Jefandikoo",
+    "shortcuts": { "services": "Xool serina yi", "requests": "Xool demantal yi", "members": "Seet gestu bokk yi", "workshops": "Atelier yi", "projects": "Proje yi", "search": "Seet IA" }
+  },
+  "members": {
+    "label": "Kelefaay bi", "title": "Gestu bokk yi", "subtitle": "{count} nit xaar ngir jefandikoo waxtu.",
+    "searchPlaceholder": "Seet tur, karaw, dekk...", "noResults": "Gestu bokk gena amul",
+    "verified": "Seetlu", "member": "Gestu bokk"
+  },
+  "forum": {
+    "title": "Forum jefandikoo yi", "newTopic": "Sujet Bees", "editTopic": "Sakk sujet bi", "startDiscussion": "Takk mbeg mi",
+    "titlePlaceholder": "Tur sujet bi", "messagePlaceholder": "Sa xabaar...", "externalLinkPlaceholder": "Lien bu kanam (opsiyonel)",
+    "uploading": "Di yonniwaat...", "fileReady": "Fichier xam-xam", "importMedia": "Dugal Foto/Video",
+    "removeMedia": "Fatte", "update": "Yegel", "publish": "Bind", "cancel": "Taxaw",
+    "externalLink": "Lien bu kanam", "by": "Ak", "commentPlaceholder": "Wax...", "send": "Yonni",
+    "empty": "Mbeg amul legi. Yaw la njek!", "loginRequired": "Jokkoo ngir bokk", "confirmDelete": "Fatte sujet bi ci diir?"
   }
 }

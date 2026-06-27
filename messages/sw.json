@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "save": "Mawasiliano",
     "cancel": "Haki zote zimehifadhiwa",
@@ -290,5 +290,67 @@
     "nl": "Nederlands",
     "tr": "Türkçe",
     "hi": "हिन्दी"
+  },
+  "about": {
+    "label": "Falsafa yetu", "titleLine1": "Kugundua upya usaidizi wa pamoja", "titleLine2": "kupitia muda",
+    "subtitle": "Bourse du Temps: saa 1 iliyotolewa = saa 1 iliyopokelewa - bila pesa, bila uongozi, wazi kwa wote.",
+    "mission": { "label": "Dhamira Yetu", "text": "Kuunda mfumo wa kubadilishana ambapo kila mtu anaweza kuthamini ujuzi wake bila vikwazo vya kifedha." },
+    "vision": { "label": "Maono Yetu", "text": "Kujenga jumuiya kubwa zaidi ya usaidizi wa pamoja kupitia ujuzi duniani kote." },
+    "values": {
+      "label": "Kinachotuongoza", "title": "Maadili yetu", "subtitle": "Kanuni sita za msingi zinazofafanua kila uamuzi tunaoufanya.",
+      "equality":     { "title": "Usawa wa muda",          "desc": "Saa 1 iliyotolewa = saa 1 iliyopokelewa. Kila saa ina thamani sawa." },
+      "trust":        { "title": "Imani ya pamoja",         "desc": "Kila ubadilishano unategemea neno lililotolewa. Sifa inajengwa kupitia vitendo." },
+      "inclusion":    { "title": "Ujumuishaji na Utofauti", "desc": "Wazi kwa wote bila masharti. Utofauti wa wasifu ni utajiri wetu mkubwa zaidi." },
+      "solidarity":   { "title": "Mshikamano",              "desc": "Jamii zenye ustahimilivu zaidi ni zile zinazosaidiana." },
+      "economy":      { "title": "Uchumi usio wa fedha",    "desc": "Muda, si pesa. Mbadala wa uchumi wa soko, unaoweza kufikiwa na wote." },
+      "transparency": { "title": "Uwazi",                   "desc": "Jukwaa lisilo la faida. Kila ubadilishano unafuatiliwa, kila mkopo unaonekana." }
+    },
+    "howItWorks": {
+      "label": "Rahisi na halisi", "title": "Inafanyaje kazi?",
+      "step1": { "title": "Jiandikishe",        "desc": "Unda wasifu wako ukiorodhesha ujuzi na mahitaji yako. Pokea mikopo 5 ya karibu." },
+      "step2": { "title": "Toa na Badilishana", "desc": "Chapisha huduma au ombi. Wasiliana na wanachama na ukamilishe ubadilishano wako wa kwanza." },
+      "step3": { "title": "Jenga sifa yako",    "desc": "Baada ya kila ubadilishano, acha ushuhuda. Kusanya beji na panda kiwango." },
+      "step4": { "title": "Jiunge na miradi",   "desc": "Shiriki katika warsha za pamoja na miradi ya ushirikiano." }
+    },
+    "cta": { "title": "Uko tayari kujiunga na jumuiya?", "subtitle": "Maelfu ya ujuzi yanakungoja.", "btn": "Gundua huduma ->" }
+  },
+  "contact": {
+    "label": "Tuko hapa", "title": "Wasiliana nasi", "subtitle": "Swali, ushirikiano, hitilafu? Tuandikie, tunajibu ndani ya masaa 48.",
+    "name": "Jina", "email": "Barua pepe", "subject": "Mada", "message": "Ujumbe",
+    "namePlaceholder": "Jina lako", "emailPlaceholder": "wako@barua.com",
+    "subjectPlaceholder": "Mf.: Ushirikiano wa taasisi, ripoti ya hitilafu...", "messagePlaceholder": "Elezea ombi lako...",
+    "submit": "Tuma ujumbe ->", "sending": "Inatumwa...", "successTitle": "Ujumbe umetumwa!", "successMsg": "Tutawasiliana nawe hivi karibuni.",
+    "sendAnother": "Tuma ujumbe mwingine", "errorMsg": "Kosa limetokea. Jaribu tena.",
+    "channelEmail": "Barua pepe", "channelForum": "Jukwaa", "channelAI": "ALDEA", "channelForumVal": "Jumuiya", "channelAIVal": "Mazungumzo ya AI"
+  },
+  "requests": {
+    "label": "Mahitaji ya jumuiya", "title": "Maombi ya sasa", "subtitle": "Mwanachama anahitaji msaada wako? Toa msaada na upate mikopo.",
+    "searchPlaceholder": "Tafuta ombi...", "noResults": "Hakuna maombi kwa sasa",
+    "today": "Leo", "yesterday": "Jana", "daysAgo": "siku {days} zilizopita",
+    "member": "Mwanachama", "reply": "Jibu", "credit": "mkopo", "credits": "mikopo"
+  },
+  "dashboard": {
+    "loginRequired": "Ingia inahitajika", "loginDesc": "Fikia nafasi yako ya kibinafsi", "login": "Ingia",
+    "greeting": "Habari, {name}", "subtitle": "Nafasi yako ya kibinafsi", "myProfile": "Wasifu wangu ->",
+    "statCredits": "Mikopo", "statServices": "Huduma", "statExchanges": "Ubadilishano", "statEarned": "Mikopo iliyopatikana",
+    "reviewsBanner": "{count} tathmini zinazosubiri", "reviewsDesc": "Shiriki uzoefu wako baada ya mabadilishano yako ya hivi karibuni",
+    "rateUser": "Tathmini {name}", "leaveReview": "Acha tathmini ->",
+    "creditHistory": "Historia ya mikopo", "earned": "iliyopatikana", "spent": "iliyotumika",
+    "myServices": "Huduma zangu", "viewAll": "Ona zote ->", "noServices": "Bado haujachapisha huduma yoyote.",
+    "exchange": "Ubadilishano",
+    "shortcuts": { "services": "Chunguza huduma", "requests": "Ona maombi", "members": "Pata wanachama", "workshops": "Warsha za pamoja", "projects": "Miradi ya ushirikiano", "search": "Utafutaji wa AI" }
+  },
+  "members": {
+    "label": "Jumuiya yetu", "title": "Wanachama", "subtitle": "{count} mtu tayari kubadilishana muda wao.",
+    "searchPlaceholder": "Tafuta kwa jina, ujuzi, mji...", "noResults": "Hakuna wanachama waliopatikana",
+    "verified": "Imethibitishwa", "member": "Mwanachama"
+  },
+  "forum": {
+    "title": "Jukwaa la ubadilishano", "newTopic": "Mada Mpya", "editTopic": "Hariri mada", "startDiscussion": "Anza mjadala",
+    "titlePlaceholder": "Kichwa cha mada", "messagePlaceholder": "Ujumbe wako...", "externalLinkPlaceholder": "Kiungo cha nje (hiari)",
+    "uploading": "Inapakia...", "fileReady": "Faili iko tayari", "importMedia": "Ingiza Picha/Video",
+    "removeMedia": "Ondoa", "update": "Sasisha", "publish": "Chapisha", "cancel": "Ghairi",
+    "externalLink": "Kiungo cha nje", "by": "Na", "commentPlaceholder": "Toa maoni...", "send": "Tuma",
+    "empty": "Hakuna majadiliano bado. Kuwa wa kwanza!", "loginRequired": "Ingia kushiriki", "confirmDelete": "Futa mada hii kabisa?"
   }
 }
