@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "save": "Enregistrer",
     "cancel": "Annuler",
@@ -366,5 +366,68 @@
     "reply": "Répondre",
     "credit": "crédit",
     "credits": "crédits"
+  },
+  "dashboard": {
+    "loginRequired": "Connexion requise",
+    "loginDesc": "AccÃ©dez Ã  votre espace personnel",
+    "login": "Se connecter",
+    "greeting": "Bonjour, {name} \ud83d\udc4b",
+    "subtitle": "Votre espace personnel",
+    "myProfile": "Mon profil \u2192",
+    "statCredits": "CrÃ©dits",
+    "statServices": "Services",
+    "statExchanges": "Ã‰changes",
+    "statEarned": "CrÃ©dits gagnÃ©s",
+    "reviewsBanner": "{count} avis en attente",
+    "reviewsDesc": "Partagez votre expÃ©rience aprÃ¨s vos Ã©changes rÃ©cents",
+    "rateUser": "Noter {name}",
+    "leaveReview": "Laisser un avis \u2192",
+    "creditHistory": "Historique des crÃ©dits",
+    "earned": "gagnÃ©s",
+    "spent": "dÃ©pensÃ©s",
+    "myServices": "Mes services",
+    "viewAll": "Voir tous \u2192",
+    "noServices": "Vous n'avez pas encore de service proposÃ©.",
+    "exchange": "Ã‰change",
+    "shortcuts": {
+      "services": "Explorer les services",
+      "requests": "Voir les demandes",
+      "members": "Trouver des membres",
+      "workshops": "Ateliers collectifs",
+      "projects": "Projets collaboratifs",
+      "search": "Recherche IA"
+    }
+  },
+  "members": {
+    "label": "Notre communautÃ©",
+    "title": "Les membres",
+    "subtitle": "{count} personne{plural} prÃªte{plural} Ã  Ã©changer leur temps.",
+    "searchPlaceholder": "Rechercher par nom, compÃ©tence, ville\u2026",
+    "noResults": "Aucun membre trouvÃ©",
+    "verified": "\u2713 VÃ©rifiÃ©",
+    "member": "Membre"
+  },
+  "forum": {
+    "title": "Forum des Ã©changes",
+    "newTopic": "Nouveau Sujet",
+    "editTopic": "Modifier le sujet",
+    "startDiscussion": "Lancer une discussion",
+    "titlePlaceholder": "Titre du sujet",
+    "messagePlaceholder": "Votre message...",
+    "externalLinkPlaceholder": "Lien externe (optionnel)",
+    "uploading": "Upload...",
+    "fileReady": "Fichier prÃªt",
+    "importMedia": "Importer Photo/VidÃ©o",
+    "removeMedia": "Supprimer",
+    "update": "Mettre Ã  jour",
+    "publish": "Publier",
+    "cancel": "Annuler",
+    "externalLink": "Lien externe",
+    "by": "Par",
+    "commentPlaceholder": "Commenter...",
+    "send": "Envoyer",
+    "empty": "Aucune discussion en cours. Soyez le premier !",
+    "loginRequired": "Connectez-vous pour participer",
+    "confirmDelete": "Supprimer dÃ©finitivement ce sujet ?"
   }
 }
