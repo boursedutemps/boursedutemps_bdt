@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Enregistrer",
     "cancel": "Annuler",
@@ -59,7 +59,8 @@
     "profile": "Mon profil",
     "openMenu": "Ouvrir le menu de navigation",
     "closeMenu": "Fermer le menu de navigation",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "contact": "Contact"
   },
   "home": {
     "hero": {
@@ -308,20 +309,50 @@
       "label": "Ce qui nous guide",
       "title": "Nos valeurs",
       "subtitle": "Six principes fondamentaux qui définissent chaque décision que nous prenons et chaque fonctionnalité que nous construisons.",
-      "equality":     { "title": "Égalité des temps",       "desc": "1 heure donnée = 1 heure reçue. Peu importe la compétence, le statut ou l'origine, chaque heure a la même valeur." },
-      "trust":        { "title": "Confiance mutuelle",      "desc": "Chaque échange repose sur la parole donnée. Nous cultivons une communauté où la réputation se construit par les actes." },
-      "inclusion":    { "title": "Inclusion & Diversité",   "desc": "Ouverte à tous, sans condition de diplôme, de revenu ou de localisation. La diversité des profils est notre plus grande richesse." },
-      "solidarity":   { "title": "Solidarité",              "desc": "Nous croyons que les communautés les plus résilientes sont celles qui s'entraident. Chaque service rendu renforce le tissu social." },
-      "economy":      { "title": "Économie non-monétaire",  "desc": "Le temps, pas l'argent. Nous proposons une alternative à l'économie marchande, accessible à tous et respectueuse de chacun." },
-      "transparency": { "title": "Transparence",            "desc": "Plateforme à but non lucratif pour les particuliers. Chaque échange est tracé, chaque crédit est visible. Rien n'est caché." }
+      "equality": {
+        "title": "Égalité des temps",
+        "desc": "1 heure donnée = 1 heure reçue. Peu importe la compétence, le statut ou l'origine, chaque heure a la même valeur."
+      },
+      "trust": {
+        "title": "Confiance mutuelle",
+        "desc": "Chaque échange repose sur la parole donnée. Nous cultivons une communauté où la réputation se construit par les actes."
+      },
+      "inclusion": {
+        "title": "Inclusion & Diversité",
+        "desc": "Ouverte à tous, sans condition de diplôme, de revenu ou de localisation. La diversité des profils est notre plus grande richesse."
+      },
+      "solidarity": {
+        "title": "Solidarité",
+        "desc": "Nous croyons que les communautés les plus résilientes sont celles qui s'entraident. Chaque service rendu renforce le tissu social."
+      },
+      "economy": {
+        "title": "Économie non-monétaire",
+        "desc": "Le temps, pas l'argent. Nous proposons une alternative à l'économie marchande, accessible à tous et respectueuse de chacun."
+      },
+      "transparency": {
+        "title": "Transparence",
+        "desc": "Plateforme à but non lucratif pour les particuliers. Chaque échange est tracé, chaque crédit est visible. Rien n'est caché."
+      }
     },
     "howItWorks": {
       "label": "Simple & concret",
       "title": "Comment ça marche ?",
-      "step1": { "title": "Inscrivez-vous",               "desc": "Créez votre profil en mentionnant vos compétences et vos besoins. Recevez 5 crédits de bienvenue pour démarrer." },
-      "step2": { "title": "Proposez & Échangez",          "desc": "Mettez en ligne un service ou une demande. Contactez les membres, négociez et réalisez votre premier échange." },
-      "step3": { "title": "Construisez votre réputation", "desc": "Après chaque échange, laissez un témoignage. Accumulez des badges, montez en niveau et devenez un pilier de la communauté." },
-      "step4": { "title": "Rejoignez des projets",        "desc": "Participez à des ateliers collectifs, des modules thématiques et des projets collaboratifs pour aller plus loin ensemble." }
+      "step1": {
+        "title": "Inscrivez-vous",
+        "desc": "Créez votre profil en mentionnant vos compétences et vos besoins. Recevez 5 crédits de bienvenue pour démarrer."
+      },
+      "step2": {
+        "title": "Proposez & Échangez",
+        "desc": "Mettez en ligne un service ou une demande. Contactez les membres, négociez et réalisez votre premier échange."
+      },
+      "step3": {
+        "title": "Construisez votre réputation",
+        "desc": "Après chaque échange, laissez un témoignage. Accumulez des badges, montez en niveau et devenez un pilier de la communauté."
+      },
+      "step4": {
+        "title": "Rejoignez des projets",
+        "desc": "Participez à des ateliers collectifs, des modules thématiques et des projets collaboratifs pour aller plus loin ensemble."
+      }
     },
     "cta": {
       "title": "Prêt à rejoindre la communauté ?",
@@ -369,26 +400,26 @@
   },
   "dashboard": {
     "loginRequired": "Connexion requise",
-    "loginDesc": "AccÃ©dez Ã  votre espace personnel",
+    "loginDesc": "Accédez à votre espace personnel",
     "login": "Se connecter",
-    "greeting": "Bonjour, {name} \ud83d\udc4b",
+    "greeting": "Bonjour, {name}",
     "subtitle": "Votre espace personnel",
-    "myProfile": "Mon profil \u2192",
-    "statCredits": "CrÃ©dits",
+    "myProfile": "Mon profil",
+    "statCredits": "Crédits",
     "statServices": "Services",
-    "statExchanges": "Ã‰changes",
-    "statEarned": "CrÃ©dits gagnÃ©s",
+    "statExchanges": "Échanges",
+    "statEarned": "Crédits gagnés",
     "reviewsBanner": "{count} avis en attente",
-    "reviewsDesc": "Partagez votre expÃ©rience aprÃ¨s vos Ã©changes rÃ©cents",
+    "reviewsDesc": "Partagez votre expérience après vos échanges récents",
     "rateUser": "Noter {name}",
-    "leaveReview": "Laisser un avis \u2192",
-    "creditHistory": "Historique des crÃ©dits",
-    "earned": "gagnÃ©s",
-    "spent": "dÃ©pensÃ©s",
+    "leaveReview": "Laisser un avis",
+    "creditHistory": "Historique des crédits",
+    "earned": "gagnés",
+    "spent": "dépensés",
     "myServices": "Mes services",
-    "viewAll": "Voir tous \u2192",
-    "noServices": "Vous n'avez pas encore de service proposÃ©.",
-    "exchange": "Ã‰change",
+    "viewAll": "Voir tous",
+    "noServices": "Vous n’avez pas encore de service proposé.",
+    "exchange": "Échange",
     "shortcuts": {
       "services": "Explorer les services",
       "requests": "Voir les demandes",
@@ -399,16 +430,16 @@
     }
   },
   "members": {
-    "label": "Notre communautÃ©",
+    "label": "Notre communauté",
     "title": "Les membres",
-    "subtitle": "{count} personne{plural} prÃªte{plural} Ã  Ã©changer leur temps.",
-    "searchPlaceholder": "Rechercher par nom, compÃ©tence, ville\u2026",
-    "noResults": "Aucun membre trouvÃ©",
-    "verified": "\u2713 VÃ©rifiÃ©",
+    "subtitle": "{count} personne{plural} prête{plural} à échanger leur temps.",
+    "searchPlaceholder": "Rechercher par nom, compétence, ville",
+    "noResults": "Aucun membre trouvé",
+    "verified": "Vérifié",
     "member": "Membre"
   },
   "forum": {
-    "title": "Forum des Ã©changes",
+    "title": "Forum des échanges",
     "newTopic": "Nouveau Sujet",
     "editTopic": "Modifier le sujet",
     "startDiscussion": "Lancer une discussion",
@@ -416,10 +447,10 @@
     "messagePlaceholder": "Votre message...",
     "externalLinkPlaceholder": "Lien externe (optionnel)",
     "uploading": "Upload...",
-    "fileReady": "Fichier prÃªt",
-    "importMedia": "Importer Photo/VidÃ©o",
+    "fileReady": "Fichier prêt",
+    "importMedia": "Importer Photo/Vidéo",
     "removeMedia": "Supprimer",
-    "update": "Mettre Ã  jour",
+    "update": "Mettre à jour",
     "publish": "Publier",
     "cancel": "Annuler",
     "externalLink": "Lien externe",
@@ -428,6 +459,6 @@
     "send": "Envoyer",
     "empty": "Aucune discussion en cours. Soyez le premier !",
     "loginRequired": "Connectez-vous pour participer",
-    "confirmDelete": "Supprimer dÃ©finitivement ce sujet ?"
+    "confirmDelete": "Supprimer définitivement ce sujet ?"
   }
 }
