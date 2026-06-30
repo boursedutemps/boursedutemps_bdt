@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Service {
   id: number
@@ -34,6 +35,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 type Tab = 'services' | 'requests'
 
 export default function MarketplacePage() {
+  const t = useTranslations('marketplace')
   const [tab, setTab]           = useState<Tab>('services')
   const [services, setServices] = useState<Service[]>([])
   const [requests, setRequests] = useState<Request[]>([])
@@ -72,42 +74,37 @@ export default function MarketplacePage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-5xl mx-auto">
 
-        {/* En-tête */}
         <div className="mb-8">
           <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-            Offres & Demandes
+            {t('label')}
           </p>
-          <h1 className="text-3xl font-bold text-slate-800">Marketplace</h1>
-          <p className="text-slate-500 mt-2">
-            Trouvez une compétence ou proposez la vôtre. 1h donnée = 1h reçue.
-          </p>
+          <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
+          <p className="text-slate-500 mt-2">{t('subtitle')}</p>
         </div>
 
-        {/* Tabs */}
         <div className="flex gap-2 mb-6 bg-slate-100 p-1 rounded-2xl w-fit">
-          {(['services', 'requests'] as Tab[]).map(t => (
+          {(['services', 'requests'] as Tab[]).map(tb => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
+              key={tb}
+              onClick={() => setTab(tb)}
               className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
               style={{
-                background: tab === t ? '#fff' : 'transparent',
-                color: tab === t ? '#B45309' : '#64748B',
-                boxShadow: tab === t ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
+                background: tab === tb ? '#fff' : 'transparent',
+                color: tab === tb ? '#B45309' : '#64748B',
+                boxShadow: tab === tb ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
               }}
             >
-              {t === 'services'
-                ? `🛠️ Services (${services.length})`
-                : `📋 Demandes (${requests.length})`}
+              {tb === 'services'
+                ? `🛠️ ${t('tabServices', { count: services.length })}`
+                : `📋 ${t('tabRequests', { count: requests.length })}`}
             </button>
           ))}
         </div>
 
-        {/* Filtres */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
           <input
             type="text"
-            placeholder={tab === 'services' ? 'Rechercher un service…' : 'Rechercher une demande…'}
+            placeholder={tab === 'services' ? t('searchService') : t('searchRequest')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="flex-1 px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors"
@@ -117,7 +114,7 @@ export default function MarketplacePage() {
             onChange={e => setCategory(e.target.value)}
             className="px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors"
           >
-            <option value="">Toutes catégories</option>
+            <option value="">{t('allCategories')}</option>
             {allCategories.map(c => (
               <option key={c} value={c}>
                 {CATEGORY_ICONS[c] || '✨'} {c.charAt(0).toUpperCase() + c.slice(1)}
@@ -126,7 +123,6 @@ export default function MarketplacePage() {
           </select>
         </div>
 
-        {/* Contenu */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...Array(6)].map((_, i) => (
@@ -136,7 +132,7 @@ export default function MarketplacePage() {
         ) : items.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
             <p className="text-4xl mb-3">🔍</p>
-            <p className="font-medium">Aucun résultat</p>
+            <p className="font-medium">{t('noResults')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -154,7 +150,7 @@ export default function MarketplacePage() {
                       ? 'bg-amber-50 text-amber-700'
                       : 'bg-blue-50 text-blue-700'
                   }`}>
-                    {tab === 'services' ? 'Offre' : 'Demande'}
+                    {tab === 'services' ? t('badgeOffer') : t('badgeRequest')}
                   </span>
                 </div>
 
@@ -165,7 +161,7 @@ export default function MarketplacePage() {
 
                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
                   <div>
-                    <span className="text-xs text-slate-400">par {item.user_name || 'Membre'}</span>
+                    <span className="text-xs text-slate-400">{t('by')} {item.user_name || t('member')}</span>
                     {item.credit_cost && (
                       <span className="ml-2 text-xs font-semibold text-amber-600">
                         · {item.credit_cost} cr/h
@@ -176,7 +172,7 @@ export default function MarketplacePage() {
                     href={`/profile?uid=${item.user_id}`}
                     className="text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors"
                   >
-                    Contacter →
+                    {t('contact')}
                   </Link>
                 </div>
               </div>

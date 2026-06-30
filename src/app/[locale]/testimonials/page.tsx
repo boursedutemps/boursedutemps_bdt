@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Heart } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useUser } from '@/components/UserProvider'
 import ShareMenu from '@/components/ShareMenu'
 
@@ -26,6 +27,7 @@ interface Member {
 }
 
 export default function TestimonialsPage() {
+  const t = useTranslations('testimonials')
   const { user } = useUser()
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [members, setMembers]           = useState<Member[]>([])
@@ -53,8 +55,8 @@ export default function TestimonialsPage() {
 
   const handleSubmit = async () => {
     if (!user) return
-    if (!toUserId) { setFormError('Choisissez un destinataire'); return }
-    if (content.trim().length < 20) { setFormError('Minimum 20 caractères'); return }
+    if (!toUserId) { setFormError(t('errorRecipient')); return }
+    if (content.trim().length < 20) { setFormError(t('errorMinChars')); return }
     setSubmitting(true); setFormError(null)
     try {
       const res = await fetch('/api/testimonials', {
@@ -73,17 +75,17 @@ export default function TestimonialsPage() {
     } finally { setSubmitting(false) }
   }
 
-  const handleLike = async (t: Testimonial) => {
+  const handleLike = async (tm: Testimonial) => {
     if (!user) return
-    const likes = t.likes || []
+    const likes = tm.likes || []
     const newLikes = likes.includes(user.uid) ? likes.filter(id => id !== user.uid) : [...likes, user.uid]
-    await fetch(`/api/testimonials/${t.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ likes: newLikes }) })
-    setTestimonials(prev => prev.map(x => x.id === t.id ? { ...x, likes: newLikes } : x))
+    await fetch(`/api/testimonials/${tm.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ likes: newLikes }) })
+    setTestimonials(prev => prev.map(x => x.id === tm.id ? { ...x, likes: newLikes } : x))
   }
 
-  const handleShare = async (t: Testimonial) => {
-    await fetch(`/api/testimonials/${t.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shares: (t.shares || 0) + 1 }) })
-    setTestimonials(prev => prev.map(x => x.id === t.id ? { ...x, shares: (x.shares || 0) + 1 } : x))
+  const handleShare = async (tm: Testimonial) => {
+    await fetch(`/api/testimonials/${tm.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ shares: (tm.shares || 0) + 1 }) })
+    setTestimonials(prev => prev.map(x => x.id === tm.id ? { ...x, shares: (x.shares || 0) + 1 } : x))
   }
 
   const formatDate = (str: string) => new Date(str).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
@@ -100,63 +102,60 @@ export default function TestimonialsPage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
 
-        {/* En-tête */}
         <div className="mb-10 text-center">
-          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">Ils en parlent mieux que nous</p>
-          <h1 className="text-3xl font-bold text-slate-800">Témoignages</h1>
-          <p className="text-slate-500 mt-2 max-w-xl mx-auto">Des échanges réels, des liens durables. Voici ce que vivent les membres de la Bourse du Temps.</p>
+          <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">{t('label')}</p>
+          <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
+          <p className="text-slate-500 mt-2 max-w-xl mx-auto">{t('subtitle')}</p>
           {user && (
             <button onClick={() => setShowForm(f => !f)}
               className="mt-6 px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
               style={{ background: showForm ? '#94A3B8' : 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
-              {showForm ? '✕ Annuler' : '✍️ Laisser un témoignage'}
+              {showForm ? `✕ ${t('cancelBtn')}` : `✏️ ${t('leaveBtn')}`}
             </button>
           )}
         </div>
 
-        {/* Formulaire */}
         {showForm && user && (
           <div className="bg-white rounded-2xl border border-amber-100 p-6 mb-10 shadow-sm">
-            <h2 className="text-lg font-bold text-slate-800 mb-5">Votre témoignage</h2>
+            <h2 className="text-lg font-bold text-slate-800 mb-5">{t('formTitle')}</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">À propos de quel membre ? *</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{t('toMemberLabel')}</label>
                 <select value={toUserId} onChange={e => setToUserId(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400">
-                  <option value="">Sélectionnez un membre…</option>
+                  <option value="">{t('selectMember')}</option>
                   {otherMembers.map(m => (
                     <option key={m.uid} value={m.uid}>{[m.first_name, m.last_name].filter(Boolean).join(' ')}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Note</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{t('ratingLabel')}</label>
                 <div className="flex gap-1">{stars(rating, true)}</div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-                  Votre témoignage * <span className="text-slate-400 normal-case font-normal">(min 20 caractères)</span>
+                  {t('contentLabel')} <span className="text-slate-400 normal-case font-normal">{t('contentHint')}</span>
                 </label>
                 <textarea value={content} onChange={e => setContent(e.target.value)}
-                  placeholder="Décrivez votre expérience d'échange avec ce membre…" rows={5}
+                  placeholder={t('contentPlaceholder')} rows={5}
                   className="w-full px-4 py-3 rounded-xl text-sm border border-slate-200 bg-slate-50 outline-none focus:border-amber-400 resize-none leading-relaxed" />
-                <p className="text-xs text-slate-400 mt-1 text-right">{content.length} / 1000</p>
+                <p className="text-xs text-slate-400 mt-1 text-right">{t('charCount', { count: content.length })}</p>
               </div>
               {formError && <p className="text-sm text-red-500 bg-red-50 px-4 py-3 rounded-xl">⚠️ {formError}</p>}
-              {formSuccess && <p className="text-sm text-green-600 bg-green-50 px-4 py-3 rounded-xl">✅ Témoignage publié !</p>}
+              {formSuccess && <p className="text-sm text-green-600 bg-green-50 px-4 py-3 rounded-xl">✅ {t('successMsg')}</p>}
               <div className="flex gap-3">
-                <button onClick={() => setShowForm(false)} className="flex-1 py-3 rounded-xl text-sm font-semibold bg-slate-100 text-slate-500">Annuler</button>
+                <button onClick={() => setShowForm(false)} className="flex-1 py-3 rounded-xl text-sm font-semibold bg-slate-100 text-slate-500">{t('cancel')}</button>
                 <button onClick={handleSubmit} disabled={submitting || content.trim().length < 20}
                   className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-50"
                   style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)' }}>
-                  {submitting ? '⏳ Envoi…' : '🚀 Publier'}
+                  {submitting ? `⏳ ${t('sending')}` : `🚀 ${t('publish')}`}
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Liste */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {[...Array(4)].map((_, i) => <div key={i} className="h-48 rounded-2xl bg-slate-100 animate-pulse" />)}
@@ -164,43 +163,41 @@ export default function TestimonialsPage() {
         ) : testimonials.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
             <p className="text-4xl mb-3">💬</p>
-            <p className="font-medium">Aucun témoignage pour l'instant</p>
-            <p className="text-sm mt-1">Soyez le premier à partager votre expérience !</p>
+            <p className="font-medium">{t('noResults')}</p>
+            <p className="text-sm mt-1">{t('beFirst')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {testimonials.map(t => (
-              <div key={t.id} className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-amber-200 hover:shadow-sm transition-all flex flex-col">
-                {t.rating && <div className="flex gap-0.5 mb-3">{stars(t.rating)}</div>}
+            {testimonials.map(tm => (
+              <div key={tm.id} className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-amber-200 hover:shadow-sm transition-all flex flex-col">
+                {tm.rating && <div className="flex gap-0.5 mb-3">{stars(tm.rating)}</div>}
                 <p className="text-3xl text-amber-200 leading-none mb-1 font-serif">"</p>
-                <p className="text-slate-600 text-sm leading-relaxed flex-1 italic">{t.content}</p>
+                <p className="text-slate-600 text-sm leading-relaxed flex-1 italic">{tm.content}</p>
 
-                {/* Auteur */}
                 <div className="flex items-center gap-3 mt-5 pt-4 border-t border-slate-50">
                   <div className="w-9 h-9 rounded-xl overflow-hidden bg-amber-100 flex items-center justify-center flex-shrink-0">
-                    {t.author_avatar
-                      ? <Image src={t.author_avatar} alt={t.author_name || ''} width={36} height={36} className="object-cover w-full h-full" />
-                      : <span className="text-xs font-bold text-amber-600">{initials(t.author_name)}</span>}
+                    {tm.author_avatar
+                      ? <Image src={tm.author_avatar} alt={tm.author_name || ''} width={36} height={36} className="object-cover w-full h-full" />
+                      : <span className="text-xs font-bold text-amber-600">{initials(tm.author_name)}</span>}
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-slate-700">{t.author_name || 'Membre anonyme'}</p>
-                    <p className="text-xs text-slate-400">{formatDate(t.created_at)}</p>
+                    <p className="text-sm font-semibold text-slate-700">{tm.author_name || t('anonymousMember')}</p>
+                    <p className="text-xs text-slate-400">{formatDate(tm.created_at)}</p>
                   </div>
                 </div>
 
-                {/* Actions : Like + Partager */}
                 <div className="flex items-center gap-5 mt-4 pt-3 border-t border-slate-50">
-                  <button onClick={() => handleLike(t)}
-                    className={`flex items-center gap-1.5 text-sm font-bold transition ${user && (t.likes || []).includes(user.uid) ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}>
-                    <Heart size={16} className={user && (t.likes || []).includes(user.uid) ? 'fill-current' : ''} />
-                    <span className="text-xs">{(t.likes || []).length}</span>
+                  <button onClick={() => handleLike(tm)}
+                    className={`flex items-center gap-1.5 text-sm font-bold transition ${user && (tm.likes || []).includes(user.uid) ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}>
+                    <Heart size={16} className={user && (tm.likes || []).includes(user.uid) ? 'fill-current' : ''} />
+                    <span className="text-xs">{(tm.likes || []).length}</span>
                   </button>
                   <ShareMenu
                     url={pageUrl}
-                    title={`Témoignage — ${t.author_name || 'Membre'}`}
-                    text={t.content.slice(0, 200)}
-                    count={t.shares}
-                    onShare={() => handleShare(t)}
+                    title={`${t('title')} — ${tm.author_name || t('member', { ns: 'common' })}`}
+                    text={tm.content.slice(0, 200)}
+                    count={tm.shares}
+                    onShare={() => handleShare(tm)}
                   />
                 </div>
               </div>
