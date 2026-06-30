@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Kontakt",
     "cancel": "Alle Rechte vorbehalten",
@@ -292,65 +292,252 @@
     "hi": "हिन्दी"
   },
   "about": {
-    "label": "Unsere Philosophie", "titleLine1": "Gegenseitige Hilfe neu erfinden", "titleLine2": "durch Zeit",
+    "label": "Unsere Philosophie",
+    "titleLine1": "Gegenseitige Hilfe neu erfinden",
+    "titleLine2": "durch Zeit",
     "subtitle": "Bourse du Temps: 1 Stunde gegeben = 1 Stunde empfangen - ohne Geld, ohne Hierarchie, offen fuer alle.",
-    "mission": { "label": "Unsere Mission", "text": "Ein Tausch-Oekosystem schaffen, in dem jeder seine Faehigkeiten ohne finanzielle Huerden einbringen kann." },
-    "vision": { "label": "Unsere Vision", "text": "Die groesste Gemeinschaft gegenseitiger Hilfe durch Faehigkeiten aufbauen, ueberall auf der Welt." },
+    "mission": {
+      "label": "Unsere Mission",
+      "text": "Ein Tausch-Oekosystem schaffen, in dem jeder seine Faehigkeiten ohne finanzielle Huerden einbringen kann."
+    },
+    "vision": {
+      "label": "Unsere Vision",
+      "text": "Die groesste Gemeinschaft gegenseitiger Hilfe durch Faehigkeiten aufbauen, ueberall auf der Welt."
+    },
     "values": {
-      "label": "Was uns leitet", "title": "Unsere Werte", "subtitle": "Sechs grundlegende Prinzipien, die jede Entscheidung definieren.",
-      "equality":     { "title": "Zeitgleichheit",         "desc": "1 Stunde gegeben = 1 Stunde empfangen. Jede Stunde hat denselben Wert." },
-      "trust":        { "title": "Gegenseitiges Vertrauen","desc": "Jeder Tausch basiert auf gegebenem Wort. Reputation wird durch Taten aufgebaut." },
-      "inclusion":    { "title": "Inklusion und Vielfalt", "desc": "Offen fuer alle ohne Voraussetzung. Die Vielfalt der Profile ist unser groesster Reichtum." },
-      "solidarity":   { "title": "Solidaritaet",           "desc": "Die widerstandsfaehigsten Gemeinschaften sind die, die sich gegenseitig helfen." },
-      "economy":      { "title": "Nicht-monetaere Wirtschaft","desc": "Zeit, nicht Geld. Eine Alternative zur Marktwirtschaft, zugaenglich fuer alle." },
-      "transparency": { "title": "Transparenz",            "desc": "Gemeinnuetzige Plattform. Jeder Tausch wird erfasst, jedes Guthaben ist sichtbar." }
+      "label": "Was uns leitet",
+      "title": "Unsere Werte",
+      "subtitle": "Sechs grundlegende Prinzipien, die jede Entscheidung definieren.",
+      "equality": {
+        "title": "Zeitgleichheit",
+        "desc": "1 Stunde gegeben = 1 Stunde empfangen. Jede Stunde hat denselben Wert."
+      },
+      "trust": {
+        "title": "Gegenseitiges Vertrauen",
+        "desc": "Jeder Tausch basiert auf gegebenem Wort. Reputation wird durch Taten aufgebaut."
+      },
+      "inclusion": {
+        "title": "Inklusion und Vielfalt",
+        "desc": "Offen fuer alle ohne Voraussetzung. Die Vielfalt der Profile ist unser groesster Reichtum."
+      },
+      "solidarity": {
+        "title": "Solidaritaet",
+        "desc": "Die widerstandsfaehigsten Gemeinschaften sind die, die sich gegenseitig helfen."
+      },
+      "economy": {
+        "title": "Nicht-monetaere Wirtschaft",
+        "desc": "Zeit, nicht Geld. Eine Alternative zur Marktwirtschaft, zugaenglich fuer alle."
+      },
+      "transparency": {
+        "title": "Transparenz",
+        "desc": "Gemeinnuetzige Plattform. Jeder Tausch wird erfasst, jedes Guthaben ist sichtbar."
+      }
     },
     "howItWorks": {
-      "label": "Einfach und konkret", "title": "Wie funktioniert es?",
-      "step1": { "title": "Registrieren",          "desc": "Erstellen Sie Ihr Profil mit Ihren Faehigkeiten. Erhalten Sie 5 Willkommensguthaben." },
-      "step2": { "title": "Anbieten und Tauschen", "desc": "Stellen Sie einen Dienst oder eine Anfrage ein. Tauschen Sie sich mit Mitgliedern aus." },
-      "step3": { "title": "Reputation aufbauen",   "desc": "Hinterlassen Sie nach jedem Tausch ein Zeugnis. Sammeln Sie Abzeichen." },
-      "step4": { "title": "Projekten beitreten",   "desc": "Nehmen Sie an kollektiven Workshops und kollaborativen Projekten teil." }
+      "label": "Einfach und konkret",
+      "title": "Wie funktioniert es?",
+      "step1": {
+        "title": "Registrieren",
+        "desc": "Erstellen Sie Ihr Profil mit Ihren Faehigkeiten. Erhalten Sie 5 Willkommensguthaben."
+      },
+      "step2": {
+        "title": "Anbieten und Tauschen",
+        "desc": "Stellen Sie einen Dienst oder eine Anfrage ein. Tauschen Sie sich mit Mitgliedern aus."
+      },
+      "step3": {
+        "title": "Reputation aufbauen",
+        "desc": "Hinterlassen Sie nach jedem Tausch ein Zeugnis. Sammeln Sie Abzeichen."
+      },
+      "step4": {
+        "title": "Projekten beitreten",
+        "desc": "Nehmen Sie an kollektiven Workshops und kollaborativen Projekten teil."
+      }
     },
-    "cta": { "title": "Bereit, der Gemeinschaft beizutreten?", "subtitle": "Tausende von Faehigkeiten warten auf Sie.", "btn": "Dienste entdecken ->" }
+    "cta": {
+      "title": "Bereit, der Gemeinschaft beizutreten?",
+      "subtitle": "Tausende von Faehigkeiten warten auf Sie.",
+      "btn": "Dienste entdecken ->"
+    }
   },
   "contact": {
-    "label": "Wir sind da", "title": "Kontakt", "subtitle": "Eine Frage, Partnerschaft oder Fehler? Schreiben Sie uns, wir antworten innerhalb von 48h.",
-    "name": "Name", "email": "E-Mail", "subject": "Betreff", "message": "Nachricht",
-    "namePlaceholder": "Ihr Name", "emailPlaceholder": "ihre@email.com",
-    "subjectPlaceholder": "z.B.: Institutionspartnerschaft, Fehlerreport...", "messagePlaceholder": "Beschreiben Sie Ihr Anliegen...",
-    "submit": "Nachricht senden ->", "sending": "Senden...", "successTitle": "Nachricht gesendet!", "successMsg": "Wir melden uns sehr bald bei Ihnen.",
-    "sendAnother": "Eine weitere Nachricht senden", "errorMsg": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
-    "channelEmail": "E-Mail", "channelForum": "Forum", "channelAI": "ALDEA", "channelForumVal": "Gemeinschaft", "channelAIVal": "KI-Chat"
+    "label": "Wir sind da",
+    "title": "Kontakt",
+    "subtitle": "Eine Frage, Partnerschaft oder Fehler? Schreiben Sie uns, wir antworten innerhalb von 48h.",
+    "name": "Name",
+    "email": "E-Mail",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "namePlaceholder": "Ihr Name",
+    "emailPlaceholder": "ihre@email.com",
+    "subjectPlaceholder": "z.B.: Institutionspartnerschaft, Fehlerreport...",
+    "messagePlaceholder": "Beschreiben Sie Ihr Anliegen...",
+    "submit": "Nachricht senden ->",
+    "sending": "Senden...",
+    "successTitle": "Nachricht gesendet!",
+    "successMsg": "Wir melden uns sehr bald bei Ihnen.",
+    "sendAnother": "Eine weitere Nachricht senden",
+    "errorMsg": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "channelEmail": "E-Mail",
+    "channelForum": "Forum",
+    "channelAI": "ALDEA",
+    "channelForumVal": "Gemeinschaft",
+    "channelAIVal": "KI-Chat"
   },
   "requests": {
-    "label": "Beduerfnisse der Gemeinschaft", "title": "Aktuelle Anfragen", "subtitle": "Ein Mitglied braucht Sie? Bieten Sie Ihre Hilfe an und verdienen Sie Guthaben.",
-    "searchPlaceholder": "Eine Anfrage suchen...", "noResults": "Noch keine Anfragen",
-    "today": "Heute", "yesterday": "Gestern", "daysAgo": "vor {days} Tagen",
-    "member": "Mitglied", "reply": "Antworten", "credit": "Guthaben", "credits": "Guthaben"
+    "label": "Beduerfnisse der Gemeinschaft",
+    "title": "Aktuelle Anfragen",
+    "subtitle": "Ein Mitglied braucht Sie? Bieten Sie Ihre Hilfe an und verdienen Sie Guthaben.",
+    "searchPlaceholder": "Eine Anfrage suchen...",
+    "noResults": "Noch keine Anfragen",
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "daysAgo": "vor {days} Tagen",
+    "member": "Mitglied",
+    "reply": "Antworten",
+    "credit": "Guthaben",
+    "credits": "Guthaben"
   },
   "dashboard": {
-    "loginRequired": "Anmeldung erforderlich", "loginDesc": "Zugang zu Ihrem persoenlichen Bereich", "login": "Anmelden",
-    "greeting": "Hallo, {name}", "subtitle": "Ihr persoenlicher Bereich", "myProfile": "Mein Profil ->",
-    "statCredits": "Guthaben", "statServices": "Dienste", "statExchanges": "Tausche", "statEarned": "Verdientes Guthaben",
-    "reviewsBanner": "{count} ausstehende Bewertung(en)", "reviewsDesc": "Teilen Sie Ihre Erfahrung nach Ihren letzten Tauschen",
-    "rateUser": "{name} bewerten", "leaveReview": "Bewertung hinterlassen ->",
-    "creditHistory": "Guthabenverlauf", "earned": "verdient", "spent": "ausgegeben",
-    "myServices": "Meine Dienste", "viewAll": "Alle anzeigen ->", "noServices": "Sie haben noch keine Dienste veroeffentlicht.",
+    "loginRequired": "Anmeldung erforderlich",
+    "loginDesc": "Zugang zu Ihrem persoenlichen Bereich",
+    "login": "Anmelden",
+    "greeting": "Hallo, {name}",
+    "subtitle": "Ihr persoenlicher Bereich",
+    "myProfile": "Mein Profil ->",
+    "statCredits": "Guthaben",
+    "statServices": "Dienste",
+    "statExchanges": "Tausche",
+    "statEarned": "Verdientes Guthaben",
+    "reviewsBanner": "{count} ausstehende Bewertung(en)",
+    "reviewsDesc": "Teilen Sie Ihre Erfahrung nach Ihren letzten Tauschen",
+    "rateUser": "{name} bewerten",
+    "leaveReview": "Bewertung hinterlassen ->",
+    "creditHistory": "Guthabenverlauf",
+    "earned": "verdient",
+    "spent": "ausgegeben",
+    "myServices": "Meine Dienste",
+    "viewAll": "Alle anzeigen ->",
+    "noServices": "Sie haben noch keine Dienste veroeffentlicht.",
     "exchange": "Tausch",
-    "shortcuts": { "services": "Dienste erkunden", "requests": "Anfragen anzeigen", "members": "Mitglieder finden", "workshops": "Gemeinschafts-Workshops", "projects": "Kollaborative Projekte", "search": "KI-Suche" }
+    "shortcuts": {
+      "services": "Dienste erkunden",
+      "requests": "Anfragen anzeigen",
+      "members": "Mitglieder finden",
+      "workshops": "Gemeinschafts-Workshops",
+      "projects": "Kollaborative Projekte",
+      "search": "KI-Suche"
+    }
   },
   "members": {
-    "label": "Unsere Gemeinschaft", "title": "Mitglieder", "subtitle": "{count} Person(en) bereit zum Tauschen ihrer Zeit.",
-    "searchPlaceholder": "Nach Name, Faehigkeit, Stadt suchen...", "noResults": "Keine Mitglieder gefunden",
-    "verified": "Verifiziert", "member": "Mitglied"
+    "label": "Unsere Gemeinschaft",
+    "title": "Mitglieder",
+    "subtitle": "{count} Person(en) bereit zum Tauschen ihrer Zeit.",
+    "searchPlaceholder": "Nach Name, Faehigkeit, Stadt suchen...",
+    "noResults": "Keine Mitglieder gefunden",
+    "verified": "Verifiziert",
+    "member": "Mitglied"
   },
   "forum": {
-    "title": "Tauschforum", "newTopic": "Neues Thema", "editTopic": "Thema bearbeiten", "startDiscussion": "Eine Diskussion starten",
-    "titlePlaceholder": "Thementitel", "messagePlaceholder": "Ihre Nachricht...", "externalLinkPlaceholder": "Externer Link (optional)",
-    "uploading": "Hochladen...", "fileReady": "Datei bereit", "importMedia": "Foto/Video importieren",
-    "removeMedia": "Entfernen", "update": "Aktualisieren", "publish": "Veroeffentlichen", "cancel": "Abbrechen",
-    "externalLink": "Externer Link", "by": "Von", "commentPlaceholder": "Kommentieren...", "send": "Senden",
-    "empty": "Noch keine Diskussionen. Seien Sie der Erste!", "loginRequired": "Anmelden zum Teilnehmen", "confirmDelete": "Dieses Thema dauerhaft loeschen?"
+    "title": "Tauschforum",
+    "newTopic": "Neues Thema",
+    "editTopic": "Thema bearbeiten",
+    "startDiscussion": "Eine Diskussion starten",
+    "titlePlaceholder": "Thementitel",
+    "messagePlaceholder": "Ihre Nachricht...",
+    "externalLinkPlaceholder": "Externer Link (optional)",
+    "uploading": "Hochladen...",
+    "fileReady": "Datei bereit",
+    "importMedia": "Foto/Video importieren",
+    "removeMedia": "Entfernen",
+    "update": "Aktualisieren",
+    "publish": "Veroeffentlichen",
+    "cancel": "Abbrechen",
+    "externalLink": "Externer Link",
+    "by": "Von",
+    "commentPlaceholder": "Kommentieren...",
+    "send": "Senden",
+    "empty": "Noch keine Diskussionen. Seien Sie der Erste!",
+    "loginRequired": "Anmelden zum Teilnehmen",
+    "confirmDelete": "Dieses Thema dauerhaft loeschen?"
+  },
+  "marketplace": {
+    "label": "Angebote & Anfragen",
+    "title": "Marketplace",
+    "subtitle": "Finde eine Faehigkeit oder biete deine an. 1h gegeben = 1h erhalten.",
+    "tabServices": "Dienste ({count})",
+    "tabRequests": "Anfragen ({count})",
+    "searchService": "Dienst suchen...",
+    "searchRequest": "Anfrage suchen...",
+    "allCategories": "Alle Kategorien",
+    "badgeOffer": "Angebot",
+    "badgeRequest": "Anfrage",
+    "by": "von",
+    "member": "Mitglied",
+    "contact": "Kontaktieren ->",
+    "noResults": "Keine Ergebnisse"
+  },
+  "testimonials": {
+    "label": "Sie sagen es besser als wir",
+    "title": "Erfahrungsberichte",
+    "subtitle": "Echte Tausche, dauerhafte Verbindungen. Das erleben Mitglieder der Bourse du Temps.",
+    "leaveBtn": "Erfahrungsbericht hinterlassen",
+    "cancelBtn": "Abbrechen",
+    "formTitle": "Ihr Erfahrungsbericht",
+    "toMemberLabel": "Ueber welches Mitglied? *",
+    "selectMember": "Mitglied auswaehlen...",
+    "ratingLabel": "Bewertung",
+    "contentLabel": "Ihr Erfahrungsbericht *",
+    "contentHint": "(min 20 Zeichen)",
+    "contentPlaceholder": "Beschreiben Sie Ihre Tauscherfahrung mit diesem Mitglied...",
+    "charCount": "{count} / 1000",
+    "errorRecipient": "Waehlen Sie einen Empfaenger",
+    "errorMinChars": "Mindestens 20 Zeichen",
+    "cancel": "Abbrechen",
+    "publish": "Veroeffentlichen",
+    "sending": "Senden...",
+    "successMsg": "Erfahrungsbericht veroeffentlicht!",
+    "anonymousMember": "Anonymes Mitglied",
+    "noResults": "Noch keine Erfahrungsberichte",
+    "beFirst": "Seien Sie der Erste, der seine Erfahrung teilt!"
+  },
+  "workshops": {
+    "label": "Gemeinsam lernen",
+    "title": "Gemeinschafts-Workshops",
+    "subtitle": "1 Experte teilt seine Zeit mit mehreren Lernenden.",
+    "heatmapBtn": "Bedarfskarte",
+    "createBtn": "+ Workshop erstellen",
+    "formatOnline": "Online",
+    "formatPresential": "Praesenz",
+    "formatHybrid": "Hybrid",
+    "formTitle": "Workshop erstellen",
+    "titleLabel": "Titel *",
+    "descLabel": "Beschreibung *",
+    "categoryLabel": "Kategorie *",
+    "formatLabel": "Format",
+    "dateLabel": "Datum & Uhrzeit",
+    "durationLabel": "Dauer (Min)",
+    "maxParticipantsLabel": "Max. Teilnehmer",
+    "creditsLabel": "Guthaben/Teilnehmer",
+    "locationLabel": "Ort",
+    "tagsLabel": "Tags (kommagetrennt)",
+    "choosePlaceholder": "Waehlen...",
+    "titlePlaceholder": "z.B.: Gitarre fuer Anfaenger",
+    "descPlaceholder": "Was Teilnehmer lernen werden, erforderliches Niveau, Ablauf...",
+    "locationPlaceholder": "Adresse oder Meeting-Link",
+    "tagsPlaceholder": "gitarre, musik, anfaenger",
+    "cancel": "Abbrechen",
+    "publish": "Workshop veroeffentlichen",
+    "publishing": "Erstellen...",
+    "loginToJoin": "Anmelden, um einem Workshop beizutreten",
+    "loginToCreate": "Anmelden, um einen Workshop zu erstellen",
+    "statusFull": "Voll",
+    "statusOpen": "Offen",
+    "dateUndefined": "Datum noch offen",
+    "registered": "{count}/{max} angemeldet",
+    "credit": "Guthaben",
+    "credits": "Guthaben",
+    "join": "Beitreten ->",
+    "noResults": "Noch keine Workshops",
+    "beFirst": "Seien Sie der Erste, der sein Wissen teilt!"
   }
 }

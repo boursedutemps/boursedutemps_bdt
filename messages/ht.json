@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Anrejistre",
     "cancel": "Anile",
@@ -292,65 +292,252 @@
     "hi": "हिन्दी"
   },
   "about": {
-    "label": "Filozofi nou", "titleLine1": "Reenvante ed mityel", "titleLine2": "nan tan",
+    "label": "Filozofi nou",
+    "titleLine1": "Reenvante ed mityel",
+    "titleLine2": "nan tan",
     "subtitle": "Bous du Tan se yon platfom echanj konpetans kote 1 edtan bay = 1 edtan resevwa - san lajan, san yerachi, louvri pou tout moun.",
-    "mission": { "label": "Misyon nou", "text": "Kreye yon ekosistem echanj kote chak moun ka valorize konpetans li san baryye finansye." },
-    "vision": { "label": "Vizyon nou", "text": "Bati pi gwo kominote ed mityel nan konpetans, fasilite koneksyon ant moun, kilti ak ekspetiz tout kote nan mond lan." },
+    "mission": {
+      "label": "Misyon nou",
+      "text": "Kreye yon ekosistem echanj kote chak moun ka valorize konpetans li san baryye finansye."
+    },
+    "vision": {
+      "label": "Vizyon nou",
+      "text": "Bati pi gwo kominote ed mityel nan konpetans, fasilite koneksyon ant moun, kilti ak ekspetiz tout kote nan mond lan."
+    },
     "values": {
-      "label": "Sa ki gide nou", "title": "Vale nou yo", "subtitle": "Sis prensip fondamantal ki defini chak desizyon nou pran.",
-      "equality":     { "title": "Egalite tan",          "desc": "1 edtan bay = 1 edtan resevwa. Chak edtan gen menm vale." },
-      "trust":        { "title": "Konfyans mityel",       "desc": "Chak echanj repoze sou pawol bay. Reputasyon bati sou aksyon." },
-      "inclusion":    { "title": "Enklizyon ak Diveste",  "desc": "Louvri pou tout moun san kondisyon. Diveste pwofil yo se pi gran riches nou." },
-      "solidarity":   { "title": "Solidarite",            "desc": "Kominote ki pi rezilyant yo se sa ki ede youn lot." },
-      "economy":      { "title": "Ekonomi san lajan",     "desc": "Tan, pa lajan. Yon altenaif pou ekonomi machann, aksesib pou tout moun." },
-      "transparency": { "title": "Transparan",            "desc": "Platfom san bi likratif. Chak echanj trace, chak kredi vizib." }
+      "label": "Sa ki gide nou",
+      "title": "Vale nou yo",
+      "subtitle": "Sis prensip fondamantal ki defini chak desizyon nou pran.",
+      "equality": {
+        "title": "Egalite tan",
+        "desc": "1 edtan bay = 1 edtan resevwa. Chak edtan gen menm vale."
+      },
+      "trust": {
+        "title": "Konfyans mityel",
+        "desc": "Chak echanj repoze sou pawol bay. Reputasyon bati sou aksyon."
+      },
+      "inclusion": {
+        "title": "Enklizyon ak Diveste",
+        "desc": "Louvri pou tout moun san kondisyon. Diveste pwofil yo se pi gran riches nou."
+      },
+      "solidarity": {
+        "title": "Solidarite",
+        "desc": "Kominote ki pi rezilyant yo se sa ki ede youn lot."
+      },
+      "economy": {
+        "title": "Ekonomi san lajan",
+        "desc": "Tan, pa lajan. Yon altenaif pou ekonomi machann, aksesib pou tout moun."
+      },
+      "transparency": {
+        "title": "Transparan",
+        "desc": "Platfom san bi likratif. Chak echanj trace, chak kredi vizib."
+      }
     },
     "howItWorks": {
-      "label": "Senp ak konkre", "title": "Kijan sa mache?",
-      "step1": { "title": "Enskri ou",           "desc": "Kreye pwofil ou ak konpetans ak bezwen ou. Resevwa 5 kredi byenveni pou komanse." },
-      "step2": { "title": "Pwopoz ak Echanj",    "desc": "Mete yon sÃ¨vis oswa demann anliy. Kontakte manm yo epi fÃ¨ premye echanj ou." },
-      "step3": { "title": "Bati reputasyon ou",  "desc": "Apre chak echanj, kite yon temwayaj. Akimile badge epi monte nivo." },
-      "step4": { "title": "Rejwenn pwoje",       "desc": "Patisipe nan atelye kolektif ak pwoje kolaboratif." }
+      "label": "Senp ak konkre",
+      "title": "Kijan sa mache?",
+      "step1": {
+        "title": "Enskri ou",
+        "desc": "Kreye pwofil ou ak konpetans ak bezwen ou. Resevwa 5 kredi byenveni pou komanse."
+      },
+      "step2": {
+        "title": "Pwopoz ak Echanj",
+        "desc": "Mete yon sÃ¨vis oswa demann anliy. Kontakte manm yo epi fÃ¨ premye echanj ou."
+      },
+      "step3": {
+        "title": "Bati reputasyon ou",
+        "desc": "Apre chak echanj, kite yon temwayaj. Akimile badge epi monte nivo."
+      },
+      "step4": {
+        "title": "Rejwenn pwoje",
+        "desc": "Patisipe nan atelye kolektif ak pwoje kolaboratif."
+      }
     },
-    "cta": { "title": "Pare pou rejwenn kominote a?", "subtitle": "De milye konpetans ap tann ou.", "btn": "Dekouvri sevis yo ->" }
+    "cta": {
+      "title": "Pare pou rejwenn kominote a?",
+      "subtitle": "De milye konpetans ap tann ou.",
+      "btn": "Dekouvri sevis yo ->"
+    }
   },
   "contact": {
-    "label": "Nou la", "title": "Kontakte nou", "subtitle": "Yon kesyon, patenarya, bug? Ekri nou, nou reponn nan 48h.",
-    "name": "Non", "email": "Imel", "subject": "Sije", "message": "Mesaj",
-    "namePlaceholder": "Non ou", "emailPlaceholder": "ou@imel.com",
-    "subjectPlaceholder": "Egzanp: Patenarya enstitisyon, rapo bug...", "messagePlaceholder": "Dekri demann ou...",
-    "submit": "Voye mesaj ->", "sending": "Ap voye...", "successTitle": "Mesaj voye!", "successMsg": "Nou pral tounen vers ou tre vit.",
-    "sendAnother": "Voye yon lot mesaj", "errorMsg": "Yon ere te rive. Eseye anko.",
-    "channelEmail": "Imel", "channelForum": "Fowom", "channelAI": "ALDEA", "channelForumVal": "Kominote", "channelAIVal": "Chat IA"
+    "label": "Nou la",
+    "title": "Kontakte nou",
+    "subtitle": "Yon kesyon, patenarya, bug? Ekri nou, nou reponn nan 48h.",
+    "name": "Non",
+    "email": "Imel",
+    "subject": "Sije",
+    "message": "Mesaj",
+    "namePlaceholder": "Non ou",
+    "emailPlaceholder": "ou@imel.com",
+    "subjectPlaceholder": "Egzanp: Patenarya enstitisyon, rapo bug...",
+    "messagePlaceholder": "Dekri demann ou...",
+    "submit": "Voye mesaj ->",
+    "sending": "Ap voye...",
+    "successTitle": "Mesaj voye!",
+    "successMsg": "Nou pral tounen vers ou tre vit.",
+    "sendAnother": "Voye yon lot mesaj",
+    "errorMsg": "Yon ere te rive. Eseye anko.",
+    "channelEmail": "Imel",
+    "channelForum": "Fowom",
+    "channelAI": "ALDEA",
+    "channelForumVal": "Kominote",
+    "channelAIVal": "Chat IA"
   },
   "requests": {
-    "label": "Bezwen kominote a", "title": "Demann aktyel yo", "subtitle": "Yon manm bezwen ou? Ofri ed ou epi fe kredi.",
-    "searchPlaceholder": "Cheche yon demann...", "noResults": "Pa gen demann pou kounye a",
-    "today": "Jodi a", "yesterday": "Ye", "daysAgo": "gen {days} jou",
-    "member": "Manm", "reply": "Reponn", "credit": "kredi", "credits": "kredi"
+    "label": "Bezwen kominote a",
+    "title": "Demann aktyel yo",
+    "subtitle": "Yon manm bezwen ou? Ofri ed ou epi fe kredi.",
+    "searchPlaceholder": "Cheche yon demann...",
+    "noResults": "Pa gen demann pou kounye a",
+    "today": "Jodi a",
+    "yesterday": "Ye",
+    "daysAgo": "gen {days} jou",
+    "member": "Manm",
+    "reply": "Reponn",
+    "credit": "kredi",
+    "credits": "kredi"
   },
   "dashboard": {
-    "loginRequired": "Koneksyon obligatwa", "loginDesc": "Jwenn akse nan espas pesonÃ¨l ou", "login": "Konekte",
-    "greeting": "Bonjou, {name}", "subtitle": "Espas pesonÃ¨l ou", "myProfile": "Pwofil mwen ->",
-    "statCredits": "Kredi", "statServices": "Sevis", "statExchanges": "Echanj", "statEarned": "Kredi touche",
-    "reviewsBanner": "{count} avi an atant", "reviewsDesc": "Pataje eksperyans ou apre echanj resan ou yo",
-    "rateUser": "Evalye {name}", "leaveReview": "Kite yon avi ->",
-    "creditHistory": "Istwa kredi", "earned": "touche", "spent": "depanse",
-    "myServices": "Sevis mwen yo", "viewAll": "We tout ->", "noServices": "Ou poko gen okenn sevis pwopoze.",
+    "loginRequired": "Koneksyon obligatwa",
+    "loginDesc": "Jwenn akse nan espas pesonÃ¨l ou",
+    "login": "Konekte",
+    "greeting": "Bonjou, {name}",
+    "subtitle": "Espas pesonÃ¨l ou",
+    "myProfile": "Pwofil mwen ->",
+    "statCredits": "Kredi",
+    "statServices": "Sevis",
+    "statExchanges": "Echanj",
+    "statEarned": "Kredi touche",
+    "reviewsBanner": "{count} avi an atant",
+    "reviewsDesc": "Pataje eksperyans ou apre echanj resan ou yo",
+    "rateUser": "Evalye {name}",
+    "leaveReview": "Kite yon avi ->",
+    "creditHistory": "Istwa kredi",
+    "earned": "touche",
+    "spent": "depanse",
+    "myServices": "Sevis mwen yo",
+    "viewAll": "We tout ->",
+    "noServices": "Ou poko gen okenn sevis pwopoze.",
     "exchange": "Echanj",
-    "shortcuts": { "services": "Eksplore sevis yo", "requests": "We demann yo", "members": "Jwenn manm yo", "workshops": "Atelye kolektif", "projects": "Pwoje kolaboratif", "search": "Rechech IA" }
+    "shortcuts": {
+      "services": "Eksplore sevis yo",
+      "requests": "We demann yo",
+      "members": "Jwenn manm yo",
+      "workshops": "Atelye kolektif",
+      "projects": "Pwoje kolaboratif",
+      "search": "Rechech IA"
+    }
   },
   "members": {
-    "label": "Kominote nou an", "title": "Manm yo", "subtitle": "{count} moun pare pou echanj tan yo.",
-    "searchPlaceholder": "Cheche pa non, konpetans, vil...", "noResults": "Pa jwenn okenn manm",
-    "verified": "Verifye", "member": "Manm"
+    "label": "Kominote nou an",
+    "title": "Manm yo",
+    "subtitle": "{count} moun pare pou echanj tan yo.",
+    "searchPlaceholder": "Cheche pa non, konpetans, vil...",
+    "noResults": "Pa jwenn okenn manm",
+    "verified": "Verifye",
+    "member": "Manm"
   },
   "forum": {
-    "title": "Fowom echanj yo", "newTopic": "Nouvo Sije", "editTopic": "Modifye sije a", "startDiscussion": "Komanse yon diskisyon",
-    "titlePlaceholder": "Tit sije a", "messagePlaceholder": "Mesaj ou...", "externalLinkPlaceholder": "Lyen eksten (opsyonel)",
-    "uploading": "Ap telechaje...", "fileReady": "Fichye pare", "importMedia": "Enpote Foto/Videyo",
-    "removeMedia": "Efase", "update": "Mete ajou", "publish": "Pibliye", "cancel": "Anile",
-    "externalLink": "Lyen eksten", "by": "Pa", "commentPlaceholder": "Komante...", "send": "Voye",
-    "empty": "Pa gen diskisyon. Ou ka premye!", "loginRequired": "Konekte pou patisipe", "confirmDelete": "Efase sije sa a definitisman?"
+    "title": "Fowom echanj yo",
+    "newTopic": "Nouvo Sije",
+    "editTopic": "Modifye sije a",
+    "startDiscussion": "Komanse yon diskisyon",
+    "titlePlaceholder": "Tit sije a",
+    "messagePlaceholder": "Mesaj ou...",
+    "externalLinkPlaceholder": "Lyen eksten (opsyonel)",
+    "uploading": "Ap telechaje...",
+    "fileReady": "Fichye pare",
+    "importMedia": "Enpote Foto/Videyo",
+    "removeMedia": "Efase",
+    "update": "Mete ajou",
+    "publish": "Pibliye",
+    "cancel": "Anile",
+    "externalLink": "Lyen eksten",
+    "by": "Pa",
+    "commentPlaceholder": "Komante...",
+    "send": "Voye",
+    "empty": "Pa gen diskisyon. Ou ka premye!",
+    "loginRequired": "Konekte pou patisipe",
+    "confirmDelete": "Efase sije sa a definitisman?"
+  },
+  "marketplace": {
+    "label": "Of ak Demann",
+    "title": "Mache",
+    "subtitle": "Jwenn yon konpetans oswa pwopoze pa ou. 1h bay = 1h resevwa.",
+    "tabServices": "Sevis ({count})",
+    "tabRequests": "Demann ({count})",
+    "searchService": "Cheche yon sevis...",
+    "searchRequest": "Cheche yon demann...",
+    "allCategories": "Tout kategori yo",
+    "badgeOffer": "Of",
+    "badgeRequest": "Demann",
+    "by": "pa",
+    "member": "Manm",
+    "contact": "Kontakte ->",
+    "noResults": "Pa gen rezilta"
+  },
+  "testimonials": {
+    "label": "Yo pale pi byen pase nou",
+    "title": "Temwayaj",
+    "subtitle": "Echanj reyel, koneksyon dirab. Men sa manm Bous du Tan yo ap viv.",
+    "leaveBtn": "Kite yon temwayaj",
+    "cancelBtn": "Anile",
+    "formTitle": "Temwayaj ou",
+    "toMemberLabel": "Konsenan ki manm? *",
+    "selectMember": "Seleksyone yon manm...",
+    "ratingLabel": "Nòt",
+    "contentLabel": "Temwayaj ou *",
+    "contentHint": "(minimòm 20 karaktè)",
+    "contentPlaceholder": "Dekri eksperyans echanj ou ak manm sa a...",
+    "charCount": "{count} / 1000",
+    "errorRecipient": "Chwazi yon destinatè",
+    "errorMinChars": "Minimòm 20 karaktè",
+    "cancel": "Anile",
+    "publish": "Pibliye",
+    "sending": "Ap voye...",
+    "successMsg": "Temwayaj pibliye!",
+    "anonymousMember": "Manm anonim",
+    "noResults": "Pa gen temwayaj pou kounye a",
+    "beFirst": "Se ou ki premye pou pataje eksperyans ou!"
+  },
+  "workshops": {
+    "label": "Aprann ansanm",
+    "title": "Atelye kolektif",
+    "subtitle": "1 ekspè pataje tan li ak plizyè aprenan.",
+    "heatmapBtn": "Kat bezwen yo",
+    "createBtn": "+ Kreye yon atelye",
+    "formatOnline": "Anliy",
+    "formatPresential": "Prezansyel",
+    "formatHybrid": "Ibrid",
+    "formTitle": "Kreye yon atelye",
+    "titleLabel": "Tit *",
+    "descLabel": "Deskripsyon *",
+    "categoryLabel": "Kategori *",
+    "formatLabel": "Fòma",
+    "dateLabel": "Dat ak lè",
+    "durationLabel": "Dire (min)",
+    "maxParticipantsLabel": "Maksimòm patisipan",
+    "creditsLabel": "Kredi/patisipan",
+    "locationLabel": "Kote",
+    "tagsLabel": "Tags (separe pa vigil)",
+    "choosePlaceholder": "Chwazi...",
+    "titlePlaceholder": "Egz: Inisyasyon gita pou debitan",
+    "descPlaceholder": "Sa patisipan yo pral aprann, nivo ki nesesè, pwogram nan...",
+    "locationPlaceholder": "Adrès oswa lyen reyinyon",
+    "tagsPlaceholder": "gita, mizik, debitan",
+    "cancel": "Anile",
+    "publish": "Pibliye atelye a",
+    "publishing": "Ap kreye...",
+    "loginToJoin": "Konekte pou rejwenn yon atelye",
+    "loginToCreate": "Konekte pou kreye yon atelye",
+    "statusFull": "Konplè",
+    "statusOpen": "Ouvri",
+    "dateUndefined": "Dat poko defini",
+    "registered": "{count}/{max} enskri",
+    "credit": "kredi",
+    "credits": "kredi",
+    "join": "Rejwenn ->",
+    "noResults": "Pa gen atelye pou kounye a",
+    "beFirst": "Se ou ki premye pou pataje konesans ou!"
   }
 }

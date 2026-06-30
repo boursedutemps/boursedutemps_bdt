@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -292,65 +292,252 @@
     "hi": "हिन्दी"
   },
   "about": {
-    "label": "Our philosophy", "titleLine1": "Reinventing mutual aid", "titleLine2": "through time",
+    "label": "Our philosophy",
+    "titleLine1": "Reinventing mutual aid",
+    "titleLine2": "through time",
     "subtitle": "Bourse du Temps is a skills exchange platform where 1 hour given equals 1 hour received - no money, no hierarchy, open to all.",
-    "mission": { "label": "Our Mission", "text": "Create an exchange ecosystem where everyone can leverage their skills without financial barriers." },
-    "vision": { "label": "Our Vision", "text": "Build the largest community of mutual aid through skills, fostering connections between people anywhere in the world." },
+    "mission": {
+      "label": "Our Mission",
+      "text": "Create an exchange ecosystem where everyone can leverage their skills without financial barriers."
+    },
+    "vision": {
+      "label": "Our Vision",
+      "text": "Build the largest community of mutual aid through skills, fostering connections between people anywhere in the world."
+    },
     "values": {
-      "label": "What guides us", "title": "Our values", "subtitle": "Six fundamental principles that define every decision we make.",
-      "equality":     { "title": "Time equality",         "desc": "1 hour given = 1 hour received. Every hour has the same value regardless of skill or status." },
-      "trust":        { "title": "Mutual trust",          "desc": "Every exchange relies on one word given. Reputation is built through actions." },
-      "inclusion":    { "title": "Inclusion & Diversity", "desc": "Open to all, no diploma or income required. Diversity of profiles is our greatest asset." },
-      "solidarity":   { "title": "Solidarity",            "desc": "The most resilient communities are those that help each other." },
-      "economy":      { "title": "Non-monetary economy",  "desc": "Time, not money. An alternative to the market economy, accessible to all." },
-      "transparency": { "title": "Transparency",          "desc": "Non-profit platform. Every exchange is tracked, every credit is visible." }
+      "label": "What guides us",
+      "title": "Our values",
+      "subtitle": "Six fundamental principles that define every decision we make.",
+      "equality": {
+        "title": "Time equality",
+        "desc": "1 hour given = 1 hour received. Every hour has the same value regardless of skill or status."
+      },
+      "trust": {
+        "title": "Mutual trust",
+        "desc": "Every exchange relies on one word given. Reputation is built through actions."
+      },
+      "inclusion": {
+        "title": "Inclusion & Diversity",
+        "desc": "Open to all, no diploma or income required. Diversity of profiles is our greatest asset."
+      },
+      "solidarity": {
+        "title": "Solidarity",
+        "desc": "The most resilient communities are those that help each other."
+      },
+      "economy": {
+        "title": "Non-monetary economy",
+        "desc": "Time, not money. An alternative to the market economy, accessible to all."
+      },
+      "transparency": {
+        "title": "Transparency",
+        "desc": "Non-profit platform. Every exchange is tracked, every credit is visible."
+      }
     },
     "howItWorks": {
-      "label": "Simple & concrete", "title": "How does it work?",
-      "step1": { "title": "Sign up",               "desc": "Create your profile with your skills and needs. Receive 5 welcome credits to get started." },
-      "step2": { "title": "Offer & Exchange",       "desc": "Post a service or request. Contact members, negotiate and complete your first exchange." },
-      "step3": { "title": "Build your reputation",  "desc": "After each exchange, leave a testimonial. Earn badges and level up." },
-      "step4": { "title": "Join projects",          "desc": "Participate in collective workshops and collaborative projects to go further together." }
+      "label": "Simple & concrete",
+      "title": "How does it work?",
+      "step1": {
+        "title": "Sign up",
+        "desc": "Create your profile with your skills and needs. Receive 5 welcome credits to get started."
+      },
+      "step2": {
+        "title": "Offer & Exchange",
+        "desc": "Post a service or request. Contact members, negotiate and complete your first exchange."
+      },
+      "step3": {
+        "title": "Build your reputation",
+        "desc": "After each exchange, leave a testimonial. Earn badges and level up."
+      },
+      "step4": {
+        "title": "Join projects",
+        "desc": "Participate in collective workshops and collaborative projects to go further together."
+      }
     },
-    "cta": { "title": "Ready to join the community?", "subtitle": "Thousands of skills await you. Your next enriching encounter is just one exchange away.", "btn": "Discover services ->" }
+    "cta": {
+      "title": "Ready to join the community?",
+      "subtitle": "Thousands of skills await you. Your next enriching encounter is just one exchange away.",
+      "btn": "Discover services ->"
+    }
   },
   "contact": {
-    "label": "We are here", "title": "Contact us", "subtitle": "A question, partnership or bug? Write to us, we respond within 48h.",
-    "name": "Name", "email": "Email", "subject": "Subject", "message": "Message",
-    "namePlaceholder": "Your name", "emailPlaceholder": "your@email.com",
-    "subjectPlaceholder": "E.g.: Institution partnership, bug report...", "messagePlaceholder": "Describe your request...",
-    "submit": "Send message ->", "sending": "Sending...", "successTitle": "Message sent!", "successMsg": "We will get back to you very soon.",
-    "sendAnother": "Send another message", "errorMsg": "An error occurred. Please try again.",
-    "channelEmail": "Email", "channelForum": "Forum", "channelAI": "ALDEA", "channelForumVal": "Community", "channelAIVal": "AI Chat"
+    "label": "We are here",
+    "title": "Contact us",
+    "subtitle": "A question, partnership or bug? Write to us, we respond within 48h.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "subjectPlaceholder": "E.g.: Institution partnership, bug report...",
+    "messagePlaceholder": "Describe your request...",
+    "submit": "Send message ->",
+    "sending": "Sending...",
+    "successTitle": "Message sent!",
+    "successMsg": "We will get back to you very soon.",
+    "sendAnother": "Send another message",
+    "errorMsg": "An error occurred. Please try again.",
+    "channelEmail": "Email",
+    "channelForum": "Forum",
+    "channelAI": "ALDEA",
+    "channelForumVal": "Community",
+    "channelAIVal": "AI Chat"
   },
   "requests": {
-    "label": "Community needs", "title": "Current requests", "subtitle": "A member needs you? Offer your help and earn credits.",
-    "searchPlaceholder": "Search a request...", "noResults": "No requests yet",
-    "today": "Today", "yesterday": "Yesterday", "daysAgo": "{days} days ago",
-    "member": "Member", "reply": "Reply", "credit": "credit", "credits": "credits"
+    "label": "Community needs",
+    "title": "Current requests",
+    "subtitle": "A member needs you? Offer your help and earn credits.",
+    "searchPlaceholder": "Search a request...",
+    "noResults": "No requests yet",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "daysAgo": "{days} days ago",
+    "member": "Member",
+    "reply": "Reply",
+    "credit": "credit",
+    "credits": "credits"
   },
   "dashboard": {
-    "loginRequired": "Login required", "loginDesc": "Access your personal space", "login": "Log in",
-    "greeting": "Hello, {name}", "subtitle": "Your personal space", "myProfile": "My profile ->",
-    "statCredits": "Credits", "statServices": "Services", "statExchanges": "Exchanges", "statEarned": "Credits earned",
-    "reviewsBanner": "{count} pending review(s)", "reviewsDesc": "Share your experience after your recent exchanges",
-    "rateUser": "Rate {name}", "leaveReview": "Leave a review ->",
-    "creditHistory": "Credit history", "earned": "earned", "spent": "spent",
-    "myServices": "My services", "viewAll": "View all ->", "noServices": "You have not posted any services yet.",
+    "loginRequired": "Login required",
+    "loginDesc": "Access your personal space",
+    "login": "Log in",
+    "greeting": "Hello, {name}",
+    "subtitle": "Your personal space",
+    "myProfile": "My profile ->",
+    "statCredits": "Credits",
+    "statServices": "Services",
+    "statExchanges": "Exchanges",
+    "statEarned": "Credits earned",
+    "reviewsBanner": "{count} pending review(s)",
+    "reviewsDesc": "Share your experience after your recent exchanges",
+    "rateUser": "Rate {name}",
+    "leaveReview": "Leave a review ->",
+    "creditHistory": "Credit history",
+    "earned": "earned",
+    "spent": "spent",
+    "myServices": "My services",
+    "viewAll": "View all ->",
+    "noServices": "You have not posted any services yet.",
     "exchange": "Exchange",
-    "shortcuts": { "services": "Explore services", "requests": "View requests", "members": "Find members", "workshops": "Group workshops", "projects": "Collaborative projects", "search": "AI Search" }
+    "shortcuts": {
+      "services": "Explore services",
+      "requests": "View requests",
+      "members": "Find members",
+      "workshops": "Group workshops",
+      "projects": "Collaborative projects",
+      "search": "AI Search"
+    }
   },
   "members": {
-    "label": "Our community", "title": "Members", "subtitle": "{count} person(s) ready to exchange their time.",
-    "searchPlaceholder": "Search by name, skill, city...", "noResults": "No members found",
-    "verified": "Verified", "member": "Member"
+    "label": "Our community",
+    "title": "Members",
+    "subtitle": "{count} person(s) ready to exchange their time.",
+    "searchPlaceholder": "Search by name, skill, city...",
+    "noResults": "No members found",
+    "verified": "Verified",
+    "member": "Member"
   },
   "forum": {
-    "title": "Exchange Forum", "newTopic": "New Topic", "editTopic": "Edit topic", "startDiscussion": "Start a discussion",
-    "titlePlaceholder": "Topic title", "messagePlaceholder": "Your message...", "externalLinkPlaceholder": "External link (optional)",
-    "uploading": "Uploading...", "fileReady": "File ready", "importMedia": "Import Photo/Video",
-    "removeMedia": "Remove", "update": "Update", "publish": "Publish", "cancel": "Cancel",
-    "externalLink": "External link", "by": "By", "commentPlaceholder": "Comment...", "send": "Send",
-    "empty": "No discussions yet. Be the first!", "loginRequired": "Log in to participate", "confirmDelete": "Permanently delete this topic?"
+    "title": "Exchange Forum",
+    "newTopic": "New Topic",
+    "editTopic": "Edit topic",
+    "startDiscussion": "Start a discussion",
+    "titlePlaceholder": "Topic title",
+    "messagePlaceholder": "Your message...",
+    "externalLinkPlaceholder": "External link (optional)",
+    "uploading": "Uploading...",
+    "fileReady": "File ready",
+    "importMedia": "Import Photo/Video",
+    "removeMedia": "Remove",
+    "update": "Update",
+    "publish": "Publish",
+    "cancel": "Cancel",
+    "externalLink": "External link",
+    "by": "By",
+    "commentPlaceholder": "Comment...",
+    "send": "Send",
+    "empty": "No discussions yet. Be the first!",
+    "loginRequired": "Log in to participate",
+    "confirmDelete": "Permanently delete this topic?"
+  },
+  "marketplace": {
+    "label": "Offers & Requests",
+    "title": "Marketplace",
+    "subtitle": "Find a skill or offer yours. 1h given = 1h received.",
+    "tabServices": "Services ({count})",
+    "tabRequests": "Requests ({count})",
+    "searchService": "Search a service...",
+    "searchRequest": "Search a request...",
+    "allCategories": "All categories",
+    "badgeOffer": "Offer",
+    "badgeRequest": "Request",
+    "by": "by",
+    "member": "Member",
+    "contact": "Contact ->",
+    "noResults": "No results"
+  },
+  "testimonials": {
+    "label": "They say it better than us",
+    "title": "Testimonials",
+    "subtitle": "Real exchanges, lasting connections. Here's what Bourse du Temps members experience.",
+    "leaveBtn": "Leave a testimonial",
+    "cancelBtn": "Cancel",
+    "formTitle": "Your testimonial",
+    "toMemberLabel": "About which member? *",
+    "selectMember": "Select a member...",
+    "ratingLabel": "Rating",
+    "contentLabel": "Your testimonial *",
+    "contentHint": "(min 20 characters)",
+    "contentPlaceholder": "Describe your exchange experience with this member...",
+    "charCount": "{count} / 1000",
+    "errorRecipient": "Choose a recipient",
+    "errorMinChars": "Minimum 20 characters",
+    "cancel": "Cancel",
+    "publish": "Publish",
+    "sending": "Sending...",
+    "successMsg": "Testimonial published!",
+    "anonymousMember": "Anonymous member",
+    "noResults": "No testimonials yet",
+    "beFirst": "Be the first to share your experience!"
+  },
+  "workshops": {
+    "label": "Learn together",
+    "title": "Group workshops",
+    "subtitle": "1 expert shares their time with several learners.",
+    "heatmapBtn": "Needs map",
+    "createBtn": "+ Create a workshop",
+    "formatOnline": "Online",
+    "formatPresential": "In person",
+    "formatHybrid": "Hybrid",
+    "formTitle": "Create a workshop",
+    "titleLabel": "Title *",
+    "descLabel": "Description *",
+    "categoryLabel": "Category *",
+    "formatLabel": "Format",
+    "dateLabel": "Date & time",
+    "durationLabel": "Duration (min)",
+    "maxParticipantsLabel": "Max participants",
+    "creditsLabel": "Credits/participant",
+    "locationLabel": "Location",
+    "tagsLabel": "Tags (comma separated)",
+    "choosePlaceholder": "Choose...",
+    "titlePlaceholder": "E.g.: Guitar for beginners",
+    "descPlaceholder": "What participants will learn, required level, agenda...",
+    "locationPlaceholder": "Address or meeting link",
+    "tagsPlaceholder": "guitar, music, beginner",
+    "cancel": "Cancel",
+    "publish": "Publish workshop",
+    "publishing": "Creating...",
+    "loginToJoin": "Log in to join a workshop",
+    "loginToCreate": "Log in to create a workshop",
+    "statusFull": "Full",
+    "statusOpen": "Open",
+    "dateUndefined": "Date to be defined",
+    "registered": "{count}/{max} registered",
+    "credit": "credit",
+    "credits": "credits",
+    "join": "Join ->",
+    "noResults": "No workshops yet",
+    "beFirst": "Be the first to share your knowledge!"
   }
 }

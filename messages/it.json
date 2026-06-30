@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Contatto",
     "cancel": "Tutti i diritti riservati",
@@ -292,65 +292,252 @@
     "hi": "हिन्दी"
   },
   "about": {
-    "label": "La nostra filosofia", "titleLine1": "Reinventare il mutuo aiuto", "titleLine2": "attraverso il tempo",
+    "label": "La nostra filosofia",
+    "titleLine1": "Reinventare il mutuo aiuto",
+    "titleLine2": "attraverso il tempo",
     "subtitle": "Bourse du Temps: 1 ora data vale 1 ora ricevuta - senza soldi, senza gerarchia, aperta a tutti.",
-    "mission": { "label": "La Nostra Missione", "text": "Creare un ecosistema di scambio dove ogni persona possa valorizzare le proprie competenze senza barriere finanziarie." },
-    "vision": { "label": "La Nostra Visione", "text": "Costruire la piu grande comunita di mutuo aiuto attraverso le competenze ovunque nel mondo." },
+    "mission": {
+      "label": "La Nostra Missione",
+      "text": "Creare un ecosistema di scambio dove ogni persona possa valorizzare le proprie competenze senza barriere finanziarie."
+    },
+    "vision": {
+      "label": "La Nostra Visione",
+      "text": "Costruire la piu grande comunita di mutuo aiuto attraverso le competenze ovunque nel mondo."
+    },
     "values": {
-      "label": "Cosa ci guida", "title": "I nostri valori", "subtitle": "Sei principi fondamentali che definiscono ogni decisione che prendiamo.",
-      "equality":     { "title": "Uguaglianza dei tempi",  "desc": "1 ora data = 1 ora ricevuta. Ogni ora ha lo stesso valore." },
-      "trust":        { "title": "Fiducia reciproca",       "desc": "Ogni scambio si basa sulla parola data. La reputazione si costruisce con le azioni." },
-      "inclusion":    { "title": "Inclusione e Diversita",  "desc": "Aperta a tutti senza requisiti. La diversita dei profili e la nostra piu grande ricchezza." },
-      "solidarity":   { "title": "Solidarieta",             "desc": "Le comunita piu resilienti sono quelle che si aiutano reciprocamente." },
-      "economy":      { "title": "Economia non monetaria",  "desc": "Il tempo, non i soldi. Un'alternativa all'economia di mercato, accessibile a tutti." },
-      "transparency": { "title": "Trasparenza",             "desc": "Piattaforma senza scopo di lucro. Ogni scambio tracciato, ogni credito visibile." }
+      "label": "Cosa ci guida",
+      "title": "I nostri valori",
+      "subtitle": "Sei principi fondamentali che definiscono ogni decisione che prendiamo.",
+      "equality": {
+        "title": "Uguaglianza dei tempi",
+        "desc": "1 ora data = 1 ora ricevuta. Ogni ora ha lo stesso valore."
+      },
+      "trust": {
+        "title": "Fiducia reciproca",
+        "desc": "Ogni scambio si basa sulla parola data. La reputazione si costruisce con le azioni."
+      },
+      "inclusion": {
+        "title": "Inclusione e Diversita",
+        "desc": "Aperta a tutti senza requisiti. La diversita dei profili e la nostra piu grande ricchezza."
+      },
+      "solidarity": {
+        "title": "Solidarieta",
+        "desc": "Le comunita piu resilienti sono quelle che si aiutano reciprocamente."
+      },
+      "economy": {
+        "title": "Economia non monetaria",
+        "desc": "Il tempo, non i soldi. Un'alternativa all'economia di mercato, accessibile a tutti."
+      },
+      "transparency": {
+        "title": "Trasparenza",
+        "desc": "Piattaforma senza scopo di lucro. Ogni scambio tracciato, ogni credito visibile."
+      }
     },
     "howItWorks": {
-      "label": "Semplice e concreto", "title": "Come funziona?",
-      "step1": { "title": "Registrati",                   "desc": "Crea il tuo profilo con le tue competenze. Ricevi 5 crediti di benvenuto." },
-      "step2": { "title": "Offri e Scambia",              "desc": "Pubblica un servizio o una richiesta. Contatta i membri e completa il tuo primo scambio." },
-      "step3": { "title": "Costruisci la tua reputazione","desc": "Dopo ogni scambio, lascia una testimonianza. Accumula badge e sali di livello." },
-      "step4": { "title": "Unisciti ai progetti",         "desc": "Partecipa a workshop collettivi e progetti collaborativi." }
+      "label": "Semplice e concreto",
+      "title": "Come funziona?",
+      "step1": {
+        "title": "Registrati",
+        "desc": "Crea il tuo profilo con le tue competenze. Ricevi 5 crediti di benvenuto."
+      },
+      "step2": {
+        "title": "Offri e Scambia",
+        "desc": "Pubblica un servizio o una richiesta. Contatta i membri e completa il tuo primo scambio."
+      },
+      "step3": {
+        "title": "Costruisci la tua reputazione",
+        "desc": "Dopo ogni scambio, lascia una testimonianza. Accumula badge e sali di livello."
+      },
+      "step4": {
+        "title": "Unisciti ai progetti",
+        "desc": "Partecipa a workshop collettivi e progetti collaborativi."
+      }
     },
-    "cta": { "title": "Pronto ad unirti alla comunita?", "subtitle": "Migliaia di competenze ti aspettano.", "btn": "Scopri i servizi ->" }
+    "cta": {
+      "title": "Pronto ad unirti alla comunita?",
+      "subtitle": "Migliaia di competenze ti aspettano.",
+      "btn": "Scopri i servizi ->"
+    }
   },
   "contact": {
-    "label": "Siamo qui", "title": "Contattaci", "subtitle": "Una domanda, partnership o bug? Scrivici, rispondiamo entro 48h.",
-    "name": "Nome", "email": "Email", "subject": "Oggetto", "message": "Messaggio",
-    "namePlaceholder": "Il tuo nome", "emailPlaceholder": "tua@email.com",
-    "subjectPlaceholder": "Es.: Partnership istituzionale, segnalazione bug...", "messagePlaceholder": "Descrivi la tua richiesta...",
-    "submit": "Invia messaggio ->", "sending": "Invio...", "successTitle": "Messaggio inviato!", "successMsg": "Ti risponderemo molto presto.",
-    "sendAnother": "Invia un altro messaggio", "errorMsg": "Si e verificato un errore. Riprova.",
-    "channelEmail": "Email", "channelForum": "Forum", "channelAI": "ALDEA", "channelForumVal": "Comunita", "channelAIVal": "Chat IA"
+    "label": "Siamo qui",
+    "title": "Contattaci",
+    "subtitle": "Una domanda, partnership o bug? Scrivici, rispondiamo entro 48h.",
+    "name": "Nome",
+    "email": "Email",
+    "subject": "Oggetto",
+    "message": "Messaggio",
+    "namePlaceholder": "Il tuo nome",
+    "emailPlaceholder": "tua@email.com",
+    "subjectPlaceholder": "Es.: Partnership istituzionale, segnalazione bug...",
+    "messagePlaceholder": "Descrivi la tua richiesta...",
+    "submit": "Invia messaggio ->",
+    "sending": "Invio...",
+    "successTitle": "Messaggio inviato!",
+    "successMsg": "Ti risponderemo molto presto.",
+    "sendAnother": "Invia un altro messaggio",
+    "errorMsg": "Si e verificato un errore. Riprova.",
+    "channelEmail": "Email",
+    "channelForum": "Forum",
+    "channelAI": "ALDEA",
+    "channelForumVal": "Comunita",
+    "channelAIVal": "Chat IA"
   },
   "requests": {
-    "label": "Bisogni della comunita", "title": "Richieste in corso", "subtitle": "Un membro ha bisogno di te? Offri il tuo aiuto e guadagna crediti.",
-    "searchPlaceholder": "Cerca una richiesta...", "noResults": "Nessuna richiesta per ora",
-    "today": "Oggi", "yesterday": "Ieri", "daysAgo": "{days} giorni fa",
-    "member": "Membro", "reply": "Rispondere", "credit": "credito", "credits": "crediti"
+    "label": "Bisogni della comunita",
+    "title": "Richieste in corso",
+    "subtitle": "Un membro ha bisogno di te? Offri il tuo aiuto e guadagna crediti.",
+    "searchPlaceholder": "Cerca una richiesta...",
+    "noResults": "Nessuna richiesta per ora",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "daysAgo": "{days} giorni fa",
+    "member": "Membro",
+    "reply": "Rispondere",
+    "credit": "credito",
+    "credits": "crediti"
   },
   "dashboard": {
-    "loginRequired": "Accesso richiesto", "loginDesc": "Accedi al tuo spazio personale", "login": "Accedi",
-    "greeting": "Ciao, {name}", "subtitle": "Il tuo spazio personale", "myProfile": "Il mio profilo ->",
-    "statCredits": "Crediti", "statServices": "Servizi", "statExchanges": "Scambi", "statEarned": "Crediti guadagnati",
-    "reviewsBanner": "{count} recensione/i in attesa", "reviewsDesc": "Condividi la tua esperienza dopo i tuoi scambi recenti",
-    "rateUser": "Valuta {name}", "leaveReview": "Lascia una recensione ->",
-    "creditHistory": "Storico crediti", "earned": "guadagnati", "spent": "spesi",
-    "myServices": "I miei servizi", "viewAll": "Vedi tutti ->", "noServices": "Non hai ancora pubblicato nessun servizio.",
+    "loginRequired": "Accesso richiesto",
+    "loginDesc": "Accedi al tuo spazio personale",
+    "login": "Accedi",
+    "greeting": "Ciao, {name}",
+    "subtitle": "Il tuo spazio personale",
+    "myProfile": "Il mio profilo ->",
+    "statCredits": "Crediti",
+    "statServices": "Servizi",
+    "statExchanges": "Scambi",
+    "statEarned": "Crediti guadagnati",
+    "reviewsBanner": "{count} recensione/i in attesa",
+    "reviewsDesc": "Condividi la tua esperienza dopo i tuoi scambi recenti",
+    "rateUser": "Valuta {name}",
+    "leaveReview": "Lascia una recensione ->",
+    "creditHistory": "Storico crediti",
+    "earned": "guadagnati",
+    "spent": "spesi",
+    "myServices": "I miei servizi",
+    "viewAll": "Vedi tutti ->",
+    "noServices": "Non hai ancora pubblicato nessun servizio.",
     "exchange": "Scambio",
-    "shortcuts": { "services": "Esplora servizi", "requests": "Vedi richieste", "members": "Trova membri", "workshops": "Workshop collettivi", "projects": "Progetti collaborativi", "search": "Ricerca IA" }
+    "shortcuts": {
+      "services": "Esplora servizi",
+      "requests": "Vedi richieste",
+      "members": "Trova membri",
+      "workshops": "Workshop collettivi",
+      "projects": "Progetti collaborativi",
+      "search": "Ricerca IA"
+    }
   },
   "members": {
-    "label": "La nostra comunita", "title": "I membri", "subtitle": "{count} persona/e pronta/e a scambiare il proprio tempo.",
-    "searchPlaceholder": "Cerca per nome, competenza, citta...", "noResults": "Nessun membro trovato",
-    "verified": "Verificato", "member": "Membro"
+    "label": "La nostra comunita",
+    "title": "I membri",
+    "subtitle": "{count} persona/e pronta/e a scambiare il proprio tempo.",
+    "searchPlaceholder": "Cerca per nome, competenza, citta...",
+    "noResults": "Nessun membro trovato",
+    "verified": "Verificato",
+    "member": "Membro"
   },
   "forum": {
-    "title": "Forum degli scambi", "newTopic": "Nuovo Argomento", "editTopic": "Modifica argomento", "startDiscussion": "Avvia una discussione",
-    "titlePlaceholder": "Titolo dell'argomento", "messagePlaceholder": "Il tuo messaggio...", "externalLinkPlaceholder": "Link esterno (facoltativo)",
-    "uploading": "Caricamento...", "fileReady": "File pronto", "importMedia": "Importa Foto/Video",
-    "removeMedia": "Rimuovi", "update": "Aggiorna", "publish": "Pubblica", "cancel": "Annulla",
-    "externalLink": "Link esterno", "by": "Di", "commentPlaceholder": "Commenta...", "send": "Invia",
-    "empty": "Nessuna discussione ancora. Sii il primo!", "loginRequired": "Accedi per partecipare", "confirmDelete": "Eliminare definitivamente questo argomento?"
+    "title": "Forum degli scambi",
+    "newTopic": "Nuovo Argomento",
+    "editTopic": "Modifica argomento",
+    "startDiscussion": "Avvia una discussione",
+    "titlePlaceholder": "Titolo dell'argomento",
+    "messagePlaceholder": "Il tuo messaggio...",
+    "externalLinkPlaceholder": "Link esterno (facoltativo)",
+    "uploading": "Caricamento...",
+    "fileReady": "File pronto",
+    "importMedia": "Importa Foto/Video",
+    "removeMedia": "Rimuovi",
+    "update": "Aggiorna",
+    "publish": "Pubblica",
+    "cancel": "Annulla",
+    "externalLink": "Link esterno",
+    "by": "Di",
+    "commentPlaceholder": "Commenta...",
+    "send": "Invia",
+    "empty": "Nessuna discussione ancora. Sii il primo!",
+    "loginRequired": "Accedi per partecipare",
+    "confirmDelete": "Eliminare definitivamente questo argomento?"
+  },
+  "marketplace": {
+    "label": "Offerte e Richieste",
+    "title": "Marketplace",
+    "subtitle": "Trova una competenza o offri la tua. 1h data = 1h ricevuta.",
+    "tabServices": "Servizi ({count})",
+    "tabRequests": "Richieste ({count})",
+    "searchService": "Cerca un servizio...",
+    "searchRequest": "Cerca una richiesta...",
+    "allCategories": "Tutte le categorie",
+    "badgeOffer": "Offerta",
+    "badgeRequest": "Richiesta",
+    "by": "di",
+    "member": "Membro",
+    "contact": "Contattare ->",
+    "noResults": "Nessun risultato"
+  },
+  "testimonials": {
+    "label": "Lo dicono meglio di noi",
+    "title": "Testimonianze",
+    "subtitle": "Scambi reali, legami duraturi. Ecco cosa vivono i membri di Bourse du Temps.",
+    "leaveBtn": "Lascia una testimonianza",
+    "cancelBtn": "Annulla",
+    "formTitle": "La tua testimonianza",
+    "toMemberLabel": "Su quale membro? *",
+    "selectMember": "Seleziona un membro...",
+    "ratingLabel": "Valutazione",
+    "contentLabel": "La tua testimonianza *",
+    "contentHint": "(min 20 caratteri)",
+    "contentPlaceholder": "Descrivi la tua esperienza di scambio con questo membro...",
+    "charCount": "{count} / 1000",
+    "errorRecipient": "Scegli un destinatario",
+    "errorMinChars": "Minimo 20 caratteri",
+    "cancel": "Annulla",
+    "publish": "Pubblica",
+    "sending": "Invio...",
+    "successMsg": "Testimonianza pubblicata!",
+    "anonymousMember": "Membro anonimo",
+    "noResults": "Nessuna testimonianza ancora",
+    "beFirst": "Sii il primo a condividere la tua esperienza!"
+  },
+  "workshops": {
+    "label": "Imparare insieme",
+    "title": "Workshop collettivi",
+    "subtitle": "1 esperto condivide il suo tempo con piu studenti.",
+    "heatmapBtn": "Mappa dei bisogni",
+    "createBtn": "+ Crea un workshop",
+    "formatOnline": "Online",
+    "formatPresential": "In presenza",
+    "formatHybrid": "Ibrido",
+    "formTitle": "Crea un workshop",
+    "titleLabel": "Titolo *",
+    "descLabel": "Descrizione *",
+    "categoryLabel": "Categoria *",
+    "formatLabel": "Formato",
+    "dateLabel": "Data e ora",
+    "durationLabel": "Durata (min)",
+    "maxParticipantsLabel": "Max partecipanti",
+    "creditsLabel": "Crediti/partecipante",
+    "locationLabel": "Luogo",
+    "tagsLabel": "Tag (separati da virgole)",
+    "choosePlaceholder": "Scegli...",
+    "titlePlaceholder": "Es: Chitarra per principianti",
+    "descPlaceholder": "Cosa impareranno i partecipanti, livello richiesto, programma...",
+    "locationPlaceholder": "Indirizzo o link riunione",
+    "tagsPlaceholder": "chitarra, musica, principiante",
+    "cancel": "Annulla",
+    "publish": "Pubblica workshop",
+    "publishing": "Creazione...",
+    "loginToJoin": "Accedi per partecipare a un workshop",
+    "loginToCreate": "Accedi per creare un workshop",
+    "statusFull": "Completo",
+    "statusOpen": "Aperto",
+    "dateUndefined": "Data da definire",
+    "registered": "{count}/{max} iscritti",
+    "credit": "credito",
+    "credits": "crediti",
+    "join": "Partecipa ->",
+    "noResults": "Nessun workshop ancora",
+    "beFirst": "Sii il primo a condividere la tua conoscenza!"
   }
 }

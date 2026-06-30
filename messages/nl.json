@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "save": "Contact",
     "cancel": "Alle rechten voorbehouden",
@@ -292,65 +292,252 @@
     "hi": "हिन्दी"
   },
   "about": {
-    "label": "Onze filosofie", "titleLine1": "Wederzijdse hulp opnieuw uitvinden", "titleLine2": "door de tijd",
+    "label": "Onze filosofie",
+    "titleLine1": "Wederzijdse hulp opnieuw uitvinden",
+    "titleLine2": "door de tijd",
     "subtitle": "Bourse du Temps: 1 uur gegeven = 1 uur ontvangen - zonder geld, zonder hierarchie, open voor iedereen.",
-    "mission": { "label": "Onze Missie", "text": "Een uitwisselingsecosysteem creeren waar iedereen zijn vaardigheden kan inzetten zonder financiele belemmeringen." },
-    "vision": { "label": "Onze Visie", "text": "De grootste gemeenschap van wederzijdse hulp door vaardigheden opbouwen, verbindingen bevorderen overal ter wereld." },
+    "mission": {
+      "label": "Onze Missie",
+      "text": "Een uitwisselingsecosysteem creeren waar iedereen zijn vaardigheden kan inzetten zonder financiele belemmeringen."
+    },
+    "vision": {
+      "label": "Onze Visie",
+      "text": "De grootste gemeenschap van wederzijdse hulp door vaardigheden opbouwen, verbindingen bevorderen overal ter wereld."
+    },
     "values": {
-      "label": "Wat ons leidt", "title": "Onze waarden", "subtitle": "Zes fundamentele principes die elke beslissing definiÃ«ren.",
-      "equality":     { "title": "Tijdsgelijkheid",         "desc": "1 uur gegeven = 1 uur ontvangen. Elk uur heeft dezelfde waarde." },
-      "trust":        { "title": "Wederzijds vertrouwen",   "desc": "Elke uitwisseling berust op het gegeven woord. Reputatie wordt opgebouwd door daden." },
-      "inclusion":    { "title": "Inclusie en Diversiteit", "desc": "Open voor iedereen zonder vereisten. De diversiteit van profielen is onze grootste rijkdom." },
-      "solidarity":   { "title": "Solidariteit",            "desc": "De meest veerkrachtige gemeenschappen zijn die welke elkaar helpen." },
-      "economy":      { "title": "Niet-monetaire economie", "desc": "Tijd, niet geld. Een alternatief voor de markteconomie, toegankelijk voor iedereen." },
-      "transparency": { "title": "Transparantie",           "desc": "Non-profit platform. Elke uitwisseling bijgehouden, elk tegoed zichtbaar." }
+      "label": "Wat ons leidt",
+      "title": "Onze waarden",
+      "subtitle": "Zes fundamentele principes die elke beslissing definiÃ«ren.",
+      "equality": {
+        "title": "Tijdsgelijkheid",
+        "desc": "1 uur gegeven = 1 uur ontvangen. Elk uur heeft dezelfde waarde."
+      },
+      "trust": {
+        "title": "Wederzijds vertrouwen",
+        "desc": "Elke uitwisseling berust op het gegeven woord. Reputatie wordt opgebouwd door daden."
+      },
+      "inclusion": {
+        "title": "Inclusie en Diversiteit",
+        "desc": "Open voor iedereen zonder vereisten. De diversiteit van profielen is onze grootste rijkdom."
+      },
+      "solidarity": {
+        "title": "Solidariteit",
+        "desc": "De meest veerkrachtige gemeenschappen zijn die welke elkaar helpen."
+      },
+      "economy": {
+        "title": "Niet-monetaire economie",
+        "desc": "Tijd, niet geld. Een alternatief voor de markteconomie, toegankelijk voor iedereen."
+      },
+      "transparency": {
+        "title": "Transparantie",
+        "desc": "Non-profit platform. Elke uitwisseling bijgehouden, elk tegoed zichtbaar."
+      }
     },
     "howItWorks": {
-      "label": "Eenvoudig en concreet", "title": "Hoe werkt het?",
-      "step1": { "title": "Registreer je",          "desc": "Maak je profiel aan met je vaardigheden. Ontvang 5 welkomsttegoeden." },
-      "step2": { "title": "Bied aan en Wissel uit", "desc": "Publiceer een dienst of verzoek. Neem contact op met leden en voltooi je eerste uitwisseling." },
-      "step3": { "title": "Bouw je reputatie op",   "desc": "Laat na elke uitwisseling een getuigenis achter. Verzamel badges en stijg in niveau." },
-      "step4": { "title": "Doe mee aan projecten",  "desc": "Neem deel aan collectieve workshops en collaboratieve projecten." }
+      "label": "Eenvoudig en concreet",
+      "title": "Hoe werkt het?",
+      "step1": {
+        "title": "Registreer je",
+        "desc": "Maak je profiel aan met je vaardigheden. Ontvang 5 welkomsttegoeden."
+      },
+      "step2": {
+        "title": "Bied aan en Wissel uit",
+        "desc": "Publiceer een dienst of verzoek. Neem contact op met leden en voltooi je eerste uitwisseling."
+      },
+      "step3": {
+        "title": "Bouw je reputatie op",
+        "desc": "Laat na elke uitwisseling een getuigenis achter. Verzamel badges en stijg in niveau."
+      },
+      "step4": {
+        "title": "Doe mee aan projecten",
+        "desc": "Neem deel aan collectieve workshops en collaboratieve projecten."
+      }
     },
-    "cta": { "title": "Klaar om lid te worden?", "subtitle": "Duizenden vaardigheden wachten op je.", "btn": "Diensten ontdekken ->" }
+    "cta": {
+      "title": "Klaar om lid te worden?",
+      "subtitle": "Duizenden vaardigheden wachten op je.",
+      "btn": "Diensten ontdekken ->"
+    }
   },
   "contact": {
-    "label": "We zijn er", "title": "Contact", "subtitle": "Een vraag, partnerschap of bug? Schrijf ons, we reageren binnen 48u.",
-    "name": "Naam", "email": "E-mail", "subject": "Onderwerp", "message": "Bericht",
-    "namePlaceholder": "Uw naam", "emailPlaceholder": "uw@email.com",
-    "subjectPlaceholder": "Bijv.: Institutioneel partnerschap, bugrapport...", "messagePlaceholder": "Beschrijf uw verzoek...",
-    "submit": "Bericht versturen ->", "sending": "Versturen...", "successTitle": "Bericht verstuurd!", "successMsg": "We nemen zeer snel contact met u op.",
-    "sendAnother": "Nog een bericht sturen", "errorMsg": "Er is een fout opgetreden. Probeer opnieuw.",
-    "channelEmail": "E-mail", "channelForum": "Forum", "channelAI": "ALDEA", "channelForumVal": "Gemeenschap", "channelAIVal": "AI-chat"
+    "label": "We zijn er",
+    "title": "Contact",
+    "subtitle": "Een vraag, partnerschap of bug? Schrijf ons, we reageren binnen 48u.",
+    "name": "Naam",
+    "email": "E-mail",
+    "subject": "Onderwerp",
+    "message": "Bericht",
+    "namePlaceholder": "Uw naam",
+    "emailPlaceholder": "uw@email.com",
+    "subjectPlaceholder": "Bijv.: Institutioneel partnerschap, bugrapport...",
+    "messagePlaceholder": "Beschrijf uw verzoek...",
+    "submit": "Bericht versturen ->",
+    "sending": "Versturen...",
+    "successTitle": "Bericht verstuurd!",
+    "successMsg": "We nemen zeer snel contact met u op.",
+    "sendAnother": "Nog een bericht sturen",
+    "errorMsg": "Er is een fout opgetreden. Probeer opnieuw.",
+    "channelEmail": "E-mail",
+    "channelForum": "Forum",
+    "channelAI": "ALDEA",
+    "channelForumVal": "Gemeenschap",
+    "channelAIVal": "AI-chat"
   },
   "requests": {
-    "label": "Behoeften van de gemeenschap", "title": "Huidige verzoeken", "subtitle": "Een lid heeft je nodig? Bied je hulp aan en verdien tegoeden.",
-    "searchPlaceholder": "Een verzoek zoeken...", "noResults": "Nog geen verzoeken",
-    "today": "Vandaag", "yesterday": "Gisteren", "daysAgo": "{days} dagen geleden",
-    "member": "Lid", "reply": "Antwoorden", "credit": "tegoed", "credits": "tegoeden"
+    "label": "Behoeften van de gemeenschap",
+    "title": "Huidige verzoeken",
+    "subtitle": "Een lid heeft je nodig? Bied je hulp aan en verdien tegoeden.",
+    "searchPlaceholder": "Een verzoek zoeken...",
+    "noResults": "Nog geen verzoeken",
+    "today": "Vandaag",
+    "yesterday": "Gisteren",
+    "daysAgo": "{days} dagen geleden",
+    "member": "Lid",
+    "reply": "Antwoorden",
+    "credit": "tegoed",
+    "credits": "tegoeden"
   },
   "dashboard": {
-    "loginRequired": "Aanmelding vereist", "loginDesc": "Toegang tot uw persoonlijke ruimte", "login": "Aanmelden",
-    "greeting": "Hallo, {name}", "subtitle": "Uw persoonlijke ruimte", "myProfile": "Mijn profiel ->",
-    "statCredits": "Tegoeden", "statServices": "Diensten", "statExchanges": "Uitwisselingen", "statEarned": "Verdiende tegoeden",
-    "reviewsBanner": "{count} openstaande beoordeling(en)", "reviewsDesc": "Deel uw ervaring na uw recente uitwisselingen",
-    "rateUser": "{name} beoordelen", "leaveReview": "Een beoordeling achterlaten ->",
-    "creditHistory": "Tegoedengeschiedenis", "earned": "verdiend", "spent": "uitgegeven",
-    "myServices": "Mijn diensten", "viewAll": "Alle bekijken ->", "noServices": "U heeft nog geen diensten gepubliceerd.",
+    "loginRequired": "Aanmelding vereist",
+    "loginDesc": "Toegang tot uw persoonlijke ruimte",
+    "login": "Aanmelden",
+    "greeting": "Hallo, {name}",
+    "subtitle": "Uw persoonlijke ruimte",
+    "myProfile": "Mijn profiel ->",
+    "statCredits": "Tegoeden",
+    "statServices": "Diensten",
+    "statExchanges": "Uitwisselingen",
+    "statEarned": "Verdiende tegoeden",
+    "reviewsBanner": "{count} openstaande beoordeling(en)",
+    "reviewsDesc": "Deel uw ervaring na uw recente uitwisselingen",
+    "rateUser": "{name} beoordelen",
+    "leaveReview": "Een beoordeling achterlaten ->",
+    "creditHistory": "Tegoedengeschiedenis",
+    "earned": "verdiend",
+    "spent": "uitgegeven",
+    "myServices": "Mijn diensten",
+    "viewAll": "Alle bekijken ->",
+    "noServices": "U heeft nog geen diensten gepubliceerd.",
     "exchange": "Uitwisseling",
-    "shortcuts": { "services": "Diensten verkennen", "requests": "Verzoeken bekijken", "members": "Leden vinden", "workshops": "Collectieve workshops", "projects": "Collaboratieve projecten", "search": "AI-zoeken" }
+    "shortcuts": {
+      "services": "Diensten verkennen",
+      "requests": "Verzoeken bekijken",
+      "members": "Leden vinden",
+      "workshops": "Collectieve workshops",
+      "projects": "Collaboratieve projecten",
+      "search": "AI-zoeken"
+    }
   },
   "members": {
-    "label": "Onze gemeenschap", "title": "De leden", "subtitle": "{count} persoon/personen klaar om hun tijd uit te wisselen.",
-    "searchPlaceholder": "Zoek op naam, vaardigheid, stad...", "noResults": "Geen leden gevonden",
-    "verified": "Geverifieerd", "member": "Lid"
+    "label": "Onze gemeenschap",
+    "title": "De leden",
+    "subtitle": "{count} persoon/personen klaar om hun tijd uit te wisselen.",
+    "searchPlaceholder": "Zoek op naam, vaardigheid, stad...",
+    "noResults": "Geen leden gevonden",
+    "verified": "Geverifieerd",
+    "member": "Lid"
   },
   "forum": {
-    "title": "Uitwisselingsforum", "newTopic": "Nieuw onderwerp", "editTopic": "Onderwerp bewerken", "startDiscussion": "Een discussie starten",
-    "titlePlaceholder": "Onderwerptitel", "messagePlaceholder": "Uw bericht...", "externalLinkPlaceholder": "Externe link (optioneel)",
-    "uploading": "Uploaden...", "fileReady": "Bestand klaar", "importMedia": "Foto/Video importeren",
-    "removeMedia": "Verwijderen", "update": "Bijwerken", "publish": "Publiceren", "cancel": "Annuleren",
-    "externalLink": "Externe link", "by": "Door", "commentPlaceholder": "Reageren...", "send": "Versturen",
-    "empty": "Nog geen discussies. Wees de eerste!", "loginRequired": "Aanmelden om deel te nemen", "confirmDelete": "Dit onderwerp permanent verwijderen?"
+    "title": "Uitwisselingsforum",
+    "newTopic": "Nieuw onderwerp",
+    "editTopic": "Onderwerp bewerken",
+    "startDiscussion": "Een discussie starten",
+    "titlePlaceholder": "Onderwerptitel",
+    "messagePlaceholder": "Uw bericht...",
+    "externalLinkPlaceholder": "Externe link (optioneel)",
+    "uploading": "Uploaden...",
+    "fileReady": "Bestand klaar",
+    "importMedia": "Foto/Video importeren",
+    "removeMedia": "Verwijderen",
+    "update": "Bijwerken",
+    "publish": "Publiceren",
+    "cancel": "Annuleren",
+    "externalLink": "Externe link",
+    "by": "Door",
+    "commentPlaceholder": "Reageren...",
+    "send": "Versturen",
+    "empty": "Nog geen discussies. Wees de eerste!",
+    "loginRequired": "Aanmelden om deel te nemen",
+    "confirmDelete": "Dit onderwerp permanent verwijderen?"
+  },
+  "marketplace": {
+    "label": "Aanbiedingen & Verzoeken",
+    "title": "Marketplace",
+    "subtitle": "Vind een vaardigheid of bied de jouwe aan. 1u gegeven = 1u ontvangen.",
+    "tabServices": "Diensten ({count})",
+    "tabRequests": "Verzoeken ({count})",
+    "searchService": "Zoek een dienst...",
+    "searchRequest": "Zoek een verzoek...",
+    "allCategories": "Alle categorieen",
+    "badgeOffer": "Aanbod",
+    "badgeRequest": "Verzoek",
+    "by": "door",
+    "member": "Lid",
+    "contact": "Contact ->",
+    "noResults": "Geen resultaten"
+  },
+  "testimonials": {
+    "label": "Zij zeggen het beter dan wij",
+    "title": "Getuigenissen",
+    "subtitle": "Echte uitwisselingen, blijvende banden. Dit ervaren leden van Bourse du Temps.",
+    "leaveBtn": "Getuigenis achterlaten",
+    "cancelBtn": "Annuleren",
+    "formTitle": "Uw getuigenis",
+    "toMemberLabel": "Over welk lid? *",
+    "selectMember": "Selecteer een lid...",
+    "ratingLabel": "Beoordeling",
+    "contentLabel": "Uw getuigenis *",
+    "contentHint": "(min 20 tekens)",
+    "contentPlaceholder": "Beschrijf uw uitwisselingservaring met dit lid...",
+    "charCount": "{count} / 1000",
+    "errorRecipient": "Kies een ontvanger",
+    "errorMinChars": "Minimaal 20 tekens",
+    "cancel": "Annuleren",
+    "publish": "Publiceren",
+    "sending": "Versturen...",
+    "successMsg": "Getuigenis gepubliceerd!",
+    "anonymousMember": "Anoniem lid",
+    "noResults": "Nog geen getuigenissen",
+    "beFirst": "Wees de eerste om uw ervaring te delen!"
+  },
+  "workshops": {
+    "label": "Samen leren",
+    "title": "Collectieve workshops",
+    "subtitle": "1 expert deelt zijn tijd met meerdere lerenden.",
+    "heatmapBtn": "Behoeftenkaart",
+    "createBtn": "+ Workshop maken",
+    "formatOnline": "Online",
+    "formatPresential": "Fysiek",
+    "formatHybrid": "Hybride",
+    "formTitle": "Workshop maken",
+    "titleLabel": "Titel *",
+    "descLabel": "Beschrijving *",
+    "categoryLabel": "Categorie *",
+    "formatLabel": "Formaat",
+    "dateLabel": "Datum & tijd",
+    "durationLabel": "Duur (min)",
+    "maxParticipantsLabel": "Max deelnemers",
+    "creditsLabel": "Tegoeden/deelnemer",
+    "locationLabel": "Locatie",
+    "tagsLabel": "Tags (gescheiden door komma's)",
+    "choosePlaceholder": "Kiezen...",
+    "titlePlaceholder": "Bijv: Gitaar voor beginners",
+    "descPlaceholder": "Wat deelnemers zullen leren, vereist niveau, programma...",
+    "locationPlaceholder": "Adres of vergaderlink",
+    "tagsPlaceholder": "gitaar, muziek, beginner",
+    "cancel": "Annuleren",
+    "publish": "Workshop publiceren",
+    "publishing": "Aanmaken...",
+    "loginToJoin": "Log in om deel te nemen aan een workshop",
+    "loginToCreate": "Log in om een workshop te maken",
+    "statusFull": "Vol",
+    "statusOpen": "Open",
+    "dateUndefined": "Datum nog te bepalen",
+    "registered": "{count}/{max} ingeschreven",
+    "credit": "tegoed",
+    "credits": "tegoeden",
+    "join": "Deelnemen ->",
+    "noResults": "Nog geen workshops",
+    "beFirst": "Wees de eerste om uw kennis te delen!"
   }
 }
