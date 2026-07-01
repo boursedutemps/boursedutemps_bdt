@@ -1,9 +1,8 @@
 'use client'
 
-// src/app/projects/page.tsx
-
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Project {
   id: number
@@ -22,18 +21,19 @@ interface Project {
   created_at: string
 }
 
-const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  open:        { label: 'Ouvert',       color: '#10B981', bg: '#F0FDF4' },
-  in_progress: { label: 'En cours',     color: '#3B82F6', bg: '#EFF6FF' },
-  completed:   { label: 'Complété',     color: '#8B5CF6', bg: '#F5F3FF' },
-  cancelled:   { label: 'Annulé',       color: '#94A3B8', bg: '#F8FAFC' },
-}
-
 export default function ProjectsPage() {
-  const [projects, setProjects]   = useState<Project[]>([])
-  const [loading, setLoading]     = useState(true)
-  const [status, setStatus]       = useState('open')
-  const [joining, setJoining]     = useState<number | null>(null)
+  const t = useTranslations('projects')
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading]   = useState(true)
+  const [status, setStatus]     = useState('open')
+  const [joining, setJoining]   = useState<number | null>(null)
+
+  const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+    open:        { label: t('statusOpen'),       color: '#10B981', bg: '#F0FDF4' },
+    in_progress: { label: t('statusInProgress'), color: '#3B82F6', bg: '#EFF6FF' },
+    completed:   { label: t('statusCompleted'),  color: '#8B5CF6', bg: '#F5F3FF' },
+    cancelled:   { label: t('statusCancelled'),  color: '#94A3B8', bg: '#F8FAFC' },
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -46,7 +46,7 @@ export default function ProjectsPage() {
 
   const handleJoin = async (projectId: number) => {
     const token = localStorage.getItem('token')
-    if (!token) { alert('Connectez-vous pour rejoindre un projet'); return }
+    if (!token) { alert(t('loginToJoin')); return }
     setJoining(projectId)
     try {
       const meRes = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
@@ -72,25 +72,21 @@ export default function ProjectsPage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-5xl mx-auto">
 
-        {/* En-tête */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-              Temps collectif
+              {t('label')}
             </p>
-            <h1 className="text-3xl font-bold text-slate-800">Projets collaboratifs</h1>
-            <p className="text-slate-500 mt-1">
-              Contribuez collectivement à des projets à impact.
-            </p>
+            <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
+            <p className="text-slate-500 mt-1">{t('subtitle')}</p>
           </div>
           <Link href="/projects/new"
             className="px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all flex-shrink-0"
             style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)', boxShadow: '0 4px 14px rgba(245,158,11,0.3)' }}>
-            + Lancer un projet
+            {t('createBtn')}
           </Link>
         </div>
 
-        {/* Filtres statut */}
         <div className="flex gap-2 mb-8 flex-wrap">
           {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
             <button key={key} onClick={() => setStatus(key)}
@@ -105,7 +101,6 @@ export default function ProjectsPage() {
           ))}
         </div>
 
-        {/* Grille projets */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {[...Array(4)].map((_, i) => <div key={i} className="h-52 rounded-2xl bg-slate-100 animate-pulse" />)}
@@ -113,9 +108,9 @@ export default function ProjectsPage() {
         ) : projects.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
             <p className="text-4xl mb-3">🚀</p>
-            <p>Aucun projet dans cette catégorie</p>
+            <p>{t('noProjects')}</p>
             <Link href="/projects/new" className="text-sm text-amber-600 underline mt-2 block">
-              Lancer le premier →
+              {t('launchFirst')}
             </Link>
           </div>
         ) : (
@@ -126,17 +121,13 @@ export default function ProjectsPage() {
               const deadline = formatDeadline(p.deadline)
               return (
                 <div key={p.id} className="bg-white rounded-2xl border border-slate-100 hover:border-amber-200 hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden">
-
-                  {/* Header */}
                   <div className="p-5 pb-3" style={{ background: 'linear-gradient(135deg,#FEF3C7,#FFF7ED)' }}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
                         <span className="text-3xl">{p.icon}</span>
                         <div>
                           <h3 className="font-bold text-slate-800 leading-snug">{p.title}</h3>
-                          {p.category && (
-                            <span className="text-xs text-slate-400 capitalize">{p.category}</span>
-                          )}
+                          {p.category && <span className="text-xs text-slate-400 capitalize">{p.category}</span>}
                         </div>
                       </div>
                       <span className="text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
@@ -149,17 +140,15 @@ export default function ProjectsPage() {
                   <div className="p-5 pt-3 flex flex-col flex-1">
                     <p className="text-sm text-slate-500 leading-relaxed line-clamp-2 mb-3">{p.description}</p>
 
-                    {/* Objectif */}
                     <div className="bg-slate-50 rounded-xl p-3 mb-3">
-                      <p className="text-xs font-semibold text-slate-600 mb-1">🎯 Objectif</p>
+                      <p className="text-xs font-semibold text-slate-600 mb-1">🎯 {t('goal')}</p>
                       <p className="text-xs text-slate-500 leading-relaxed">{p.goal}</p>
                     </div>
 
-                    {/* Progression heures */}
                     <div className="mb-3">
                       <div className="flex justify-between text-xs text-slate-500 mb-1">
-                        <span>{p.hours_contributed}h contribuées</span>
-                        <span>{p.hours_goal}h objectif</span>
+                        <span>{t('hoursContributed', { hours: p.hours_contributed })}</span>
+                        <span>{t('hoursGoal', { hours: p.hours_goal })}</span>
                       </div>
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className="h-full rounded-full transition-all"
@@ -168,23 +157,21 @@ export default function ProjectsPage() {
                       <p className="text-right text-[10px] text-slate-400 mt-0.5">{pct}%</p>
                     </div>
 
-                    {/* Infos */}
                     <div className="flex items-center justify-between text-xs text-slate-400 mb-4">
-                      <span>👥 {p.members_count}/{p.members_limit}</span>
+                      <span>👥 {t('members', { count: p.members_count, limit: p.members_limit })}</span>
                       {deadline && <span>📅 {deadline}</span>}
                     </div>
 
-                    {/* Action */}
                     <div className="mt-auto flex gap-2">
                       <Link href={`/projects/${p.slug}`}
                         className="flex-1 py-2.5 rounded-xl text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50 transition text-center">
-                        Voir le projet
+                        {t('viewProject')}
                       </Link>
                       {p.status === 'open' && (
                         <button onClick={() => handleJoin(p.id)} disabled={joining === p.id}
                           className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white transition-all"
                           style={{ background: 'linear-gradient(135deg,#F59E0B,#EF4444)', opacity: joining === p.id ? 0.7 : 1 }}>
-                          {joining === p.id ? '⏳' : 'Contribuer →'}
+                          {joining === p.id ? '⏳' : t('contribute')}
                         </button>
                       )}
                     </div>
