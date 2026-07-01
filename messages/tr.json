@@ -539,5 +539,23 @@
     "join": "Katil ->",
     "noResults": "Henuz atolye yok",
     "beFirst": "Bilginizi paylasan ilk kisi olun!"
+  },
+  "modules": {
+    "label": "Tematik ogrenme yollari",
+    "title": "Moduller",
+    "subtitle": "Ogrenmenizi kolaylastirmak icin temaya gore organize edilmis hizmet koleksiyonlari.",
+    "featured": "One cikanlar",
+    "services": "{count} hizmetler",
+    "service": "{count} hizmet",
+    "searchPlaceholder": "Modul ara...",
+    "allCategories": "Tum kategoriler",
+    "explore": "Kesfet ->",
+    "noResults": "Modul bulunamadi",
+    "backToModules": "<- Modullere don",
+    "availableServices": "Mevcut hizmetler",
+    "noServices": "Bu modulde henuz hizmet yok",
+    "exploreAll": "Tum hizmetleri kesfet ->",
+    "by": "tarafindan",
+    "contact": "Iletisim ->"
   }
 }

@@ -539,5 +539,23 @@
     "join": "Jiunge ->",
     "noResults": "Hakuna warsha bado",
     "beFirst": "Kuwa wa kwanza kushiriki maarifa yako!"
+  },
+  "modules": {
+    "label": "Njia za mada",
+    "title": "Moduli",
+    "subtitle": "Makusanyo ya huduma yaliyopangwa kwa mada ili kurahisisha ujifunzaji wako.",
+    "featured": "Zilizoangaziwa",
+    "services": "{count} huduma",
+    "service": "{count} huduma",
+    "searchPlaceholder": "Tafuta moduli...",
+    "allCategories": "Kategoria zote",
+    "explore": "Chunguza ->",
+    "noResults": "Hakuna moduli zilizopatikana",
+    "backToModules": "<- Rudi kwa moduli",
+    "availableServices": "Huduma zinazopatikana",
+    "noServices": "Bado hakuna huduma katika moduli hii",
+    "exploreAll": "Chunguza huduma zote ->",
+    "by": "na",
+    "contact": "Wasiliana ->"
   }
 }

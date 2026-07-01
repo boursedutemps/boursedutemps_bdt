@@ -539,5 +539,23 @@
     "join": "Bokk ->",
     "noResults": "Atelier amul legi",
     "beFirst": "Yaw la njek wax sa xam-xam!"
+  },
+  "modules": {
+    "label": "Yoon yu tematik",
+    "title": "Modil yi",
+    "subtitle": "Koleksion serina yi bu organise ci tem ngir yombe jangam.",
+    "featured": "Yu xam-xam",
+    "services": "{count} serina",
+    "service": "{count} serin",
+    "searchPlaceholder": "Seet modil...",
+    "allCategories": "Tout kategori yi",
+    "explore": "Xool ->",
+    "noResults": "Modil gena amul",
+    "backToModules": "<- Dellu ci modil yi",
+    "availableServices": "Serina yu am",
+    "noServices": "Serina amul ci modil bii legi",
+    "exploreAll": "Xool yep serina yi ->",
+    "by": "ak",
+    "contact": "Jokkoo ->"
   }
 }

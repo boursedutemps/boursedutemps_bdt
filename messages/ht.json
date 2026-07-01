@@ -539,5 +539,23 @@
     "join": "Rejwenn ->",
     "noResults": "Pa gen atelye pou kounye a",
     "beFirst": "Se ou ki premye pou pataje konesans ou!"
+  },
+  "modules": {
+    "label": "Pawkou tematik",
+    "title": "Modil",
+    "subtitle": "Koleksyon sevis yo ki organize pa tem pou fasilite aprantisaj ou.",
+    "featured": "Vedèt",
+    "services": "{count} sevis",
+    "service": "{count} sevis",
+    "searchPlaceholder": "Chèche yon modil...",
+    "allCategories": "Tout kategori yo",
+    "explore": "Eksplore ->",
+    "noResults": "Pa gen modil",
+    "backToModules": "<- Retounen nan modil yo",
+    "availableServices": "Sevis disponib yo",
+    "noServices": "Pa gen sevis nan modil sa a pou kounye a",
+    "exploreAll": "Eksplore tout sevis yo ->",
+    "by": "pa",
+    "contact": "Kontakte ->"
   }
 }

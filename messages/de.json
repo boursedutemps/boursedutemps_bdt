@@ -539,5 +539,23 @@
     "join": "Beitreten ->",
     "noResults": "Noch keine Workshops",
     "beFirst": "Seien Sie der Erste, der sein Wissen teilt!"
+  },
+  "modules": {
+    "label": "Thematische Lernpfade",
+    "title": "Module",
+    "subtitle": "Sammlungen von Diensten nach Thema organisiert, um Ihr Lernen zu erleichtern.",
+    "featured": "Highlights",
+    "services": "{count} Dienste",
+    "service": "{count} Dienst",
+    "searchPlaceholder": "Modul suchen...",
+    "allCategories": "Alle Kategorien",
+    "explore": "Erkunden ->",
+    "noResults": "Keine Module gefunden",
+    "backToModules": "<- Zurueck zu Modulen",
+    "availableServices": "Verfuegbare Dienste",
+    "noServices": "Noch keine Dienste in diesem Modul",
+    "exploreAll": "Alle Dienste erkunden ->",
+    "by": "von",
+    "contact": "Kontaktieren ->"
   }
 }

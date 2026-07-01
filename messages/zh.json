@@ -539,5 +539,23 @@
     "join": "\\u52a0\\u5165 ->",
     "noResults": "\\u6682\\u65e0\\u5de5\\u4f5c\\u574a",
     "beFirst": "\\u6210\\u4e3a\\u7b2c\\u4e00\\u4e2a\\u5206\\u4eab\\u60a8\\u7684\\u77e5\\u8bc6\\u7684\\u4eba\\uff01"
+  },
+  "modules": {
+    "label": "\\u4e3b\\u9898\\u5b66\\u4e60\\u8def\\u5f84",
+    "title": "\\u6a21\\u5757",
+    "subtitle": "\\u6309\\u4e3b\\u9898\\u7ec4\\u7ec7\\u7684\\u670d\\u52a1\\u96c6\\u5408\\uff0c\\u4ee5\\u4fc3\\u8fdb\\u60a8\\u7684\\u5b66\\u4e60\\u3002",
+    "featured": "\\u7cbe\\u9009",
+    "services": "{count} \\u9879\\u670d\\u52a1",
+    "service": "{count} \\u9879\\u670d\\u52a1",
+    "searchPlaceholder": "\\u641c\\u7d22\\u6a21\\u5757...",
+    "allCategories": "\\u6240\\u6709\\u7c7b\\u522b",
+    "explore": "\\u63a2\\u7d22 ->",
+    "noResults": "\\u672a\\u627e\\u5230\\u6a21\\u5757",
+    "backToModules": "<- \\u8fd4\\u56de\\u6a21\\u5757",
+    "availableServices": "\\u53ef\\u7528\\u670d\\u52a1",
+    "noServices": "\\u6b64\\u6a21\\u5757\\u4e2d\\u6682\\u65e0\\u670d\\u52a1",
+    "exploreAll": "\\u63a2\\u7d22\\u6240\\u6709\\u670d\\u52a1 ->",
+    "by": "\\u7531",
+    "contact": "\\u8054\\u7cfb ->"
   }
 }

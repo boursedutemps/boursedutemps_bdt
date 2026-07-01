@@ -539,5 +539,23 @@
     "join": "Participar ->",
     "noResults": "Ainda sem workshops",
     "beFirst": "Seja o primeiro a compartilhar seu conhecimento!"
+  },
+  "modules": {
+    "label": "Percursos tematicos",
+    "title": "Modulos",
+    "subtitle": "Colecoes de servicos organizadas por tema para facilitar o seu aprendizado.",
+    "featured": "Destaques",
+    "services": "{count} servicos",
+    "service": "{count} servico",
+    "searchPlaceholder": "Pesquisar um modulo...",
+    "allCategories": "Todas as categorias",
+    "explore": "Explorar ->",
+    "noResults": "Nenhum modulo encontrado",
+    "backToModules": "<- Voltar aos modulos",
+    "availableServices": "Servicos disponiveis",
+    "noServices": "Ainda sem servicos neste modulo",
+    "exploreAll": "Explorar todos os servicos ->",
+    "by": "por",
+    "contact": "Contatar ->"
   }
 }

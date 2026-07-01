@@ -539,5 +539,23 @@
     "join": "Join ->",
     "noResults": "No workshops yet",
     "beFirst": "Be the first to share your knowledge!"
+  },
+  "modules": {
+    "label": "Thematic paths",
+    "title": "Modules",
+    "subtitle": "Collections of services organized by theme to facilitate your learning.",
+    "featured": "Featured",
+    "services": "{count} services",
+    "service": "{count} service",
+    "searchPlaceholder": "Search a module...",
+    "allCategories": "All categories",
+    "explore": "Explore ->",
+    "noResults": "No modules found",
+    "backToModules": "<- Back to modules",
+    "availableServices": "Available services",
+    "noServices": "No services in this module yet",
+    "exploreAll": "Explore all services ->",
+    "by": "by",
+    "contact": "Contact ->"
   }
 }

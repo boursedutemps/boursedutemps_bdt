@@ -539,5 +539,23 @@
     "join": "Unirse ->",
     "noResults": "Aun no hay talleres",
     "beFirst": "Se el primero en compartir tu conocimiento!"
+  },
+  "modules": {
+    "label": "Recorridos tematicos",
+    "title": "Modulos",
+    "subtitle": "Colecciones de servicios organizadas por tema para facilitar tu aprendizaje.",
+    "featured": "Destacados",
+    "services": "{count} servicios",
+    "service": "{count} servicio",
+    "searchPlaceholder": "Buscar un modulo...",
+    "allCategories": "Todas las categorias",
+    "explore": "Explorar ->",
+    "noResults": "Ningun modulo encontrado",
+    "backToModules": "<- Volver a modulos",
+    "availableServices": "Servicios disponibles",
+    "noServices": "Aun no hay servicios en este modulo",
+    "exploreAll": "Explorar todos los servicios ->",
+    "by": "por",
+    "contact": "Contactar ->"
   }
 }

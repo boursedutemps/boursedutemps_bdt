@@ -539,5 +539,23 @@
     "join": "Deelnemen ->",
     "noResults": "Nog geen workshops",
     "beFirst": "Wees de eerste om uw kennis te delen!"
+  },
+  "modules": {
+    "label": "Thematische leertrajecten",
+    "title": "Modules",
+    "subtitle": "Verzamelingen van diensten georganiseerd per thema om uw leerproces te vergemakkelijken.",
+    "featured": "Uitgelicht",
+    "services": "{count} diensten",
+    "service": "{count} dienst",
+    "searchPlaceholder": "Een module zoeken...",
+    "allCategories": "Alle categorieen",
+    "explore": "Verkennen ->",
+    "noResults": "Geen modules gevonden",
+    "backToModules": "<- Terug naar modules",
+    "availableServices": "Beschikbare diensten",
+    "noServices": "Nog geen diensten in deze module",
+    "exploreAll": "Alle diensten verkennen ->",
+    "by": "door",
+    "contact": "Contact ->"
   }
 }
