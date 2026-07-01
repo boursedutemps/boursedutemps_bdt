@@ -606,5 +606,23 @@
     "submit": "Lancer le projet",
     "submitting": "Création…",
     "backToProjects": "← Retour aux projets"
+  },
+  "modules": {
+    "label": "Parcours thématiques",
+    "title": "Modules",
+    "subtitle": "Des collections de services organisées par thème pour faciliter votre apprentissage.",
+    "featured": "À la une",
+    "services": "{count} services",
+    "service": "{count} service",
+    "searchPlaceholder": "Rechercher un module…",
+    "allCategories": "Toutes catégories",
+    "explore": "Explorer →",
+    "noResults": "Aucun module trouvé",
+    "backToModules": "← Retour aux modules",
+    "availableServices": "Services disponibles",
+    "noServices": "Aucun service dans ce module pour l’instant",
+    "exploreAll": "Explorer tous les services →",
+    "by": "par",
+    "contact": "Contacter →"
   }
 }

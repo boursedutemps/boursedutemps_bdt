@@ -1,10 +1,9 @@
 'use client'
 
-// src/app/modules/[slug]/page.tsx
-
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Service {
   id: number
@@ -29,9 +28,10 @@ interface Module {
 }
 
 export default function ModuleDetailPage() {
+  const t = useTranslations('modules')
   const { slug } = useParams() as { slug: string }
   const router   = useRouter()
-  const [module, setModule] = useState<Module | null>(null)
+  const [module, setModule]   = useState<Module | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -59,12 +59,10 @@ export default function ModuleDetailPage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
 
-        {/* Breadcrumb */}
         <Link href="/modules" className="text-xs text-slate-400 hover:text-slate-600 transition mb-6 block">
-          ← Retour aux modules
+          {t('backToModules')}
         </Link>
 
-        {/* En-tête */}
         <div className="bg-white rounded-2xl p-8 border border-slate-100 mb-8">
           <div className="flex items-start gap-5">
             <span className="text-5xl">{module.icon}</span>
@@ -83,20 +81,19 @@ export default function ModuleDetailPage() {
             </div>
           </div>
           <div className="mt-5 pt-5 border-t border-slate-50 flex items-center gap-4 text-sm text-slate-400">
-            <span>🛠️ {module.services_count} service{module.services_count > 1 ? 's' : ''}</span>
+            <span>🛠️ {t(module.services_count > 1 ? 'services' : 'service', { count: module.services_count })}</span>
             <span className="capitalize">📂 {module.category}</span>
           </div>
         </div>
 
-        {/* Services du module */}
-        <h2 className="font-bold text-slate-800 mb-4">Services disponibles</h2>
+        <h2 className="font-bold text-slate-800 mb-4">{t('availableServices')}</h2>
 
         {services.length === 0 ? (
           <div className="text-center py-16 text-slate-400 bg-white rounded-2xl border border-slate-100">
             <p className="text-3xl mb-3">🛠️</p>
-            <p className="font-medium">Aucun service dans ce module pour l'instant</p>
+            <p className="font-medium">{t('noServices')}</p>
             <Link href="/services" className="text-sm text-amber-600 underline mt-2 block">
-              Explorer tous les services →
+              {t('exploreAll')}
             </Link>
           </div>
         ) : (
@@ -112,10 +109,10 @@ export default function ModuleDetailPage() {
                 </div>
                 <p className="text-sm text-slate-500 flex-1 leading-relaxed line-clamp-3">{service.description}</p>
                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">par {service.user_name}</span>
+                  <span className="text-xs text-slate-400">{t('by')} {service.user_name}</span>
                   <Link href={`/profile?uid=${service.user_id}`}
                     className="text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors">
-                    Contacter →
+                    {t('contact')}
                   </Link>
                 </div>
               </div>

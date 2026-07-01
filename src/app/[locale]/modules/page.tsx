@@ -1,9 +1,8 @@
 'use client'
 
-// src/app/modules/page.tsx
-
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface Module {
   id: number
@@ -29,10 +28,11 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
 }
 
 export default function ModulesPage() {
-  const [modules, setModules]     = useState<Module[]>([])
-  const [loading, setLoading]     = useState(true)
-  const [search, setSearch]       = useState('')
-  const [category, setCategory]   = useState('')
+  const t = useTranslations('modules')
+  const [modules, setModules] = useState<Module[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch]   = useState('')
+  const [category, setCategory] = useState('')
 
   useEffect(() => {
     fetch('/api/modules')
@@ -54,21 +54,17 @@ export default function ModulesPage() {
     <main className="min-h-screen bg-[#FFFCF7] pt-24 pb-16 px-4">
       <div className="max-w-5xl mx-auto">
 
-        {/* En-tête */}
         <div className="mb-10">
           <p className="text-xs font-semibold tracking-widest uppercase text-amber-500 mb-2">
-            Parcours thématiques
+            {t('label')}
           </p>
-          <h1 className="text-3xl font-bold text-slate-800">Modules</h1>
-          <p className="text-slate-500 mt-2">
-            Des collections de services organisées par thème pour faciliter votre apprentissage.
-          </p>
+          <h1 className="text-3xl font-bold text-slate-800">{t('title')}</h1>
+          <p className="text-slate-500 mt-2">{t('subtitle')}</p>
         </div>
 
-        {/* Modules vedettes */}
         {!search && !category && featured.length > 0 && (
           <div className="mb-10">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">⭐ À la une</p>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">⭐ {t('featured')}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {featured.slice(0, 3).map(m => {
                 const colors = CATEGORY_COLORS[m.category] || CATEGORY_COLORS.autre
@@ -83,7 +79,7 @@ export default function ModulesPage() {
                     <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{m.description}</p>
                     <div className="flex items-center gap-3 mt-4">
                       <span className="text-xs font-semibold" style={{ color: colors.text }}>
-                        {m.services_count} services
+                        {t(m.services_count > 1 ? 'services' : 'service', { count: m.services_count })}
                       </span>
                       <span className="text-xs text-slate-400">→</span>
                     </div>
@@ -94,19 +90,17 @@ export default function ModulesPage() {
           </div>
         )}
 
-        {/* Filtres */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
           <input type="text" value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Rechercher un module…"
+            placeholder={t('searchPlaceholder')}
             className="flex-1 px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors" />
           <select value={category} onChange={e => setCategory(e.target.value)}
             className="px-4 py-3 rounded-xl text-sm border border-slate-200 bg-white outline-none focus:border-amber-400 transition-colors">
-            <option value="">Toutes catégories</option>
+            <option value="">{t('allCategories')}</option>
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
 
-        {/* Grille modules */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...Array(6)].map((_, i) => <div key={i} className="h-44 rounded-2xl bg-slate-100 animate-pulse" />)}
@@ -114,7 +108,7 @@ export default function ModulesPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-slate-400">
             <p className="text-4xl mb-3">📚</p>
-            <p>Aucun module trouvé</p>
+            <p>{t('noResults')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -142,9 +136,11 @@ export default function ModulesPage() {
                     </div>
                   )}
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                    <span className="text-xs text-slate-400">{m.services_count} service{m.services_count > 1 ? 's' : ''}</span>
+                    <span className="text-xs text-slate-400">
+                      {t(m.services_count > 1 ? 'services' : 'service', { count: m.services_count })}
+                    </span>
                     <span className="text-xs font-bold text-amber-600 group-hover:translate-x-1 transition-transform">
-                      Explorer →
+                      {t('explore')}
                     </span>
                   </div>
                 </Link>
